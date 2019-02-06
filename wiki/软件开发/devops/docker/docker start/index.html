@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    <title>Docker Start | Joe&#39;s Wiki</title>
+    
+    
+        <meta name="keywords" content="docker">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="1. Window10 下安装 Window10 下载最新的 Docker for windows 安装包进行安装  Windows10 下可以切换 Docker Platform 为 Linux 或者 Window，下载的镜像需要对应的平台支持。 Window10 下自带了虚拟器，需要开启 Hyper-V，在 控制面板-程序-打开Windows功能 中开启  Windows10 下的 Docke">
+<meta name="keywords" content="docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker Start">
+<meta property="og:url" content="https://joecnn.github.io/wiki-site/wiki/软件开发/devops/docker/docker start/index.html">
+<meta property="og:site_name" content="Joe&#39;s Wiki">
+<meta property="og:description" content="1. Window10 下安装 Window10 下载最新的 Docker for windows 安装包进行安装  Windows10 下可以切换 Docker Platform 为 Linux 或者 Window，下载的镜像需要对应的平台支持。 Window10 下自带了虚拟器，需要开启 Hyper-V，在 控制面板-程序-打开Windows功能 中开启  Windows10 下的 Docke">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://joecnn.github.io/wiki-site/wiki/images/docker_hyperv.png">
+<meta property="og:image" content="https://joecnn.github.io/wiki-site/wiki/images/docker_cli.png">
+<meta property="og:image" content="https://joecnn.github.io/wiki-site/wiki/images/vbox_copy.png">
+<meta property="og:image" content="https://joecnn.github.io/wiki-site/wiki/images/vbox_delete.png">
+<meta property="og:updated_time" content="2019-02-06T08:40:12.802Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker Start">
+<meta name="twitter:description" content="1. Window10 下安装 Window10 下载最新的 Docker for windows 安装包进行安装  Windows10 下可以切换 Docker Platform 为 Linux 或者 Window，下载的镜像需要对应的平台支持。 Window10 下自带了虚拟器，需要开启 Hyper-V，在 控制面板-程序-打开Windows功能 中开启  Windows10 下的 Docke">
+<meta name="twitter:image" content="https://joecnn.github.io/wiki-site/wiki/images/docker_hyperv.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Joe&#39;s Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/wiki-site/wiki-site/favicon.ico">
+    
+
+    <link rel="stylesheet" href="/wiki-site/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/wiki-site/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/wiki-site/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/wiki-site/css/style.css">
+    <script src="/wiki-site/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/wiki-site/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/wiki-site/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/wiki-site/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki-site/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Joe&#39;s Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki-site/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/wiki-site/',
+        CONTENT_URL: '/wiki-site/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/wiki-site/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            软件开发
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            devops
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            docker
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file active"><a href="/wiki-site/wiki/软件开发/devops/docker/docker start/">Docker Start</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/devops/docker/docker mysql/">Docker Mysql</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/devops/docker/docker 镜像加速/">Docker镜像仓库加速</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            git
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件开发/devops/git/Git介绍/">Git介绍</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/devops/git/Git基本操作/">Git基本操作</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/devops/git/Git标签/">Git标签</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/devops/git/gitignore不生效解决方法/">gitignore不生效解决方法</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/devops/git/Git安装/">Git安装</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki-site/wiki/软件开发/devops/Jenkins开机启动/">Jenkins开机启动</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/devops/Jenkins持续编译/">Jenkins持续编译</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            linux
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件开发/linux/How To Open A Port In CentOS 7 With Firewalld/">How To Open A Port In CentOS 7 With Firewalld</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/linux/安装Python3/">安装Python3</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/linux/安装gcc/">安装gcc</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/linux/常见问题收集/">常见问题收集</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/linux/添加开机运行脚本/">添加开机运行脚本</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/linux/网络配置/">网络配置</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki-site/wiki/hello-world/">Hello World</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-软件开发/devops/docker/docker start" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki-site/categories/软件开发/">软件开发</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件开发/devops/">devops</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件开发/devops/docker/">docker</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/wiki-site/tags/docker/">docker</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki-site/wiki/软件开发/devops/docker/docker start/">
+            <time datetime="2018-08-05T04:30:00.000Z" itemprop="datePublished">2018-08-05</time>
+        </a>
+    </div>
+
+
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/软件开发/devops/docker/docker start.md"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/软件开发/devops/docker/docker start.md"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/软件开发/devops/docker/docker start.md"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Docker Start
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <h3 id="1-Window10-下安装"><a href="#1-Window10-下安装" class="headerlink" title="1. Window10 下安装"></a>1. Window10 下安装</h3><blockquote>
+<p>Window10 下载最新的 <a href="https://store.docker.com/editions/community/docker-ce-desktop-windows">Docker for windows</a> 安装包进行安装</p>
+</blockquote>
+<p>Windows10 下可以切换 Docker Platform 为 Linux 或者 Window，下载的镜像需要对应的平台支持。</p>
+<p>Window10 下自带了虚拟器，需要开启 Hyper-V，在 控制面板-程序-打开Windows功能 中开启<br><img src="../../../../images/docker_hyperv.png" alt="docker_hyperv"></p>
+<blockquote>
+<p>Windows10 下的 Docker 使用虚拟机 IP 即为本机 127.0.0.1 ，可以在 CMD、PowerShell 中直接进行操作。</p>
+</blockquote>
+<h3 id="2-Windows7-下安装"><a href="#2-Windows7-下安装" class="headerlink" title="2. Windows7 下安装"></a>2. Windows7 下安装</h3><blockquote>
+<p>Windows7 下在最新的 <a href="https://docs.docker.com/toolbox/toolbox_install_windows/">DockerToolBox</a> 安装包进行安装<br>DockerToolBox 会自动安装 Oracle Virtual Box 虚拟机，需要依托虚拟机进行启动。  </p>
+</blockquote>
+<h4 id="2-1-创建-docker-machine"><a href="#2-1-创建-docker-machine" class="headerlink" title="2.1 创建 docker machine"></a>2.1 创建 docker machine</h4><blockquote>
+<p>安装完成后会附带 docker-machine.exe 使用此工具可以安装 docker 环境</p>
+</blockquote>
+<ol>
+<li>查询 docker machine</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine ls</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>创建 default machine</li>
+</ol>
+<blockquote>
+<p>使用 virtualbox 驱动模式，会自动下载 docker2boot.iso 镜像进行创建 virtualbox 虚拟机</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create -d virtalbox default</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>查看 docker 信息</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine env default</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>管理 docker machine</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine -h</span><br></pre></td></tr></table></figure>
+<h4 id="2-2-使用-putty"><a href="#2-2-使用-putty" class="headerlink" title="2.2 使用 putty"></a>2.2 使用 putty</h4><blockquote>
+<p>在 Windows 命令进入 Docker 后，shell 不能复制，操作不方便，因此使用支持 SSH 的工具来连接 docker 虚拟机。</p>
+</blockquote>
+<ol>
+<li>查询 docker mechine ip：<blockquote>
+<p>在 docker machine env 中的 DOCKER_HOST </p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine env default</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>使用 Putty 连接到 docker 终端：</li>
+</ol>
+<blockquote>
+<p>默认用户名：docker 密码： tcuser</p>
+</blockquote>
+<p><img src="../../../../images/docker_cli.png" alt="docker_cli"></p>
+<blockquote>
+<p>PS：在 DockerToolBox 下自动安装的是 VirtualBox5.1，但是在启动 docker default mechine 时一直出错（VERR_SUPDRV_HARDENIGN_EVIL_HANDLE），经过查询是由于该版本的 vboxdrv 核心驱动请求过大的访问权限。。<br>最后安装旧版的 VirtualBox4.3.12 后成功解决。</p>
+</blockquote>
+<h4 id="2-3-docker-virtualbox-管理"><a href="#2-3-docker-virtualbox-管理" class="headerlink" title="2.3 docker virtualbox 管理"></a>2.3 docker virtualbox 管理</h4><p>由于使用 docker-machine 创建的虚拟机默认路径为 <strong>/user/.docker/machine/</strong> 下，可能在以后容器创建过多时占用系统盘资源。将 virtualbox 虚拟硬盘移动到其它盘。</p>
+<ol>
+<li>复制 default vmdk 到指定路径<blockquote>
+<p>在指定盘进行复制一份 vmdk </p>
+</blockquote>
+</li>
+</ol>
+<p><img src="../../../../images/vbox_copy.png" alt="vbox_copy"></p>
+<ol start="2">
+<li>为 default 虚拟机添加新的虚拟硬盘<blockquote>
+<p>添加新的虚拟硬盘后，删除原来的 disk.vmdk 文件即可</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="../../../../images/vbox_delete.png" alt="vbox_delete"></p>
+<p>修改完成后，重启 docker machine 即可</p>
+<p>参考资料：  </p>
+<ol>
+<li>白皮书：<a href="https://www.gitbook.com/book/yeasy/docker_practice/details">https://www.gitbook.com/book/yeasy/docker_practice/details</a></li>
+<li>官方：<a href="https://www.docker.com/">https://www.docker.com/</a></li>
+<li>镜像库：<a href="https://hub.docker.com/">https://hub.docker.com/</a></li>
+</ol>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki-site/wiki/软件开发/devops/docker/docker 镜像加速/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Docker镜像仓库加速
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki-site/wiki/软件开发/devops/docker/docker mysql/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Docker Mysql</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            Joshua Chen &copy; 2019 
+            <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        <script src="/wiki-site/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/wiki-site/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/wiki-site/js/main.js"></script>
+
+    </div>
+</body>
+</html>

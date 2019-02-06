@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    <title>Git介绍 | Joe&#39;s Wiki</title>
+    
+    
+        <meta name="keywords" content="git">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Git是一个分布式的版本控制系统，最初由Linus Torvalds编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在Ruby社区中。   一、Git 特点直接记录快照，而非差异，只关心文件数据的整体是否发生变化，并不保存这些前后变化的差异数据。实际上，Git 更像是把变化的文件作快照后，记录在一个微型的文件系统中。每次提交更新时，它会纵览一遍所有文件的指">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git介绍">
+<meta property="og:url" content="https://joecnn.github.io/wiki-site/wiki/软件开发/devops/git/Git介绍/index.html">
+<meta property="og:site_name" content="Joe&#39;s Wiki">
+<meta property="og:description" content="Git是一个分布式的版本控制系统，最初由Linus Torvalds编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在Ruby社区中。   一、Git 特点直接记录快照，而非差异，只关心文件数据的整体是否发生变化，并不保存这些前后变化的差异数据。实际上，Git 更像是把变化的文件作快照后，记录在一个微型的文件系统中。每次提交更新时，它会纵览一遍所有文件的指">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://joecnn.github.io/wiki-site/images/git_flow.png">
+<meta property="og:updated_time" content="2019-02-06T08:55:29.117Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git介绍">
+<meta name="twitter:description" content="Git是一个分布式的版本控制系统，最初由Linus Torvalds编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在Ruby社区中。   一、Git 特点直接记录快照，而非差异，只关心文件数据的整体是否发生变化，并不保存这些前后变化的差异数据。实际上，Git 更像是把变化的文件作快照后，记录在一个微型的文件系统中。每次提交更新时，它会纵览一遍所有文件的指">
+<meta name="twitter:image" content="https://joecnn.github.io/wiki-site/images/git_flow.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Joe&#39;s Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/wiki-site/wiki-site/favicon.ico">
+    
+
+    <link rel="stylesheet" href="/wiki-site/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/wiki-site/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/wiki-site/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/wiki-site/css/style.css">
+    <script src="/wiki-site/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/wiki-site/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/wiki-site/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/wiki-site/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki-site/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Joe&#39;s Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki-site/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/wiki-site/',
+        CONTENT_URL: '/wiki-site/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/wiki-site/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            软件开发
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            devops
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            docker
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件开发/devops/docker/docker start/">Docker Start</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/devops/docker/docker mysql/">Docker Mysql</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/devops/docker/docker 镜像加速/">Docker镜像仓库加速</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            git
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file active"><a href="/wiki-site/wiki/软件开发/devops/git/Git介绍/">Git介绍</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/devops/git/Git基本操作/">Git基本操作</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/devops/git/Git标签/">Git标签</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/devops/git/gitignore不生效解决方法/">gitignore不生效解决方法</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/devops/git/Git安装/">Git安装</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki-site/wiki/软件开发/devops/Jenkins开机启动/">Jenkins开机启动</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/devops/Jenkins持续编译/">Jenkins持续编译</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            linux
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件开发/linux/How To Open A Port In CentOS 7 With Firewalld/">How To Open A Port In CentOS 7 With Firewalld</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/linux/安装Python3/">安装Python3</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/linux/安装gcc/">安装gcc</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/linux/常见问题收集/">常见问题收集</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/linux/添加开机运行脚本/">添加开机运行脚本</a></li>  <li class="file"><a href="/wiki-site/wiki/软件开发/linux/网络配置/">网络配置</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki-site/wiki/hello-world/">Hello World</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-软件开发/devops/git/Git介绍" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki-site/categories/软件开发/">软件开发</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件开发/devops/">devops</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件开发/devops/git/">git</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/wiki-site/tags/git/">git</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki-site/wiki/软件开发/devops/git/Git介绍/">
+            <time datetime="2017-12-25T16:00:00.000Z" itemprop="datePublished">2017-12-26</time>
+        </a>
+    </div>
+
+
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/软件开发/devops/git/Git介绍.md"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/软件开发/devops/git/Git介绍.md"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/软件开发/devops/git/Git介绍.md"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Git介绍
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <p> Git是一个<font size="4" color="dark" weight="bold">分布式的版本控制系统</font>，最初由Linus Torvalds编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在Ruby社区中。  </p>
+<h3 id="一、Git-特点"><a href="#一、Git-特点" class="headerlink" title="一、Git 特点"></a>一、Git 特点</h3><p><font size="4" color="dark" weight="bold">直接记录快照，而非差异</font>，只关心文件数据的整体是否发生变化，并不保存这些前后变化的差异数据。实际上，Git 更像是把变化的文件作快照后，记录在一个微型的文件系统中。每次提交更新时，它会纵览一遍所有文件的指纹信息并对文件作一快照，然后保存一个指向这次快照 的索引。为提高性能，若文件没有变化，Git 不会再次保存，而只对上次保存的快照作一链接。 </p>
+<ol>
+<li><strong>近乎所有操作都是本地执行</strong><br>Git 绝大多数操作都只访问本地文件和资源，因为 Git 在本地磁盘上就保存着所有当前项目的历史更新，所以处理起来速度飞快。而到需要上传到远程仓库或获取远程仓库上内容时才需联网。 </li>
+<li><strong>时刻保持数据完整性：</strong><br>Git 在保存前，所有数据都要进行校验计算，并将结果做为数据的唯一标识。 </li>
+<li><strong>多数操作仅添加数据：</strong><br>Git 操作大多数仅仅是把数据添加到数据库，一旦提交快照就完全不用担心数据丢失。 </li>
+</ol>
+<h3 id="二、Git-文件的三种状态"><a href="#二、Git-文件的三种状态" class="headerlink" title="二、Git 文件的三种状态"></a>二、Git 文件的三种状态</h3><ul>
+<li><strong>已提交(commited)</strong>：表示已被安全的保存到Git仓库中。 </li>
+<li><strong>已修改(modified)</strong>：表示已修改了某个文件，但还未提交保存。 </li>
+<li><strong>已暂存(staged)</strong>：表示已经把已修改的文件放到下次提交时要保存的清单中。 </li>
+</ul>
+<h3 id="三、Git-工作流程"><a href="#三、Git-工作流程" class="headerlink" title="三、Git 工作流程"></a>三、Git 工作流程</h3><ol>
+<li>在工作目录中修改某些文件。  </li>
+<li>对修改后的文件进行快照，然后保存到暂存区域。</li>
+<li>提交更新，将保存在暂存区域的文件快照永久转储到 Git 目录中</li>
+</ol>
+<p><img src="../../../../../images/git_flow.png" alt="git_flow"></p>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki-site/wiki/软件开发/devops/docker/docker mysql/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Docker Mysql
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki-site/wiki/软件开发/devops/git/Git安装/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Git安装</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            Joshua Chen &copy; 2019 
+            <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        <script src="/wiki-site/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/wiki-site/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/wiki-site/js/main.js"></script>
+
+    </div>
+</body>
+</html>
