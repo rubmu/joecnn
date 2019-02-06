@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    <title>Oracle 表空间 | Joe&#39;s Wiki</title>
+    
+    
+        <meta name="keywords" content="oracle">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="查看数据文件位置   1SELECT TABLESPACE_NAME,FILE_ID,BYTES,FILE_NAME FROM DBA_DATA_FILES;  表空间状态   1SELECT TABLESPACE_NAME,STATUS FROM DBA_TABLESPACES;  创建表空间   123456CREATE TABLESPACE &quot;ZYMBS&quot;  NOLOGGING --不创建">
+<meta name="keywords" content="oracle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle 表空间">
+<meta property="og:url" content="https://joecnn.github.io/wiki-site/wiki/技术开发/存储/oracle/Oracle 表空间/index.html">
+<meta property="og:site_name" content="Joe&#39;s Wiki">
+<meta property="og:description" content="查看数据文件位置   1SELECT TABLESPACE_NAME,FILE_ID,BYTES,FILE_NAME FROM DBA_DATA_FILES;  表空间状态   1SELECT TABLESPACE_NAME,STATUS FROM DBA_TABLESPACES;  创建表空间   123456CREATE TABLESPACE &quot;ZYMBS&quot;  NOLOGGING --不创建">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-02-06T13:40:24.485Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle 表空间">
+<meta name="twitter:description" content="查看数据文件位置   1SELECT TABLESPACE_NAME,FILE_ID,BYTES,FILE_NAME FROM DBA_DATA_FILES;  表空间状态   1SELECT TABLESPACE_NAME,STATUS FROM DBA_TABLESPACES;  创建表空间   123456CREATE TABLESPACE &quot;ZYMBS&quot;  NOLOGGING --不创建">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Joe&#39;s Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/wiki-site/wiki-site/favicon.ico">
+    
+
+    <link rel="stylesheet" href="/wiki-site/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/wiki-site/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/wiki-site/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/wiki-site/css/style.css">
+    <script src="/wiki-site/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/wiki-site/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/wiki-site/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/wiki-site/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki-site/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Joe&#39;s Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki-site/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/wiki-site/',
+        CONTENT_URL: '/wiki-site/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/wiki-site/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Playing
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/Playing/黑暗之魂2/">《 黑暗之魂2 原罪贤者 》白金攻略</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            devops
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            docker
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/docker/docker start/">Docker Start</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/docker/docker 镜像加速/">Docker镜像仓库加速</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/docker/docker mysql/">Docker Mysql</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            git
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/git/Git介绍/">Git介绍</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/git/Git基本操作/">Git基本操作</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/git/Git安装/">Git安装</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/git/Git标签/">Git标签</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/git/gitignore不生效解决方法/">gitignore不生效解决方法</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki-site/wiki/技术开发/devops/Jenkins持续编译/">Jenkins持续编译</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/Jenkins开机启动/">Jenkins开机启动</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            linux
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/技术开发/linux/How To Open A Port In CentOS 7 With Firewalld/">How To Open A Port In CentOS 7 With Firewalld</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/linux/安装Python3/">安装Python3</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/linux/安装gcc/">安装gcc</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/linux/常见问题收集/">常见问题收集</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/linux/网络配置/">网络配置</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/linux/添加开机运行脚本/">添加开机运行脚本</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            分布式
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/Hadoop quickstart/">Hadoop quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/ActiveMQ configuration/">ActiveMQ configuration</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/Kafka quickstart/">Kafka quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/Kafka 实现原理/">Kafka 实现原理</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/Redis 持久化机制/">Redis 持久化机制</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/Redis 集群/">Redis 集群</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/Redis quickstart/">Redis quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/Zookeeper quickstart/">Zookeeper quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/系统并发用户估算/">系统并发用户估算</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/zookeeper 应用篇/">zookeeper 应用篇</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            存储
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            mssql
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/mssql/Mssql 日期格式化/">Mssql 日期格式化</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/mssql/Mssql 表结构查询/">Mssql 表结构查询</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            mysql
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/mysql/MySQL quickstart/">MySQL quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/mysql/MySQL 树形结构查询/">MySQL 树形结构查询</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/mysql/MySQL 主从模式/">MySQL 主从模式</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/mysql/MySQL 表结构查询/">MySQL 表结构查询</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            oracle
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/oracle/Oracle 冷备启库/">Oracle 冷备启库</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/oracle/Oracle 分区表/">Oracle 分区表</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/oracle/Oracle 导入导出/">Oracle 导入导出</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/oracle/Oracle 切换数据模式/">Oracle 切换数据模式</a></li>  <li class="file active"><a href="/wiki-site/wiki/技术开发/存储/oracle/Oracle 表空间/">Oracle 表空间</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki-site/wiki/技术开发/存储/事务的4种隔离级别/">事务的4种隔离级别</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/Access 表结构查询/">Access 表结构查询</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工具
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/技术开发/工具/PowerDesigner 导出表结构/">PowerDesigner导出表结构</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/工具/VirtualBox 共享文件/">VirtualBox共享文件</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            阅读学习
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/阅读学习/深度阅读/">深度阅读</a></li>  <li class="file"><a href="/wiki-site/wiki/阅读学习/刻意练习/">《刻意练习》读书笔记</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-技术开发/存储/oracle/Oracle 表空间" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki-site/categories/技术开发/">技术开发</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/技术开发/存储/">存储</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/技术开发/存储/oracle/">oracle</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/wiki-site/tags/oracle/">oracle</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki-site/wiki/技术开发/存储/oracle/Oracle 表空间/">
+            <time datetime="2013-12-25T16:00:00.000Z" itemprop="datePublished">2013-12-26</time>
+        </a>
+    </div>
+
+
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/技术开发/存储/oracle/Oracle 表空间.md"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/技术开发/存储/oracle/Oracle 表空间.md"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/技术开发/存储/oracle/Oracle 表空间.md"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Oracle 表空间
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <ol>
+<li>查看数据文件位置 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TABLESPACE_NAME,FILE_ID,<span class="keyword">BYTES</span>,FILE_NAME <span class="keyword">FROM</span> DBA_DATA_FILES;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>表空间状态 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TABLESPACE_NAME,<span class="keyword">STATUS</span> <span class="keyword">FROM</span> DBA_TABLESPACES;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>创建表空间 </li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLESPACE <span class="string">"ZYMBS"</span>  </span><br><span class="line">NOLOGGING --不创建重做日志文件 </span><br><span class="line">DATAFILE <span class="string">'E:\WORK\DATA\PHOENIX\ZYMBS01.ORA'</span> SIZE 5M  </span><br><span class="line">AUTOEXTEND ON  --自动增长 </span><br><span class="line">NEXT 50M MAXSIZE 2048M   --自动增长最大到2G </span><br><span class="line">EXTENT MANAGEMENT LOCAL;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>创建用户 </li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER zymbs IDENTIFIED BY zy2009phoenix </span><br><span class="line">DEFAULT TABLESPACE ZYMBS </span><br><span class="line">TEMPORARY TABLESPACE TEMP;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li><p>分发权限 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GRANT --系统权限 </span><br><span class="line">　　CREATE SESSION, CREATE ANY TABLE, CREATE ANY VIEW ,CREATE ANY INDEX, CREATE ANY PROCEDURE, </span><br><span class="line">　　ALTER ANY TABLE, ALTER ANY PROCEDURE, </span><br><span class="line">　　DROP ANY TABLE, DROP ANY VIEW, DROP ANY INDEX, DROP ANY PROCEDURE, </span><br><span class="line">　　SELECT ANY TABLE, INSERT ANY TABLE, UPDATE ANY TABLE, DELETE ANY TABLE </span><br><span class="line">　　TO ZYMBS; </span><br><span class="line">GRANT RESOURCE, CONNECT TO ZYMBS;  --角色权限</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除表空间 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLESPACE ZYMBS INCLUDING CONTENTS AND DATAFILES;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改状态(ONLINE,OFFLINE,READONLY,READWRITE) </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLESPACE ZYMBS OFFLINE;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改文件大小,添加文件 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLESPACE DATAFILE &apos;E:\ZYMBS01.ORA&apos; RESIZE 10M; </span><br><span class="line">ALTER TABLESPACE ZYMBS ADD DATAFILE &apos;E:\ZYMBS02.ORA&apos; SIZE 5M;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改表空间数据文件的自动扩展性  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER DATABASE DATAFIELE &apos;E:\ZYMBS01.ORA&apos; AUTOEXTEND ON NEXT 5M MAXSIZE 50M;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重新指定表空间路径   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter tablespace SIMPLE RENAME DATAFILE &apos;E:\table2.dbf&apos; to &apos;D:\table.dbf&apos;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置默认表空间  </p>
+</li>
+</ol>
+<p>   1. 查询(当前用户)默认表空间 <code>select default_tablespace from user_users;</code>  </p>
+<p>   2. 修改默认表空间 <code>alter database default tablespace SIMPLE;</code>  
+  </p>
+<blockquote>
+<p>如果是oracle 9i本语句不支持，但能让用户指向某表空间，具体做法如下： <br>      例： <code>alter user scott default tablespace users;</code> (scott为用户名, users为表空间)<br> <br>      有时会出现表空间有存在的情况，这时一般都是以下几个原因造成的： <br>     1、写错表空间名，我想的话这种机率较小。 <br>     2、回想一下，你在创建表空间时是否给表空间表加了双引号如： <br>          <code>CREATE TABLESPACE &quot;Sample&quot;</code> <br>          ……………… <br>          如果是这样的话，你在修改默认表空间，写表空间名字的时候就要区分大小了，这个是非常重要的，并且还要加上双引号， <br>         如：<code>alter user scott default tablespace &quot;Sample&quot;;</code>(scott为用户名)。  </p>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki-site/wiki/技术开发/存储/oracle/Oracle 切换数据模式/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Oracle 切换数据模式
+                
+            </div>
+        </a>
+    
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            Joshua Chen &copy; 2019 
+            <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        <script src="/wiki-site/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/wiki-site/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/wiki-site/js/main.js"></script>
+
+    </div>
+</body>
+</html>

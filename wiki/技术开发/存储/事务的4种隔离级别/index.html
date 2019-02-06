@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    <title>事务的4种隔离级别 | Joe&#39;s Wiki</title>
+    
+    
+        <meta name="keywords" content="事务的4种隔离级别">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable 。而且，在事务的==并发操作==中可能会出现脏读，不可重复读，幻读。下面通过事例一一阐述它们的概念与联系。  Read uncommitted读未提交，顾名思义，就是一个事务可以读取另一个未提交事务的数据。 事例：老板要给程序员发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="事务的4种隔离级别">
+<meta property="og:url" content="https://joecnn.github.io/wiki-site/wiki/技术开发/存储/事务的4种隔离级别/index.html">
+<meta property="og:site_name" content="Joe&#39;s Wiki">
+<meta property="og:description" content="数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable 。而且，在事务的==并发操作==中可能会出现脏读，不可重复读，幻读。下面通过事例一一阐述它们的概念与联系。  Read uncommitted读未提交，顾名思义，就是一个事务可以读取另一个未提交事务的数据。 事例：老板要给程序员发">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-02-06T13:14:27.577Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="事务的4种隔离级别">
+<meta name="twitter:description" content="数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable 。而且，在事务的==并发操作==中可能会出现脏读，不可重复读，幻读。下面通过事例一一阐述它们的概念与联系。  Read uncommitted读未提交，顾名思义，就是一个事务可以读取另一个未提交事务的数据。 事例：老板要给程序员发">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Joe&#39;s Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/wiki-site/wiki-site/favicon.ico">
+    
+
+    <link rel="stylesheet" href="/wiki-site/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/wiki-site/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/wiki-site/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/wiki-site/css/style.css">
+    <script src="/wiki-site/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/wiki-site/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/wiki-site/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/wiki-site/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki-site/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Joe&#39;s Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki-site/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/wiki-site/',
+        CONTENT_URL: '/wiki-site/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/wiki-site/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Playing
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/Playing/黑暗之魂2/">《 黑暗之魂2 原罪贤者 》白金攻略</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            devops
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            docker
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/docker/docker start/">Docker Start</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/docker/docker 镜像加速/">Docker镜像仓库加速</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/docker/docker mysql/">Docker Mysql</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            git
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/git/Git介绍/">Git介绍</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/git/Git基本操作/">Git基本操作</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/git/Git安装/">Git安装</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/git/Git标签/">Git标签</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/git/gitignore不生效解决方法/">gitignore不生效解决方法</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki-site/wiki/技术开发/devops/Jenkins持续编译/">Jenkins持续编译</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/devops/Jenkins开机启动/">Jenkins开机启动</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            linux
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/技术开发/linux/How To Open A Port In CentOS 7 With Firewalld/">How To Open A Port In CentOS 7 With Firewalld</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/linux/安装Python3/">安装Python3</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/linux/安装gcc/">安装gcc</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/linux/常见问题收集/">常见问题收集</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/linux/网络配置/">网络配置</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/linux/添加开机运行脚本/">添加开机运行脚本</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            分布式
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/Hadoop quickstart/">Hadoop quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/ActiveMQ configuration/">ActiveMQ configuration</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/Kafka quickstart/">Kafka quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/Kafka 实现原理/">Kafka 实现原理</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/Redis 持久化机制/">Redis 持久化机制</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/Redis 集群/">Redis 集群</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/Redis quickstart/">Redis quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/Zookeeper quickstart/">Zookeeper quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/系统并发用户估算/">系统并发用户估算</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/分布式/zookeeper 应用篇/">zookeeper 应用篇</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            存储
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            mssql
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/mssql/Mssql 日期格式化/">Mssql 日期格式化</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/mssql/Mssql 表结构查询/">Mssql 表结构查询</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            mysql
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/mysql/MySQL quickstart/">MySQL quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/mysql/MySQL 树形结构查询/">MySQL 树形结构查询</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/mysql/MySQL 主从模式/">MySQL 主从模式</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/mysql/MySQL 表结构查询/">MySQL 表结构查询</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            oracle
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/oracle/Oracle 冷备启库/">Oracle 冷备启库</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/oracle/Oracle 分区表/">Oracle 分区表</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/oracle/Oracle 导入导出/">Oracle 导入导出</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/oracle/Oracle 切换数据模式/">Oracle 切换数据模式</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/oracle/Oracle 表空间/">Oracle 表空间</a></li>  </ul> 
+                    </li> 
+                     <li class="file active"><a href="/wiki-site/wiki/技术开发/存储/事务的4种隔离级别/">事务的4种隔离级别</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/存储/Access 表结构查询/">Access 表结构查询</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工具
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/技术开发/工具/PowerDesigner 导出表结构/">PowerDesigner导出表结构</a></li>  <li class="file"><a href="/wiki-site/wiki/技术开发/工具/VirtualBox 共享文件/">VirtualBox共享文件</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            阅读学习
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/阅读学习/深度阅读/">深度阅读</a></li>  <li class="file"><a href="/wiki-site/wiki/阅读学习/刻意练习/">《刻意练习》读书笔记</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-技术开发/存储/事务的4种隔离级别" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki-site/categories/技术开发/">技术开发</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/技术开发/存储/">存储</a>
+    </div>
+
+                        
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki-site/wiki/技术开发/存储/事务的4种隔离级别/">
+            <time datetime="2018-12-23T11:20:00.000Z" itemprop="datePublished">2018-12-23</time>
+        </a>
+    </div>
+
+
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/技术开发/存储/事务的4种隔离级别.md"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/技术开发/存储/事务的4种隔离级别.md"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/技术开发/存储/事务的4种隔离级别.md"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            事务的4种隔离级别
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <p>数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable 。而且，在事务的==并发操作==中可能会出现脏读，不可重复读，幻读。下面通过事例一一阐述它们的概念与联系。</p>
+<hr>
+<h3 id="Read-uncommitted"><a href="#Read-uncommitted" class="headerlink" title="Read uncommitted"></a>Read uncommitted</h3><p>读未提交，顾名思义，就是一个事务可以读取另一个未提交事务的数据。</p>
+<p>事例：老板要给程序员发工资，程序员的工资是3.6万/月。但是发工资时老板不小心按错了数字，按成3.9万/月，该钱已经打到程序员的户口，但是事务还没有提交，就在这时，程序员去查看自己这个月的工资，发现比往常多了3千元，以为涨工资了非常高兴。但是老板及时发现了不对，马上回滚差点就提交了的事务，将数字改成3.6万再提交。</p>
+<p>分析：实际程序员这个月的工资还是3.6万，但是程序员看到的是3.9万。他看到的是老板还没提交事务时的数据。这就是==脏读==。</p>
+<blockquote>
+<p>那怎么解决脏读呢？Read committed！读提交，能解决脏读问题。</p>
+</blockquote>
+<h3 id="Read-committed"><a href="#Read-committed" class="headerlink" title="Read committed"></a>Read committed</h3><p>读提交，顾名思义，就是一个事务要等另一个事务提交后才能读取数据。</p>
+<p>事例：程序员拿着信用卡去享受生活（卡里当然是只有3.6万），当他埋单时（程序员事务开启），收费系统事先检测到他的卡里有3.6万，就在这个时候！！程序员的妻子要把钱全部转出充当家用，并提交。当收费系统准备扣款时，再检测卡里的金额，发现已经没钱了（==第二次检测金额当然要等待妻子转出金额事务提交完==）。程序员就会很郁闷，明明卡里是有钱的…</p>
+<p>分析：这就是读提交，若有事务对数据进行更新（UPDATE）操作时，读操作事务要等待这个更新操作事务提交后才能读取数据，可以解决脏读问题。但在这个事例中，出现了==一个事务范围内两个相同的查询却返回了不同数据==，这就是==不可重复读==。</p>
+<blockquote>
+<p>那怎么解决可能的不可重复读问题？Repeatable read ！</p>
+</blockquote>
+<h3 id="Repeatable-read"><a href="#Repeatable-read" class="headerlink" title="Repeatable read"></a>Repeatable read</h3><p>重复读，就是在开始读取数据（事务开启）时，不再允许修改操作</p>
+<p>事例：程序员拿着信用卡去享受生活（卡里当然是只有3.6万），当他埋单时（==事务开启，不允许其他事务的UPDATE修改操作==），收费系统事先检测到他的卡里有3.6万。这个时候他的妻子不能转出金额了。接下来收费系统就可以扣款了。</p>
+<p>分析：重复读可以解决不可重复读问题。写到这里，应该明白的一点就是，==不可重复读对应的是修改，即UPDATE操作==。但是可能还会有幻读问题。因为==幻读==问题对应的是插入INSERT操作，而不是UPDATE操作。</p>
+<h5 id="什么时候会出现幻读？"><a href="#什么时候会出现幻读？" class="headerlink" title="什么时候会出现幻读？"></a>什么时候会出现幻读？</h5><p>事例：程序员某一天去消费，花了2千元，然后他的妻子去查看他今天的消费记录（全表扫描FTS，妻子事务开启），看到确实是花了2千元，就在这个时候，程序员花了1万买了一部电脑，即新增==INSERT==了一条消费记录，并提交。当妻子打印程序员的消费记录清单时（妻子事务提交），发现花了1.2万元，似乎出现了幻觉，这就是幻读。</p>
+<blockquote>
+<p>那怎么解决幻读问题？Serializable！</p>
+</blockquote>
+<h3 id="Serializable-序列化"><a href="#Serializable-序列化" class="headerlink" title="Serializable 序列化"></a>Serializable 序列化</h3><p>Serializable 是最高的事务隔离级别，在该级别下，事务==串行化顺序执行==，可以避免脏读、不可重复读与幻读。但是这种事务隔离级别效率低下，比较耗数据库性能，一般不使用。</p>
+<hr>
+<p>值得一提的是：大多数数据库默认的事务隔离级别是Read committed，比如Sql Server , Oracle。Mysql的默认隔离级别是Repeatable read。</p>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki-site/wiki/技术开发/分布式/ActiveMQ configuration/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    ActiveMQ configuration
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki-site/wiki/技术开发/分布式/zookeeper 应用篇/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">zookeeper 应用篇</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            Joshua Chen &copy; 2019 
+            <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        <script src="/wiki-site/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/wiki-site/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/wiki-site/js/main.js"></script>
+
+    </div>
+</body>
+</html>

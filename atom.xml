@@ -6,7 +6,7 @@
   <link href="/wiki-site/atom.xml" rel="self"/>
   
   <link href="https://joecnn.github.io/wiki-site/"/>
-  <updated>2019-02-06T02:53:57.076Z</updated>
+  <updated>2019-02-06T13:09:55.349Z</updated>
   <id>https://joecnn.github.io/wiki-site/</id>
   
   <author>
@@ -17,23 +17,293 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Hello World</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/hello-world/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/hello-world/</id>
-    <published>2019-02-06T02:53:57.076Z</published>
-    <updated>2019-02-06T02:53:57.076Z</updated>
+    <title>MySQL 主从模式</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%AD%98%E5%82%A8/mysql/MySQL%20%E4%B8%BB%E4%BB%8E%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/存储/mysql/MySQL 主从模式/</id>
+    <published>2019-01-07T13:00:00.000Z</published>
+    <updated>2019-02-06T13:09:55.349Z</updated>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<p>MySQL 支持配置 master-slave 模式，slave 从 master 定期同步数据，但不支持自动选举。常见的架构方式有：一主一从、一主多从(提升读性能)、多主一从(收集数据统计)等。</p><blockquote><p>环境准备: 安装两台 MySQL-5.7 服务.</p></blockquote><h3 id="1-Master-节点配置"><a href="#1-Master-节点配置" class="headerlink" title="1. Master 节点配置"></a>1. Master 节点配置</h3><ol><li>创建用于数据同步的 mysql 用户<br><code>create user repl identified by &#39;repl&#39;;</code></li><li>为创建的用户授予同步权限<br><code>grant replication slave on *.* to &#39;repl&#39;@&#39;%&#39; identified by &#39;repl&#39;;</code></li><li><p>修改配置文件 <code>/etc/my.cnf</code>, 开启binlog日志文件同步</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"># 表示服务为一ID</span><br><span class="line">server-id=104</span><br><span class="line"></span><br><span class="line"># 开启日志同步, 设置日志文件名称</span><br><span class="line">log_bin=mysql-bin</span><br><span class="line"></span><br><span class="line"># 日志文件记录方式, 默认是 ROW 记录变更内容, STATEMENT 记录语句, MIXED 为二者混合方式</span><br><span class="line">binlog_format=MIXED</span><br><span class="line"></span><br><span class="line"># 日志文件同步周期, 0表示交给内核处理同步, N表示事务数</span><br><span class="line">sync_binlog=1</span><br><span class="line"></span><br><span class="line"># 日志文件自动删除天数, 默认为0表示不自动删除</span><br><span class="line">expire_logs_days=7</span><br><span class="line"></span><br><span class="line"># 不进行同步的数据库</span><br><span class="line">binlog_ignore_db=mysql</span><br><span class="line">binlog_ignore_db=information_schema</span><br><span class="line">binlog_ignore_db=performation_schema</span><br><span class="line">binlog_ignore_db=sys</span><br></pre></td></tr></table></figure></li><li><p>重启数据库, 查询 master 信息</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show master status;</span></span><br><span class="line">+------------------+----------+--------------+--------------------------------------------------+-------------------+</span><br><span class="line">| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB                                 | Executed_Gtid_Set |</span><br><span class="line">+------------------+----------+--------------+--------------------------------------------------+-------------------+</span><br><span class="line">| mysql-bin.000001 |      154 |              | mysql,information_schema,performation_schema,sys |                   |</span><br><span class="line">+------------------+----------+--------------+--------------------------------------------------+-------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></li></ol><h3 id="2-Slave-节点配置"><a href="#2-Slave-节点配置" class="headerlink" title="2. Slave 节点配置"></a>2. Slave 节点配置</h3><ol><li><p>修改配置文件 <code>/etc/my.cnf</code>, 开启binlog同步</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"># 服务节点唯一ID</span><br><span class="line">server-id=110</span><br><span class="line"></span><br><span class="line"># 同步日志文件名称</span><br><span class="line">relay-log=slave-relay-bin</span><br><span class="line"></span><br><span class="line"># 同步日志索引</span><br><span class="line">relay-log-index=slave-relay-bin.index</span><br><span class="line"></span><br><span class="line"># 是否只读</span><br><span class="line">read_only=1</span><br></pre></td></tr></table></figure></li><li><p>重启并连接到数据库<br><code>systemctl restart mysqld &amp;&amp; mysql -uroot -proot</code></p></li><li><p>建立 master-slave 连接, 多主一从的情况可以执行多个 change master 指向不同主节点</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># master_host 主节点</span><br><span class="line"># master_port 主节点端口</span><br><span class="line"># master_user 创建的用于同步数据的用户</span><br><span class="line"># master_password 密码</span><br><span class="line"># master_log_file binlog文件由主节点获得</span><br><span class="line"># master_log_pos binlog开始同步位置</span><br><span class="line">change master to master_host=&apos;192.168.56.104&apos;,master_port=3306,master_password=&apos;repl&apos;,master_user=&apos;repl&apos;,master_log_file=&apos;mysql-bin.000001&apos;,master_log_pos=154;</span><br></pre></td></tr></table></figure></li><li><p>开启同步 <code>start slave;</code></p></li><li>查看 slave 运行状态<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show slave status\G;</span></span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">               Slave_IO_State: Connecting to master</span><br><span class="line">                  Master_Host: 192.168.56.104</span><br><span class="line">                  Master_User: repl</span><br><span class="line">                  Master_Port: 3306</span><br><span class="line">                Connect_Retry: 60</span><br><span class="line">              Master_Log_File: mysql-bin.000001</span><br><span class="line">          Read_Master_Log_Pos: 154</span><br><span class="line">               Relay_Log_File: slave-relay-bin.000001</span><br><span class="line">                Relay_Log_Pos: 4</span><br><span class="line">        Relay_Master_Log_File: mysql-bin.000001</span><br><span class="line">             Slave_IO_Running: Yes</span><br><span class="line">            Slave_SQL_Running: Yes</span><br><span class="line">            ...</span><br></pre></td></tr></table></figure></li></ol><blockquote><p>运行状态中 Slave_IO_Running: Yes, Slave_SQL_Running: Yes 两个线程运行成功, 则表示主从同步成功了.</p></blockquote><h3 id="3-主从同步的原理"><a href="#3-主从同步的原理" class="headerlink" title="3. 主从同步的原理"></a>3. 主从同步的原理</h3><ol><li>master记录二进制日志。在每个事务更新数据完成之前，master在二日志记录这些改变。MySQL将事务串行的写入二进制日志，即使事务中的语句都是交叉执行的。在事件写入二进制日志完成后，master通知存储引擎提交事务</li><li>slave将master的binary log拷贝到它自己的中继日志。首先，slave开始一个工作线程——I/O线程。I/O线程在master上打开一个普通的连接，然后开始binlog dump process。Binlog dump process从master的二进制日志中读取事件，如果已经跟上master，它会睡眠并等待master产生新的事件。I/O线程将这些事件写入中继日志</li><li>SQL线程从中继日志读取事件，并重放其中的事件而更新slave的数据，使其与master中的数据一致<img src="../../../../../images/mysql_sync.png" alt="image"></li></ol><h3 id="4-binlog-的格式"><a href="#4-binlog-的格式" class="headerlink" title="4. binlog 的格式"></a>4. binlog 的格式</h3><blockquote><p>mysql 使用二进制文件binlog记录数据更新或者潜在的更新, 存储在 /var/lib/mysql 目录下.</p></blockquote><h4 id="查询binlog格式"><a href="#查询binlog格式" class="headerlink" title="查询binlog格式"></a>查询binlog格式</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show variables like <span class="string">'%binlog%'</span>;</span></span><br><span class="line">+-----------------------------------------+----------------------+</span><br><span class="line">| Variable_name                           | Value                |</span><br><span class="line">+-----------------------------------------+----------------------+</span><br><span class="line">| binlog_format                           | MIXED                |</span><br><span class="line">+-----------------------------------------+----------------------+</span><br></pre></td></tr></table></figure><ul><li><strong>statement</strong> : 基于sql语句的存储方式. 无法记录包含函数(uuid, now, other fun).</li><li><strong>row</strong> : 基于行内容, 记录修改后每条记录变化的值.</li><li><strong>mixed</strong> : 混合模式, 由mysql判断处理.</li></ul><h4 id="设置binlog格式"><a href="#设置binlog格式" class="headerlink" title="设置binlog格式"></a>设置binlog格式</h4><ul><li>修改配置文件中的 <code>binlog_format=&#39;row&#39;</code>选项</li><li>连接到mysql, 修改全局配置 <code>set global binlog_format=’rowt’;</code></li></ul><h4 id="查看binlog内容"><a href="#查看binlog内容" class="headerlink" title="查看binlog内容"></a>查看binlog内容</h4><p>mysql 提供了查看二进制binlog文件的工具<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog --base64-output=decode-rows -v mysql-bin.000001</span><br></pre></td></tr></table></figure></p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for
+        &lt;p&gt;MySQL 支持配置 master-slave 模式，slave 从 master 定期同步数据，但不支持自动选举。常见的架构方式有：一主一从、一主多从(提升读性能)、多主一从(收集数据统计)等。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;环境准备: 安装两台 MySQL-5
       
     
     </summary>
     
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="存储" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%AD%98%E5%82%A8/"/>
+    
+      <category term="mysql" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%AD%98%E5%82%A8/mysql/"/>
+    
+    
+      <category term="mysql" scheme="https://joecnn.github.io/wiki-site/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL quickstart</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%AD%98%E5%82%A8/mysql/MySQL%20quickstart/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/存储/mysql/MySQL quickstart/</id>
+    <published>2019-01-07T09:00:00.000Z</published>
+    <updated>2019-02-06T12:54:11.852Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="一、安装-MySQL-5-7"><a href="#一、安装-MySQL-5-7" class="headerlink" title="一、安装 MySQL-5.7"></a>一、安装 MySQL-5.7</h3><ol><li>下载 MySQL-5.7 的 repo 源：<br><code>wget http://repo.mysql.com/mysql57-community-release-el7.rpm</code></li><li>安装源：<br><code>rpm -ivh mysql57-community-release-el7.rp</code></li><li>安装数据库：<br><code>yum -install mysql-server</code></li><li>启动数据库：<br><code>systemctl start mysqld</code></li></ol><h4 id="安装后文件对应的目录"><a href="#安装后文件对应的目录" class="headerlink" title="安装后文件对应的目录"></a>安装后文件对应的目录</h4><ul><li>mysql 的数据和二进制文件：/var/lib/mysql</li><li>mysql 的配置文件：/etc/my.cnf</li><li>mysql 的日志文件：/var/log/mysql.log</li></ul><h3 id="二、登录到-MySQL"><a href="#二、登录到-MySQL" class="headerlink" title="二、登录到 MySQL"></a>二、登录到 MySQL</h3><p>MySQL-5.7 版本对新安装的 root 账号有一个随机密码，可以通过 <code>grep &quot;password&quot; /var/log/mysqld.log</code> 获得，root@localhost 此处为随机密码</p><ol><li>运行 <code>mysql -uroot -p</code></li><li>输入初始的随机密码进入</li></ol><h4 id="设置密码"><a href="#设置密码" class="headerlink" title="设置密码"></a>设置密码</h4><ol><li>默认的随机密码无法对数据库进行操作，需要进行设置，而5.7版本用了<code>validate_password</code>密码加强插件，简单的密码无法通过验证</li><li><p>执行以下两条命令，让密码可以随意设置</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set global validate_password_length=1;</span><br><span class="line">set global validate_password_policy=0;</span><br></pre></td></tr></table></figure></li><li><p>这样可以设置简单的密码，但是长度要求大于4位<br><code>set password=password(&quot;root&quot;)</code></p></li></ol><h4 id="连接授权"><a href="#连接授权" class="headerlink" title="连接授权"></a>连接授权</h4><p>默认情况下其它服务器的客户端不能直接访问mysql服务器，需要对IP授权。<br><code>GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;root&#39; WITH GRANT OPTION;</code></p><h4 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h4><p>查询所有的数据库 <code>show databases;</code></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;一、安装-MySQL-5-7&quot;&gt;&lt;a href=&quot;#一、安装-MySQL-5-7&quot; class=&quot;headerlink&quot; title=&quot;一、安装 MySQL-5.7&quot;&gt;&lt;/a&gt;一、安装 MySQL-5.7&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;下载 MySQL-5.7 的 r
+      
+    
+    </summary>
+    
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="存储" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%AD%98%E5%82%A8/"/>
+    
+      <category term="mysql" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%AD%98%E5%82%A8/mysql/"/>
+    
+    
+      <category term="mysql" scheme="https://joecnn.github.io/wiki-site/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Redis 集群</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/Redis%20%E9%9B%86%E7%BE%A4/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/分布式/Redis 集群/</id>
+    <published>2018-12-30T16:00:00.000Z</published>
+    <updated>2019-02-06T12:15:27.089Z</updated>
+    
+    <content type="html"><![CDATA[<p>Redis 是一个开源的 key-value 存储系统，由于出众的性能，大部分互联网企业都用来做服务器端缓存。Redis 在3.0版本前只支持单实例模式，虽然支持主从模式、哨兵模式部署来解决单点故障，但是现在互联网企业动辄大几百G的数据，可完全是没法满足业务的需求，所以，Redis 在 3.0 版本以后就推出了集群模式。</p><h3 id="一、Master-slave-模式"><a href="#一、Master-slave-模式" class="headerlink" title="一、Master-slave 模式"></a>一、Master-slave 模式</h3><p>实现主从复制模式，只需要在<code>slave</code>服务器上修改配置文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 配置master服务器</span></span><br><span class="line">slaveof &lt;masterip&gt; &lt;masterport&gt;</span><br></pre></td></tr></table></figure></p><p><code>slave</code>服务器只接收读请求，可以用来做读写分离，通过<code>sync</code>命令向<code>master</code>同步数据。  </p><p>配置完成后启动，可以通过命令查看状态：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 输出当前服务信息</span></span><br><span class="line">info replication</span><br></pre></td></tr></table></figure></p><h4 id="数据同步"><a href="#数据同步" class="headerlink" title="数据同步"></a>数据同步</h4><p>从节点定时(<code>1S</code>)从主节点同步数据，通过发送<code>sync</code>命令, 通过命令可以监控同步信息：  </p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">replconf listening –port 6379</span><br></pre></td></tr></table></figure><p>可以使用命令手动同步数据：<code>sync</code>.  </p><h4 id="数据同步方式"><a href="#数据同步方式" class="headerlink" title="数据同步方式"></a>数据同步方式</h4><ol><li>基于RDB文件的复制(第一次连接或重启的时候)</li><li>无硬盘复制 <code>repl-diskless-sync yes</code></li><li>增量复制 PSYNC master run id. Offset</li></ol><h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h4><ol><li>slave 第一次或者重连到 master 上以后，会向 master 发送一个<code>SYNC</code>的命令</li><li>master 收到<code>SYNC</code>的时候，会做两件事：<ol><li>执行<code>bgsave</code>（rdb的快照文件）</li><li>master 把新收到的修改命令存入到缓冲区, 通过<code>RESP</code>协议发送给 slave (aof方式)</li></ol></li><li>slave 收到文件后会先清空数据，再从rdb快照文件恢复</li></ol><p>缺点：主从复制的模式无法对 master 进行动态选举。</p><h3 id="二、哨兵模式"><a href="#二、哨兵模式" class="headerlink" title="二、哨兵模式"></a>二、哨兵模式</h3><p>Redis 提供了哨兵工具，监控 master 和 salve 是否正常运行,如果 master 出现故障，那么会把其中一台 salve 数据升级为 master。  </p><p>哨兵机也可做集群防止单点问题，启动哨兵的步骤：</p><ol><li>拷贝哨兵配置文件 <code>sentinel.conf</code></li><li>修改配置文件</li></ol><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 配置主节点名称、ip、port、master需要的投票数</span></span></span><br><span class="line">sentinel monitor &lt;master-name&gt; &lt;ip&gt; &lt;redis-port&gt; &lt;quorum&gt;</span><br></pre></td></tr></table></figure><ol start="3"><li>启动哨兵</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/redis-sentinel sentinel.conf</span><br></pre></td></tr></table></figure><h3 id="三、Redis-集群"><a href="#三、Redis-集群" class="headerlink" title="三、Redis 集群"></a>三、Redis 集群</h3><p>Redis 集群采用了P2P的模式，完全去中心化。Redis 把所有的 Key 分成了 16384 个 slot，每个 Redis 实例负责其中一部分 slot 。集群中的所有信息（节点、端口、slot等），都通过节点之间定期的数据交换而更新。<br>Redis 客户端可以在任意一个 Redis 实例发出请求，如果所需数据不在该实例中，通过重定向命令引导客户端访问所需的实例。  </p><h4 id="修改配置文件，采用集群方式："><a href="#修改配置文件，采用集群方式：" class="headerlink" title="修改配置文件，采用集群方式："></a>修改配置文件，采用集群方式：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 节点标识pid 6379和port要对应</span></span><br><span class="line">pidfile /var/run/redis_6379.pid</span><br><span class="line"></span><br><span class="line"><span class="comment">## 启动集群模式</span></span><br><span class="line">cluster-enabled yes</span><br><span class="line"></span><br><span class="line"><span class="comment">## 集群配置文件</span></span><br><span class="line">cluster-config-file nodes-6379.conf</span><br><span class="line"></span><br><span class="line"><span class="comment">## 集群节点连接超时</span></span><br><span class="line">cluster-node-timeout 15000</span><br></pre></td></tr></table></figure><p>启动每个redis服务，尝试使用命令，发现集群还无法使用，提示信息：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(error) CLUSTERDOWN Hash slot not served</span><br></pre></td></tr></table></figure><p>Redis 节点虽然启动了，但是它们之间还无法相互发现，也无法分配slot，需要一个中间人调度。</p><h4 id="安装集群所需软件"><a href="#安装集群所需软件" class="headerlink" title="安装集群所需软件"></a>安装集群所需软件</h4><p>由于 Redis 集群需要使用 ruby 命令，所以我们需要安装 ruby 和相关接口。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install ruby</span><br><span class="line">yum install rubygems</span><br><span class="line">gem install redis</span><br></pre></td></tr></table></figure><p>调用 ruby 命令创建集群：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/redis-trib.rb create --replicas 1 192.168.56.110:6379 192.168.56.110:6380 192.168.56.120:6379 192.168.56.120:6380 192.168.56.130:6379 192.168.56.130:6380</span><br></pre></td></tr></table></figure><p><code>--replicas</code> 1 表示主从复制比例为 1:1, 所以这里需要有6个 Redis 服务节点，组成3主3从的集群。</p><h4 id="验证一下"><a href="#验证一下" class="headerlink" title="验证一下"></a>验证一下</h4><p>依然是通过客户端命令连接上，通过集群命令看一下状态和节点信息等。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bin/redis-cli -c -h 192.168.56.110 -p 6379</span><br><span class="line">cluster info</span><br><span class="line">cluster nodes</span><br></pre></td></tr></table></figure><h3 id="四、其它集群方案"><a href="#四、其它集群方案" class="headerlink" title="四、其它集群方案"></a>四、其它集群方案</h3><h4 id="一致性哈希"><a href="#一致性哈希" class="headerlink" title="一致性哈希"></a>一致性哈希</h4><p>通过程序对Key进行一致性哈希，再路由到不同的 Redis 服务节点上。</p><h4 id="redis-shardding"><a href="#redis-shardding" class="headerlink" title="redis-shardding"></a>redis-shardding</h4><p>Jedis封装的基于一致性哈希算法的解决方案，通过<code>ShareddingJedis</code>客户端连接到服务节点，也是在应用层面实现的。</p><h4 id="codis"><a href="#codis" class="headerlink" title="codis"></a>codis</h4><p>基于 redis-2.8 开发的 codis-server，支持了数据的分片存储，通过codis-proxy实现请求路由。</p><h4 id="twemproxy"><a href="#twemproxy" class="headerlink" title="twemproxy"></a>twemproxy</h4><p>twitter 提供的解决方案，也是通过增加 proxy 代理层，做数据分片存储和请求路由。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Redis 是一个开源的 key-value 存储系统，由于出众的性能，大部分互联网企业都用来做服务器端缓存。Redis 在3.0版本前只支持单实例模式，虽然支持主从模式、哨兵模式部署来解决单点故障，但是现在互联网企业动辄大几百G的数据，可完全是没法满足业务的需求，所以，R
+      
+    
+    </summary>
+    
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+      <category term="redis" scheme="https://joecnn.github.io/wiki-site/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Redis 持久化机制</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/Redis%20%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%BA%E5%88%B6/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/分布式/Redis 持久化机制/</id>
+    <published>2018-12-30T16:00:00.000Z</published>
+    <updated>2019-02-06T12:02:27.351Z</updated>
+    
+    <content type="html"><![CDATA[<p>Redis 是一款基于内存的键值对数据库，使用单线程IO多路复用技术达到高性能。但某些场景下对数据的持久性是有要求的，所以Rdis提供了两种持久化策略，防止宕机数据丢失。</p><h3 id="Redis-持久化机制"><a href="#Redis-持久化机制" class="headerlink" title="Redis 持久化机制"></a>Redis 持久化机制</h3><p>对于persistence持久化存储，Redis提供了两种方式：</p><ul><li>RDB(Redis database) 存储快照文件snapshot</li><li>AOF(Append-only file) 存储redo文件</li></ul><h4 id="1-RDB"><a href="#1-RDB" class="headerlink" title="1. RDB"></a>1. RDB</h4><p>RBD 是在规定时间点将内存数据通过快照方式写入临时文件，再替换上次的持久化文件，达到数据持久化的方式。</p><h5 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h5><ul><li>使用fork出的子进程处理，不影响主进程</li><li>输出snapshot快速且体积小<h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5></li><li>RDB间隔一段时间执行，如果在执行期间发生故障，将导致数据丢失</li><li>当内存数据较大时，fork操作将花费较长时间，导致Redis无法提供服务</li></ul><h5 id="RDB-会在指定的情况下触发快照"><a href="#RDB-会在指定的情况下触发快照" class="headerlink" title="RDB 会在指定的情况下触发快照"></a>RDB 会在指定的情况下触发快照</h5><ol><li><p>配置的快照间隔时间</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># RDB默认是开启的</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># RDB文件名</span></span></span><br><span class="line">dbfilename dump.db</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># RDB文件存储目录</span></span></span><br><span class="line">dir ./</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># RDB快照触发时机, save &lt;间隔时间&gt; &lt;操作数&gt;</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 全部删除即关闭RDB</span></span></span><br><span class="line">save 900 1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># RDB快照异常时, 是否阻塞客户端"变更操作"</span></span></span><br><span class="line">stop-writes-on-bgsave-error yes</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># RDB文件是否进行压缩</span></span></span><br><span class="line">rdbcompression yes</span><br></pre></td></tr></table></figure></li><li><p>执行 <code>save</code> 或 <code>bgsave</code> 时</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 同步进行</span></span></span><br><span class="line">./redis-cli -h ip -p port save</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 异步进行</span></span></span><br><span class="line">./redis-cli -h ip -p port bgsave</span><br></pre></td></tr></table></figure></li><li><p>执行 <code>flushall</code> 时</p></li><li>执行<code>master/slave</code>全量复制时</li></ol><h5 id="快照的实现原理"><a href="#快照的实现原理" class="headerlink" title="快照的实现原理"></a>快照的实现原理</h5><ol><li>Redis使用<code>fork</code>复制一份当前进程的副本(子进程)。</li><li>父进程继续接收处理客户端请求，子进程开始将内存的数据写入到临时文件。</li><li>子进程用临时文件替换原文件。<blockquote><p>注意：redis在进行快照的过程中不会修改RDB文件，只有快照结束后才会将旧的文件替换成新的，也就是说任何时候RDB文件都是完整的。 这就使得我们可以通过定时备份RDB文件来实现redis数据库的备份， RDB文件是经过压缩的二进制文件，占用的空间会小于内存中的数据，更加利于传输。</p></blockquote></li></ol><h4 id="2-AOF"><a href="#2-AOF" class="headerlink" title="2. AOF"></a>2. AOF</h4><p>AOF 将”操作+数据”以格式化(RESP)的方式最佳到操作日志文件尾部，在<code>append</code>操作成功后才进行实际数据的变更。当Server需要恢复时，可以直接<code>replay</code>日志文件，即可还原所有操作过程。</p><h5 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h5><ul><li>可以保持更高的数据完整性，如果设置间隔<code>1S</code>则最多丢失<code>1S</code>的数据。</li><li>可以手动删除其中某些命令，方便维护<h5 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h5></li><li>额外的IO操作，略微影响Redis性能</li><li>AOF文件比RDB文件大</li><li>恢复速度慢，要逐条重放命令</li></ul><h5 id="AOF-默认关闭，开启时需要修改配置文件；"><a href="#AOF-默认关闭，开启时需要修改配置文件；" class="headerlink" title="AOF 默认关闭，开启时需要修改配置文件；"></a>AOF 默认关闭，开启时需要修改配置文件；</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 开启aof</span></span></span><br><span class="line">appendonly yes</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 指定aof文件名称</span></span></span><br><span class="line">appendfilename appendonly.aof</span><br></pre></td></tr></table></figure><h5 id="AOF-文件重写"><a href="#AOF-文件重写" class="headerlink" title="AOF 文件重写"></a>AOF 文件重写</h5><p>在开启AOF时，命令会一直append到aof文件中，使得aof文件体积越来越大，Redis支持对aof文件进行重写(<code>rewrite</code>)，合并相同Key的操作，保留最小命令集合。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#aof文件rewrite触发的最小文件尺寸(mb,gb),只有大于此aof文件大于此尺寸是才会触发rewrite，默认“64mb”，建议“512mb”  </span></span></span><br><span class="line">auto-aof-rewrite-min-size 64mb  </span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#相对于“上一次”rewrite，本次rewrite触发时aof文件应该增长的百分比。  </span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#每一次rewrite之后，redis都会记录下此时“新aof”文件的大小(例如A)，那么当aof文件增长到A*(1 + p)之后  </span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#触发下一次rewrite，每一次aof记录的添加，都会检测当前aof文件的尺寸。  </span></span></span><br><span class="line">auto-aof-rewrite-percentage 100</span><br></pre></td></tr></table></figure></p><p> 整个重写操作是绝对安全的，因为 Redis 在创建新 AOF 文件的过程中，会继续将命令追加到现有的 AOF 文件里面，即使重写过程中发生停机，现有的 AOF 文件也不会丢失。 而一旦新 AOF 文件创建完毕，Redis 就会从旧 AOF 文件切换到新 AOF 文件，并开始对新 AOF 文件进行追加操作。AOF 文件有序地保存了对数据库执行的所有写入操作， 这些写入操作以 Redis 协议的格式保存， 因此 AOF 文件的内容非常容易被人读懂， 对文件进行分析（parse）也很轻松。</p><h5 id="同步磁盘数据"><a href="#同步磁盘数据" class="headerlink" title="同步磁盘数据"></a>同步磁盘数据</h5><p> Redis每次更改数据的时候都会将命令记录到aof文件，但是实际上由于<code>kernel</code>的缓存机制，数据并没有实时写入到硬盘，而是进入硬盘缓存,再通过硬盘缓存机制去刷新到保存到文件。<br> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"> #</span><span class="bash"><span class="comment"># 每次执行写入都会进行同步  ， 这个是最安全但是是效率比较低的方式</span></span></span><br><span class="line"><span class="meta"> #</span><span class="bash"> appendfsync always  </span></span><br><span class="line"> </span><br><span class="line"><span class="meta"> #</span><span class="bash"><span class="comment"># 每一秒执行</span></span></span><br><span class="line">appendfsync everysec </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 不主动进行同步操作，由操作系统去执行，这个是最快但是最不安全的方式</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> appendfsync no</span></span><br></pre></td></tr></table></figure></p><h5 id="aof文件损坏后怎么恢复"><a href="#aof文件损坏后怎么恢复" class="headerlink" title="aof文件损坏后怎么恢复"></a>aof文件损坏后怎么恢复</h5><p> Redis 在执行命令中途宕机，导致命令只存储到aof一半，这个时候通过aof文件无法恢复，需要先对文件进行修复。<br> aof文件修复可以使用Redis提供的工具：<br> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># bin/</span></span></span><br><span class="line">redis-check-aof --fix</span><br></pre></td></tr></table></figure></p><h4 id="3-RDB和AOF如何选择"><a href="#3-RDB和AOF如何选择" class="headerlink" title="3. RDB和AOF如何选择"></a>3. RDB和AOF如何选择</h4><p> 一般来说,如果对数据的安全性要求非常高的话，应该同时使用两种持久化功能。如果可以承受数分钟以内的数据丢失，那么可以只使用 RDB 持久化。有很多用户都只使用 AOF 持久化， 但并不推荐这种方式： 因为定时生成 RDB 快照（snapshot）非常便于进行数据库备份， 并且 RDB 恢复数据集的速度也要比 AOF 恢复的速度要快 。<br>两种持久化策略可以同时使用，也可以使用其中一种。如果同时使用的话， 那么Redis重启时，会优先使用AOF文件来还原数据。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Redis 是一款基于内存的键值对数据库，使用单线程IO多路复用技术达到高性能。但某些场景下对数据的持久性是有要求的，所以Rdis提供了两种持久化策略，防止宕机数据丢失。&lt;/p&gt;
+&lt;h3 id=&quot;Redis-持久化机制&quot;&gt;&lt;a href=&quot;#Redis-持久化机制&quot; cla
+      
+    
+    </summary>
+    
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+      <category term="redis" scheme="https://joecnn.github.io/wiki-site/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Redis quickstart</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/Redis%20quickstart/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/分布式/Redis quickstart/</id>
+    <published>2018-12-28T16:00:00.000Z</published>
+    <updated>2019-02-06T12:08:16.622Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-Redis-是什么？"><a href="#1-Redis-是什么？" class="headerlink" title="1. Redis 是什么？"></a>1. Redis 是什么？</h3><blockquote><p>Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache and message broker.  </p></blockquote><p>Redis 是一个开源的分布式键值对(key/value)存储数据库，常用于做为数据缓存、单点登录、网站访问排名、秒杀抢购、应用模块开发等。</p><h3 id="2-安装-Redis"><a href="#2-安装-Redis" class="headerlink" title="2. 安装 Redis"></a>2. 安装 Redis</h3><ol><li>下载 <a href="https://redis.io/download">redis-4.0.12.tar.gz</a> 安装包</li><li>解压并进行编译测试<br><code>make &amp;&amp; make test</code></li><li>安装到指定目录<br><code>cd src &amp;&amp; make install PREFIX=/usr/local/redis-4.0.12</code></li></ol><p><code>make install</code>安装完成后会在指定目录下生成<code>bin/</code>文件夹，里面存放着使用 redis 的工具。</p><h3 id="3-启动和停止-Redis"><a href="#3-启动和停止-Redis" class="headerlink" title="3. 启动和停止 Redis"></a>3. 启动和停止 Redis</h3><ol><li>首先到源目录下拷贝配置文件到安装目录<br><code>cp ~/redis-4.0.12/redis.conf /usr/local/redis-4.0.12/</code></li><li>修改配置信息<ul><li><strong>bind</strong>： IP绑定修改为本机IP </li><li><strong>daemonize</strong>： 改为后台进程运行</li></ul></li><li>启动 redis 服务<br><code>./redis-server ../redis.conf</code></li><li>使用可以端连接到 redis<br><code>./redis-cli -h 192.168.56.110 -p 6379</code></li><li>停止 redis 服务<br><code>./redis-cli shutdown</code></li></ol><h3 id="4-常用命令"><a href="#4-常用命令" class="headerlink" title="4. 常用命令"></a>4. 常用命令</h3><h4 id="Key-相关"><a href="#Key-相关" class="headerlink" title="Key 相关"></a>Key 相关</h4><p>keys 检索满足条件的键值对，支持正则表达式的通配符匹配，但要注意大数据量下的检索影响 redis 服务性能。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 获得一个符合匹配规则的键名列表，支持通配符</span></span><br><span class="line">keys [? / * [] ]</span><br><span class="line"><span class="comment">## 判断key是否存在</span></span><br><span class="line">exists key</span><br><span class="line"><span class="comment">## 获取key结构类型</span></span><br><span class="line"><span class="built_in">type</span> key</span><br></pre></td></tr></table></figure></p><h4 id="字符类型"><a href="#字符类型" class="headerlink" title="字符类型"></a>字符类型</h4><p>最基本的数据结构，可以存储任意的字符类型的数据，单条数据最大可支持512M。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 设置key/value键值, 过期时间 EX=10s, PX=100ms</span></span><br><span class="line"><span class="built_in">set</span> key value EX 10 PX 100 </span><br><span class="line"><span class="comment">## 批量设置多个key/value</span></span><br><span class="line">mset key value key1 value1</span><br><span class="line"><span class="comment">## 只在key不存在时进行设置</span></span><br><span class="line">setnx key value</span><br><span class="line"><span class="comment">## 获取key值</span></span><br><span class="line">get key</span><br><span class="line"><span class="comment">## 获取多个key的值</span></span><br><span class="line">mget key key1</span><br><span class="line"><span class="comment">## 对数字类型原子递增 1</span></span><br><span class="line">incr num</span><br><span class="line"><span class="comment">## 原子递减 1</span></span><br><span class="line">decr num</span><br><span class="line"><span class="comment">## 原子递增 10</span></span><br><span class="line">incrby num 10</span><br><span class="line"><span class="comment">## 原子递减 10</span></span><br><span class="line">decrby num 10</span><br><span class="line"><span class="comment">## 向指定的key追加字符串</span></span><br><span class="line">append key value</span><br><span class="line"><span class="comment">## 获取key对应的value的长度</span></span><br><span class="line">strlen key</span><br></pre></td></tr></table></figure></p><h4 id="列表类型"><a href="#列表类型" class="headerlink" title="列表类型"></a>列表类型</h4><p>list 可以存储一个有序的字符列表，内部是使用双向链表实现的，可以用来实现分布式消息队列。命令以 <code>l-</code>开头。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 左右两端添加数据</span></span><br><span class="line">(r|l)push key value value1 value2</span><br><span class="line"><span class="comment">## 左右两端弹出数据，输出弹出的value</span></span><br><span class="line">(r|l)pop key</span><br><span class="line"><span class="comment">## 获取列表长度</span></span><br><span class="line">llen key</span><br><span class="line"><span class="comment">## 获取列表元素，start 开始索引， stop 结束索引(-1表示最右边)</span></span><br><span class="line">lrange key start stop</span><br><span class="line"><span class="comment">## 从列表中移除N个value值的元素</span></span><br><span class="line">lrem key count value</span><br><span class="line"><span class="comment">## 更新idx位置处的元素为value</span></span><br><span class="line">lset key idx value</span><br></pre></td></tr></table></figure></p><h4 id="散列类型"><a href="#散列类型" class="headerlink" title="散列类型"></a>散列类型</h4><p>散列类型是 HashMap 数据结构，存储多个键值对，适合存储多属性对象，但不支持数据类型的嵌套。命令以 <code>h-</code> 开头。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 设置对象field属性值</span></span><br><span class="line">hset key field value</span><br><span class="line">hmset key field value field2 value2</span><br><span class="line"></span><br><span class="line"><span class="comment">## 获取field属性值</span></span><br><span class="line">hget key field</span><br><span class="line">hmget key field field2</span><br><span class="line"></span><br><span class="line"><span class="comment">## 获取所有field值</span></span><br><span class="line">hgetall key</span><br><span class="line"><span class="comment">## 判断field属性是否存在</span></span><br><span class="line">hexists key field</span><br></pre></td></tr></table></figure></p><h4 id="集合类型"><a href="#集合类型" class="headerlink" title="集合类型"></a>集合类型</h4><p>集合类型 set 与列表不同，不能存在重复的数据，而且是无序存储。命令以 <code>s-</code> 开头。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 增加元素，如果value存在则忽略，返回成功加入集合的数量</span></span><br><span class="line">sadd key value value2</span><br><span class="line"><span class="comment">## 删除元素</span></span><br><span class="line">srem key value</span><br><span class="line"><span class="comment">## 获取所有元素</span></span><br><span class="line">smembers key</span><br><span class="line"><span class="comment">## 获取集合长度</span></span><br><span class="line">scard key</span><br><span class="line"><span class="comment">## 集合key1与key2的差集，列出key1中存在而在key2中不存在的元素</span></span><br><span class="line">sdiff key1 key2</span><br><span class="line"><span class="comment">## 将差集存储在des中</span></span><br><span class="line">sdiffstore des key key2</span><br><span class="line"><span class="comment">## 集合key1与key2的交集</span></span><br><span class="line">sinter key1 key2</span><br><span class="line"><span class="comment">## 集合key1与key2的并集</span></span><br><span class="line">sunion key1 key2</span><br></pre></td></tr></table></figure></p><h4 id="有序集合类型"><a href="#有序集合类型" class="headerlink" title="有序集合类型"></a>有序集合类型</h4><p>有序集合是在集合set的基础上，增加了排序功能，增加了<code>score</code>表示元素的优先级。命令以 <code>z-</code> 开头。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 增加元素，优先级 score</span></span><br><span class="line">zadd key score value</span><br><span class="line"><span class="comment">## 列出集合，并且输出优先级</span></span><br><span class="line">zrange key start stop withscores</span><br></pre></td></tr></table></figure></p><h4 id="事务处理"><a href="#事务处理" class="headerlink" title="事务处理"></a>事务处理</h4><p>Redis 中支持事务，将多个命令加入到<code>QUEUED</code>中到最后一起提交或回滚，但有特例的情况无法回滚(命令运行时出错)。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 开启事务</span></span><br><span class="line">multi</span><br><span class="line">...</span><br><span class="line"><span class="comment">## 提交事务</span></span><br><span class="line"><span class="built_in">exec</span></span><br></pre></td></tr></table></figure></p><h4 id="过期时间"><a href="#过期时间" class="headerlink" title="过期时间"></a>过期时间</h4><p>Redis 中可以对每个键值设置对应的过期时间。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 设置key过期时间为seconds秒</span></span><br><span class="line">expire key seconds</span><br><span class="line"><span class="comment">## 获得key的过期时间,-1 未设置  -2已过期 </span></span><br><span class="line">ttl key</span><br></pre></td></tr></table></figure></p><h4 id="发布订阅-pub-sub"><a href="#发布订阅-pub-sub" class="headerlink" title="发布订阅(pub/sub)"></a>发布订阅(pub/sub)</h4><p>Redis 中支持消息的发布订阅模式，类型消息中间件的功能，但性能不高一般不推荐使用。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 发布消息到channel频道</span></span><br><span class="line">publish channel msg</span><br><span class="line"><span class="comment">## 订阅channel频道的消息</span></span><br><span class="line">subscribe channel</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;1-Redis-是什么？&quot;&gt;&lt;a href=&quot;#1-Redis-是什么？&quot; class=&quot;headerlink&quot; title=&quot;1. Redis 是什么？&quot;&gt;&lt;/a&gt;1. Redis 是什么？&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;Redis is an ope
+      
+    
+    </summary>
+    
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+      <category term="redis" scheme="https://joecnn.github.io/wiki-site/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kafka 实现原理</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/Kafka%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/分布式/Kafka 实现原理/</id>
+    <published>2018-12-28T16:00:00.000Z</published>
+    <updated>2019-02-06T12:00:47.018Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-消息可靠性机制"><a href="#1-消息可靠性机制" class="headerlink" title="1. 消息可靠性机制"></a>1. 消息可靠性机制</h3><h4 id="消息发送可靠性"><a href="#消息发送可靠性" class="headerlink" title="消息发送可靠性"></a>消息发送可靠性</h4><p>消息发送到 broker 有三种确认方式 <code>request.required.acks</code> ：</p><ul><li><strong>acks=0</strong>  producer 不会等待 broker 发送ack，既可能丢失也可能重发。</li><li><strong>acks=1</strong>  当 leader 接收到消息后发送ack，可能重发。</li><li><strong>acks=-1</strong> 当所有 follower 同步成功后发送ack，丢失消息可能性低。</li></ul><h4 id="消息存储可靠性"><a href="#消息存储可靠性" class="headerlink" title="消息存储可靠性"></a>消息存储可靠性</h4><p>每一条消息发送到broker中，会跟据partition规则存储到对应分区，如果规则设置合理可以实现消息均匀分布到不同分区，实现存储的水平扩展。<br>高可靠性的保障来自另一个叫副本(replication)策略，通过设置(–replication-factor)参数设置。</p><h3 id="2-副本存储机制"><a href="#2-副本存储机制" class="headerlink" title="2. 副本存储机制"></a>2. 副本存储机制</h3><p>Kafka 在创建 topic 支持设置对应的副本个数 <code>--replication-factor</code>，会生成对应的分区副本数交叉存储在每个节点上。</p><h5 id="副本存活条件"><a href="#副本存活条件" class="headerlink" title="副本存活条件"></a>副本存活条件</h5><ol><li>副本所有节点必须和zookeeper保持连接状态</li><li>副本的最后一条消息的offset和leader的最后一条消息的offset之间差值不能超过设定值<code>replica.lag.max.messages</code></li></ol><h5 id="如何同步消息"><a href="#如何同步消息" class="headerlink" title="如何同步消息"></a>如何同步消息</h5><p>第一个启动的节点成功在zookeeper中注册信息成为leader对外提供服务，其它replica做为follower要定时同步数据。  </p><ul><li><strong>HW(high watermark)</strong> ：表示所有follower已同步完成的offset位置  </li><li><strong>LEO(Log End Offset)</strong> ：表示leader节点当前消息的offset位置</li></ul><p>consumer只能消费所有follower已同步完成的数据，即HW标注的位置。</p><h5 id="如何均匀分布"><a href="#如何均匀分布" class="headerlink" title="如何均匀分布"></a>如何均匀分布</h5><p>Kafka 为了更好的做到负载均衡，会尽量把所有的 partition 均匀分配到整个集群上，分配的算法：</p><ol><li>把所有 <code>broker(n)</code> 和 <code>partition(n)</code> 排序</li><li>把第<code>i</code>个partition分配到 <code>(i%n)</code> 个broker上</li><li>把第 <code>i</code> 个 partition 的第 j 个 replica 分配到 <code>((i+j) % n)</code> 个broker上</li></ol><h5 id="如何处理所有副本不工作情况"><a href="#如何处理所有副本不工作情况" class="headerlink" title="如何处理所有副本不工作情况"></a>如何处理所有副本不工作情况</h5><p>在ISR中至少有一个follower工作时，Kafka可以确保消息不丢失，但如果某个分区所有备份都宕机了，采取以下措施：</p><ol><li>等待ISR中任意一个follower活过来，并且选择它为leader</li><li>选择任意一个replica(不一定是ISR中的)活过来作为leader</li></ol><p>这两种需要在可用性和一致性当中做一个选择。</p><h3 id="3-Kafka-文件存储机制"><a href="#3-Kafka-文件存储机制" class="headerlink" title="3. Kafka 文件存储机制"></a>3. Kafka 文件存储机制</h3><h4 id="partition"><a href="#partition" class="headerlink" title="partition"></a>partition</h4><p>每个partition为一个目录，命名规则为 <code>&lt;topic_name&gt;-&lt;partition_no&gt;</code>，存储在 kafka_logs 目录下。</p><h4 id="segment"><a href="#segment" class="headerlink" title="segment"></a>segment</h4><p>Kafka 为防止分区文件过大，又将分区拆分为 segment 存储，一个segment文件<code>.index</code>和<code>.log</code>两部分组成，即索引文件和数据文件。<br>segment 文件由64位long数值命名，文件名即记录的最大 offset 值，查找时先通过定位 offset 落的范围，再进入文件查找。</p><h4 id="日志保留"><a href="#日志保留" class="headerlink" title="日志保留"></a>日志保留</h4><p>Kafka 中无论是否消费了消息(只是移动了 offset)，都会一直保留这些消息，为了避免磁盘爆满，使用相应的保留策略(retention policy)，以实现周期性的删除陈旧消息：</p><ul><li>根据消息保留时间，超过指定时间则删除</li><li>根据 topic 大小，超过阈值开始删除最旧消息</li></ul><h4 id="日志压缩"><a href="#日志压缩" class="headerlink" title="日志压缩"></a>日志压缩</h4><p>Kafka 会定期将相同 Key 的消息进行合并，只保留最新的 Value 值。</p><h3 id="4-Kafka-消息的消费原理"><a href="#4-Kafka-消息的消费原理" class="headerlink" title="4. Kafka 消息的消费原理"></a>4. Kafka 消息的消费原理</h3><p>旧版本的 Kafka 将 Consumer group 的消费进度记录在 zookeeper 中，导致对 zookeeper 频繁的写入而性能低下。<br>新版本1.0+已修改为记录在对应 topic 目录下，默认创建了50个 <code>__consumer_offset_topic</code> 文件夹，将消费的进度 offset 保存在对应的文件中。</p><ol><li><p>计算 consumer group 的哈希值</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Math.abs(<span class="string">"group1"</span>.hashCode() % <span class="number">50</span>)</span><br></pre></td></tr></table></figure></li><li><p>根据哈希值找到对应的__consumer文件，查看消费进度</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh kafka-simple-consumer-shell.sh --topic __consumer_offsets --partition 15 -broker-list 192.168.56.110:9092,192.168.56.120:9092,192.168.56.130:9092 --formatter kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter</span><br></pre></td></tr></table></figure></li></ol><h3 id="5-Kafka-的消费者分区分配策略"><a href="#5-Kafka-的消费者分区分配策略" class="headerlink" title="5. Kafka 的消费者分区分配策略"></a>5. Kafka 的消费者分区分配策略</h3><p>Kafka中存在 consumer group 的概念，也就是group.id一样的consumer属于一个consumer group，组内的所有消费者协调在一起来消费消费订阅主题的所有分区。当然每一个分区只能由同一个消费组内的consumer来消费，那么同一个consumer group里面的consumer是怎么去分配该消费哪个分区里的数据，这个就设计到了kafka内部分区分配策略（Partition Assignment Strategy）。<br>在 Kafka 内部存在两种默认的分区分配策略：Range（默认） 和 RoundRobin。通过：<code>partition.assignment.strategy</code>指定</p><h4 id="两种分区策略"><a href="#两种分区策略" class="headerlink" title="两种分区策略"></a>两种分区策略</h4><h5 id="Range-（默认策略）"><a href="#Range-（默认策略）" class="headerlink" title="Range （默认策略）"></a>Range （默认策略）</h5><p>0 ，1 ，2 ，3 ，4，5，6，7，8，9<br>c0 [0,3]<br>c1 [4,6]<br>c2 [7,9]<br>10<code>(partition num)</code>/3<code>(consumer num)</code> =3  </p><h5 id="RoundRobin-（轮询）"><a href="#RoundRobin-（轮询）" class="headerlink" title="RoundRobin （轮询）"></a>RoundRobin （轮询）</h5><p>0 ，1 ，2 ，3 ，4，5，6，7，8，9<br>c0,c1,c2<br>c0 [0,3,6,9]<br>c1 [1,4,7]<br>c2 [2,5,8]<br>kafka 的key 为null， 是随机｛一个Metadata的同步周期内，默认是10分钟｝</p><h3 id="6-高吞吐量原因"><a href="#6-高吞吐量原因" class="headerlink" title="6. 高吞吐量原因"></a>6. 高吞吐量原因</h3><ul><li><strong>消息顺序存储</strong>，通过 offset 偏移量进行顺序读取，减少机械硬盘磁柱移动。</li><li><strong>消息批量发送</strong>，在异步模式中允许进行批量发送消息，先将消息缓存到内存，再一次请求中批量发送出去，减少磁盘读写和网络传输。<ul><li>batch.size 每批量发送的数据大小</li><li>linger.ms  批量发送的间隔时间</li></ul></li><li><strong>消息的零拷贝</strong>，使用 <code>FileChannel.transferTo</code> 直接将消息发送到 socket buffer 中，省略了将消息读取到内存的过程。</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;1-消息可靠性机制&quot;&gt;&lt;a href=&quot;#1-消息可靠性机制&quot; class=&quot;headerlink&quot; title=&quot;1. 消息可靠性机制&quot;&gt;&lt;/a&gt;1. 消息可靠性机制&lt;/h3&gt;&lt;h4 id=&quot;消息发送可靠性&quot;&gt;&lt;a href=&quot;#消息发送可靠性&quot; class=&quot;
+      
+    
+    </summary>
+    
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+      <category term="MQ" scheme="https://joecnn.github.io/wiki-site/tags/MQ/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kafka quickstart</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/Kafka%20quickstart/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/分布式/Kafka quickstart/</id>
+    <published>2018-12-28T16:00:00.000Z</published>
+    <updated>2019-02-06T12:10:02.189Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-Kafka是什么"><a href="#1-Kafka是什么" class="headerlink" title="1. Kafka是什么?"></a>1. Kafka是什么?</h3><blockquote><p><a href="https://kafka.apache.org/documentation/#introduction">Apache Kafka®</a> is a distributed streaming platform. </p></blockquote><p>Kafka是一个高性能、高吞吐量的分布式消息通信系统。常用于系统的日志收集分析、消息通信、用户行为分析、服务器指标监控、流式处理等。</p><h3 id="2-Kafka集群安装"><a href="#2-Kafka集群安装" class="headerlink" title="2. Kafka集群安装"></a>2. Kafka集群安装</h3><ol><li>下载kafka二进制安装包, 并解压到 /usr/local目录下。</li><li>进入到config目录下修改server.properties配置文件：<ul><li>broker.id 在集群中的唯一编号</li><li>listeners 本机ip</li><li>num.partitions 默认的topic分区数</li><li>zookeeper.connect 连接到zookeeper集群，可以设置根路径 <code>ip:port/kafka</code></li></ul></li><li>进入到bin目录下，以守护进程方式启动。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-server-start.sh -daemon ../config/server.properties</span><br></pre></td></tr></table></figure></li></ol><h3 id="3-Kafka基本操作"><a href="#3-Kafka基本操作" class="headerlink" title="3. Kafka基本操作"></a>3. Kafka基本操作</h3><ol><li><p>创建一个topic</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-topics.sh --create --zookeeper 192.168.56.110:2181/kafka --replication-factor 1 --partitions 2 --topic first-topic</span><br></pre></td></tr></table></figure></li><li><p>列出所有topic</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-topics.sh --list --zookeeper 192.168.56.110:2181/kafka</span><br></pre></td></tr></table></figure></li><li><p>生成者发送消息</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-console-producer.sh --broker-list 192.168.56.110:9092 --topic first-topic</span><br></pre></td></tr></table></figure></li><li><p>消费者接收消息</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-console-consumer.sh --bootstrap-server 192.168.56.110:9092 --topic first-topic --from-beginning</span><br></pre></td></tr></table></figure></li><li><p>查看消息日志</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-run-class.sh kafka.tools.DumpLogSegments --files /tmp/kafka-logs/first-topic-0/00000000000000000000.log --<span class="built_in">print</span>-data-log</span><br></pre></td></tr></table></figure></li></ol><h3 id="4-Kafka中的概念"><a href="#4-Kafka中的概念" class="headerlink" title="4. Kafka中的概念"></a>4. Kafka中的概念</h3><h4 id="Message"><a href="#Message" class="headerlink" title="Message"></a>Message</h4><p>消息是 Kafka 中最基本的数据单元，由 Key/Value 组成(byte[])，根据Key的哈希值路由到不同区间进行存储。Kafka 会对消息进行压缩和批量发送。</p><h4 id="Topic"><a href="#Topic" class="headerlink" title="Topic"></a>Topic</h4><p>topic 是用于存储消息的逻辑单元，可以看作一个消息集合，每个 topic 可以有多个生产者向其推送消息，也可以有任意多个消费者。</p><h4 id="Partition"><a href="#Partition" class="headerlink" title="Partition"></a>Partition</h4><p>每个 topic 可以划分多个分区，即 Kafka 存储消息的物理单元。Partition 是以文件的形式存储在 kafka-logs 目录下，命名规则是 <code>&lt;topic_name&gt;-&lt;partition_id&gt;</code>。</p><h4 id="Group"><a href="#Group" class="headerlink" title="Group"></a>Group</h4><p>Kafka 中的逻辑分组，同一个组内的一条消息只被一个组员消费，并且共同维护 consumer offset。不同组内的消费者可以同时消费同一条消息，实现 pub/sub 模式。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;1-Kafka是什么&quot;&gt;&lt;a href=&quot;#1-Kafka是什么&quot; class=&quot;headerlink&quot; title=&quot;1. Kafka是什么?&quot;&gt;&lt;/a&gt;1. Kafka是什么?&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://kafk
+      
+    
+    </summary>
+    
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+      <category term="MQ" scheme="https://joecnn.github.io/wiki-site/tags/MQ/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ActiveMQ configuration</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/ActiveMQ%20configuration/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/分布式/ActiveMQ configuration/</id>
+    <published>2018-12-26T16:00:00.000Z</published>
+    <updated>2019-02-06T12:06:06.061Z</updated>
+    
+    <content type="html"><![CDATA[<p>ActiveMQ使用过程中涉及到的一些配置信息。</p><h3 id="1-传输协议配置"><a href="#1-传输协议配置" class="headerlink" title="1. 传输协议配置"></a>1. 传输协议配置</h3><p>支持 TCP, UDP, NIO, SSL, HTTP(S), VM 等协议.<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">transportConnectors</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- DOS protection, limit concurrent connections to 1000 and frame size to 100MB --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">transportConnector</span> <span class="attr">name</span>=<span class="string">"nio"</span> <span class="attr">uri</span>=<span class="string">"nio://0.0.0.0:61618?maximumConnections=1000&amp;amp;wireFormat.maxFrameSize=104857600"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">transportConnectors</span>&gt;</span></span><br></pre></td></tr></table></figure></p><h3 id="2-持久化策略配置"><a href="#2-持久化策略配置" class="headerlink" title="2. 持久化策略配置"></a>2. 持久化策略配置</h3><p>支持的持久化方式有 kahaDB, AMQ, JDBC, Memory.</p><h4 id="使用-AMQ-文件存储"><a href="#使用-AMQ-文件存储" class="headerlink" title="使用 AMQ 文件存储"></a>使用 AMQ 文件存储</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">amqPersistenceAdapter</span> <span class="attr">directory</span>=<span class="string">"$&#123;activemq.data&#125;/amq"</span> <span class="attr">maxFileLength</span>=<span class="string">"32m"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br></pre></td></tr></table></figure><h4 id="使用-JDBC-存储"><a href="#使用-JDBC-存储" class="headerlink" title="使用 JDBC 存储"></a>使用 JDBC 存储</h4><p>使用jdbc数据库存储的方式，需要连接到对应的数据源，要在<code>../lib</code>下加入连接包。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- jdbc存储策略 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">jdbcPersistenceAdapter</span> <span class="attr">dataSource</span>=<span class="string">"#mysqlDataSource"</span> <span class="attr">createTablesOnStartup</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 数据源配置 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"mysqlDataSource"</span> <span class="attr">class</span>=<span class="string">"org.apache.commons.dbcp.BasicDataSource"</span> <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"com.mysql.jdbc.Driver"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"jdbc:mysql://192.168.56.104:3306/practice_dev"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"root"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"123456"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></p><h3 id="3-集群配置"><a href="#3-集群配置" class="headerlink" title="3. 集群配置"></a>3. 集群配置</h3><p>配置多态activemq服务进行联通，提高消息服务的性能。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- broker 添加此配置 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">networkConnectors</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">networkConnector</span> <span class="attr">uri</span>=<span class="string">"static://(tcp://192.168.56.110:61616,tcp://192.168.56.120:61616)"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">networkConnectors</span>&gt;</span></span><br></pre></td></tr></table></figure></p><p>配置集群后，当使用某一个节点消费时，会将另外节点的数据转移到此节点上，导致在原节点无法再消费。此时需要配置==消息回流==<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 消息回流支持，添加在 policyEntries下--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">policyEntry</span> <span class="attr">queue</span>=<span class="string">"&gt;"</span> <span class="attr">enableAudit</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">networkBridgeFilterFactory</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">conditionalNetworkBridgeFilterFactory</span> <span class="attr">replayWhenNoConsumers</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">networkBridgeFilterFactory</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">policyEntry</span>&gt;</span></span><br></pre></td></tr></table></figure></p><h3 id="4-zk-activemq高可用配置"><a href="#4-zk-activemq高可用配置" class="headerlink" title="4. zk+activemq高可用配置"></a>4. zk+activemq高可用配置</h3><p>使用ZK进行master/slaver选举管理，在ZK中维护了临时有序节点，最先启动的先获得master。</p><ul><li>directory： levelDB数据文件存储的位置</li><li>replicas：计算公式（replicas/2）+1  ， 当replicas的值为2的时候， 最终的结果是2. 表示集群中至少2台是启动时才能提供服务</li><li>bind:  用来负责slave和master的数据同步的端口和ip</li><li>zkAddress： 表示zk的服务端地址</li><li>hostname：本机ip<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">replicatedLevelDB</span> <span class="attr">directory</span>=<span class="string">"$&#123;activemq.data&#125;/levelDB"</span> </span></span><br><span class="line"><span class="tag">                <span class="attr">replicas</span>=<span class="string">"2"</span> <span class="attr">bind</span>=<span class="string">"tcp://0.0.0.0:61615"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">zkAddress</span>=<span class="string">"192.168.56.110:2181"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">hostname</span>=<span class="string">"192.168.56.110"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">zkPath</span>=<span class="string">"/activemq/leveldb"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br></pre></td></tr></table></figure></li></ul><h3 id="5-hawtio-监控服务"><a href="#5-hawtio-监控服务" class="headerlink" title="5. hawtio 监控服务"></a>5. hawtio 监控服务</h3><ol><li>拷贝hawtio.war包到webapps目录下.</li><li><p>添加jetty容器映射<code>rewriteHandler</code>:</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.eclipse.jetty.webapp.WebAppContext"</span>&gt;</span>        </span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"contextPath"</span> <span class="attr">value</span>=<span class="string">"/hawtio"</span> /&gt;</span>        </span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"war"</span> <span class="attr">value</span>=<span class="string">"$&#123;activemq.home&#125;/webapps/hawtio.war"</span> /&gt;</span>        </span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"logUrlOnStart"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></li><li><p>修改 bin/env 文件添加参数   </p><blockquote><p>需要注意的是-Dhawtio的三个设定必须放在ACTIVEMQ_OPTS设置的最前面(在内存参数设置之后),否则会出现验证无法通过的错误(另外,ACTIVEMQ_OPTS的设置语句不要回车换行)</p></blockquote></li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Dhawtio.realm=activemq -Dhawtio.role=admins -Dhawtio.rolePrincipalClasses=org.apache.activemq.jaas.GroupPrincipal</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;ActiveMQ使用过程中涉及到的一些配置信息。&lt;/p&gt;
+&lt;h3 id=&quot;1-传输协议配置&quot;&gt;&lt;a href=&quot;#1-传输协议配置&quot; class=&quot;headerlink&quot; title=&quot;1. 传输协议配置&quot;&gt;&lt;/a&gt;1. 传输协议配置&lt;/h3&gt;&lt;p&gt;支持 TCP, UDP,
+      
+    
+    </summary>
+    
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+      <category term="MQ" scheme="https://joecnn.github.io/wiki-site/tags/MQ/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>事务的4种隔离级别</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%AD%98%E5%82%A8/%E4%BA%8B%E5%8A%A1%E7%9A%844%E7%A7%8D%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/存储/事务的4种隔离级别/</id>
+    <published>2018-12-23T11:20:00.000Z</published>
+    <updated>2019-02-06T13:14:27.577Z</updated>
+    
+    <content type="html"><![CDATA[<p>数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable 。而且，在事务的==并发操作==中可能会出现脏读，不可重复读，幻读。下面通过事例一一阐述它们的概念与联系。</p><hr><h3 id="Read-uncommitted"><a href="#Read-uncommitted" class="headerlink" title="Read uncommitted"></a>Read uncommitted</h3><p>读未提交，顾名思义，就是一个事务可以读取另一个未提交事务的数据。</p><p>事例：老板要给程序员发工资，程序员的工资是3.6万/月。但是发工资时老板不小心按错了数字，按成3.9万/月，该钱已经打到程序员的户口，但是事务还没有提交，就在这时，程序员去查看自己这个月的工资，发现比往常多了3千元，以为涨工资了非常高兴。但是老板及时发现了不对，马上回滚差点就提交了的事务，将数字改成3.6万再提交。</p><p>分析：实际程序员这个月的工资还是3.6万，但是程序员看到的是3.9万。他看到的是老板还没提交事务时的数据。这就是==脏读==。</p><blockquote><p>那怎么解决脏读呢？Read committed！读提交，能解决脏读问题。</p></blockquote><h3 id="Read-committed"><a href="#Read-committed" class="headerlink" title="Read committed"></a>Read committed</h3><p>读提交，顾名思义，就是一个事务要等另一个事务提交后才能读取数据。</p><p>事例：程序员拿着信用卡去享受生活（卡里当然是只有3.6万），当他埋单时（程序员事务开启），收费系统事先检测到他的卡里有3.6万，就在这个时候！！程序员的妻子要把钱全部转出充当家用，并提交。当收费系统准备扣款时，再检测卡里的金额，发现已经没钱了（==第二次检测金额当然要等待妻子转出金额事务提交完==）。程序员就会很郁闷，明明卡里是有钱的…</p><p>分析：这就是读提交，若有事务对数据进行更新（UPDATE）操作时，读操作事务要等待这个更新操作事务提交后才能读取数据，可以解决脏读问题。但在这个事例中，出现了==一个事务范围内两个相同的查询却返回了不同数据==，这就是==不可重复读==。</p><blockquote><p>那怎么解决可能的不可重复读问题？Repeatable read ！</p></blockquote><h3 id="Repeatable-read"><a href="#Repeatable-read" class="headerlink" title="Repeatable read"></a>Repeatable read</h3><p>重复读，就是在开始读取数据（事务开启）时，不再允许修改操作</p><p>事例：程序员拿着信用卡去享受生活（卡里当然是只有3.6万），当他埋单时（==事务开启，不允许其他事务的UPDATE修改操作==），收费系统事先检测到他的卡里有3.6万。这个时候他的妻子不能转出金额了。接下来收费系统就可以扣款了。</p><p>分析：重复读可以解决不可重复读问题。写到这里，应该明白的一点就是，==不可重复读对应的是修改，即UPDATE操作==。但是可能还会有幻读问题。因为==幻读==问题对应的是插入INSERT操作，而不是UPDATE操作。</p><h5 id="什么时候会出现幻读？"><a href="#什么时候会出现幻读？" class="headerlink" title="什么时候会出现幻读？"></a>什么时候会出现幻读？</h5><p>事例：程序员某一天去消费，花了2千元，然后他的妻子去查看他今天的消费记录（全表扫描FTS，妻子事务开启），看到确实是花了2千元，就在这个时候，程序员花了1万买了一部电脑，即新增==INSERT==了一条消费记录，并提交。当妻子打印程序员的消费记录清单时（妻子事务提交），发现花了1.2万元，似乎出现了幻觉，这就是幻读。</p><blockquote><p>那怎么解决幻读问题？Serializable！</p></blockquote><h3 id="Serializable-序列化"><a href="#Serializable-序列化" class="headerlink" title="Serializable 序列化"></a>Serializable 序列化</h3><p>Serializable 是最高的事务隔离级别，在该级别下，事务==串行化顺序执行==，可以避免脏读、不可重复读与幻读。但是这种事务隔离级别效率低下，比较耗数据库性能，一般不使用。</p><hr><p>值得一提的是：大多数数据库默认的事务隔离级别是Read committed，比如Sql Server , Oracle。Mysql的默认隔离级别是Repeatable read。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable 。而且，在事务的==并发操作==中可能会出现脏读，不可重复读，幻读。下面通过事例一一阐述它们的概念与联系
+      
+    
+    </summary>
+    
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="存储" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%AD%98%E5%82%A8/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>zookeeper 应用篇</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/zookeeper%20%E5%BA%94%E7%94%A8%E7%AF%87/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/分布式/zookeeper 应用篇/</id>
+    <published>2018-12-17T16:00:00.000Z</published>
+    <updated>2019-02-06T12:03:31.765Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h3><p>zookeeper 实际应用非常的广泛，只要涉及到分布式系统中的问题，都可以尝试使用 zookeeper 解决。  </p><p>但 zookeeper 不是内存数据库，存储的内容应该都是比较简短的配置信息，zookeeper 的常用应用如下：</p><ul><li>配置管理中心</li><li>软负载均衡</li><li>分布式锁</li><li>master选举</li><li>分布式队列</li></ul><h4 id="1-配置管理中心"><a href="#1-配置管理中心" class="headerlink" title="1. 配置管理中心"></a>1. 配置管理中心</h4><p>在分布式系统中，多个服务运行在不同的服务器上，这时候再使用 <code>application.properties</code> 文件进行配置管理，将会非常的繁琐和易出错。<br>使用 zookeeper 做为统一的配置中心，可以实现配置信息动态设置，多服务节点切换等功能。</p><h5 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h5><blockquote><p>开源配置中心实现：disconf</p></blockquote><ol><li>创建统一个节点 <code>/configure</code> 作为配置信息的根节点。</li><li>客户端启动时拉取<code>(pull)</code>所有的子节点，载入到内存进行缓存。</li><li>启动后的客户端，对关注的配置节点进行 <code>watch</code> 获取到后续动态更新的配置信息<code>(push)</code>。</li><li>可以按<code>module</code>划分配置信息节点树。</li></ol><h4 id="2-分布式锁"><a href="#2-分布式锁" class="headerlink" title="2. 分布式锁"></a>2. 分布式锁</h4><p>在分布式系统中，多个服务对同一资源进行争抢时要用到锁，防止因为并发操作导致数据出现的不一致行为。使用 zookeeper 可以优雅的思想分布式锁，而且性能堪比 redis 实现。</p><h5 id="实现思路-1"><a href="#实现思路-1" class="headerlink" title="实现思路"></a>实现思路</h5><blockquote><p>开源分布式锁实现：curator lock</p></blockquote><ol><li>创建统一节点 <code>/locks</code> 作为业务锁的根节点。</li><li>当服务执行时，均在 <code>locks</code> 下创建临时有序节点。</li><li>当前序号最小的节点获得锁，序号大的监听上一个节点的删除事件</li><li>当捕获到删除事件，或 <code>session</code> 超时(临时节点特性，连接断开删除节点)时，后一个节点获得锁。</li><li>可以扩展做读写锁，分类锁，业务模块锁。 </li></ol><p>PS：如果使用创建同一节点的方式，会产生羊群效应，因为过多的服务请求涌入而压垮 zookeeper 集群。</p><h4 id="3-master-选举"><a href="#3-master-选举" class="headerlink" title="3. master 选举"></a>3. master 选举</h4><p>在分布式系统中，为提高可用性通常可以使用冷备或热备的形式进行冗余，master-slaver模式下其实只有一个节点处理事务，而当 master 节点宕机后，热备的 slaver 自动顶替 master 节点进行处理。  </p><h5 id="实现思路-2"><a href="#实现思路-2" class="headerlink" title="实现思路"></a>实现思路</h5><blockquote><p>开源 master选举实现：curator selector</p></blockquote><ol><li>在服务器启动时，均到 zookeeper 参数创建临时节点 <code>/master</code>。</li><li>创建成功的服务器成为 master, 其它服务器进行事件监听。</li><li>当事件触发后，重新进行选举(热备自动切换)。</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;实际应用&quot;&gt;&lt;a href=&quot;#实际应用&quot; class=&quot;headerlink&quot; title=&quot;实际应用&quot;&gt;&lt;/a&gt;实际应用&lt;/h3&gt;&lt;p&gt;zookeeper 实际应用非常的广泛，只要涉及到分布式系统中的问题，都可以尝试使用 zookeeper 解决。  &lt;/p&gt;
+      
+    
+    </summary>
+    
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
   </entry>
   
@@ -62,6 +332,34 @@
     
     
       <category term="linux" scheme="https://joecnn.github.io/wiki-site/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Zookeeper quickstart</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/Zookeeper%20quickstart/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/分布式/Zookeeper quickstart/</id>
+    <published>2018-12-15T16:00:00.000Z</published>
+    <updated>2019-02-06T12:17:08.606Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-zookeeper-是什么？"><a href="#1-zookeeper-是什么？" class="headerlink" title="1. zookeeper 是什么？"></a>1. zookeeper 是什么？</h3><blockquote><p>ZooKeeper is a centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services. </p></blockquote><p>zookeeper 是Apache基金会的一个项目，它为大型分布式计算提供开源的分布式配置服务、同步服务和命名注册，是分布式协调服务，目标是解决分布式数据的一致性问题。</p><h3 id="2-zookeeper-能做什么？"><a href="#2-zookeeper-能做什么？" class="headerlink" title="2. zookeeper 能做什么？"></a>2. zookeeper 能做什么？</h3><p>数据的发布/订阅(配置中心 disconf)、 负载均衡(dubbo)、唯一ID生成器、统一命名服务、master选举(kafka, hadoop, hbase)、分布式队列、分布式锁……</p><h3 id="3-zookeeper-的特性"><a href="#3-zookeeper-的特性" class="headerlink" title="3. zookeeper 的特性"></a>3. zookeeper 的特性</h3><blockquote><p>zookeeper 用来做的任务都是由他的特性决定的，理解了他的特性就可以根据实际的场景选择具体的方案。</p></blockquote><ul><li>顺序一致性：从客户端发起的事务请求，严格按照顺序被应用到zookeeper中</li><li>原子性：所有事务请求在集群上应用情况是一致的，要么都成功，要么都失败。</li><li>可靠性：一旦服务器应用了某个事务数据，那么这个数据一定是同步并且保留下来的。</li><li>实时性：一旦某个事务被成功应用，客户端能立即读取到最新数据状态(zookeeper 仅仅保证一定时间内的近实时性)。</li></ul><h3 id="4-安装-zookeeper"><a href="#4-安装-zookeeper" class="headerlink" title="4. 安装 zookeeper"></a>4. 安装 zookeeper</h3><h4 id="4-1-单机环境安装"><a href="#4-1-单机环境安装" class="headerlink" title="4.1 单机环境安装"></a>4.1 单机环境安装</h4><ol><li>下载安装包<br> <a href="http://apache.fayea.com/zookeeper/stable/">zookeeper-3.4.12.tar.gz</a></li><li>解压安装包<br><code>tar -zxvf zookeeper-3.4.12.tar.gz -C /usr/local/</code></li><li>创建配置文件<br><code>cd conf/ &amp;&amp; cp zoo_sample.cfg zoo.cfg</code></li><li>启动 zookeeper<br><code>cd bin/ &amp;&amp; sh zkServer.sh start</code></li><li>使用客户端连接到 zookeeper 进行操作<br><code>sh zkCli.sh -server ip:port</code></li></ol><p>单机环境下启动 zookeeper 状态为 standalone 仅用于测试或学习。</p><h4 id="4-2-集群环境安装"><a href="#4-2-集群环境安装" class="headerlink" title="4.2 集群环境安装"></a>4.2 集群环境安装</h4><blockquote><p>集群环境下至少需要2N+1台服务器进行安装</p></blockquote><ol><li>修改配置文件，添加主机列表  </li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">……</span><br><span class="line"><span class="comment"># ip:port:port </span></span><br><span class="line"><span class="comment"># ip地址 : 用于节点通信的端口 : 用于选举的端口 [:observer]</span></span><br><span class="line">server.1 = 192.168.56.110:2888:3888</span><br><span class="line">server.2 = 192.168.56.120:2888:3888</span><br><span class="line">server.3 = 192.168.56.130:2888:3888</span><br></pre></td></tr></table></figure><ol start="2"><li><p>添加 myid 文件<br>在配置文件的 <code>dataDir</code> 目录下创建 myid 文件，文件就一行数据内容是每台机器对应的server.ID的数字。</p></li><li><p>启动 zookeeper</p></li></ol><h4 id="4-3-zookeeper-节点类型"><a href="#4-3-zookeeper-节点类型" class="headerlink" title="4.3 zookeeper 节点类型"></a>4.3 zookeeper 节点类型</h4><ol><li>leader : 领导节点，主要接收、分发请求，发起事务处理投票，并给 follower 节点同步数据。</li><li>follower : 随从节点，处理读请求，转发事务请求，并保持和 leader 节点同步和事务的投票选举。</li><li>observer : 监控节点，处理读请求，保持和 leader 节点同步但不进行投票选举。</li></ol><h3 id="5-zookeeper-客户端命令使用"><a href="#5-zookeeper-客户端命令使用" class="headerlink" title="5. zookeeper 客户端命令使用"></a>5. zookeeper 客户端命令使用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出路径下的所有节点</span></span><br><span class="line">ls / </span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建节点</span></span><br><span class="line"><span class="comment"># -s 临时节点  -e 有序节点  acl 权限</span></span><br><span class="line">create [-s] [-e] path data acl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取节点信息</span></span><br><span class="line">get path</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新节点内容</span></span><br><span class="line"><span class="comment"># version 类似数据库乐观锁的实现</span></span><br><span class="line"><span class="built_in">set</span> path data [version]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除节点</span></span><br><span class="line">delete path [version]</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;1-zookeeper-是什么？&quot;&gt;&lt;a href=&quot;#1-zookeeper-是什么？&quot; class=&quot;headerlink&quot; title=&quot;1. zookeeper 是什么？&quot;&gt;&lt;/a&gt;1. zookeeper 是什么？&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p
+      
+    
+    </summary>
+    
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
   </entry>
   
@@ -149,6 +447,32 @@
   </entry>
   
   <entry>
+    <title>VirtualBox共享文件</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%B7%A5%E5%85%B7/VirtualBox%20%E5%85%B1%E4%BA%AB%E6%96%87%E4%BB%B6/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/工具/VirtualBox 共享文件/</id>
+    <published>2018-10-15T16:00:00.000Z</published>
+    <updated>2019-02-06T11:56:08.573Z</updated>
+    
+    <content type="html"><![CDATA[<p><code>VirtualBox</code> 与 <code>Linux</code> 虚拟机 可以通过 <code>VBoxGuestAdditions</code> 插件进行文件共享。</p><h5 id="1-设置共享文件夹"><a href="#1-设置共享文件夹" class="headerlink" title="1. 设置共享文件夹"></a>1. 设置共享文件夹</h5><p>在 <code>VirtualBox</code> 的<strong>共享文件夹</strong>设置中添加设置。</p><h5 id="2-安装-VBoxGuestAdditions-插件"><a href="#2-安装-VBoxGuestAdditions-插件" class="headerlink" title="2. 安装 VBoxGuestAdditions 插件"></a>2. 安装 VBoxGuestAdditions 插件</h5><blockquote><p>需要在 <code>linux</code> 虚拟机中安装</p></blockquote><ul><li><p>将 <code>$VirtualBox\VBoxGuestAdditions.iso</code> 装载到光驱</p></li><li><p>挂载 cdrom：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir /media/cdrom &amp;&amp; mount /dev/sr0 /media/cdrom</span><br></pre></td></tr></table></figure></li><li><p>安装插件：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /media/cdrom &amp;&amp;  ./VBoxLinuxAdditions.run</span><br></pre></td></tr></table></figure></li></ul><h5 id="3-验证挂载"><a href="#3-验证挂载" class="headerlink" title="3. 验证挂载"></a>3. 验证挂载</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mount -t vboxsf share ~/share</span><br><span class="line">$ df | grep &apos;share&apos;</span><br></pre></td></tr></table></figure><h5 id="4-问题与解决"><a href="#4-问题与解决" class="headerlink" title="4. 问题与解决"></a>4. 问题与解决</h5><ul><li><p>mount: unknown filesystem type ‘vboxsf’.</p><blockquote><p>未成功安装 VBoxGuestAdditions 插件</p></blockquote></li><li><p>VBoxGuestAdditions 安装失败.</p><blockquote><p>查看 /var/log/vbxadd-install.log 错误信息，一般为依赖的包未安装<br><code>$ yum install gcc kernel-devel kernel-headers dkms make bzip2</code></p></blockquote></li><li><p>ERROR: Kernel configuration is invalid.</p><blockquote><p>此错误是编译的 VBoxGuestAdditions 版本太老，新的 kernel 不必指定include/linux/autoconf.h，更新virtualbox即可</p></blockquote></li><li><p>Please install the Linux kernel “header” files matching the current kernel for adding new hardware support to the system.</p><blockquote><p>此问题为默认安装的 kernel-devel 包与当前内核版本不同，重新安装对应包即可<br><code>$ sudo yum install -y &quot;kernel-devel-$(uname -r)&quot;</code></p></blockquote></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;code&gt;VirtualBox&lt;/code&gt; 与 &lt;code&gt;Linux&lt;/code&gt; 虚拟机 可以通过 &lt;code&gt;VBoxGuestAdditions&lt;/code&gt; 插件进行文件共享。&lt;/p&gt;
+&lt;h5 id=&quot;1-设置共享文件夹&quot;&gt;&lt;a href=&quot;#1-设置共享文件
+      
+    
+    </summary>
+    
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="工具" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Docker镜像仓库加速</title>
     <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/docker/docker%20%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/"/>
     <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/docker/docker 镜像加速/</id>
@@ -209,8 +533,8 @@
   
   <entry>
     <title>《刻意练习》读书笔记</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0/%E3%80%8A%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/生活学习/《刻意练习》读书笔记/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E9%98%85%E8%AF%BB%E5%AD%A6%E4%B9%A0/%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/阅读学习/刻意练习/</id>
     <published>2018-05-11T16:00:00.000Z</published>
     <updated>2019-02-06T10:00:34.363Z</updated>
     
@@ -226,7 +550,7 @@
     
     </summary>
     
-      <category term="生活学习" scheme="https://joecnn.github.io/wiki-site/categories/%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0/"/>
+      <category term="阅读学习" scheme="https://joecnn.github.io/wiki-site/categories/%E9%98%85%E8%AF%BB%E5%AD%A6%E4%B9%A0/"/>
     
     
       <category term="读书" scheme="https://joecnn.github.io/wiki-site/tags/%E8%AF%BB%E4%B9%A6/"/>
@@ -235,8 +559,8 @@
   
   <entry>
     <title>深度阅读</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E9%98%85%E8%AF%BB/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/生活学习/深度阅读/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E9%98%85%E8%AF%BB%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E9%98%85%E8%AF%BB/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/阅读学习/深度阅读/</id>
     <published>2018-04-19T16:00:00.000Z</published>
     <updated>2019-02-06T10:01:34.849Z</updated>
     
@@ -255,296 +579,10 @@
     
     </summary>
     
-      <category term="生活学习" scheme="https://joecnn.github.io/wiki-site/categories/%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0/"/>
+      <category term="阅读学习" scheme="https://joecnn.github.io/wiki-site/categories/%E9%98%85%E8%AF%BB%E5%AD%A6%E4%B9%A0/"/>
     
     
       <category term="读书" scheme="https://joecnn.github.io/wiki-site/tags/%E8%AF%BB%E4%B9%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Docker Mysql</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/docker/docker%20mysql/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/docker/docker mysql/</id>
-    <published>2018-03-07T13:30:00.000Z</published>
-    <updated>2019-02-06T08:40:09.114Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="docker-mysql"><a href="#docker-mysql" class="headerlink" title="docker mysql"></a>docker mysql</h3><blockquote><p>docker 下启动 mysql 实例步骤</p></blockquote><h4 id="1-查询镜像-images"><a href="#1-查询镜像-images" class="headerlink" title="1. 查询镜像 images"></a>1. 查询镜像 images</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker images</span><br><span class="line">$ docker search mysql</span><br><span class="line">$ docker pull mysql</span><br></pre></td></tr></table></figure><h4 id="2-创建数据进行映射"><a href="#2-创建数据进行映射" class="headerlink" title="2. 创建数据进行映射"></a>2. 创建数据进行映射</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p /var/docker_data/mysql/data</span><br><span class="line">$ chmod 775 -R /var/docker_data/mysql</span><br></pre></td></tr></table></figure><h4 id="3-运行容器"><a href="#3-运行容器" class="headerlink" title="3. 运行容器"></a>3. 运行容器</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -p 3306:3306 --name mysql-dev -v /var/docker_data/mysql/data/:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=asdf123456 -e MYSQL_USER=root -d mysql</span><br></pre></td></tr></table></figure><h4 id="4-验证是否已启动"><a href="#4-验证是否已启动" class="headerlink" title="4. 验证是否已启动"></a>4. 验证是否已启动</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker ps</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;docker-mysql&quot;&gt;&lt;a href=&quot;#docker-mysql&quot; class=&quot;headerlink&quot; title=&quot;docker mysql&quot;&gt;&lt;/a&gt;docker mysql&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;docker 下启动 mysql 
-      
-    
-    </summary>
-    
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
-    
-      <category term="docker" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/docker/"/>
-    
-    
-      <category term="docker" scheme="https://joecnn.github.io/wiki-site/tags/docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Git安装</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/Git%E5%AE%89%E8%A3%85/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/git/Git安装/</id>
-    <published>2017-12-25T16:00:00.000Z</published>
-    <updated>2019-02-06T09:15:00.440Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-从源码安装"><a href="#1-从源码安装" class="headerlink" title="1. 从源码安装"></a>1. 从源码安装</h3><p>Git的工作需要调用 curl, zlib, openssl, expat, libconv 等库，所以需要先安装这些依赖工具。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel</span><br></pre></td></tr></table></figure></p><h5 id="之后从Git官方站点下载源码："><a href="#之后从Git官方站点下载源码：" class="headerlink" title="之后从Git官方站点下载源码："></a>之后从Git官方站点下载源码：</h5><pre><code>http://git-scm.com/download </code></pre><h5 id="进行编译安装："><a href="#进行编译安装：" class="headerlink" title="进行编译安装："></a>进行编译安装：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxf git-1.7.2.2.tar.gz </span><br><span class="line">$ <span class="built_in">cd</span> git-1.7.2.2 </span><br><span class="line">$ make prefix=/usr/<span class="built_in">local</span> all </span><br><span class="line">$ sudo make prefix=/usr/<span class="built_in">local</span> install</span><br></pre></td></tr></table></figure><h3 id="2-在-Linux-上安装"><a href="#2-在-Linux-上安装" class="headerlink" title="2. 在 Linux 上安装"></a>2. 在 Linux 上安装</h3><p>如果要在 Linux 上安装预编译好的 Git 安装包，使用系统提供的包管理工具即可：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum install git-core </span><br><span class="line">$ apt-get install git-core</span><br></pre></td></tr></table></figure></p><h3 id="3-在-Mac-上安装"><a href="#3-在-Mac-上安装" class="headerlink" title="3. 在 Mac 上安装"></a>3. 在 Mac 上安装</h3><p>在 Mac 上安装有两种方式，一种是下载 Git 安装工具，下载地址：<br>    <a href="http://git-scm.com/download/mac">http://git-scm.com/download/mac</a> </p><p>另一种是通过 MacPorts 安装，用下面的命令安装：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo port install git-core +svn +doc +bash_completion +gitweb</span><br></pre></td></tr></table></figure></p><h3 id="4-在-Windows-上安装"><a href="#4-在-Windows-上安装" class="headerlink" title="4. 在 Windows 上安装"></a>4. 在 Windows 上安装</h3><p>在 Windows 上安装非常简单，只要下载 Git 安装工具，下载地址：<br>    <a href="http://git-scm.com/download/win">http://git-scm.com/download/win</a> </p><h3 id="5-初始配置"><a href="#5-初始配置" class="headerlink" title="5. 初始配置"></a>5. 初始配置</h3><p>一般在新的系统上，首先要配置 Git 的工作环境，Git 提供了 git config 的工具，用于配置和读取工作环境变量，这些变量可以存放在以下三个不同地方： </p><ul><li>/etc/gitconfig 文件：对系统中所有用户都适用，若使用 git config 时用 –system 选项，读写的就是这个文件。 </li><li>~/.gitconfig 文件：用户目录下仅用于用户，若使用 git config 时用 –global 选项，读写的就是这个文件。 </li><li>当前项目的 git 目录中的配置文件：这里的配置仅仅对当前项目有效。每一个级别的配置都会覆盖上层的相同配置。 </li></ul><h5 id="第一个要配置的是账户名称和邮箱地址："><a href="#第一个要配置的是账户名称和邮箱地址：" class="headerlink" title="第一个要配置的是账户名称和邮箱地址："></a>第一个要配置的是账户名称和邮箱地址：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name <span class="string">"joecnn"</span> </span><br><span class="line">$ git config --global user.email <span class="string">"starworking@126.com "</span></span><br></pre></td></tr></table></figure><h5 id="配置文本编辑器："><a href="#配置文本编辑器：" class="headerlink" title="配置文本编辑器："></a>配置文本编辑器：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global core.editor vim</span><br></pre></td></tr></table></figure><h5 id="配置差异分析工具："><a href="#配置差异分析工具：" class="headerlink" title="配置差异分析工具："></a>配置差异分析工具：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global merge.tool vimdiff</span><br></pre></td></tr></table></figure><h3 id="6-查看配置信息"><a href="#6-查看配置信息" class="headerlink" title="6. 查看配置信息"></a>6. 查看配置信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --list</span><br></pre></td></tr></table></figure><h3 id="7-获取帮助"><a href="#7-获取帮助" class="headerlink" title="7. 获取帮助"></a>7. 获取帮助</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">help</span>  </span><br><span class="line">$ man git-</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;1-从源码安装&quot;&gt;&lt;a href=&quot;#1-从源码安装&quot; class=&quot;headerlink&quot; title=&quot;1. 从源码安装&quot;&gt;&lt;/a&gt;1. 从源码安装&lt;/h3&gt;&lt;p&gt;Git的工作需要调用 curl, zlib, openssl, expat, libconv 等
-      
-    
-    </summary>
-    
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
-    
-      <category term="git" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/"/>
-    
-    
-      <category term="git" scheme="https://joecnn.github.io/wiki-site/tags/git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Git基本操作</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/git/Git基本操作/</id>
-    <published>2017-12-25T16:00:00.000Z</published>
-    <updated>2019-02-06T09:16:29.603Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-取得-Git-仓库"><a href="#1-取得-Git-仓库" class="headerlink" title="1. 取得 Git 仓库"></a>1. 取得 Git 仓库</h3><p>有两种取得 Git 项目仓库的方法，第一种是在现存的目录下，通过<strong>初始化文件夹</strong>来创建新的 Git 仓库：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure></p><p>第二种是<strong>克隆仓库</strong>项目，Git 支持许多数据传输协议(git://, http(s)://, ssh)：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> [url] new_project_name</span><br></pre></td></tr></table></figure></p><h3 id="2-检查当前文件状态"><a href="#2-检查当前文件状态" class="headerlink" title="2. 检查当前文件状态"></a>2. 检查当前文件状态</h3><p>要确定<strong>文件状态</strong>，可以使用 git status 命令。文件状态分为： </p><ul><li>untracked files: 未跟踪 </li><li>changes to be committed: 已暂存 </li><li>changed but not updated: 已修改，未暂存 </li></ul><h3 id="3-追踪文件"><a href="#3-追踪文件" class="headerlink" title="3. 追踪文件"></a>3. 追踪文件</h3><p>使用命令 git add 开始跟踪文件或文件夹：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git add README</span><br></pre></td></tr></table></figure></p><blockquote><p>git add 命令是个多功能命令，根据目标文件的状态不同，此命令的效果也不同：可以用它开始跟踪新文件，或者把已跟踪的文件放到暂存区，还能用于合并时把有冲突的文件标记为已解决状态等。</p></blockquote><h3 id="4-忽略文件"><a href="#4-忽略文件" class="headerlink" title="4. 忽略文件"></a>4. 忽略文件</h3><p>当某些文件无需纳入 Git 管理时，可以创建一个名为 <strong>.gitignore</strong> 的文件，列出要忽略的文件模式。文件 .gitignore 的格式如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 此为注释 – 将被 Git 忽略 </span></span><br><span class="line">*.a       <span class="comment"># 忽略所有 .a 结尾的文件 </span></span><br><span class="line">!lib.a    <span class="comment"># 但 lib.a 除外 </span></span><br><span class="line">/TODO     <span class="comment"># 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO </span></span><br><span class="line">build/    <span class="comment"># 忽略 build/ 目录下的所有文件 </span></span><br><span class="line"> doc/*.txt <span class="comment"># 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt</span></span><br></pre></td></tr></table></figure></p><p> 对现有项目添加 git gitignore 不生效的解决办法： .gitignore 不生效解决方法</p><h3 id="5-查看已暂存和未暂存的变更内容"><a href="#5-查看已暂存和未暂存的变更内容" class="headerlink" title="5. 查看已暂存和未暂存的变更内容"></a>5. 查看已暂存和未暂存的变更内容</h3><p>如果想要查看具体修改内容，可以使用 git diff 命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git diff</span><br></pre></td></tr></table></figure></p><p>此命令比较的是当前目录文件和暂存区快照之间的差异，也就是被修改后没有暂存的内容。<br>如果想要查看暂存起来的文件和上次提交时的文件的差异，可以使用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git diff --cached </span><br><span class="line">$ git diff --staged  <span class="comment">#v1.6.1+</span></span><br></pre></td></tr></table></figure></p><h3 id="6-提交更新"><a href="#6-提交更新" class="headerlink" title="6. 提交更新"></a>6. 提交更新</h3><p>当将所有文件加入暂存区后可以提交了，运行命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m <span class="string">"提交已经暂存(add)过的变更"</span></span><br></pre></td></tr></table></figure></p><p>给 git commit 加上 -a 选项，跳过暂存步骤，自动将所有已跟踪过的文件提交：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -a -m <span class="string">'直接提交变更，跳过暂存步骤'</span></span><br></pre></td></tr></table></figure></p><h3 id="7-撤消操作"><a href="#7-撤消操作" class="headerlink" title="7. 撤消操作"></a>7. 撤消操作</h3><p>某些时候，提交完后才发现漏了几个文件，或者提交信息写错了，<strong>修改最后一次提交</strong>，可以使用 –amend 选项重新提交：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git  commit  --amend  -m <span class="string">"修改备注信息"</span></span><br></pre></td></tr></table></figure></p><p>某些时间，不小心将不需要提交的文件使用了 git add，要<strong>取消暂存文件</strong>，可以使用以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git  reset  HEAD  file_name</span><br></pre></td></tr></table></figure></p><p>如果对文件修改没必要，需要<strong>撤销对文件的修改</strong>，可以使用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git  checkout  --  file_name</span><br></pre></td></tr></table></figure></p><p>注意此条命令会取消文件所有修改，回到上次提交的状态，需要谨慎使用。 </p><h3 id="8-移除文件"><a href="#8-移除文件" class="headerlink" title="8. 移除文件"></a>8. 移除文件</h3><p>移除文件，并从工作目录中删除文件，也支持正则匹配：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git  rm  -f   file_name</span><br></pre></td></tr></table></figure></p><p>另一种情况，从 Git 中移除跟踪，但仍然保留文件，使用 –cached 选项即可：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git  rm --cached file_name</span><br></pre></td></tr></table></figure></p><h3 id="9-移动文件"><a href="#9-移动文件" class="headerlink" title="9. 移动文件"></a>9. 移动文件</h3><p>重命名或移动文件，都可以使用以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git mv file_from  file_to</span><br></pre></td></tr></table></figure></p><p>其实运行 git mv 就相当于运行下面三条命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mv  README.txt README </span><br><span class="line">$ git rm README.txt </span><br><span class="line">$ git add  README</span><br></pre></td></tr></table></figure></p><h3 id="10-查看提交历史"><a href="#10-查看提交历史" class="headerlink" title="10. 查看提交历史"></a>10. 查看提交历史</h3><p>想回顾下提交历史记录，可以使用 git log 命令查看。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-p : 显示每次提交的内容差异 </span><br><span class="line">-2：仅显示最近两次更新 </span><br><span class="line">--<span class="built_in">stat</span> : 仅显示简要的增改行数统计 </span><br><span class="line">--pretty : 自定义显示风格 </span><br><span class="line">    =oneline : 放在一行显示 </span><br><span class="line">    =format:<span class="string">"%h - %an, %ar : %s"</span> 格式输出 </span><br><span class="line">--since=2.weeks : 最近时间段 </span><br><span class="line">--author=xx :  作者 </span><br><span class="line">--committer=xx : 提交者</span><br></pre></td></tr></table></figure></p><p>使用图形化工具查看历史提交记录，使用命令 gitk 即可。 </p><h3 id="11-远程仓库的使用"><a href="#11-远程仓库的使用" class="headerlink" title="11. 远程仓库的使用"></a>11. 远程仓库的使用</h3><p>要查看当前配置有哪些远程仓库，可以使用 git remote 命令，会列出每个远程仓库：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote -v</span><br></pre></td></tr></table></figure></p><p>要添加一个新的远程仓库，需要在 github 上创建一个空的仓库，指定一个简单的名字，以便引用，运行 git remote add [shortname] [url] 创建本地仓库:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add repository_name git://github.com/joecnn/imgcompact.git</span><br></pre></td></tr></table></figure></p><p>从远程仓库拉取数据到本地，但并<strong>不合并</strong>到当前工作分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch [remote-name]</span><br></pre></td></tr></table></figure></p><p>使用 git pull 命令拉取远程仓库并<strong>合并</strong>到本地分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git pull [remote-name]</span><br></pre></td></tr></table></figure></p><p>推送数据到远程仓库：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure></p><p>查看远程仓库信息：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote show origin</span><br></pre></td></tr></table></figure></p><p>远程仓库的删除和重命名：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git remote rename old_name new_name </span><br><span class="line">$ git remote rm rp_name</span><br></pre></td></tr></table></figure></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;1-取得-Git-仓库&quot;&gt;&lt;a href=&quot;#1-取得-Git-仓库&quot; class=&quot;headerlink&quot; title=&quot;1. 取得 Git 仓库&quot;&gt;&lt;/a&gt;1. 取得 Git 仓库&lt;/h3&gt;&lt;p&gt;有两种取得 Git 项目仓库的方法，第一种是在现存的目录下，通过
-      
-    
-    </summary>
-    
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
-    
-      <category term="git" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/"/>
-    
-    
-      <category term="git" scheme="https://joecnn.github.io/wiki-site/tags/git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Git介绍</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/Git%E4%BB%8B%E7%BB%8D/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/git/Git介绍/</id>
-    <published>2017-12-25T16:00:00.000Z</published>
-    <updated>2019-02-06T08:55:29.117Z</updated>
-    
-    <content type="html"><![CDATA[<p> Git是一个<font size="4" color="dark" weight="bold">分布式的版本控制系统</font>，最初由Linus Torvalds编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在Ruby社区中。  </p><h3 id="一、Git-特点"><a href="#一、Git-特点" class="headerlink" title="一、Git 特点"></a>一、Git 特点</h3><p><font size="4" color="dark" weight="bold">直接记录快照，而非差异</font>，只关心文件数据的整体是否发生变化，并不保存这些前后变化的差异数据。实际上，Git 更像是把变化的文件作快照后，记录在一个微型的文件系统中。每次提交更新时，它会纵览一遍所有文件的指纹信息并对文件作一快照，然后保存一个指向这次快照 的索引。为提高性能，若文件没有变化，Git 不会再次保存，而只对上次保存的快照作一链接。 </p><ol><li><strong>近乎所有操作都是本地执行</strong><br>Git 绝大多数操作都只访问本地文件和资源，因为 Git 在本地磁盘上就保存着所有当前项目的历史更新，所以处理起来速度飞快。而到需要上传到远程仓库或获取远程仓库上内容时才需联网。 </li><li><strong>时刻保持数据完整性：</strong><br>Git 在保存前，所有数据都要进行校验计算，并将结果做为数据的唯一标识。 </li><li><strong>多数操作仅添加数据：</strong><br>Git 操作大多数仅仅是把数据添加到数据库，一旦提交快照就完全不用担心数据丢失。 </li></ol><h3 id="二、Git-文件的三种状态"><a href="#二、Git-文件的三种状态" class="headerlink" title="二、Git 文件的三种状态"></a>二、Git 文件的三种状态</h3><ul><li><strong>已提交(commited)</strong>：表示已被安全的保存到Git仓库中。 </li><li><strong>已修改(modified)</strong>：表示已修改了某个文件，但还未提交保存。 </li><li><strong>已暂存(staged)</strong>：表示已经把已修改的文件放到下次提交时要保存的清单中。 </li></ul><h3 id="三、Git-工作流程"><a href="#三、Git-工作流程" class="headerlink" title="三、Git 工作流程"></a>三、Git 工作流程</h3><ol><li>在工作目录中修改某些文件。  </li><li>对修改后的文件进行快照，然后保存到暂存区域。</li><li>提交更新，将保存在暂存区域的文件快照永久转储到 Git 目录中</li></ol><p><img src="../../../../../images/git_flow.png" alt="git_flow"></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt; Git是一个&lt;font size=&quot;4&quot; color=&quot;dark&quot; weight=&quot;bold&quot;&gt;分布式的版本控制系统&lt;/font&gt;，最初由Linus Torvalds编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在Ruby社区中。
-      
-    
-    </summary>
-    
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
-    
-      <category term="git" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/"/>
-    
-    
-      <category term="git" scheme="https://joecnn.github.io/wiki-site/tags/git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>gitignore不生效解决方法</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/gitignore%E4%B8%8D%E7%94%9F%E6%95%88%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/git/gitignore不生效解决方法/</id>
-    <published>2017-11-17T16:00:00.000Z</published>
-    <updated>2019-02-06T09:18:26.739Z</updated>
-    
-    <content type="html"><![CDATA[<p>在git中如果想忽略掉某个文件，不让这个文件提交到版本库中，可以使用修改根目录中 .gitignore 文件的方法（如无，则需自己手工建立此文件）。这个文件每一行保存了一个匹配的规则例如：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 此为注释 – 将被 Git 忽略</span></span><br><span class="line"></span><br><span class="line">*.a       <span class="comment"># 忽略所有 .a 结尾的文件</span></span><br><span class="line">!lib.a    <span class="comment"># 但 lib.a 除外</span></span><br><span class="line">/TODO     <span class="comment"># 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO</span></span><br><span class="line">build/    <span class="comment"># 忽略 build/ 目录下的所有文件</span></span><br><span class="line">doc/*.txt <span class="comment"># 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt</span></span><br></pre></td></tr></table></figure><p>但是有时候在项目开发过程中，想把某些目录或文件加入忽略规则，按照上述方法定义后发现并未生效，原因是.gitignore只能忽略那些原来没有被track的文件，如果某些文件已经被纳入了版本管理中，则修改.gitignore是无效的。那么解决方法就是先把本地缓存删除（改变成未track状态），然后再提交：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --cached .</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">'update .gitignore'</span></span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;在git中如果想忽略掉某个文件，不让这个文件提交到版本库中，可以使用修改根目录中 .gitignore 文件的方法（如无，则需自己手工建立此文件）。这个文件每一行保存了一个匹配的规则例如：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;
-      
-    
-    </summary>
-    
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
-    
-      <category term="git" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/"/>
-    
-    
-      <category term="git" scheme="https://joecnn.github.io/wiki-site/tags/git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>常见问题收集</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/linux/常见问题收集/</id>
-    <published>2017-10-16T16:00:00.000Z</published>
-    <updated>2019-02-06T09:37:58.773Z</updated>
-    
-    <content type="html"><![CDATA[<p>此文档为使用linux过程中遇到的各种坑，以及跳出坑的方法。</p><h3 id="1-启动时提示-systemd-1-Failed-to-load-SELinux-policy-freezing-无法进入系统"><a href="#1-启动时提示-systemd-1-Failed-to-load-SELinux-policy-freezing-无法进入系统" class="headerlink" title="1. 启动时提示 systemd[1]: Failed to load SELinux policy. freezing. 无法进入系统"></a>1. 启动时提示 systemd[1]: Failed to load SELinux policy. freezing. 无法进入系统</h3><p>此问题为设置错了 SELinux 配置，在启动时按e键修改 grub，在标签 <strong>fi</strong> 内核参数中增加一个参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">selinux=0</span><br></pre></td></tr></table></figure></p><p>后按 ctrl+x 重启可进入，再修改 ==/etc/selinux/config==<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELINUX=disabled</span><br><span class="line">SELINUXTYPE=target</span><br></pre></td></tr></table></figure></p><h3 id="2-centos7-端口已开放，也开放了iptables防火墙，还是无法访问"><a href="#2-centos7-端口已开放，也开放了iptables防火墙，还是无法访问" class="headerlink" title="2. centos7 端口已开放，也开放了iptables防火墙，还是无法访问"></a>2. centos7 端口已开放，也开放了iptables防火墙，还是无法访问</h3><p>此问题为 centos7 已默认使用 firewall 为防火墙！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#关闭防火墙</span><br><span class="line">systemctl stop firewalld.service</span><br><span class="line"></span><br><span class="line">#禁止防火墙开机启动</span><br><span class="line">systemctl disable firewalld.service</span><br><span class="line"></span><br><span class="line">#查看防火墙开放端口</span><br><span class="line">firewall-cmd --list-ports</span><br><span class="line"></span><br><span class="line">#开放端口</span><br><span class="line">firewall-cmd --zone=public --add-port=80/tcp --permanent</span><br></pre></td></tr></table></figure></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;此文档为使用linux过程中遇到的各种坑，以及跳出坑的方法。&lt;/p&gt;
-&lt;h3 id=&quot;1-启动时提示-systemd-1-Failed-to-load-SELinux-policy-freezing-无法进入系统&quot;&gt;&lt;a href=&quot;#1-启动时提示-systemd-1-F
-      
-    
-    </summary>
-    
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/"/>
-    
-    
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Git标签</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/Git%E6%A0%87%E7%AD%BE/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/git/Git标签/</id>
-    <published>2017-03-30T16:00:00.000Z</published>
-    <updated>2019-02-06T08:42:05.064Z</updated>
-    
-    <content type="html"><![CDATA[<p>Git 可以对某一时间点上的版本打上标签，经常用于某个软件版本（比如v1.0等）。</p><h4 id="一、列出标签"><a href="#一、列出标签" class="headerlink" title="一、列出标签"></a>一、列出标签</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -l 表示匹配(pattern)1.0.*的标签</span></span><br><span class="line">git tag -l <span class="string">'v1.0.*'</span></span><br></pre></td></tr></table></figure><h4 id="二、新建标签"><a href="#二、新建标签" class="headerlink" title="二、新建标签"></a>二、新建标签</h4><p>Git 的标签分为两类：  </p><ul><li>轻量级(lightweight)的标签，指向特定提交的引用，就像个不会变化的==分支==。</li><li>含附注(annotated)的标签，实际上是存储在仓库中的一个==独立对象==。</li></ul><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 无参数默认创建一个轻量级标签</span></span><br><span class="line">git tag v1.0.1</span><br><span class="line"></span><br><span class="line"><span class="comment"># -a 表示创建一个含附注的标签</span></span><br><span class="line">git tag -a v1.0.1 -m <span class="string">'1.0.1版本'</span></span><br></pre></td></tr></table></figure><h4 id="三、查看标签信息"><a href="#三、查看标签信息" class="headerlink" title="三、查看标签信息"></a>三、查看标签信息</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag show v1.0</span><br></pre></td></tr></table></figure><h4 id="四、签署和验证标签"><a href="#四、签署和验证标签" class="headerlink" title="四、签署和验证标签"></a>四、签署和验证标签</h4><p>使用私钥签署(GPG)标签，需要使用对应公钥进行验证。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -s 使用私钥进行GPG签署</span></span><br><span class="line">git tag -s v1.0 -m <span class="string">'1.0版本'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -v 使用公钥进行验证</span></span><br><span class="line">git tag -v v1.0</span><br></pre></td></tr></table></figure></p><h4 id="五、推送标签到远端仓库"><a href="#五、推送标签到远端仓库" class="headerlink" title="五、推送标签到远端仓库"></a>五、推送标签到远端仓库</h4><p>添加完标签后，需要推送到远程仓库，其他人才能获取到标签信息。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 推送指定标签</span></span><br><span class="line">git push origin v1.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送所有标签</span></span><br><span class="line">git push origin --tags</span><br></pre></td></tr></table></figure></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Git 可以对某一时间点上的版本打上标签，经常用于某个软件版本（比如v1.0等）。&lt;/p&gt;
-&lt;h4 id=&quot;一、列出标签&quot;&gt;&lt;a href=&quot;#一、列出标签&quot; class=&quot;headerlink&quot; title=&quot;一、列出标签&quot;&gt;&lt;/a&gt;一、列出标签&lt;/h4&gt;&lt;figure 
-      
-    
-    </summary>
-    
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
-    
-      <category term="git" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/"/>
-    
-    
-      <category term="git" scheme="https://joecnn.github.io/wiki-site/tags/git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>安装Python3</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/%E5%AE%89%E8%A3%85Python3/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/linux/安装Python3/</id>
-    <published>2016-01-07T16:00:00.000Z</published>
-    <updated>2019-02-06T09:32:51.716Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-安装-Python-依赖包"><a href="#1-安装-Python-依赖包" class="headerlink" title="1. 安装 Python 依赖包"></a>1. 安装 Python 依赖包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum groupinstall <span class="string">"Development tools"</span></span><br><span class="line">$ yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel</span><br></pre></td></tr></table></figure><h3 id="2-下载-Python3-5-源码包并编译"><a href="#2-下载-Python3-5-源码包并编译" class="headerlink" title="2. 下载 Python3.5 源码包并编译"></a>2. 下载 Python3.5 源码包并编译</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tgz</span><br><span class="line">$ tar -zxvf Python-3.5.0.taz</span><br><span class="line">$ <span class="built_in">cd</span> Python-3.5.0</span><br></pre></td></tr></table></figure><h3 id="3-编译安装"><a href="#3-编译安装" class="headerlink" title="3. 编译安装"></a>3. 编译安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure --prefix=/usr/<span class="built_in">local</span> --<span class="built_in">enable</span>-shared</span><br><span class="line">$ make </span><br><span class="line">$ make install</span><br><span class="line">$ ln -s /usr/<span class="built_in">local</span>/bin/python3 /usr/bin/python3</span><br></pre></td></tr></table></figure><h3 id="4-在运行-Python-前配置需要库"><a href="#4-在运行-Python-前配置需要库" class="headerlink" title="4. 在运行 Python 前配置需要库"></a>4. 在运行 Python 前配置需要库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> /usr/<span class="built_in">local</span>/lib &gt;&gt; /etc/ld.so.conf.d/local.conf</span><br><span class="line">$ ldconfig</span><br></pre></td></tr></table></figure><h3 id="5-检测安装"><a href="#5-检测安装" class="headerlink" title="5. 检测安装"></a>5. 检测安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python3 --version</span><br></pre></td></tr></table></figure><h3 id="6-移除编译-Python-安装的库"><a href="#6-移除编译-Python-安装的库" class="headerlink" title="6. 移除编译 Python 安装的库"></a>6. 移除编译 Python 安装的库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum groupremove <span class="string">"Development tools"</span></span><br><span class="line">$ yum remove zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel</span><br></pre></td></tr></table></figure><h3 id="7-设置别名"><a href="#7-设置别名" class="headerlink" title="7. 设置别名"></a>7. 设置别名</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">alias</span> py=python3</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;1-安装-Python-依赖包&quot;&gt;&lt;a href=&quot;#1-安装-Python-依赖包&quot; class=&quot;headerlink&quot; title=&quot;1. 安装 Python 依赖包&quot;&gt;&lt;/a&gt;1. 安装 Python 依赖包&lt;/h3&gt;&lt;figure class=&quot;high
-      
-    
-    </summary>
-    
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/"/>
-    
-    
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>网络配置</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/linux/网络配置/</id>
-    <published>2016-01-05T16:00:00.000Z</published>
-    <updated>2019-02-06T09:24:25.002Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-检测是否已启动网卡"><a href="#1-检测是否已启动网卡" class="headerlink" title="1. 检测是否已启动网卡"></a>1. 检测是否已启动网卡</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ifconfig &amp; ifup eth0</span><br></pre></td></tr></table></figure><h3 id="2-修改对应网卡配置信息"><a href="#2-修改对应网卡配置信息" class="headerlink" title="2. 修改对应网卡配置信息"></a>2. 修改对应网卡配置信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vi /etc/sysconfig/network-scripts/ifcfg-eth0</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DEVICE=&quot;eth0&quot;</span><br><span class="line">HWADDR=&quot;00:0C:29:FD:FF:2A&quot;</span><br><span class="line">NM_CONTROLLED=&quot;yes&quot;</span><br><span class="line">ONBOOT=&quot;yes&quot;</span><br><span class="line">IPADDR=192.168.1.31</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=192.168.1.1</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">DNS1=192.168.1.1</span><br></pre></td></tr></table></figure><h3 id="3-重启网卡"><a href="#3-重启网卡" class="headerlink" title="3. 重启网卡"></a>3. 重启网卡</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ service network restart  </span><br><span class="line">$ /etc/init.d/network restart</span><br></pre></td></tr></table></figure><h3 id="4-可以安装网络图形设置工具"><a href="#4-可以安装网络图形设置工具" class="headerlink" title="4. 可以安装网络图形设置工具"></a>4. 可以安装网络图形设置工具</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install setuptool</span><br></pre></td></tr></table></figure><h3 id="5-检测网络状态"><a href="#5-检测网络状态" class="headerlink" title="5. 检测网络状态"></a>5. 检测网络状态</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service network status</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;1-检测是否已启动网卡&quot;&gt;&lt;a href=&quot;#1-检测是否已启动网卡&quot; class=&quot;headerlink&quot; title=&quot;1. 检测是否已启动网卡&quot;&gt;&lt;/a&gt;1. 检测是否已启动网卡&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;tab
-      
-    
-    </summary>
-    
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/"/>
-    
-    
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>安装gcc</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/%E5%AE%89%E8%A3%85gcc/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/linux/安装gcc/</id>
-    <published>2016-01-05T16:00:00.000Z</published>
-    <updated>2019-02-06T09:28:45.341Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="一、安装内核支持gcc"><a href="#一、安装内核支持gcc" class="headerlink" title="一、安装内核支持gcc"></a>一、安装内核支持gcc</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum -y install gcc+ gcc-c++</span><br></pre></td></tr></table></figure><h3 id="二、手动升级gcc"><a href="#二、手动升级gcc" class="headerlink" title="二、手动升级gcc"></a>二、手动升级gcc</h3><h4 id="1-获取安装包"><a href="#1-获取安装包" class="headerlink" title="1. 获取安装包"></a>1. 获取安装包</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://ftp.gnu.org/gnu/gcc/gcc-4.8.2/gcc-4.8.2.tar.bz2</span><br><span class="line">$ tar -jxvf gcc-4.8.2.tar.bz2</span><br></pre></td></tr></table></figure><h4 id="2-下载编译需要的依赖项"><a href="#2-下载编译需要的依赖项" class="headerlink" title="2. 下载编译需要的依赖项"></a>2. 下载编译需要的依赖项</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> gcc-4.8.2</span><br><span class="line">$ ./contrib/down_prerequiesites</span><br></pre></td></tr></table></figure><h4 id="3-建立一个目录供编译输出的文件存放"><a href="#3-建立一个目录供编译输出的文件存放" class="headerlink" title="3. 建立一个目录供编译输出的文件存放"></a>3. 建立一个目录供编译输出的文件存放</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir gcc-build-4.8.2</span><br></pre></td></tr></table></figure><h4 id="4-生成-Makefile-文件"><a href="#4-生成-Makefile-文件" class="headerlink" title="4. 生成 Makefile 文件"></a>4. 生成 Makefile 文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> gcc-build-4.8.2</span><br><span class="line">$ ../configure -<span class="built_in">enable</span>-checking=release -<span class="built_in">enable</span>-languages=c,c++ -<span class="built_in">disable</span>-multilib</span><br></pre></td></tr></table></figure><h4 id="5-编译-j4选项是make对多核处理器的优化"><a href="#5-编译-j4选项是make对多核处理器的优化" class="headerlink" title="5. 编译, -j4选项是make对多核处理器的优化"></a>5. 编译, -j4选项是make对多核处理器的优化</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ make -j4</span><br><span class="line">$ yum -y install glibc-devel.i686 glibc-devel</span><br></pre></td></tr></table></figure><h4 id="6-安装"><a href="#6-安装" class="headerlink" title="6. 安装"></a>6. 安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make install</span><br></pre></td></tr></table></figure><h4 id="7-检查gcc版本"><a href="#7-检查gcc版本" class="headerlink" title="7. 检查gcc版本"></a>7. 检查gcc版本</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gcc --version</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;一、安装内核支持gcc&quot;&gt;&lt;a href=&quot;#一、安装内核支持gcc&quot; class=&quot;headerlink&quot; title=&quot;一、安装内核支持gcc&quot;&gt;&lt;/a&gt;一、安装内核支持gcc&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table
-      
-    
-    </summary>
-    
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/"/>
-    
-    
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/tags/linux/"/>
     
   </entry>
   
