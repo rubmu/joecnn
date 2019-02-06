@@ -39,8 +39,8 @@
   
   <entry>
     <title>How To Open A Port In CentOS 7 With Firewalld</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/linux/How%20To%20Open%20A%20Port%20In%20CentOS%207%20With%20Firewalld/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/软件开发/linux/How To Open A Port In CentOS 7 With Firewalld/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/How%20To%20Open%20A%20Port%20In%20CentOS%207%20With%20Firewalld/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/linux/How To Open A Port In CentOS 7 With Firewalld/</id>
     <published>2018-12-16T16:00:00.000Z</published>
     <updated>2019-02-06T09:34:33.635Z</updated>
     
@@ -56,9 +56,9 @@
     
     </summary>
     
-      <category term="软件开发" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
     
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/linux/"/>
+      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/"/>
     
     
       <category term="linux" scheme="https://joecnn.github.io/wiki-site/tags/linux/"/>
@@ -67,8 +67,8 @@
   
   <entry>
     <title>Jenkins开机启动</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/Jenkins%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/软件开发/devops/Jenkins开机启动/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/Jenkins%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/Jenkins开机启动/</id>
     <published>2018-10-18T12:30:00.000Z</published>
     <updated>2019-02-06T08:40:27.490Z</updated>
     
@@ -84,9 +84,9 @@
     
     </summary>
     
-      <category term="软件开发" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
     
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/"/>
+      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
     
     
       <category term="jenkins" scheme="https://joecnn.github.io/wiki-site/tags/jenkins/"/>
@@ -95,8 +95,8 @@
   
   <entry>
     <title>添加开机运行脚本</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/linux/%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/软件开发/linux/添加开机运行脚本/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/linux/添加开机运行脚本/</id>
     <published>2018-10-17T16:00:00.000Z</published>
     <updated>2019-02-06T09:39:42.628Z</updated>
     
@@ -112,9 +112,9 @@
     
     </summary>
     
-      <category term="软件开发" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
     
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/linux/"/>
+      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/"/>
     
     
       <category term="linux" scheme="https://joecnn.github.io/wiki-site/tags/linux/"/>
@@ -123,8 +123,8 @@
   
   <entry>
     <title>Jenkins持续编译</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/Jenkins%E6%8C%81%E7%BB%AD%E7%BC%96%E8%AF%91/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/软件开发/devops/Jenkins持续编译/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/Jenkins%E6%8C%81%E7%BB%AD%E7%BC%96%E8%AF%91/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/Jenkins持续编译/</id>
     <published>2018-10-17T13:00:00.000Z</published>
     <updated>2019-02-06T08:40:31.629Z</updated>
     
@@ -139,9 +139,9 @@
     
     </summary>
     
-      <category term="软件开发" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
     
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/"/>
+      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
     
     
       <category term="jenkins" scheme="https://joecnn.github.io/wiki-site/tags/jenkins/"/>
@@ -150,12 +150,12 @@
   
   <entry>
     <title>Docker镜像仓库加速</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/docker/docker%20%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/软件开发/devops/docker/docker 镜像加速/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/docker/docker%20%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/docker/docker 镜像加速/</id>
     <published>2018-08-05T06:00:00.000Z</published>
-    <updated>2019-02-06T08:40:16.173Z</updated>
+    <updated>2019-02-06T09:52:23.843Z</updated>
     
-    <content type="html"><![CDATA[<p>docker 在默认安装后，当需要下载镜像时，通过命令<code>docker pull user/image</code> 拉取镜像都是访问默认的 docker hub 上的镜像，在国内网络环境下，下载一个镜像需要很长的时间，可以考虑使用 Registry Mirror 配置国内的镜像仓库。</p><blockquote><p>使用由阿里云提供的 Docker 镜像仓库进行加速。</p></blockquote><h3 id="1-登录阿里云"><a href="#1-登录阿里云" class="headerlink" title="1. 登录阿里云"></a>1. 登录阿里云</h3><blockquote><p><a href="https://cr.console.aliyun.com/?spm=5176.100239.blogcont29941.13.haQkR4#/accelerator">阿里云 Docker 镜像仓库</a></p></blockquote><p>开启 Docker Hub 镜像站点<br><img src="../../../../images/docker_ali.png" alt="docker_ali"></p><h3 id="2-Windows-使用-Docker-加速"><a href="#2-Windows-使用-Docker-加速" class="headerlink" title="2. Windows 使用 Docker 加速"></a>2. Windows 使用 Docker 加速</h3><ol><li>创建一台 docker machine 同时配置 docker 加速器</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create --engine-registry-mirror=https://6bybmq21.mirror.aliyuncs.com -d virtualbox default</span><br></pre></td></tr></table></figure><ol start="2"><li><p>对于已经创建的 docker machine 实例，更换镜像源方法如下<br>i. 在 window 命令执行 <code>docker-machine ssh [machine-name]</code> 进入 VM bash<br>ii. <code>sudo vi /var/lib/boot2docker/profile</code><br>iii. 在<code>--label provider=virtualbox</code>的添加一行 <code>--registry-mirror https://xxx.mirror.aliyuncs.com</code><br>iiii. 重启 docker 服务：<code>sudo /etc/init.d/docker restart</code> 或重启 VM ： <code>docker-machine restart</code></p></li><li><p>docker for windows</p><blockquote><p>设置 Daemon Registry mirrors<br><img src="../../../../images/docker_setting.png" alt="docker_setting"></p></blockquote></li><li><p>查看 mirror 配置</p></li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker-machine env default</span><br><span class="line">eval &quot;$(docker-machine env default)&quot;</span><br><span class="line">docker info</span><br></pre></td></tr></table></figure><h3 id="3-CentOs-使用镜像加速"><a href="#3-CentOs-使用镜像加速" class="headerlink" title="3. CentOs 使用镜像加速"></a>3. CentOs 使用镜像加速</h3><ol><li>安装/升级 Docker 客户端</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -</span><br></pre></td></tr></table></figure><ol start="2"><li>修改 daemon 配置文件 <code>/etc/docker/daemon.json</code> 来使用加速</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&apos;EOF&apos;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://6bybmq21.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<p>docker 在默认安装后，当需要下载镜像时，通过命令<code>docker pull user/image</code> 拉取镜像都是访问默认的 docker hub 上的镜像，在国内网络环境下，下载一个镜像需要很长的时间，可以考虑使用 Registry Mirror 配置国内的镜像仓库。</p><blockquote><p>使用由阿里云提供的 Docker 镜像仓库进行加速。</p></blockquote><h3 id="1-登录阿里云"><a href="#1-登录阿里云" class="headerlink" title="1. 登录阿里云"></a>1. 登录阿里云</h3><blockquote><p><a href="https://cr.console.aliyun.com/?spm=5176.100239.blogcont29941.13.haQkR4#/accelerator">阿里云 Docker 镜像仓库</a></p></blockquote><p>开启 Docker Hub 镜像站点<br><img src="../../../../../images/docker_ali.png" alt="docker_ali"></p><h3 id="2-Windows-使用-Docker-加速"><a href="#2-Windows-使用-Docker-加速" class="headerlink" title="2. Windows 使用 Docker 加速"></a>2. Windows 使用 Docker 加速</h3><ol><li>创建一台 docker machine 同时配置 docker 加速器</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create --engine-registry-mirror=https://6bybmq21.mirror.aliyuncs.com -d virtualbox default</span><br></pre></td></tr></table></figure><ol start="2"><li><p>对于已经创建的 docker machine 实例，更换镜像源方法如下<br>i. 在 window 命令执行 <code>docker-machine ssh [machine-name]</code> 进入 VM bash<br>ii. <code>sudo vi /var/lib/boot2docker/profile</code><br>iii. 在<code>--label provider=virtualbox</code>的添加一行 <code>--registry-mirror https://xxx.mirror.aliyuncs.com</code><br>iiii. 重启 docker 服务：<code>sudo /etc/init.d/docker restart</code> 或重启 VM ： <code>docker-machine restart</code></p></li><li><p>docker for windows</p><blockquote><p>设置 Daemon Registry mirrors<br><img src="../../../../../images/docker_setting.png" alt="docker_setting"></p></blockquote></li><li><p>查看 mirror 配置</p></li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker-machine env default</span><br><span class="line">eval &quot;$(docker-machine env default)&quot;</span><br><span class="line">docker info</span><br></pre></td></tr></table></figure><h3 id="3-CentOs-使用镜像加速"><a href="#3-CentOs-使用镜像加速" class="headerlink" title="3. CentOs 使用镜像加速"></a>3. CentOs 使用镜像加速</h3><ol><li>安装/升级 Docker 客户端</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -</span><br></pre></td></tr></table></figure><ol start="2"><li>修改 daemon 配置文件 <code>/etc/docker/daemon.json</code> 来使用加速</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&apos;EOF&apos;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://6bybmq21.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
@@ -166,11 +166,11 @@
     
     </summary>
     
-      <category term="软件开发" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
     
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/"/>
+      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
     
-      <category term="docker" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/docker/"/>
+      <category term="docker" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/docker/"/>
     
     
       <category term="docker" scheme="https://joecnn.github.io/wiki-site/tags/docker/"/>
@@ -179,12 +179,12 @@
   
   <entry>
     <title>Docker Start</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/docker/docker%20start/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/软件开发/devops/docker/docker start/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/docker/docker%20start/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/docker/docker start/</id>
     <published>2018-08-05T04:30:00.000Z</published>
-    <updated>2019-02-06T08:40:12.802Z</updated>
+    <updated>2019-02-06T09:52:08.121Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="1-Window10-下安装"><a href="#1-Window10-下安装" class="headerlink" title="1. Window10 下安装"></a>1. Window10 下安装</h3><blockquote><p>Window10 下载最新的 <a href="https://store.docker.com/editions/community/docker-ce-desktop-windows">Docker for windows</a> 安装包进行安装</p></blockquote><p>Windows10 下可以切换 Docker Platform 为 Linux 或者 Window，下载的镜像需要对应的平台支持。</p><p>Window10 下自带了虚拟器，需要开启 Hyper-V，在 控制面板-程序-打开Windows功能 中开启<br><img src="../../../../images/docker_hyperv.png" alt="docker_hyperv"></p><blockquote><p>Windows10 下的 Docker 使用虚拟机 IP 即为本机 127.0.0.1 ，可以在 CMD、PowerShell 中直接进行操作。</p></blockquote><h3 id="2-Windows7-下安装"><a href="#2-Windows7-下安装" class="headerlink" title="2. Windows7 下安装"></a>2. Windows7 下安装</h3><blockquote><p>Windows7 下在最新的 <a href="https://docs.docker.com/toolbox/toolbox_install_windows/">DockerToolBox</a> 安装包进行安装<br>DockerToolBox 会自动安装 Oracle Virtual Box 虚拟机，需要依托虚拟机进行启动。  </p></blockquote><h4 id="2-1-创建-docker-machine"><a href="#2-1-创建-docker-machine" class="headerlink" title="2.1 创建 docker machine"></a>2.1 创建 docker machine</h4><blockquote><p>安装完成后会附带 docker-machine.exe 使用此工具可以安装 docker 环境</p></blockquote><ol><li>查询 docker machine</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine ls</span><br></pre></td></tr></table></figure><ol start="2"><li>创建 default machine</li></ol><blockquote><p>使用 virtualbox 驱动模式，会自动下载 docker2boot.iso 镜像进行创建 virtualbox 虚拟机</p></blockquote><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create -d virtalbox default</span><br></pre></td></tr></table></figure><ol start="3"><li>查看 docker 信息</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine env default</span><br></pre></td></tr></table></figure><ol start="4"><li>管理 docker machine</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine -h</span><br></pre></td></tr></table></figure><h4 id="2-2-使用-putty"><a href="#2-2-使用-putty" class="headerlink" title="2.2 使用 putty"></a>2.2 使用 putty</h4><blockquote><p>在 Windows 命令进入 Docker 后，shell 不能复制，操作不方便，因此使用支持 SSH 的工具来连接 docker 虚拟机。</p></blockquote><ol><li>查询 docker mechine ip：<blockquote><p>在 docker machine env 中的 DOCKER_HOST </p></blockquote></li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine env default</span><br></pre></td></tr></table></figure><ol start="2"><li>使用 Putty 连接到 docker 终端：</li></ol><blockquote><p>默认用户名：docker 密码： tcuser</p></blockquote><p><img src="../../../../images/docker_cli.png" alt="docker_cli"></p><blockquote><p>PS：在 DockerToolBox 下自动安装的是 VirtualBox5.1，但是在启动 docker default mechine 时一直出错（VERR_SUPDRV_HARDENIGN_EVIL_HANDLE），经过查询是由于该版本的 vboxdrv 核心驱动请求过大的访问权限。。<br>最后安装旧版的 VirtualBox4.3.12 后成功解决。</p></blockquote><h4 id="2-3-docker-virtualbox-管理"><a href="#2-3-docker-virtualbox-管理" class="headerlink" title="2.3 docker virtualbox 管理"></a>2.3 docker virtualbox 管理</h4><p>由于使用 docker-machine 创建的虚拟机默认路径为 <strong>/user/.docker/machine/</strong> 下，可能在以后容器创建过多时占用系统盘资源。将 virtualbox 虚拟硬盘移动到其它盘。</p><ol><li>复制 default vmdk 到指定路径<blockquote><p>在指定盘进行复制一份 vmdk </p></blockquote></li></ol><p><img src="../../../../images/vbox_copy.png" alt="vbox_copy"></p><ol start="2"><li>为 default 虚拟机添加新的虚拟硬盘<blockquote><p>添加新的虚拟硬盘后，删除原来的 disk.vmdk 文件即可</p></blockquote></li></ol><p><img src="../../../../images/vbox_delete.png" alt="vbox_delete"></p><p>修改完成后，重启 docker machine 即可</p><p>参考资料：  </p><ol><li>白皮书：<a href="https://www.gitbook.com/book/yeasy/docker_practice/details">https://www.gitbook.com/book/yeasy/docker_practice/details</a></li><li>官方：<a href="https://www.docker.com/">https://www.docker.com/</a></li><li>镜像库：<a href="https://hub.docker.com/">https://hub.docker.com/</a></li></ol>]]></content>
+    <content type="html"><![CDATA[<h3 id="1-Window10-下安装"><a href="#1-Window10-下安装" class="headerlink" title="1. Window10 下安装"></a>1. Window10 下安装</h3><blockquote><p>Window10 下载最新的 <a href="https://store.docker.com/editions/community/docker-ce-desktop-windows">Docker for windows</a> 安装包进行安装</p></blockquote><p>Windows10 下可以切换 Docker Platform 为 Linux 或者 Window，下载的镜像需要对应的平台支持。</p><p>Window10 下自带了虚拟器，需要开启 Hyper-V，在 控制面板-程序-打开Windows功能 中开启<br><img src="../../../../../images/docker_hyperv.png" alt="docker_hyperv"></p><blockquote><p>Windows10 下的 Docker 使用虚拟机 IP 即为本机 127.0.0.1 ，可以在 CMD、PowerShell 中直接进行操作。</p></blockquote><h3 id="2-Windows7-下安装"><a href="#2-Windows7-下安装" class="headerlink" title="2. Windows7 下安装"></a>2. Windows7 下安装</h3><blockquote><p>Windows7 下在最新的 <a href="https://docs.docker.com/toolbox/toolbox_install_windows/">DockerToolBox</a> 安装包进行安装<br>DockerToolBox 会自动安装 Oracle Virtual Box 虚拟机，需要依托虚拟机进行启动。  </p></blockquote><h4 id="2-1-创建-docker-machine"><a href="#2-1-创建-docker-machine" class="headerlink" title="2.1 创建 docker machine"></a>2.1 创建 docker machine</h4><blockquote><p>安装完成后会附带 docker-machine.exe 使用此工具可以安装 docker 环境</p></blockquote><ol><li>查询 docker machine</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine ls</span><br></pre></td></tr></table></figure><ol start="2"><li>创建 default machine</li></ol><blockquote><p>使用 virtualbox 驱动模式，会自动下载 docker2boot.iso 镜像进行创建 virtualbox 虚拟机</p></blockquote><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create -d virtalbox default</span><br></pre></td></tr></table></figure><ol start="3"><li>查看 docker 信息</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine env default</span><br></pre></td></tr></table></figure><ol start="4"><li>管理 docker machine</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine -h</span><br></pre></td></tr></table></figure><h4 id="2-2-使用-putty"><a href="#2-2-使用-putty" class="headerlink" title="2.2 使用 putty"></a>2.2 使用 putty</h4><blockquote><p>在 Windows 命令进入 Docker 后，shell 不能复制，操作不方便，因此使用支持 SSH 的工具来连接 docker 虚拟机。</p></blockquote><ol><li>查询 docker mechine ip：<blockquote><p>在 docker machine env 中的 DOCKER_HOST </p></blockquote></li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine env default</span><br></pre></td></tr></table></figure><ol start="2"><li>使用 Putty 连接到 docker 终端：</li></ol><blockquote><p>默认用户名：docker 密码： tcuser</p></blockquote><p><img src="../../../../../images/docker_cli.png" alt="docker_cli"></p><blockquote><p>PS：在 DockerToolBox 下自动安装的是 VirtualBox5.1，但是在启动 docker default mechine 时一直出错（VERR_SUPDRV_HARDENIGN_EVIL_HANDLE），经过查询是由于该版本的 vboxdrv 核心驱动请求过大的访问权限。。<br>最后安装旧版的 VirtualBox4.3.12 后成功解决。</p></blockquote><h4 id="2-3-docker-virtualbox-管理"><a href="#2-3-docker-virtualbox-管理" class="headerlink" title="2.3 docker virtualbox 管理"></a>2.3 docker virtualbox 管理</h4><p>由于使用 docker-machine 创建的虚拟机默认路径为 <strong>/user/.docker/machine/</strong> 下，可能在以后容器创建过多时占用系统盘资源。将 virtualbox 虚拟硬盘移动到其它盘。</p><ol><li>复制 default vmdk 到指定路径<blockquote><p>在指定盘进行复制一份 vmdk </p></blockquote></li></ol><p><img src="../../../../../images/vbox_copy.png" alt="vbox_copy"></p><ol start="2"><li>为 default 虚拟机添加新的虚拟硬盘<blockquote><p>添加新的虚拟硬盘后，删除原来的 disk.vmdk 文件即可</p></blockquote></li></ol><p><img src="../../../../../images/vbox_delete.png" alt="vbox_delete"></p><p>修改完成后，重启 docker machine 即可</p><p>参考资料：  </p><ol><li>白皮书：<a href="https://www.gitbook.com/book/yeasy/docker_practice/details">https://www.gitbook.com/book/yeasy/docker_practice/details</a></li><li>官方：<a href="https://www.docker.com/">https://www.docker.com/</a></li><li>镜像库：<a href="https://hub.docker.com/">https://hub.docker.com/</a></li></ol>]]></content>
     
     <summary type="html">
     
@@ -196,11 +196,11 @@
     
     </summary>
     
-      <category term="软件开发" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
     
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/"/>
+      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
     
-      <category term="docker" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/docker/"/>
+      <category term="docker" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/docker/"/>
     
     
       <category term="docker" scheme="https://joecnn.github.io/wiki-site/tags/docker/"/>
@@ -208,9 +208,64 @@
   </entry>
   
   <entry>
+    <title>《刻意练习》读书笔记</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0/%E3%80%8A%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/生活学习/《刻意练习》读书笔记/</id>
+    <published>2018-05-11T16:00:00.000Z</published>
+    <updated>2019-02-06T10:00:34.363Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>格拉德威尔1万小时定律</strong>：人们眼中的天才之所有卓越非凡，并非天资超人一等，而是付出了持续不断的努力。只要经过1万小时的锤炼，任何人都能从平凡变成超凡。</p><p><strong>从不存在1万小时定律</strong>，它仅仅是畅销书作家多心理科学研究的一次不太严谨的演绎而已。</p><p>首先，不同专业的技能习得时间与练习时间并不存在一个1万小时的最低阈值。<br>其次，成功与练习时间并不完全成正比，一部分取决于天赋也取决于练习的方法。</p><p><strong>刻意练习的本质是长时记忆</strong>，那些卓越的专家能够将工作记忆与长时记忆对接起来，在进行专业活动时，能够调用更大容量的工作记忆。<br>例如专家升级SSD为虚拟内存，新手还在使用小内存。</p><p>刻意练习的任务难度要适中，能收到反馈，有足够的次数重复练习，学习者能够纠正自己的错误。</p><p><strong>长时记忆的培养要点</strong>：</p><ul><li><strong>赋予意义、精细编码</strong>：专家们能非常快地明白自己领域的单词与术语，在存储信息时，可以有意识的采取原认知的各项加工策略。</li><li><strong>提取结构或模式</strong>：往往需要将专业领域的知识、提取结构或者模式以更好的方式存储。比如，开发者善用设计模式。</li><li><strong>加快速度、增加连接</strong>：通过大量重复的刻意练习，专家在编码与提取过程比新手都快很多，增加了长时记忆与工作记忆之间的各种通路。</li></ul><p><strong>人们的学习受到情境的制约或促进</strong>。你要学习的 东西将实际应用在什么情境中，那么你就应该在什么样的情境中学习这些东西。比如，你要学习编程，就应该在GitHub里学习。</p><p>从“情境学习”出发，当一名“认知学徒”，逐步成为专家：</p><ul><li>找到学习共同体</li><li>隐形知识显性化，一般被称为策略知识</li><li>模仿榜样</li><li>培养多样性：在多种情境中实践，扩展应用范围</li></ul><p><strong>“绝对音感”并不是只有少数人才拥有的天赋，而是一种只要经过适度的接触和训练，几乎人人都可以培养和发展的能力。</strong></p><p><strong>“天才”是训练的产物</strong></p><p><strong>“天才”更懂得利用大脑的适应力</strong></p><h4 id="一、有目的的练习"><a href="#一、有目的的练习" class="headerlink" title="一、有目的的练习"></a>一、有目的的练习</h4><p><strong>有目的的练习VS天真的练习</strong></p><p>所谓“天真的练习”基本上是反复地做某件事情，并指望只靠那种反复，就能提高表现和水平。</p><p><strong>有目的的练习的四个特点</strong>：</p><ol><li><strong>有目的的练习具有定义明确的特点目标</strong>，主要是“积小胜为大胜”“积跬步以致千里”，最终达到长期目标。</li><li><strong>有目的的练习是专注的</strong>，要想取得进步，必须完全把注意力集中在你的任务上。 </li><li><strong>有目的的练习包含反馈</strong>，不论你在努力做什么事情，都需要反馈来准确辨别你在哪些地方还有不足，以及怎么会存在这些不足。</li><li><strong>有目的的练习需要走出舒适区</strong>，如果你从来不迫使自己走出舒适区，便永远无法进步。</li></ol><p><strong>遇到瓶颈怎么办</strong></p><ol><li>试着做不同的事情，而非更难的事情。不管什么障碍，越过它的最好办法是从不同方向去想办法。</li><li>并非到达极限，而是动机不足。有意义的正面反馈是保持动机的关键要素之一。</li></ol><p><strong>有目的的练习还不够</strong>，还需要特定的练习与训练方法，这种方法就是刻意练习。</p><h4 id="二、大脑的适应能力"><a href="#二、大脑的适应能力" class="headerlink" title="二、大脑的适应能力"></a>二、大脑的适应能力</h4><p><strong>大脑就像肌肉，越练越大</strong>，早在2000年，马圭尔就发表了关于“伦敦出租车司机”的研究成果，在出租车司机的大脑之中，海马体的后部比普通人更大，司龄越长的改部位也越大。</p><p><strong>大脑拥有无限的适应力</strong>，对这种适应能力最早的观察结果，在一些研究中多次出现，这些研究着眼于盲人或者聋哑人的大脑怎样“重新布线”，当盲人使用触摸布莱叶点字进行阅读时，看到大脑中处理部分还是视觉皮层。其结果告诉我们，大脑的结构和功能并不是固定不变的，它会根据你对它的运用尔改变。</p><p><strong>走出舒适区的重要性</strong>，人类的身体有一种偏爱稳定性的倾向，被迫走出舒适区后，身体开始响应那些变化，目的是重新建立体内平衡。</p><p><strong>练习改变大脑结构</strong>，对音乐家的研究表明，音乐训练以各种不同方式改变了大脑的结构和运行，使人们的音乐演奏能力进一步增强。经常性的训练使大脑中受到训练挑战的区域发生改变，大脑通过自身重新布线的方式来适应这些挑战，增强其执行那些挑战的能力。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;格拉德威尔1万小时定律&lt;/strong&gt;：人们眼中的天才之所有卓越非凡，并非天资超人一等，而是付出了持续不断的努力。只要经过1万小时的锤炼，任何人都能从平凡变成超凡。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;从不存在1万小时定律&lt;/strong&gt;，它仅仅是畅销书作家多
+      
+    
+    </summary>
+    
+      <category term="生活学习" scheme="https://joecnn.github.io/wiki-site/categories/%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="读书" scheme="https://joecnn.github.io/wiki-site/tags/%E8%AF%BB%E4%B9%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>深度阅读</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E9%98%85%E8%AF%BB/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/生活学习/深度阅读/</id>
+    <published>2018-04-19T16:00:00.000Z</published>
+    <updated>2019-02-06T10:01:34.849Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="7S阅读法"><a href="#7S阅读法" class="headerlink" title="7S阅读法"></a>7S阅读法</h1><p>一、快速阅读阶段</p><blockquote><p>明确阅读的目的，阅读的内容和速度</p><ul><li>【S1 提问】自我梳理，提出阅读的几个问题<ol><li>我为什么要阅读它？</li><li>它对我来说有多重要？</li><li>我要获得哪些信息？</li><li>我打算把阅读获得的知识用在哪些方面？</li></ol></li><li>【S2 速览】关键词法，快速了解文本内容，通过段落首末句快速了解文本大概</li></ul></blockquote><p>二、深度阅读阶段</p><blockquote><p>找出关键词句，总结作者表达的中心思想，整理论述结构并用自己的语言重构</p><ul><li>【S3 融合】摘录法，快速阅读后通过摘录关键词句搭建全文的框架</li><li>【S4 重构】复述法，用自己的语言复述文本的内容</li><li>【S5 回忆】提问法，通过定期自我提问，回忆文本框架</li></ul></blockquote><p>三、书为我用阶段</p><blockquote><p>通过延伸、交流来加深对阅读的理解</p><ul><li>【S6 延伸】横向、纵向扩展，通过阅读相关资料，扩展知识的广度和深度</li><li>【S7 交流】笔记法，通过与好友交流、分享与实际应用中得到新的思路</li></ul></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;7S阅读法&quot;&gt;&lt;a href=&quot;#7S阅读法&quot; class=&quot;headerlink&quot; title=&quot;7S阅读法&quot;&gt;&lt;/a&gt;7S阅读法&lt;/h1&gt;&lt;p&gt;一、快速阅读阶段&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;明确阅读的目的，阅读的内容和速度&lt;/p&gt;
+&lt;ul&gt;
+&lt;li
+      
+    
+    </summary>
+    
+      <category term="生活学习" scheme="https://joecnn.github.io/wiki-site/categories/%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="读书" scheme="https://joecnn.github.io/wiki-site/tags/%E8%AF%BB%E4%B9%A6/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Docker Mysql</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/docker/docker%20mysql/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/软件开发/devops/docker/docker mysql/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/docker/docker%20mysql/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/docker/docker mysql/</id>
     <published>2018-03-07T13:30:00.000Z</published>
     <updated>2019-02-06T08:40:09.114Z</updated>
     
@@ -226,11 +281,11 @@
     
     </summary>
     
-      <category term="软件开发" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
     
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/"/>
+      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
     
-      <category term="docker" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/docker/"/>
+      <category term="docker" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/docker/"/>
     
     
       <category term="docker" scheme="https://joecnn.github.io/wiki-site/tags/docker/"/>
@@ -238,38 +293,9 @@
   </entry>
   
   <entry>
-    <title>Git介绍</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/git/Git%E4%BB%8B%E7%BB%8D/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/软件开发/devops/git/Git介绍/</id>
-    <published>2017-12-25T16:00:00.000Z</published>
-    <updated>2019-02-06T08:55:29.117Z</updated>
-    
-    <content type="html"><![CDATA[<p> Git是一个<font size="4" color="dark" weight="bold">分布式的版本控制系统</font>，最初由Linus Torvalds编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在Ruby社区中。  </p><h3 id="一、Git-特点"><a href="#一、Git-特点" class="headerlink" title="一、Git 特点"></a>一、Git 特点</h3><p><font size="4" color="dark" weight="bold">直接记录快照，而非差异</font>，只关心文件数据的整体是否发生变化，并不保存这些前后变化的差异数据。实际上，Git 更像是把变化的文件作快照后，记录在一个微型的文件系统中。每次提交更新时，它会纵览一遍所有文件的指纹信息并对文件作一快照，然后保存一个指向这次快照 的索引。为提高性能，若文件没有变化，Git 不会再次保存，而只对上次保存的快照作一链接。 </p><ol><li><strong>近乎所有操作都是本地执行</strong><br>Git 绝大多数操作都只访问本地文件和资源，因为 Git 在本地磁盘上就保存着所有当前项目的历史更新，所以处理起来速度飞快。而到需要上传到远程仓库或获取远程仓库上内容时才需联网。 </li><li><strong>时刻保持数据完整性：</strong><br>Git 在保存前，所有数据都要进行校验计算，并将结果做为数据的唯一标识。 </li><li><strong>多数操作仅添加数据：</strong><br>Git 操作大多数仅仅是把数据添加到数据库，一旦提交快照就完全不用担心数据丢失。 </li></ol><h3 id="二、Git-文件的三种状态"><a href="#二、Git-文件的三种状态" class="headerlink" title="二、Git 文件的三种状态"></a>二、Git 文件的三种状态</h3><ul><li><strong>已提交(commited)</strong>：表示已被安全的保存到Git仓库中。 </li><li><strong>已修改(modified)</strong>：表示已修改了某个文件，但还未提交保存。 </li><li><strong>已暂存(staged)</strong>：表示已经把已修改的文件放到下次提交时要保存的清单中。 </li></ul><h3 id="三、Git-工作流程"><a href="#三、Git-工作流程" class="headerlink" title="三、Git 工作流程"></a>三、Git 工作流程</h3><ol><li>在工作目录中修改某些文件。  </li><li>对修改后的文件进行快照，然后保存到暂存区域。</li><li>提交更新，将保存在暂存区域的文件快照永久转储到 Git 目录中</li></ol><p><img src="../../../../../images/git_flow.png" alt="git_flow"></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt; Git是一个&lt;font size=&quot;4&quot; color=&quot;dark&quot; weight=&quot;bold&quot;&gt;分布式的版本控制系统&lt;/font&gt;，最初由Linus Torvalds编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在Ruby社区中。
-      
-    
-    </summary>
-    
-      <category term="软件开发" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/"/>
-    
-      <category term="git" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/git/"/>
-    
-    
-      <category term="git" scheme="https://joecnn.github.io/wiki-site/tags/git/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Git安装</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/git/Git%E5%AE%89%E8%A3%85/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/软件开发/devops/git/Git安装/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/Git%E5%AE%89%E8%A3%85/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/git/Git安装/</id>
     <published>2017-12-25T16:00:00.000Z</published>
     <updated>2019-02-06T09:15:00.440Z</updated>
     
@@ -284,11 +310,11 @@
     
     </summary>
     
-      <category term="软件开发" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
     
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/"/>
+      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
     
-      <category term="git" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/git/"/>
+      <category term="git" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/"/>
     
     
       <category term="git" scheme="https://joecnn.github.io/wiki-site/tags/git/"/>
@@ -297,8 +323,8 @@
   
   <entry>
     <title>Git基本操作</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/git/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/软件开发/devops/git/Git基本操作/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/git/Git基本操作/</id>
     <published>2017-12-25T16:00:00.000Z</published>
     <updated>2019-02-06T09:16:29.603Z</updated>
     
@@ -313,11 +339,40 @@
     
     </summary>
     
-      <category term="软件开发" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
     
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/"/>
+      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
     
-      <category term="git" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/git/"/>
+      <category term="git" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/"/>
+    
+    
+      <category term="git" scheme="https://joecnn.github.io/wiki-site/tags/git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Git介绍</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/Git%E4%BB%8B%E7%BB%8D/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/git/Git介绍/</id>
+    <published>2017-12-25T16:00:00.000Z</published>
+    <updated>2019-02-06T08:55:29.117Z</updated>
+    
+    <content type="html"><![CDATA[<p> Git是一个<font size="4" color="dark" weight="bold">分布式的版本控制系统</font>，最初由Linus Torvalds编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在Ruby社区中。  </p><h3 id="一、Git-特点"><a href="#一、Git-特点" class="headerlink" title="一、Git 特点"></a>一、Git 特点</h3><p><font size="4" color="dark" weight="bold">直接记录快照，而非差异</font>，只关心文件数据的整体是否发生变化，并不保存这些前后变化的差异数据。实际上，Git 更像是把变化的文件作快照后，记录在一个微型的文件系统中。每次提交更新时，它会纵览一遍所有文件的指纹信息并对文件作一快照，然后保存一个指向这次快照 的索引。为提高性能，若文件没有变化，Git 不会再次保存，而只对上次保存的快照作一链接。 </p><ol><li><strong>近乎所有操作都是本地执行</strong><br>Git 绝大多数操作都只访问本地文件和资源，因为 Git 在本地磁盘上就保存着所有当前项目的历史更新，所以处理起来速度飞快。而到需要上传到远程仓库或获取远程仓库上内容时才需联网。 </li><li><strong>时刻保持数据完整性：</strong><br>Git 在保存前，所有数据都要进行校验计算，并将结果做为数据的唯一标识。 </li><li><strong>多数操作仅添加数据：</strong><br>Git 操作大多数仅仅是把数据添加到数据库，一旦提交快照就完全不用担心数据丢失。 </li></ol><h3 id="二、Git-文件的三种状态"><a href="#二、Git-文件的三种状态" class="headerlink" title="二、Git 文件的三种状态"></a>二、Git 文件的三种状态</h3><ul><li><strong>已提交(commited)</strong>：表示已被安全的保存到Git仓库中。 </li><li><strong>已修改(modified)</strong>：表示已修改了某个文件，但还未提交保存。 </li><li><strong>已暂存(staged)</strong>：表示已经把已修改的文件放到下次提交时要保存的清单中。 </li></ul><h3 id="三、Git-工作流程"><a href="#三、Git-工作流程" class="headerlink" title="三、Git 工作流程"></a>三、Git 工作流程</h3><ol><li>在工作目录中修改某些文件。  </li><li>对修改后的文件进行快照，然后保存到暂存区域。</li><li>提交更新，将保存在暂存区域的文件快照永久转储到 Git 目录中</li></ol><p><img src="../../../../../images/git_flow.png" alt="git_flow"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt; Git是一个&lt;font size=&quot;4&quot; color=&quot;dark&quot; weight=&quot;bold&quot;&gt;分布式的版本控制系统&lt;/font&gt;，最初由Linus Torvalds编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在Ruby社区中。
+      
+    
+    </summary>
+    
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
+    
+      <category term="git" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/"/>
     
     
       <category term="git" scheme="https://joecnn.github.io/wiki-site/tags/git/"/>
@@ -326,8 +381,8 @@
   
   <entry>
     <title>gitignore不生效解决方法</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/git/gitignore%E4%B8%8D%E7%94%9F%E6%95%88%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/软件开发/devops/git/gitignore不生效解决方法/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/gitignore%E4%B8%8D%E7%94%9F%E6%95%88%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/git/gitignore不生效解决方法/</id>
     <published>2017-11-17T16:00:00.000Z</published>
     <updated>2019-02-06T09:18:26.739Z</updated>
     
@@ -343,11 +398,11 @@
     
     </summary>
     
-      <category term="软件开发" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
     
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/"/>
+      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
     
-      <category term="git" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/git/"/>
+      <category term="git" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/"/>
     
     
       <category term="git" scheme="https://joecnn.github.io/wiki-site/tags/git/"/>
@@ -356,8 +411,8 @@
   
   <entry>
     <title>常见问题收集</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/linux/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/软件开发/linux/常见问题收集/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/linux/常见问题收集/</id>
     <published>2017-10-16T16:00:00.000Z</published>
     <updated>2019-02-06T09:37:58.773Z</updated>
     
@@ -373,9 +428,9 @@
     
     </summary>
     
-      <category term="软件开发" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
     
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/linux/"/>
+      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/"/>
     
     
       <category term="linux" scheme="https://joecnn.github.io/wiki-site/tags/linux/"/>
@@ -384,8 +439,8 @@
   
   <entry>
     <title>Git标签</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/git/Git%E6%A0%87%E7%AD%BE/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/软件开发/devops/git/Git标签/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/Git%E6%A0%87%E7%AD%BE/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/git/Git标签/</id>
     <published>2017-03-30T16:00:00.000Z</published>
     <updated>2019-02-06T08:42:05.064Z</updated>
     
@@ -401,11 +456,11 @@
     
     </summary>
     
-      <category term="软件开发" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
     
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/"/>
+      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
     
-      <category term="git" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/devops/git/"/>
+      <category term="git" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/git/"/>
     
     
       <category term="git" scheme="https://joecnn.github.io/wiki-site/tags/git/"/>
@@ -414,8 +469,8 @@
   
   <entry>
     <title>安装Python3</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/linux/%E5%AE%89%E8%A3%85Python3/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/软件开发/linux/安装Python3/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/%E5%AE%89%E8%A3%85Python3/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/linux/安装Python3/</id>
     <published>2016-01-07T16:00:00.000Z</published>
     <updated>2019-02-06T09:32:51.716Z</updated>
     
@@ -430,36 +485,9 @@
     
     </summary>
     
-      <category term="软件开发" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
     
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/linux/"/>
-    
-    
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>安装gcc</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/linux/%E5%AE%89%E8%A3%85gcc/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/软件开发/linux/安装gcc/</id>
-    <published>2016-01-05T16:00:00.000Z</published>
-    <updated>2019-02-06T09:28:45.341Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="一、安装内核支持gcc"><a href="#一、安装内核支持gcc" class="headerlink" title="一、安装内核支持gcc"></a>一、安装内核支持gcc</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum -y install gcc+ gcc-c++</span><br></pre></td></tr></table></figure><h3 id="二、手动升级gcc"><a href="#二、手动升级gcc" class="headerlink" title="二、手动升级gcc"></a>二、手动升级gcc</h3><h4 id="1-获取安装包"><a href="#1-获取安装包" class="headerlink" title="1. 获取安装包"></a>1. 获取安装包</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://ftp.gnu.org/gnu/gcc/gcc-4.8.2/gcc-4.8.2.tar.bz2</span><br><span class="line">$ tar -jxvf gcc-4.8.2.tar.bz2</span><br></pre></td></tr></table></figure><h4 id="2-下载编译需要的依赖项"><a href="#2-下载编译需要的依赖项" class="headerlink" title="2. 下载编译需要的依赖项"></a>2. 下载编译需要的依赖项</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> gcc-4.8.2</span><br><span class="line">$ ./contrib/down_prerequiesites</span><br></pre></td></tr></table></figure><h4 id="3-建立一个目录供编译输出的文件存放"><a href="#3-建立一个目录供编译输出的文件存放" class="headerlink" title="3. 建立一个目录供编译输出的文件存放"></a>3. 建立一个目录供编译输出的文件存放</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir gcc-build-4.8.2</span><br></pre></td></tr></table></figure><h4 id="4-生成-Makefile-文件"><a href="#4-生成-Makefile-文件" class="headerlink" title="4. 生成 Makefile 文件"></a>4. 生成 Makefile 文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> gcc-build-4.8.2</span><br><span class="line">$ ../configure -<span class="built_in">enable</span>-checking=release -<span class="built_in">enable</span>-languages=c,c++ -<span class="built_in">disable</span>-multilib</span><br></pre></td></tr></table></figure><h4 id="5-编译-j4选项是make对多核处理器的优化"><a href="#5-编译-j4选项是make对多核处理器的优化" class="headerlink" title="5. 编译, -j4选项是make对多核处理器的优化"></a>5. 编译, -j4选项是make对多核处理器的优化</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ make -j4</span><br><span class="line">$ yum -y install glibc-devel.i686 glibc-devel</span><br></pre></td></tr></table></figure><h4 id="6-安装"><a href="#6-安装" class="headerlink" title="6. 安装"></a>6. 安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make install</span><br></pre></td></tr></table></figure><h4 id="7-检查gcc版本"><a href="#7-检查gcc版本" class="headerlink" title="7. 检查gcc版本"></a>7. 检查gcc版本</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gcc --version</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;一、安装内核支持gcc&quot;&gt;&lt;a href=&quot;#一、安装内核支持gcc&quot; class=&quot;headerlink&quot; title=&quot;一、安装内核支持gcc&quot;&gt;&lt;/a&gt;一、安装内核支持gcc&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table
-      
-    
-    </summary>
-    
-      <category term="软件开发" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/linux/"/>
+      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/"/>
     
     
       <category term="linux" scheme="https://joecnn.github.io/wiki-site/tags/linux/"/>
@@ -468,8 +496,8 @@
   
   <entry>
     <title>网络配置</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/linux/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/软件开发/linux/网络配置/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/linux/网络配置/</id>
     <published>2016-01-05T16:00:00.000Z</published>
     <updated>2019-02-06T09:24:25.002Z</updated>
     
@@ -484,9 +512,36 @@
     
     </summary>
     
-      <category term="软件开发" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
     
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/linux/"/>
+      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/"/>
+    
+    
+      <category term="linux" scheme="https://joecnn.github.io/wiki-site/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>安装gcc</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/%E5%AE%89%E8%A3%85gcc/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/linux/安装gcc/</id>
+    <published>2016-01-05T16:00:00.000Z</published>
+    <updated>2019-02-06T09:28:45.341Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="一、安装内核支持gcc"><a href="#一、安装内核支持gcc" class="headerlink" title="一、安装内核支持gcc"></a>一、安装内核支持gcc</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum -y install gcc+ gcc-c++</span><br></pre></td></tr></table></figure><h3 id="二、手动升级gcc"><a href="#二、手动升级gcc" class="headerlink" title="二、手动升级gcc"></a>二、手动升级gcc</h3><h4 id="1-获取安装包"><a href="#1-获取安装包" class="headerlink" title="1. 获取安装包"></a>1. 获取安装包</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://ftp.gnu.org/gnu/gcc/gcc-4.8.2/gcc-4.8.2.tar.bz2</span><br><span class="line">$ tar -jxvf gcc-4.8.2.tar.bz2</span><br></pre></td></tr></table></figure><h4 id="2-下载编译需要的依赖项"><a href="#2-下载编译需要的依赖项" class="headerlink" title="2. 下载编译需要的依赖项"></a>2. 下载编译需要的依赖项</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> gcc-4.8.2</span><br><span class="line">$ ./contrib/down_prerequiesites</span><br></pre></td></tr></table></figure><h4 id="3-建立一个目录供编译输出的文件存放"><a href="#3-建立一个目录供编译输出的文件存放" class="headerlink" title="3. 建立一个目录供编译输出的文件存放"></a>3. 建立一个目录供编译输出的文件存放</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir gcc-build-4.8.2</span><br></pre></td></tr></table></figure><h4 id="4-生成-Makefile-文件"><a href="#4-生成-Makefile-文件" class="headerlink" title="4. 生成 Makefile 文件"></a>4. 生成 Makefile 文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> gcc-build-4.8.2</span><br><span class="line">$ ../configure -<span class="built_in">enable</span>-checking=release -<span class="built_in">enable</span>-languages=c,c++ -<span class="built_in">disable</span>-multilib</span><br></pre></td></tr></table></figure><h4 id="5-编译-j4选项是make对多核处理器的优化"><a href="#5-编译-j4选项是make对多核处理器的优化" class="headerlink" title="5. 编译, -j4选项是make对多核处理器的优化"></a>5. 编译, -j4选项是make对多核处理器的优化</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ make -j4</span><br><span class="line">$ yum -y install glibc-devel.i686 glibc-devel</span><br></pre></td></tr></table></figure><h4 id="6-安装"><a href="#6-安装" class="headerlink" title="6. 安装"></a>6. 安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make install</span><br></pre></td></tr></table></figure><h4 id="7-检查gcc版本"><a href="#7-检查gcc版本" class="headerlink" title="7. 检查gcc版本"></a>7. 检查gcc版本</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gcc --version</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;一、安装内核支持gcc&quot;&gt;&lt;a href=&quot;#一、安装内核支持gcc&quot; class=&quot;headerlink&quot; title=&quot;一、安装内核支持gcc&quot;&gt;&lt;/a&gt;一、安装内核支持gcc&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table
+      
+    
+    </summary>
+    
+      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/"/>
     
     
       <category term="linux" scheme="https://joecnn.github.io/wiki-site/tags/linux/"/>
