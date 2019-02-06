@@ -12,7 +12,7 @@ docker 在默认安装后，当需要下载镜像时，通过命令`docker pull 
 > [阿里云 Docker 镜像仓库](https://cr.console.aliyun.com/?spm=5176.100239.blogcont29941.13.haQkR4#/accelerator)
 
 开启 Docker Hub 镜像站点
-![docker_ali](../../../../images/docker_ali.png)
+![docker_ali](../../../../../images/docker_ali.png)
 
 ### 2. Windows 使用 Docker 加速
 1. 创建一台 docker machine 同时配置 docker 加速器
@@ -29,7 +29,7 @@ iiii. 重启 docker 服务：`sudo /etc/init.d/docker restart` 或重启 VM ： 
 
 3. docker for windows
 > 设置 Daemon Registry mirrors
-![docker_setting](../../../../images/docker_setting.png)
+![docker_setting](../../../../../images/docker_setting.png)
 
 4. 查看 mirror 配置
 
