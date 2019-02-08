@@ -1,5 +1,5 @@
 ---
-title: Git安装
+title: Git 安装
 date: 2017/12/26
 tags: [git]
 ---

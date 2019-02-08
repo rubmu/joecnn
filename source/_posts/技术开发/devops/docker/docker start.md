@@ -90,6 +90,6 @@ docker-machine env default
 修改完成后，重启 docker machine 即可
 
 参考资料：  
-1. 白皮书：https://www.gitbook.com/book/yeasy/docker_practice/details
-2. 官方：https://www.docker.com/
-3. 镜像库：https://hub.docker.com/
+[1] 白皮书：https://www.gitbook.com/book/yeasy/docker_practice/details
+[2] 官方：https://www.docker.com/
+[3] 镜像库：https://hub.docker.com/

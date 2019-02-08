@@ -1,5 +1,5 @@
 ---
-title: Git介绍
+title: Git 介绍
 date: 2017/12/26
 tags: [git]
 ---

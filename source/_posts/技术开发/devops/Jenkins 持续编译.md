@@ -1,5 +1,5 @@
 ---
-title: Jenkins持续编译
+title: Jenkins 持续编译
 date: 2018/10/17 21:00:00
 tags: [jenkins]
 ---

@@ -1,5 +1,5 @@
 ---
-title: Jenkins开机启动
+title: Jenkins 开机启动
 date: 2018/10/18 20:30:00
 tags: [jenkins]
 ---
