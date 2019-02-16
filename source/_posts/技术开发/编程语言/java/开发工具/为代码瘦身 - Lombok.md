@@ -1,5 +1,5 @@
 ---
-title: Java lombok
+title: 为代码瘦身 - Lombok
 date: 2017/03/19
 tags: [java, ide]
 ---

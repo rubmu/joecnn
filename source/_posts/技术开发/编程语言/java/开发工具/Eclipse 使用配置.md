@@ -1,5 +1,5 @@
 ---
-title: Java eclipse
+title: Eclipse 使用配置
 date: 2013/12/26
 tags: [java, ide]
 ---

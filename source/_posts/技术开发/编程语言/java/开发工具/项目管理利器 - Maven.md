@@ -1,5 +1,5 @@
 ---
-title: Java maven
+title: 项目管理利器 - Maven
 date: 2017/03/08
 tags: [java, ide]
 ---
