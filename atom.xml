@@ -6,7 +6,7 @@
   <link href="/wiki-site/atom.xml" rel="self"/>
   
   <link href="https://joecnn.github.io/wiki-site/"/>
-  <updated>2019-02-06T13:09:55.349Z</updated>
+  <updated>2019-02-16T15:05:19.077Z</updated>
   <id>https://joecnn.github.io/wiki-site/</id>
   
   <author>
@@ -17,9 +17,41 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>JDK 多版本环境共存</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/java/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/JDK%20%E5%A4%9A%E7%89%88%E6%9C%AC%E7%8E%AF%E5%A2%83%E5%85%B1%E5%AD%98/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/编程语言/java/开发工具/JDK 多版本环境共存/</id>
+    <published>2019-02-16T14:00:00.000Z</published>
+    <updated>2019-02-16T15:05:19.077Z</updated>
+    
+    <content type="html"><![CDATA[<p>在 JDK8 之前的版本需要手动设置环境变量 <code>JAVA_HOME</code>. JDK8 多了自动配置环境变量, 所以想要多版本 JDK 共存并可以进行自由切换，需要先删掉默认环境。</p><h3 id="1-删除自动配置的环境"><a href="#1-删除自动配置的环境" class="headerlink" title="1. 删除自动配置的环境"></a>1. 删除自动配置的环境</h3><p>自动配置的环境变量指向的是一个隐藏目录 <code>C:\ProgramData\Oracle\Java\javapath</code>, 删除这个目录下的3个 <code>.exe</code> 文件，系统就无法匹配到了。</p><h3 id="2-安装多版本-JDK"><a href="#2-安装多版本-JDK" class="headerlink" title="2. 安装多版本 JDK"></a>2. 安装多版本 JDK</h3><p>进行多个版本的 JDK 安装。</p><h3 id="3-设置系统环境变量"><a href="#3-设置系统环境变量" class="headerlink" title="3. 设置系统环境变量"></a>3. 设置系统环境变量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指向 jdk6 目录</span></span><br><span class="line">JAVA6_HOME = D:\Java\jdk_6</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指向 jdk8 目录</span></span><br><span class="line">JAVA8_HOME = D:\Java\jdk_8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置默认的 jdk, 进行切换版本</span></span><br><span class="line">JAVA_HOME = %JAVA8_HOME%</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在 JDK8 之前的版本需要手动设置环境变量 &lt;code&gt;JAVA_HOME&lt;/code&gt;. JDK8 多了自动配置环境变量, 所以想要多版本 JDK 共存并可以进行自由切换，需要先删掉默认环境。&lt;/p&gt;
+&lt;h3 id=&quot;1-删除自动配置的环境&quot;&gt;&lt;a href=&quot;#1-删
+      
+    
+    </summary>
+    
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+    
+      <category term="编程语言" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"/>
+    
+      <category term="java" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/java/"/>
+    
+      <category term="开发工具" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/java/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="java" scheme="https://joecnn.github.io/wiki-site/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
     <title>MySQL 主从模式</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%AD%98%E5%82%A8/mysql/MySQL%20%E4%B8%BB%E4%BB%8E%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/存储/mysql/MySQL 主从模式/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%AD%98%E5%82%A8/mysql/MySQL%20%E4%B8%BB%E4%BB%8E%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/存储/mysql/MySQL 主从模式/</id>
     <published>2019-01-07T13:00:00.000Z</published>
     <updated>2019-02-06T13:09:55.349Z</updated>
     
@@ -36,11 +68,11 @@
     
     </summary>
     
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="存储" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%AD%98%E5%82%A8/"/>
+      <category term="存储" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%AD%98%E5%82%A8/"/>
     
-      <category term="mysql" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%AD%98%E5%82%A8/mysql/"/>
+      <category term="mysql" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%AD%98%E5%82%A8/mysql/"/>
     
     
       <category term="mysql" scheme="https://joecnn.github.io/wiki-site/tags/mysql/"/>
@@ -49,8 +81,8 @@
   
   <entry>
     <title>MySQL quickstart</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%AD%98%E5%82%A8/mysql/MySQL%20quickstart/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/存储/mysql/MySQL quickstart/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%AD%98%E5%82%A8/mysql/MySQL%20quickstart/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/存储/mysql/MySQL quickstart/</id>
     <published>2019-01-07T09:00:00.000Z</published>
     <updated>2019-02-06T12:54:11.852Z</updated>
     
@@ -66,11 +98,11 @@
     
     </summary>
     
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="存储" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%AD%98%E5%82%A8/"/>
+      <category term="存储" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%AD%98%E5%82%A8/"/>
     
-      <category term="mysql" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%AD%98%E5%82%A8/mysql/"/>
+      <category term="mysql" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%AD%98%E5%82%A8/mysql/"/>
     
     
       <category term="mysql" scheme="https://joecnn.github.io/wiki-site/tags/mysql/"/>
@@ -79,8 +111,8 @@
   
   <entry>
     <title>Redis 集群</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/Redis%20%E9%9B%86%E7%BE%A4/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/分布式/Redis 集群/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%88%86%E5%B8%83%E5%BC%8F/Redis%20%E9%9B%86%E7%BE%A4/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/分布式/Redis 集群/</id>
     <published>2018-12-30T16:00:00.000Z</published>
     <updated>2019-02-06T12:15:27.089Z</updated>
     
@@ -95,9 +127,9 @@
     
     </summary>
     
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
     
       <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
@@ -108,8 +140,8 @@
   
   <entry>
     <title>Redis 持久化机制</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/Redis%20%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%BA%E5%88%B6/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/分布式/Redis 持久化机制/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%88%86%E5%B8%83%E5%BC%8F/Redis%20%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%BA%E5%88%B6/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/分布式/Redis 持久化机制/</id>
     <published>2018-12-30T16:00:00.000Z</published>
     <updated>2019-02-06T12:02:27.351Z</updated>
     
@@ -125,9 +157,9 @@
     
     </summary>
     
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
     
       <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
@@ -137,68 +169,9 @@
   </entry>
   
   <entry>
-    <title>Kafka quickstart</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/Kafka%20quickstart/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/分布式/Kafka quickstart/</id>
-    <published>2018-12-28T16:00:00.000Z</published>
-    <updated>2019-02-06T12:10:02.189Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-Kafka是什么"><a href="#1-Kafka是什么" class="headerlink" title="1. Kafka是什么?"></a>1. Kafka是什么?</h3><blockquote><p><a href="https://kafka.apache.org/documentation/#introduction">Apache Kafka®</a> is a distributed streaming platform. </p></blockquote><p>Kafka是一个高性能、高吞吐量的分布式消息通信系统。常用于系统的日志收集分析、消息通信、用户行为分析、服务器指标监控、流式处理等。</p><h3 id="2-Kafka集群安装"><a href="#2-Kafka集群安装" class="headerlink" title="2. Kafka集群安装"></a>2. Kafka集群安装</h3><ol><li>下载kafka二进制安装包, 并解压到 /usr/local目录下。</li><li>进入到config目录下修改server.properties配置文件：<ul><li>broker.id 在集群中的唯一编号</li><li>listeners 本机ip</li><li>num.partitions 默认的topic分区数</li><li>zookeeper.connect 连接到zookeeper集群，可以设置根路径 <code>ip:port/kafka</code></li></ul></li><li>进入到bin目录下，以守护进程方式启动。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-server-start.sh -daemon ../config/server.properties</span><br></pre></td></tr></table></figure></li></ol><h3 id="3-Kafka基本操作"><a href="#3-Kafka基本操作" class="headerlink" title="3. Kafka基本操作"></a>3. Kafka基本操作</h3><ol><li><p>创建一个topic</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-topics.sh --create --zookeeper 192.168.56.110:2181/kafka --replication-factor 1 --partitions 2 --topic first-topic</span><br></pre></td></tr></table></figure></li><li><p>列出所有topic</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-topics.sh --list --zookeeper 192.168.56.110:2181/kafka</span><br></pre></td></tr></table></figure></li><li><p>生成者发送消息</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-console-producer.sh --broker-list 192.168.56.110:9092 --topic first-topic</span><br></pre></td></tr></table></figure></li><li><p>消费者接收消息</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-console-consumer.sh --bootstrap-server 192.168.56.110:9092 --topic first-topic --from-beginning</span><br></pre></td></tr></table></figure></li><li><p>查看消息日志</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-run-class.sh kafka.tools.DumpLogSegments --files /tmp/kafka-logs/first-topic-0/00000000000000000000.log --<span class="built_in">print</span>-data-log</span><br></pre></td></tr></table></figure></li></ol><h3 id="4-Kafka中的概念"><a href="#4-Kafka中的概念" class="headerlink" title="4. Kafka中的概念"></a>4. Kafka中的概念</h3><h4 id="Message"><a href="#Message" class="headerlink" title="Message"></a>Message</h4><p>消息是 Kafka 中最基本的数据单元，由 Key/Value 组成(byte[])，根据Key的哈希值路由到不同区间进行存储。Kafka 会对消息进行压缩和批量发送。</p><h4 id="Topic"><a href="#Topic" class="headerlink" title="Topic"></a>Topic</h4><p>topic 是用于存储消息的逻辑单元，可以看作一个消息集合，每个 topic 可以有多个生产者向其推送消息，也可以有任意多个消费者。</p><h4 id="Partition"><a href="#Partition" class="headerlink" title="Partition"></a>Partition</h4><p>每个 topic 可以划分多个分区，即 Kafka 存储消息的物理单元。Partition 是以文件的形式存储在 kafka-logs 目录下，命名规则是 <code>&lt;topic_name&gt;-&lt;partition_id&gt;</code>。</p><h4 id="Group"><a href="#Group" class="headerlink" title="Group"></a>Group</h4><p>Kafka 中的逻辑分组，同一个组内的一条消息只被一个组员消费，并且共同维护 consumer offset。不同组内的消费者可以同时消费同一条消息，实现 pub/sub 模式。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;1-Kafka是什么&quot;&gt;&lt;a href=&quot;#1-Kafka是什么&quot; class=&quot;headerlink&quot; title=&quot;1. Kafka是什么?&quot;&gt;&lt;/a&gt;1. Kafka是什么?&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;https://kafk
-      
-    
-    </summary>
-    
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
-    
-    
-      <category term="MQ" scheme="https://joecnn.github.io/wiki-site/tags/MQ/"/>
-    
-      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Kafka 实现原理</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/Kafka%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/分布式/Kafka 实现原理/</id>
-    <published>2018-12-28T16:00:00.000Z</published>
-    <updated>2019-02-06T12:00:47.018Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-消息可靠性机制"><a href="#1-消息可靠性机制" class="headerlink" title="1. 消息可靠性机制"></a>1. 消息可靠性机制</h3><h4 id="消息发送可靠性"><a href="#消息发送可靠性" class="headerlink" title="消息发送可靠性"></a>消息发送可靠性</h4><p>消息发送到 broker 有三种确认方式 <code>request.required.acks</code> ：</p><ul><li><strong>acks=0</strong>  producer 不会等待 broker 发送ack，既可能丢失也可能重发。</li><li><strong>acks=1</strong>  当 leader 接收到消息后发送ack，可能重发。</li><li><strong>acks=-1</strong> 当所有 follower 同步成功后发送ack，丢失消息可能性低。</li></ul><h4 id="消息存储可靠性"><a href="#消息存储可靠性" class="headerlink" title="消息存储可靠性"></a>消息存储可靠性</h4><p>每一条消息发送到broker中，会跟据partition规则存储到对应分区，如果规则设置合理可以实现消息均匀分布到不同分区，实现存储的水平扩展。<br>高可靠性的保障来自另一个叫副本(replication)策略，通过设置(–replication-factor)参数设置。</p><h3 id="2-副本存储机制"><a href="#2-副本存储机制" class="headerlink" title="2. 副本存储机制"></a>2. 副本存储机制</h3><p>Kafka 在创建 topic 支持设置对应的副本个数 <code>--replication-factor</code>，会生成对应的分区副本数交叉存储在每个节点上。</p><h5 id="副本存活条件"><a href="#副本存活条件" class="headerlink" title="副本存活条件"></a>副本存活条件</h5><ol><li>副本所有节点必须和zookeeper保持连接状态</li><li>副本的最后一条消息的offset和leader的最后一条消息的offset之间差值不能超过设定值<code>replica.lag.max.messages</code></li></ol><h5 id="如何同步消息"><a href="#如何同步消息" class="headerlink" title="如何同步消息"></a>如何同步消息</h5><p>第一个启动的节点成功在zookeeper中注册信息成为leader对外提供服务，其它replica做为follower要定时同步数据。  </p><ul><li><strong>HW(high watermark)</strong> ：表示所有follower已同步完成的offset位置  </li><li><strong>LEO(Log End Offset)</strong> ：表示leader节点当前消息的offset位置</li></ul><p>consumer只能消费所有follower已同步完成的数据，即HW标注的位置。</p><h5 id="如何均匀分布"><a href="#如何均匀分布" class="headerlink" title="如何均匀分布"></a>如何均匀分布</h5><p>Kafka 为了更好的做到负载均衡，会尽量把所有的 partition 均匀分配到整个集群上，分配的算法：</p><ol><li>把所有 <code>broker(n)</code> 和 <code>partition(n)</code> 排序</li><li>把第<code>i</code>个partition分配到 <code>(i%n)</code> 个broker上</li><li>把第 <code>i</code> 个 partition 的第 j 个 replica 分配到 <code>((i+j) % n)</code> 个broker上</li></ol><h5 id="如何处理所有副本不工作情况"><a href="#如何处理所有副本不工作情况" class="headerlink" title="如何处理所有副本不工作情况"></a>如何处理所有副本不工作情况</h5><p>在ISR中至少有一个follower工作时，Kafka可以确保消息不丢失，但如果某个分区所有备份都宕机了，采取以下措施：</p><ol><li>等待ISR中任意一个follower活过来，并且选择它为leader</li><li>选择任意一个replica(不一定是ISR中的)活过来作为leader</li></ol><p>这两种需要在可用性和一致性当中做一个选择。</p><h3 id="3-Kafka-文件存储机制"><a href="#3-Kafka-文件存储机制" class="headerlink" title="3. Kafka 文件存储机制"></a>3. Kafka 文件存储机制</h3><h4 id="partition"><a href="#partition" class="headerlink" title="partition"></a>partition</h4><p>每个partition为一个目录，命名规则为 <code>&lt;topic_name&gt;-&lt;partition_no&gt;</code>，存储在 kafka_logs 目录下。</p><h4 id="segment"><a href="#segment" class="headerlink" title="segment"></a>segment</h4><p>Kafka 为防止分区文件过大，又将分区拆分为 segment 存储，一个segment文件<code>.index</code>和<code>.log</code>两部分组成，即索引文件和数据文件。<br>segment 文件由64位long数值命名，文件名即记录的最大 offset 值，查找时先通过定位 offset 落的范围，再进入文件查找。</p><h4 id="日志保留"><a href="#日志保留" class="headerlink" title="日志保留"></a>日志保留</h4><p>Kafka 中无论是否消费了消息(只是移动了 offset)，都会一直保留这些消息，为了避免磁盘爆满，使用相应的保留策略(retention policy)，以实现周期性的删除陈旧消息：</p><ul><li>根据消息保留时间，超过指定时间则删除</li><li>根据 topic 大小，超过阈值开始删除最旧消息</li></ul><h4 id="日志压缩"><a href="#日志压缩" class="headerlink" title="日志压缩"></a>日志压缩</h4><p>Kafka 会定期将相同 Key 的消息进行合并，只保留最新的 Value 值。</p><h3 id="4-Kafka-消息的消费原理"><a href="#4-Kafka-消息的消费原理" class="headerlink" title="4. Kafka 消息的消费原理"></a>4. Kafka 消息的消费原理</h3><p>旧版本的 Kafka 将 Consumer group 的消费进度记录在 zookeeper 中，导致对 zookeeper 频繁的写入而性能低下。<br>新版本1.0+已修改为记录在对应 topic 目录下，默认创建了50个 <code>__consumer_offset_topic</code> 文件夹，将消费的进度 offset 保存在对应的文件中。</p><ol><li><p>计算 consumer group 的哈希值</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Math.abs(<span class="string">"group1"</span>.hashCode() % <span class="number">50</span>)</span><br></pre></td></tr></table></figure></li><li><p>根据哈希值找到对应的__consumer文件，查看消费进度</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh kafka-simple-consumer-shell.sh --topic __consumer_offsets --partition 15 -broker-list 192.168.56.110:9092,192.168.56.120:9092,192.168.56.130:9092 --formatter kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter</span><br></pre></td></tr></table></figure></li></ol><h3 id="5-Kafka-的消费者分区分配策略"><a href="#5-Kafka-的消费者分区分配策略" class="headerlink" title="5. Kafka 的消费者分区分配策略"></a>5. Kafka 的消费者分区分配策略</h3><p>Kafka中存在 consumer group 的概念，也就是group.id一样的consumer属于一个consumer group，组内的所有消费者协调在一起来消费消费订阅主题的所有分区。当然每一个分区只能由同一个消费组内的consumer来消费，那么同一个consumer group里面的consumer是怎么去分配该消费哪个分区里的数据，这个就设计到了kafka内部分区分配策略（Partition Assignment Strategy）。<br>在 Kafka 内部存在两种默认的分区分配策略：Range（默认） 和 RoundRobin。通过：<code>partition.assignment.strategy</code>指定</p><h4 id="两种分区策略"><a href="#两种分区策略" class="headerlink" title="两种分区策略"></a>两种分区策略</h4><h5 id="Range-（默认策略）"><a href="#Range-（默认策略）" class="headerlink" title="Range （默认策略）"></a>Range （默认策略）</h5><p>0 ，1 ，2 ，3 ，4，5，6，7，8，9<br>c0 [0,3]<br>c1 [4,6]<br>c2 [7,9]<br>10<code>(partition num)</code>/3<code>(consumer num)</code> =3  </p><h5 id="RoundRobin-（轮询）"><a href="#RoundRobin-（轮询）" class="headerlink" title="RoundRobin （轮询）"></a>RoundRobin （轮询）</h5><p>0 ，1 ，2 ，3 ，4，5，6，7，8，9<br>c0,c1,c2<br>c0 [0,3,6,9]<br>c1 [1,4,7]<br>c2 [2,5,8]<br>kafka 的key 为null， 是随机｛一个Metadata的同步周期内，默认是10分钟｝</p><h3 id="6-高吞吐量原因"><a href="#6-高吞吐量原因" class="headerlink" title="6. 高吞吐量原因"></a>6. 高吞吐量原因</h3><ul><li><strong>消息顺序存储</strong>，通过 offset 偏移量进行顺序读取，减少机械硬盘磁柱移动。</li><li><strong>消息批量发送</strong>，在异步模式中允许进行批量发送消息，先将消息缓存到内存，再一次请求中批量发送出去，减少磁盘读写和网络传输。<ul><li>batch.size 每批量发送的数据大小</li><li>linger.ms  批量发送的间隔时间</li></ul></li><li><strong>消息的零拷贝</strong>，使用 <code>FileChannel.transferTo</code> 直接将消息发送到 socket buffer 中，省略了将消息读取到内存的过程。</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;1-消息可靠性机制&quot;&gt;&lt;a href=&quot;#1-消息可靠性机制&quot; class=&quot;headerlink&quot; title=&quot;1. 消息可靠性机制&quot;&gt;&lt;/a&gt;1. 消息可靠性机制&lt;/h3&gt;&lt;h4 id=&quot;消息发送可靠性&quot;&gt;&lt;a href=&quot;#消息发送可靠性&quot; class=&quot;
-      
-    
-    </summary>
-    
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
-    
-    
-      <category term="MQ" scheme="https://joecnn.github.io/wiki-site/tags/MQ/"/>
-    
-      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Redis quickstart</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/Redis%20quickstart/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/分布式/Redis quickstart/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%88%86%E5%B8%83%E5%BC%8F/Redis%20quickstart/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/分布式/Redis quickstart/</id>
     <published>2018-12-28T16:00:00.000Z</published>
     <updated>2019-02-06T12:08:16.622Z</updated>
     
@@ -214,9 +187,9 @@
     
     </summary>
     
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
     
       <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
@@ -226,9 +199,68 @@
   </entry>
   
   <entry>
+    <title>Kafka quickstart</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%88%86%E5%B8%83%E5%BC%8F/Kafka%20quickstart/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/分布式/Kafka quickstart/</id>
+    <published>2018-12-28T16:00:00.000Z</published>
+    <updated>2019-02-06T12:10:02.189Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-Kafka是什么"><a href="#1-Kafka是什么" class="headerlink" title="1. Kafka是什么?"></a>1. Kafka是什么?</h3><blockquote><p><a href="https://kafka.apache.org/documentation/#introduction">Apache Kafka®</a> is a distributed streaming platform. </p></blockquote><p>Kafka是一个高性能、高吞吐量的分布式消息通信系统。常用于系统的日志收集分析、消息通信、用户行为分析、服务器指标监控、流式处理等。</p><h3 id="2-Kafka集群安装"><a href="#2-Kafka集群安装" class="headerlink" title="2. Kafka集群安装"></a>2. Kafka集群安装</h3><ol><li>下载kafka二进制安装包, 并解压到 /usr/local目录下。</li><li>进入到config目录下修改server.properties配置文件：<ul><li>broker.id 在集群中的唯一编号</li><li>listeners 本机ip</li><li>num.partitions 默认的topic分区数</li><li>zookeeper.connect 连接到zookeeper集群，可以设置根路径 <code>ip:port/kafka</code></li></ul></li><li>进入到bin目录下，以守护进程方式启动。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-server-start.sh -daemon ../config/server.properties</span><br></pre></td></tr></table></figure></li></ol><h3 id="3-Kafka基本操作"><a href="#3-Kafka基本操作" class="headerlink" title="3. Kafka基本操作"></a>3. Kafka基本操作</h3><ol><li><p>创建一个topic</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-topics.sh --create --zookeeper 192.168.56.110:2181/kafka --replication-factor 1 --partitions 2 --topic first-topic</span><br></pre></td></tr></table></figure></li><li><p>列出所有topic</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-topics.sh --list --zookeeper 192.168.56.110:2181/kafka</span><br></pre></td></tr></table></figure></li><li><p>生成者发送消息</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-console-producer.sh --broker-list 192.168.56.110:9092 --topic first-topic</span><br></pre></td></tr></table></figure></li><li><p>消费者接收消息</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-console-consumer.sh --bootstrap-server 192.168.56.110:9092 --topic first-topic --from-beginning</span><br></pre></td></tr></table></figure></li><li><p>查看消息日志</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-run-class.sh kafka.tools.DumpLogSegments --files /tmp/kafka-logs/first-topic-0/00000000000000000000.log --<span class="built_in">print</span>-data-log</span><br></pre></td></tr></table></figure></li></ol><h3 id="4-Kafka中的概念"><a href="#4-Kafka中的概念" class="headerlink" title="4. Kafka中的概念"></a>4. Kafka中的概念</h3><h4 id="Message"><a href="#Message" class="headerlink" title="Message"></a>Message</h4><p>消息是 Kafka 中最基本的数据单元，由 Key/Value 组成(byte[])，根据Key的哈希值路由到不同区间进行存储。Kafka 会对消息进行压缩和批量发送。</p><h4 id="Topic"><a href="#Topic" class="headerlink" title="Topic"></a>Topic</h4><p>topic 是用于存储消息的逻辑单元，可以看作一个消息集合，每个 topic 可以有多个生产者向其推送消息，也可以有任意多个消费者。</p><h4 id="Partition"><a href="#Partition" class="headerlink" title="Partition"></a>Partition</h4><p>每个 topic 可以划分多个分区，即 Kafka 存储消息的物理单元。Partition 是以文件的形式存储在 kafka-logs 目录下，命名规则是 <code>&lt;topic_name&gt;-&lt;partition_id&gt;</code>。</p><h4 id="Group"><a href="#Group" class="headerlink" title="Group"></a>Group</h4><p>Kafka 中的逻辑分组，同一个组内的一条消息只被一个组员消费，并且共同维护 consumer offset。不同组内的消费者可以同时消费同一条消息，实现 pub/sub 模式。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;1-Kafka是什么&quot;&gt;&lt;a href=&quot;#1-Kafka是什么&quot; class=&quot;headerlink&quot; title=&quot;1. Kafka是什么?&quot;&gt;&lt;/a&gt;1. Kafka是什么?&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://kafk
+      
+    
+    </summary>
+    
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    
+      <category term="MQ" scheme="https://joecnn.github.io/wiki-site/tags/MQ/"/>
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kafka 实现原理</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%88%86%E5%B8%83%E5%BC%8F/Kafka%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/分布式/Kafka 实现原理/</id>
+    <published>2018-12-28T16:00:00.000Z</published>
+    <updated>2019-02-06T12:00:47.018Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-消息可靠性机制"><a href="#1-消息可靠性机制" class="headerlink" title="1. 消息可靠性机制"></a>1. 消息可靠性机制</h3><h4 id="消息发送可靠性"><a href="#消息发送可靠性" class="headerlink" title="消息发送可靠性"></a>消息发送可靠性</h4><p>消息发送到 broker 有三种确认方式 <code>request.required.acks</code> ：</p><ul><li><strong>acks=0</strong>  producer 不会等待 broker 发送ack，既可能丢失也可能重发。</li><li><strong>acks=1</strong>  当 leader 接收到消息后发送ack，可能重发。</li><li><strong>acks=-1</strong> 当所有 follower 同步成功后发送ack，丢失消息可能性低。</li></ul><h4 id="消息存储可靠性"><a href="#消息存储可靠性" class="headerlink" title="消息存储可靠性"></a>消息存储可靠性</h4><p>每一条消息发送到broker中，会跟据partition规则存储到对应分区，如果规则设置合理可以实现消息均匀分布到不同分区，实现存储的水平扩展。<br>高可靠性的保障来自另一个叫副本(replication)策略，通过设置(–replication-factor)参数设置。</p><h3 id="2-副本存储机制"><a href="#2-副本存储机制" class="headerlink" title="2. 副本存储机制"></a>2. 副本存储机制</h3><p>Kafka 在创建 topic 支持设置对应的副本个数 <code>--replication-factor</code>，会生成对应的分区副本数交叉存储在每个节点上。</p><h5 id="副本存活条件"><a href="#副本存活条件" class="headerlink" title="副本存活条件"></a>副本存活条件</h5><ol><li>副本所有节点必须和zookeeper保持连接状态</li><li>副本的最后一条消息的offset和leader的最后一条消息的offset之间差值不能超过设定值<code>replica.lag.max.messages</code></li></ol><h5 id="如何同步消息"><a href="#如何同步消息" class="headerlink" title="如何同步消息"></a>如何同步消息</h5><p>第一个启动的节点成功在zookeeper中注册信息成为leader对外提供服务，其它replica做为follower要定时同步数据。  </p><ul><li><strong>HW(high watermark)</strong> ：表示所有follower已同步完成的offset位置  </li><li><strong>LEO(Log End Offset)</strong> ：表示leader节点当前消息的offset位置</li></ul><p>consumer只能消费所有follower已同步完成的数据，即HW标注的位置。</p><h5 id="如何均匀分布"><a href="#如何均匀分布" class="headerlink" title="如何均匀分布"></a>如何均匀分布</h5><p>Kafka 为了更好的做到负载均衡，会尽量把所有的 partition 均匀分配到整个集群上，分配的算法：</p><ol><li>把所有 <code>broker(n)</code> 和 <code>partition(n)</code> 排序</li><li>把第<code>i</code>个partition分配到 <code>(i%n)</code> 个broker上</li><li>把第 <code>i</code> 个 partition 的第 j 个 replica 分配到 <code>((i+j) % n)</code> 个broker上</li></ol><h5 id="如何处理所有副本不工作情况"><a href="#如何处理所有副本不工作情况" class="headerlink" title="如何处理所有副本不工作情况"></a>如何处理所有副本不工作情况</h5><p>在ISR中至少有一个follower工作时，Kafka可以确保消息不丢失，但如果某个分区所有备份都宕机了，采取以下措施：</p><ol><li>等待ISR中任意一个follower活过来，并且选择它为leader</li><li>选择任意一个replica(不一定是ISR中的)活过来作为leader</li></ol><p>这两种需要在可用性和一致性当中做一个选择。</p><h3 id="3-Kafka-文件存储机制"><a href="#3-Kafka-文件存储机制" class="headerlink" title="3. Kafka 文件存储机制"></a>3. Kafka 文件存储机制</h3><h4 id="partition"><a href="#partition" class="headerlink" title="partition"></a>partition</h4><p>每个partition为一个目录，命名规则为 <code>&lt;topic_name&gt;-&lt;partition_no&gt;</code>，存储在 kafka_logs 目录下。</p><h4 id="segment"><a href="#segment" class="headerlink" title="segment"></a>segment</h4><p>Kafka 为防止分区文件过大，又将分区拆分为 segment 存储，一个segment文件<code>.index</code>和<code>.log</code>两部分组成，即索引文件和数据文件。<br>segment 文件由64位long数值命名，文件名即记录的最大 offset 值，查找时先通过定位 offset 落的范围，再进入文件查找。</p><h4 id="日志保留"><a href="#日志保留" class="headerlink" title="日志保留"></a>日志保留</h4><p>Kafka 中无论是否消费了消息(只是移动了 offset)，都会一直保留这些消息，为了避免磁盘爆满，使用相应的保留策略(retention policy)，以实现周期性的删除陈旧消息：</p><ul><li>根据消息保留时间，超过指定时间则删除</li><li>根据 topic 大小，超过阈值开始删除最旧消息</li></ul><h4 id="日志压缩"><a href="#日志压缩" class="headerlink" title="日志压缩"></a>日志压缩</h4><p>Kafka 会定期将相同 Key 的消息进行合并，只保留最新的 Value 值。</p><h3 id="4-Kafka-消息的消费原理"><a href="#4-Kafka-消息的消费原理" class="headerlink" title="4. Kafka 消息的消费原理"></a>4. Kafka 消息的消费原理</h3><p>旧版本的 Kafka 将 Consumer group 的消费进度记录在 zookeeper 中，导致对 zookeeper 频繁的写入而性能低下。<br>新版本1.0+已修改为记录在对应 topic 目录下，默认创建了50个 <code>__consumer_offset_topic</code> 文件夹，将消费的进度 offset 保存在对应的文件中。</p><ol><li><p>计算 consumer group 的哈希值</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Math.abs(<span class="string">"group1"</span>.hashCode() % <span class="number">50</span>)</span><br></pre></td></tr></table></figure></li><li><p>根据哈希值找到对应的__consumer文件，查看消费进度</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh kafka-simple-consumer-shell.sh --topic __consumer_offsets --partition 15 -broker-list 192.168.56.110:9092,192.168.56.120:9092,192.168.56.130:9092 --formatter kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter</span><br></pre></td></tr></table></figure></li></ol><h3 id="5-Kafka-的消费者分区分配策略"><a href="#5-Kafka-的消费者分区分配策略" class="headerlink" title="5. Kafka 的消费者分区分配策略"></a>5. Kafka 的消费者分区分配策略</h3><p>Kafka中存在 consumer group 的概念，也就是group.id一样的consumer属于一个consumer group，组内的所有消费者协调在一起来消费消费订阅主题的所有分区。当然每一个分区只能由同一个消费组内的consumer来消费，那么同一个consumer group里面的consumer是怎么去分配该消费哪个分区里的数据，这个就设计到了kafka内部分区分配策略（Partition Assignment Strategy）。<br>在 Kafka 内部存在两种默认的分区分配策略：Range（默认） 和 RoundRobin。通过：<code>partition.assignment.strategy</code>指定</p><h4 id="两种分区策略"><a href="#两种分区策略" class="headerlink" title="两种分区策略"></a>两种分区策略</h4><h5 id="Range-（默认策略）"><a href="#Range-（默认策略）" class="headerlink" title="Range （默认策略）"></a>Range （默认策略）</h5><p>0 ，1 ，2 ，3 ，4，5，6，7，8，9<br>c0 [0,3]<br>c1 [4,6]<br>c2 [7,9]<br>10<code>(partition num)</code>/3<code>(consumer num)</code> =3  </p><h5 id="RoundRobin-（轮询）"><a href="#RoundRobin-（轮询）" class="headerlink" title="RoundRobin （轮询）"></a>RoundRobin （轮询）</h5><p>0 ，1 ，2 ，3 ，4，5，6，7，8，9<br>c0,c1,c2<br>c0 [0,3,6,9]<br>c1 [1,4,7]<br>c2 [2,5,8]<br>kafka 的key 为null， 是随机｛一个Metadata的同步周期内，默认是10分钟｝</p><h3 id="6-高吞吐量原因"><a href="#6-高吞吐量原因" class="headerlink" title="6. 高吞吐量原因"></a>6. 高吞吐量原因</h3><ul><li><strong>消息顺序存储</strong>，通过 offset 偏移量进行顺序读取，减少机械硬盘磁柱移动。</li><li><strong>消息批量发送</strong>，在异步模式中允许进行批量发送消息，先将消息缓存到内存，再一次请求中批量发送出去，减少磁盘读写和网络传输。<ul><li>batch.size 每批量发送的数据大小</li><li>linger.ms  批量发送的间隔时间</li></ul></li><li><strong>消息的零拷贝</strong>，使用 <code>FileChannel.transferTo</code> 直接将消息发送到 socket buffer 中，省略了将消息读取到内存的过程。</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;1-消息可靠性机制&quot;&gt;&lt;a href=&quot;#1-消息可靠性机制&quot; class=&quot;headerlink&quot; title=&quot;1. 消息可靠性机制&quot;&gt;&lt;/a&gt;1. 消息可靠性机制&lt;/h3&gt;&lt;h4 id=&quot;消息发送可靠性&quot;&gt;&lt;a href=&quot;#消息发送可靠性&quot; class=&quot;
+      
+    
+    </summary>
+    
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    
+      <category term="MQ" scheme="https://joecnn.github.io/wiki-site/tags/MQ/"/>
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ActiveMQ configuration</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/ActiveMQ%20configuration/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/分布式/ActiveMQ configuration/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%88%86%E5%B8%83%E5%BC%8F/ActiveMQ%20configuration/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/分布式/ActiveMQ configuration/</id>
     <published>2018-12-26T16:00:00.000Z</published>
     <updated>2019-02-06T12:06:06.061Z</updated>
     
@@ -244,9 +276,9 @@
     
     </summary>
     
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
     
       <category term="MQ" scheme="https://joecnn.github.io/wiki-site/tags/MQ/"/>
@@ -257,8 +289,8 @@
   
   <entry>
     <title>事务的4种隔离级别</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%AD%98%E5%82%A8/%E4%BA%8B%E5%8A%A1%E7%9A%844%E7%A7%8D%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/存储/事务的4种隔离级别/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%AD%98%E5%82%A8/%E4%BA%8B%E5%8A%A1%E7%9A%844%E7%A7%8D%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/存储/事务的4种隔离级别/</id>
     <published>2018-12-23T11:20:00.000Z</published>
     <updated>2019-02-06T13:14:27.577Z</updated>
     
@@ -273,17 +305,17 @@
     
     </summary>
     
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="存储" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%AD%98%E5%82%A8/"/>
+      <category term="存储" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%AD%98%E5%82%A8/"/>
     
     
   </entry>
   
   <entry>
     <title>zookeeper 应用篇</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/zookeeper%20%E5%BA%94%E7%94%A8%E7%AF%87/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/分布式/zookeeper 应用篇/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%88%86%E5%B8%83%E5%BC%8F/zookeeper%20%E5%BA%94%E7%94%A8%E7%AF%87/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/分布式/zookeeper 应用篇/</id>
     <published>2018-12-17T16:00:00.000Z</published>
     <updated>2019-02-06T12:03:31.765Z</updated>
     
@@ -298,9 +330,9 @@
     
     </summary>
     
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
     
       <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
@@ -309,8 +341,8 @@
   
   <entry>
     <title>How To Open A Port In CentOS 7 With Firewalld</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/How%20To%20Open%20A%20Port%20In%20CentOS%207%20With%20Firewalld/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/linux/How To Open A Port In CentOS 7 With Firewalld/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/linux/How%20To%20Open%20A%20Port%20In%20CentOS%207%20With%20Firewalld/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/linux/How To Open A Port In CentOS 7 With Firewalld/</id>
     <published>2018-12-16T16:00:00.000Z</published>
     <updated>2019-02-06T09:34:33.635Z</updated>
     
@@ -326,9 +358,9 @@
     
     </summary>
     
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/"/>
+      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/linux/"/>
     
     
       <category term="linux" scheme="https://joecnn.github.io/wiki-site/tags/linux/"/>
@@ -337,8 +369,8 @@
   
   <entry>
     <title>Zookeeper quickstart</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/Zookeeper%20quickstart/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/分布式/Zookeeper quickstart/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%88%86%E5%B8%83%E5%BC%8F/Zookeeper%20quickstart/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/分布式/Zookeeper quickstart/</id>
     <published>2018-12-15T16:00:00.000Z</published>
     <updated>2019-02-06T12:17:08.606Z</updated>
     
@@ -354,9 +386,9 @@
     
     </summary>
     
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
     
       <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
@@ -365,8 +397,8 @@
   
   <entry>
     <title>Jenkins 开机启动</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/Jenkins%20%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/Jenkins 开机启动/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/devops/Jenkins%20%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/devops/Jenkins 开机启动/</id>
     <published>2018-10-18T12:30:00.000Z</published>
     <updated>2019-02-08T06:45:34.632Z</updated>
     
@@ -382,9 +414,9 @@
     
     </summary>
     
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
+      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/devops/"/>
     
     
       <category term="jenkins" scheme="https://joecnn.github.io/wiki-site/tags/jenkins/"/>
@@ -393,12 +425,12 @@
   
   <entry>
     <title>添加开机运行脚本</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/linux/添加开机运行脚本/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/linux/%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/linux/添加开机运行脚本/</id>
     <published>2018-10-17T16:00:00.000Z</published>
-    <updated>2019-02-06T09:39:42.628Z</updated>
+    <updated>2019-02-21T15:20:26.801Z</updated>
     
-    <content type="html"><![CDATA[<p>Linux 设置开机自动启动的方式有好多种，这里介绍一种通过 <code>chkconfig</code> 命令添加脚本为开机启动的方法。</p><h3 id="1-编写脚本-autostart-sh"><a href="#1-编写脚本-autostart-sh" class="headerlink" title="1. 编写脚本 autostart.sh"></a>1. 编写脚本 autostart.sh</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="comment">#chkconfig: 2345 80 90</span></span><br><span class="line"><span class="comment">#description: 开机自动运行脚本</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启redis服务 端口为6379</span></span><br><span class="line">/usr/<span class="built_in">local</span>/service/redis-2.8.3/src/redis-server --port 6379 &amp;</span><br></pre></td></tr></table></figure><blockquote><p>脚本第二行表示在 2/3/4/5运行级别启动，启动序号80，关闭序号90</p></blockquote><h3 id="2-赋予脚本执行权限"><a href="#2-赋予脚本执行权限" class="headerlink" title="2. 赋予脚本执行权限"></a>2. 赋予脚本执行权限</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /usr/local/service/redis-2.8.3/autostart.sh</span><br></pre></td></tr></table></figure><h3 id="3-创建软链接到-init-d-目录下"><a href="#3-创建软链接到-init-d-目录下" class="headerlink" title="3. 创建软链接到 init.d 目录下"></a>3. 创建软链接到 init.d 目录下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/service/redis-2.8.3/autostart.sh /etc/rc.d/init.d/redis</span><br></pre></td></tr></table></figure><h3 id="4-添加到开机启动项中"><a href="#4-添加到开机启动项中" class="headerlink" title="4. 添加到开机启动项中"></a>4. 添加到开机启动项中</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chkconfig -add redis</span><br><span class="line">chkconfig redis on</span><br></pre></td></tr></table></figure><p>到这里已经将脚本添加到开机启动项中，重启服务器即可看到redis服务已经启动了。</p>]]></content>
+    <content type="html"><![CDATA[<p>Linux 设置开机自动启动的方式有好多种，这里介绍一种通过 <code>chkconfig</code> 命令添加脚本为开机启动的方法。</p><h3 id="1-编写脚本-autostart-sh"><a href="#1-编写脚本-autostart-sh" class="headerlink" title="1. 编写脚本 autostart.sh"></a>1. 编写脚本 autostart.sh</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="comment">#chkconfig: 2345 80 90</span></span><br><span class="line"><span class="comment">#description: 开机自动运行脚本</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启redis服务 端口为6379</span></span><br><span class="line">/usr/<span class="built_in">local</span>/service/redis-2.8.3/src/redis-server --port 6379 &amp;</span><br></pre></td></tr></table></figure><blockquote><p>脚本第二行表示在 2/3/4/5运行级别启动，启动序号80，关闭序号90<br>  在添加其他用户的脚本时，使用 <code>su [USER] -c &quot;bash script&quot;</code> 发送到指定用户</p></blockquote><h3 id="2-赋予脚本执行权限"><a href="#2-赋予脚本执行权限" class="headerlink" title="2. 赋予脚本执行权限"></a>2. 赋予脚本执行权限</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /usr/local/service/redis-2.8.3/autostart.sh</span><br></pre></td></tr></table></figure><h3 id="3-创建软链接到-init-d-目录下"><a href="#3-创建软链接到-init-d-目录下" class="headerlink" title="3. 创建软链接到 init.d 目录下"></a>3. 创建软链接到 init.d 目录下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 必须是全路径，否则会报查找不到文件的错误</span><br><span class="line">ln -s /usr/local/service/redis-2.8.3/autostart.sh /etc/rc.d/init.d/redis</span><br></pre></td></tr></table></figure><h3 id="4-添加到开机启动项中"><a href="#4-添加到开机启动项中" class="headerlink" title="4. 添加到开机启动项中"></a>4. 添加到开机启动项中</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chkconfig -add redis</span><br><span class="line">chkconfig redis on</span><br></pre></td></tr></table></figure><p>到这里已经将脚本添加到开机启动项中，重启服务器即可看到redis服务已经启动了。</p>]]></content>
     
     <summary type="html">
     
@@ -410,9 +442,9 @@
     
     </summary>
     
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/linux/"/>
+      <category term="linux" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/linux/"/>
     
     
       <category term="linux" scheme="https://joecnn.github.io/wiki-site/tags/linux/"/>
@@ -421,8 +453,8 @@
   
   <entry>
     <title>Jenkins 持续编译</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/Jenkins%20%E6%8C%81%E7%BB%AD%E7%BC%96%E8%AF%91/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/Jenkins 持续编译/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/devops/Jenkins%20%E6%8C%81%E7%BB%AD%E7%BC%96%E8%AF%91/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/devops/Jenkins 持续编译/</id>
     <published>2018-10-17T13:00:00.000Z</published>
     <updated>2019-02-08T06:45:30.925Z</updated>
     
@@ -437,9 +469,9 @@
     
     </summary>
     
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
+      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/devops/"/>
     
     
       <category term="jenkins" scheme="https://joecnn.github.io/wiki-site/tags/jenkins/"/>
@@ -448,8 +480,8 @@
   
   <entry>
     <title>VirtualBox共享文件</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%B7%A5%E5%85%B7/VirtualBox%20%E5%85%B1%E4%BA%AB%E6%96%87%E4%BB%B6/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/工具/VirtualBox 共享文件/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%B7%A5%E5%85%B7/VirtualBox%20%E5%85%B1%E4%BA%AB%E6%96%87%E4%BB%B6/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/工具/VirtualBox 共享文件/</id>
     <published>2018-10-15T16:00:00.000Z</published>
     <updated>2019-02-06T11:56:08.573Z</updated>
     
@@ -465,17 +497,17 @@
     
     </summary>
     
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="工具" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%B7%A5%E5%85%B7/"/>
+      <category term="工具" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E5%B7%A5%E5%85%B7/"/>
     
     
   </entry>
   
   <entry>
     <title>Docker 镜像仓库加速</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/docker/docker%20%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/docker/docker 镜像加速/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/devops/docker/docker%20%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/devops/docker/docker 镜像加速/</id>
     <published>2018-08-05T06:00:00.000Z</published>
     <updated>2019-02-08T06:46:18.908Z</updated>
     
@@ -490,11 +522,11 @@
     
     </summary>
     
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
+      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/devops/"/>
     
-      <category term="docker" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/docker/"/>
+      <category term="docker" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/devops/docker/"/>
     
     
       <category term="docker" scheme="https://joecnn.github.io/wiki-site/tags/docker/"/>
@@ -503,8 +535,8 @@
   
   <entry>
     <title>Docker Start</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/docker/docker%20start/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/技术开发/devops/docker/docker start/</id>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/devops/docker/docker%20start/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/软件工程/devops/docker/docker start/</id>
     <published>2018-08-05T04:30:00.000Z</published>
     <updated>2019-02-08T08:47:32.143Z</updated>
     
@@ -520,11 +552,11 @@
     
     </summary>
     
-      <category term="技术开发" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+      <category term="软件工程" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     
-      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/"/>
+      <category term="devops" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/devops/"/>
     
-      <category term="docker" scheme="https://joecnn.github.io/wiki-site/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/devops/docker/"/>
+      <category term="docker" scheme="https://joecnn.github.io/wiki-site/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/devops/docker/"/>
     
     
       <category term="docker" scheme="https://joecnn.github.io/wiki-site/tags/docker/"/>
@@ -546,35 +578,6 @@
       
         &lt;p&gt;&lt;strong&gt;格拉德威尔1万小时定律&lt;/strong&gt;：人们眼中的天才之所有卓越非凡，并非天资超人一等，而是付出了持续不断的努力。只要经过1万小时的锤炼，任何人都能从平凡变成超凡。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;从不存在1万小时定律&lt;/strong&gt;，它仅仅是畅销书作家多
-      
-    
-    </summary>
-    
-      <category term="阅读学习" scheme="https://joecnn.github.io/wiki-site/categories/%E9%98%85%E8%AF%BB%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="读书" scheme="https://joecnn.github.io/wiki-site/tags/%E8%AF%BB%E4%B9%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>深度阅读</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E9%98%85%E8%AF%BB%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E9%98%85%E8%AF%BB/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/阅读学习/深度阅读/</id>
-    <published>2018-04-19T16:00:00.000Z</published>
-    <updated>2019-02-06T10:01:34.849Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="7S阅读法"><a href="#7S阅读法" class="headerlink" title="7S阅读法"></a>7S阅读法</h1><p>一、快速阅读阶段</p><blockquote><p>明确阅读的目的，阅读的内容和速度</p><ul><li>【S1 提问】自我梳理，提出阅读的几个问题<ol><li>我为什么要阅读它？</li><li>它对我来说有多重要？</li><li>我要获得哪些信息？</li><li>我打算把阅读获得的知识用在哪些方面？</li></ol></li><li>【S2 速览】关键词法，快速了解文本内容，通过段落首末句快速了解文本大概</li></ul></blockquote><p>二、深度阅读阶段</p><blockquote><p>找出关键词句，总结作者表达的中心思想，整理论述结构并用自己的语言重构</p><ul><li>【S3 融合】摘录法，快速阅读后通过摘录关键词句搭建全文的框架</li><li>【S4 重构】复述法，用自己的语言复述文本的内容</li><li>【S5 回忆】提问法，通过定期自我提问，回忆文本框架</li></ul></blockquote><p>三、书为我用阶段</p><blockquote><p>通过延伸、交流来加深对阅读的理解</p><ul><li>【S6 延伸】横向、纵向扩展，通过阅读相关资料，扩展知识的广度和深度</li><li>【S7 交流】笔记法，通过与好友交流、分享与实际应用中得到新的思路</li></ul></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;7S阅读法&quot;&gt;&lt;a href=&quot;#7S阅读法&quot; class=&quot;headerlink&quot; title=&quot;7S阅读法&quot;&gt;&lt;/a&gt;7S阅读法&lt;/h1&gt;&lt;p&gt;一、快速阅读阶段&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;明确阅读的目的，阅读的内容和速度&lt;/p&gt;
-&lt;ul&gt;
-&lt;li
       
     
     </summary>

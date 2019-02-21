@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    <title>Eclipse 使用配置 | Joe&#39;s Wiki</title>
+    
+    
+        <meta name="keywords" content="java,ide">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Eclipse 有众多版本，最常用的包括Eclipse EE，Eclipse SE。当然还有MyEclipse等，但是MyEclipse是基于Eclipse的商业软件，因此本文不包含MyEclipse。 1. Eclipse EE 配置TomcatEclipse EE 主要用于Java Web开发和J2EE项目开发。Eclipse EE中配置Tomcat比较简单，新建一个Tomcat Server">
+<meta name="keywords" content="java,ide">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eclipse 使用配置">
+<meta property="og:url" content="https://joecnn.github.io/wiki-site/wiki/软件工程/编程语言/java/开发工具/Eclipse 使用配置/index.html">
+<meta property="og:site_name" content="Joe&#39;s Wiki">
+<meta property="og:description" content="Eclipse 有众多版本，最常用的包括Eclipse EE，Eclipse SE。当然还有MyEclipse等，但是MyEclipse是基于Eclipse的商业软件，因此本文不包含MyEclipse。 1. Eclipse EE 配置TomcatEclipse EE 主要用于Java Web开发和J2EE项目开发。Eclipse EE中配置Tomcat比较简单，新建一个Tomcat Server">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-02-16T15:11:43.528Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Eclipse 使用配置">
+<meta name="twitter:description" content="Eclipse 有众多版本，最常用的包括Eclipse EE，Eclipse SE。当然还有MyEclipse等，但是MyEclipse是基于Eclipse的商业软件，因此本文不包含MyEclipse。 1. Eclipse EE 配置TomcatEclipse EE 主要用于Java Web开发和J2EE项目开发。Eclipse EE中配置Tomcat比较简单，新建一个Tomcat Server">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Joe&#39;s Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/wiki-site/wiki-site/favicon.ico">
+    
+
+    <link rel="stylesheet" href="/wiki-site/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/wiki-site/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/wiki-site/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/wiki-site/css/style.css">
+    <script src="/wiki-site/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/wiki-site/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/wiki-site/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/wiki-site/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki-site/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Joe&#39;s Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki-site/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki-site/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/wiki-site/',
+        CONTENT_URL: '/wiki-site/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/wiki-site/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki-site/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Playing
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/Playing/黑暗之魂2/">《 黑暗之魂2 原罪贤者 》白金攻略</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            软件工程
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            devops
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            docker
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/docker/docker start/">Docker Start</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/docker/docker mysql/">Docker Mysql</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/docker/docker 镜像加速/">Docker 镜像仓库加速</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            git
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/git/Git 基本操作/">Git 基本操作</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/git/Git 安装/">Git 安装</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/git/Git 标签/">Git 标签</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/git/gitignore不生效解决方法/">gitignore不生效解决方法</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/git/Git 介绍/">Git 介绍</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki-site/wiki/软件工程/devops/Jenkins 开机启动/">Jenkins 开机启动</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/Jenkins 持续编译/">Jenkins 持续编译</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            linux
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/How To Open A Port In CentOS 7 With Firewalld/">How To Open A Port In CentOS 7 With Firewalld</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/安装Python3/">安装Python3</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/常见问题收集/">常见问题收集</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/安装gcc/">安装gcc</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/添加开机运行脚本/">添加开机运行脚本</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/网络配置/">网络配置</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            分布式
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/ActiveMQ configuration/">ActiveMQ configuration</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Kafka quickstart/">Kafka quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Hadoop quickstart/">Hadoop quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Kafka 实现原理/">Kafka 实现原理</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Redis quickstart/">Redis quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Redis 持久化机制/">Redis 持久化机制</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Redis 集群/">Redis 集群</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Zookeeper quickstart/">Zookeeper quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/zookeeper 应用篇/">zookeeper 应用篇</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/系统并发用户估算/">系统并发用户估算</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            存储
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            mssql
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mssql/Mssql 日期格式化/">Mssql 日期格式化</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mssql/Mssql 表结构查询/">Mssql 表结构查询</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            mysql
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mysql/MySQL 主从模式/">MySQL 主从模式</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mysql/MySQL 树形结构查询/">MySQL 树形结构查询</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mysql/MySQL 表结构查询/">MySQL 表结构查询</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mysql/MySQL quickstart/">MySQL quickstart</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            oracle
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 冷备启库/">Oracle 冷备启库</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 导入导出/">Oracle 导入导出</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 切换数据模式/">Oracle 切换数据模式</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 表空间/">Oracle 表空间</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 分区表/">Oracle 分区表</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki-site/wiki/软件工程/存储/Access 表结构查询/">Access 表结构查询</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/事务的4种隔离级别/">事务的4种隔离级别</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工具
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/工具/PowerDesigner 导出表结构/">PowerDesigner导出表结构</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/工具/VirtualBox 共享文件/">VirtualBox共享文件</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            编程语言
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            donet
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/donet/DataTable 常用操作/">DataTable 常用操作</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/donet/WPF 基础之控件与布局/">WPF 基础之控件与布局</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/donet/VS&FTS 常见问题/">VS&FTS 常见问题</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            java
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            struts2
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/OGNL 表达式/">OGNL 表达式</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/Struts2 action result/">Struts2 action result</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/Struts2 action 传参/">Struts2 action 传参</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/Struts2 action 配置/">Struts2 action 配置</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/Struts2 quickstart/">Struts2 quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/Struts2 获取上下文/">Struts2 获取上下文</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            开发工具
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/JDK 多版本环境共存/">JDK 多版本环境共存</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/Java env for linux/">Java env for linux</a></li>  <li class="file active"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/Eclipse 使用配置/">Eclipse 使用配置</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/为代码瘦身 - Lombok/">为代码瘦身 - Lombok</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/Java tomcat/">在Idea中配置Tomcat</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/项目管理利器 - Maven/">项目管理利器 - Maven</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            javascript
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/javascript/Gruntjs JSHint 代码校验/">Gruntjs JSHint 代码校验</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs Express/">Nodejs Express</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs MongoDB/">Nodejs MongoDB</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs quickstart/">Nodejs quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/javascript/Gruntjs uglify 代码压缩/">Gruntjs uglify 代码压缩</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            阅读学习
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/阅读学习/深度阅读/">深度阅读</a></li>  <li class="file"><a href="/wiki-site/wiki/阅读学习/刻意练习/">《刻意练习》读书笔记</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-软件工程/编程语言/java/开发工具/Eclipse 使用配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki-site/categories/软件工程/">软件工程</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/编程语言/">编程语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/编程语言/java/">java</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/编程语言/java/开发工具/">开发工具</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/wiki-site/tags/ide/">ide</a>, <a class="tag-link" href="/wiki-site/tags/java/">java</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/Eclipse 使用配置/">
+            <time datetime="2013-12-25T16:00:00.000Z" itemprop="datePublished">2013-12-26</time>
+        </a>
+    </div>
+
+
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/软件工程/编程语言/java/开发工具/Eclipse 使用配置.md"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/软件工程/编程语言/java/开发工具/Eclipse 使用配置.md"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/软件工程/编程语言/java/开发工具/Eclipse 使用配置.md"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Eclipse 使用配置
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <p>Eclipse 有众多版本，最常用的包括Eclipse EE，Eclipse SE。当然还有MyEclipse等，但是MyEclipse是基于Eclipse的商业软件，因此本文不包含MyEclipse。</p>
+<h3 id="1-Eclipse-EE-配置Tomcat"><a href="#1-Eclipse-EE-配置Tomcat" class="headerlink" title="1. Eclipse EE 配置Tomcat"></a>1. Eclipse EE 配置Tomcat</h3><p>Eclipse EE 主要用于Java Web开发和J2EE项目开发。Eclipse EE中配置Tomcat比较简单，新建一个Tomcat Server即可，步骤如下：</p>
+<h4 id="1-1-打开Servers-视图"><a href="#1-1-打开Servers-视图" class="headerlink" title="1.1. 打开Servers 视图"></a>1.1. 打开Servers 视图</h4><p>通过菜单Window-&gt;Show View-&gt;Servers打开Servers视图。</p>
+<h4 id="1-2-新建Tomcat-服务器"><a href="#1-2-新建Tomcat-服务器" class="headerlink" title="1.2. 新建Tomcat 服务器"></a>1.2. 新建Tomcat 服务器</h4><p>右击空白区域，选择New-&gt;Server（对于没有任何Server的环境，可以点击”new server wizard”链接）；然后在列表中选择Tomcat服务器，选中本机相应版本；选择本机Tomcat目录，点击完成即可。到此，Eclipse EE 配置Tomcat成功。 </p>
+<h3 id="2-Eclipse-SE-配置Tomcat"><a href="#2-Eclipse-SE-配置Tomcat" class="headerlink" title="2. Eclipse SE 配置Tomcat"></a>2. Eclipse SE 配置Tomcat</h3><p>Eclipse SE主要用于控制台程序的开发，如果进行Web开发建议使用Eclipse EE。当然，Eclipse SE也可以配置Tomcat，具体如下： </p>
+<h4 id="2-1-下载Tomcat插件"><a href="#2-1-下载Tomcat插件" class="headerlink" title="2.1. 下载Tomcat插件"></a>2.1. 下载Tomcat插件</h4><p>下载地址：<a href="http://marketplace.eclipse.org/content/eclipse-tomcat-plugin，下载时，请注意核对Eclipse版本和Tomcat版本。">http://marketplace.eclipse.org/content/eclipse-tomcat-plugin，下载时，请注意核对Eclipse版本和Tomcat版本。</a> </p>
+<blockquote>
+<p>PS: 是Tomcat插件，不是Tomcat，两者不同 </p>
+</blockquote>
+<h4 id="2-2-安装Tomcat插件"><a href="#2-2-安装Tomcat插件" class="headerlink" title="2.2. 安装Tomcat插件"></a>2.2. 安装Tomcat插件</h4><p>解压Tomcat插件，拷贝到Eclipse目录中Plugin下，重启Eclipse，Tomcat插件即可安装成功。 </p>
+<h4 id="2-3-配置Tomcat插件"><a href="#2-3-配置Tomcat插件" class="headerlink" title="2.3. 配置Tomcat插件"></a>2.3. 配置Tomcat插件</h4><p>在Eclipse中，点击Window-&gt;Preferences-&gt;Tomcat，选择本机Tomcat版本号（已下载并解压Tomcat到本地），选择Tomcat Home目录，即Tomcat所在目录。<br>配置后在Eclipse中启动Tomcat，并在Eclipse中的Internal Web Browser中输入：localhost:8080，如果出现Tomcat页面，即配置Tomcat插件成功。 </p>
+<h3 id="3-Tomcat启动后打开页面提示404错误的解决"><a href="#3-Tomcat启动后打开页面提示404错误的解决" class="headerlink" title="3. Tomcat启动后打开页面提示404错误的解决"></a>3. Tomcat启动后打开页面提示404错误的解决</h3><p>Eclipse配置并启动Tomcat成功，但有时会访问localhost:8080出现404错误，此时需要修改Tomcat配置。步骤如下： </p>
+<ol>
+<li>在Eclipse中双击Tomcat server，打开Tomcat配置页面。 </li>
+<li>修改Server locations为Use Tomcat installation。 </li>
+<li>修改Deploy path为webapps。 </li>
+<li>保存配置即可。 <blockquote>
+<p>PS：如果不能修改配置，在Server中删除Tomcat，重新添加一次，即可配置。 </p>
+</blockquote>
+</li>
+</ol>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 导入导出/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Oracle 导入导出
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/Struts2 获取上下文/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Struts2 获取上下文</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            Joshua Chen &copy; 2019 
+            <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        <script src="/wiki-site/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/wiki-site/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/wiki-site/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/wiki-site/js/main.js"></script>
+
+    </div>
+</body>
+</html>
