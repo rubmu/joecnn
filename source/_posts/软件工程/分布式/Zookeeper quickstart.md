@@ -67,8 +67,8 @@ server.3 = 192.168.56.130:2888:3888
 ls / 
 
 # 创建节点
-# -s 临时节点  -e 有序节点  acl 权限
-create [-s] [-e] path data acl
+# -e 临时节点  -s 有序节点  acl 权限
+create [-e] [-s] path data acl
 
 # 获取节点信息
 get path
