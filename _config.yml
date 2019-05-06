@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Joe's Wiki
-subtitle: 
+title: Joe's Notes
+subtitle: Quick notes
 description: 大道至简
 author: Joshua Chen
-language: en
+language: zh-CN
 timezone: Asia/Shanghai
 
 # URL
@@ -105,6 +105,12 @@ jsonContent:
   ignore:
     - 404.html
   
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+  
 ### Creat sitemap
 sitemap:
   path: sitemap.xml
@@ -115,7 +121,7 @@ nofollow:
   exclude:
 
 ## Themes: https://hexo.io/themes/
-theme: Wikitten
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
