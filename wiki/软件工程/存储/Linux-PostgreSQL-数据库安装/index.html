@@ -3,24 +3,24 @@
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     
-    <title>深度阅读 | Joe&#39;s Wiki</title>
+    <title>Linux PostgreSQL 数据库安装 | Joe&#39;s Wiki</title>
     
     
-        <meta name="keywords" content="读书">
+        <meta name="keywords" content="postgres">
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="7S阅读法一、快速阅读阶段  明确阅读的目的，阅读的内容和速度  【S1 提问】自我梳理，提出阅读的几个问题 我为什么要阅读它？ 它对我来说有多重要？ 我要获得哪些信息？ 我打算把阅读获得的知识用在哪些方面？   【S2 速览】关键词法，快速了解文本内容，通过段落首末句快速了解文本大概   二、深度阅读阶段  找出关键词句，总结作者表达的中心思想，整理论述结构并用自己的语言重构  【S3 融合】摘">
-<meta name="keywords" content="读书">
+    <meta name="description" content="PostgreSQL 是加州大学伯克利分校计算机系开发的 对象-关系型数据库(ORDBMS) 管理系统，在 BSD许可证 下开源发行。PostgreSQL 的稳定性极强，支持丰富的几何类型数据。它可以存储 array 和 json, 可以在 array 和 json 上建索引, 甚至还能用表达式索引。 PostgreSQL 提供了很多种安装方式，本编文章主要是在 Linux 环境下以源码的方式进行">
+<meta name="keywords" content="postgres">
 <meta property="og:type" content="article">
-<meta property="og:title" content="深度阅读">
-<meta property="og:url" content="https://joecnn.github.io/wiki-site/wiki/阅读学习/深度阅读/index.html">
+<meta property="og:title" content="Linux PostgreSQL 数据库安装">
+<meta property="og:url" content="https://joecnn.github.io/wiki-site/wiki/软件工程/存储/Linux-PostgreSQL-数据库安装/index.html">
 <meta property="og:site_name" content="Joe&#39;s Wiki">
-<meta property="og:description" content="7S阅读法一、快速阅读阶段  明确阅读的目的，阅读的内容和速度  【S1 提问】自我梳理，提出阅读的几个问题 我为什么要阅读它？ 它对我来说有多重要？ 我要获得哪些信息？ 我打算把阅读获得的知识用在哪些方面？   【S2 速览】关键词法，快速了解文本内容，通过段落首末句快速了解文本大概   二、深度阅读阶段  找出关键词句，总结作者表达的中心思想，整理论述结构并用自己的语言重构  【S3 融合】摘">
+<meta property="og:description" content="PostgreSQL 是加州大学伯克利分校计算机系开发的 对象-关系型数据库(ORDBMS) 管理系统，在 BSD许可证 下开源发行。PostgreSQL 的稳定性极强，支持丰富的几何类型数据。它可以存储 array 和 json, 可以在 array 和 json 上建索引, 甚至还能用表达式索引。 PostgreSQL 提供了很多种安装方式，本编文章主要是在 Linux 环境下以源码的方式进行">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-02-06T10:01:34.849Z">
+<meta property="og:updated_time" content="2019-02-23T14:52:26.437Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="深度阅读">
-<meta name="twitter:description" content="7S阅读法一、快速阅读阶段  明确阅读的目的，阅读的内容和速度  【S1 提问】自我梳理，提出阅读的几个问题 我为什么要阅读它？ 它对我来说有多重要？ 我要获得哪些信息？ 我打算把阅读获得的知识用在哪些方面？   【S2 速览】关键词法，快速了解文本内容，通过段落首末句快速了解文本大概   二、深度阅读阶段  找出关键词句，总结作者表达的中心思想，整理论述结构并用自己的语言重构  【S3 融合】摘">
+<meta name="twitter:title" content="Linux PostgreSQL 数据库安装">
+<meta name="twitter:description" content="PostgreSQL 是加州大学伯克利分校计算机系开发的 对象-关系型数据库(ORDBMS) 管理系统，在 BSD许可证 下开源发行。PostgreSQL 的稳定性极强，支持丰富的几何类型数据。它可以存储 array 和 json, 可以在 array 和 json 上建索引, 甚至还能用表达式索引。 PostgreSQL 提供了很多种安装方式，本编文章主要是在 Linux 环境下以源码的方式进行">
     
 
     
@@ -168,9 +168,9 @@
                          <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/Playing/黑暗之魂2/">《 黑暗之魂2 原罪贤者 》白金攻略</a></li>  </ul> 
                     </li> 
                     
-                    <li class="directory">
+                    <li class="directory open">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
+                            <i class="fa fa-folder-open"></i>
                             &nbsp;
                             软件工程
                         </a>
@@ -220,9 +220,9 @@
                          <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Kafka 实现原理/">Kafka 实现原理</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Kafka quickstart/">Kafka quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/ActiveMQ configuration/">ActiveMQ configuration</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Redis 集群/">Redis 集群</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Hadoop quickstart/">Hadoop quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/zookeeper 应用篇/">zookeeper 应用篇</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Zookeeper quickstart/">Zookeeper quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/系统并发用户估算/">系统并发用户估算</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Redis 持久化机制/">Redis 持久化机制</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Redis quickstart/">Redis quickstart</a></li>  </ul> 
                     </li> 
                     
-                    <li class="directory">
+                    <li class="directory open">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
+                            <i class="fa fa-folder-open"></i>
                             &nbsp;
                             存储
                         </a>
@@ -253,7 +253,7 @@
                         </a>
                          <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 切换数据模式/">Oracle 切换数据模式</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 表空间/">Oracle 表空间</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 冷备启库/">Oracle 冷备启库</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 分区表/">Oracle 分区表</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 导入导出/">Oracle 导入导出</a></li>  </ul> 
                     </li> 
-                     <li class="file"><a href="/wiki-site/wiki/软件工程/存储/事务的4种隔离级别/">事务的4种隔离级别</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/Access 表结构查询/">Access 表结构查询</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/Linux-PostgreSQL-数据库安装/">Linux PostgreSQL 数据库安装</a></li>  </ul> 
+                     <li class="file"><a href="/wiki-site/wiki/软件工程/存储/事务的4种隔离级别/">事务的4种隔离级别</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/Access 表结构查询/">Access 表结构查询</a></li>  <li class="file active"><a href="/wiki-site/wiki/软件工程/存储/Linux-PostgreSQL-数据库安装/">Linux PostgreSQL 数据库安装</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -321,13 +321,13 @@
                      </ul> 
                     </li> 
                     
-                    <li class="directory open">
+                    <li class="directory">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder-open"></i>
+                            <i class="fa fa-folder"></i>
                             &nbsp;
                             阅读学习
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/阅读学习/刻意练习/">《刻意练习》读书笔记</a></li>  <li class="file active"><a href="/wiki-site/wiki/阅读学习/深度阅读/">深度阅读</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/阅读学习/刻意练习/">《刻意练习》读书笔记</a></li>  <li class="file"><a href="/wiki-site/wiki/阅读学习/深度阅读/">深度阅读</a></li>  </ul> 
                     </li> 
                      </ul> 
     </div>
@@ -400,7 +400,7 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><article id="post-阅读学习/深度阅读" class="article article-type-post" itemscope="" itemprop="blogPost">
+            <section id="main"><article id="post-软件工程/存储/Linux-PostgreSQL-数据库安装" class="article article-type-post" itemscope="" itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -410,20 +410,20 @@
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/wiki-site/categories/阅读学习/">阅读学习</a>
+        <a class="article-category-link" href="/wiki-site/categories/软件工程/">软件工程</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/存储/">存储</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/wiki-site/tags/读书/">读书</a>
+        <a class="tag-link" href="/wiki-site/tags/postgres/">postgres</a>
     </div>
 
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/wiki-site/wiki/阅读学习/深度阅读/">
-            <time datetime="2018-04-19T16:00:00.000Z" itemprop="datePublished">2018-04-20</time>
+        <a href="/wiki-site/wiki/软件工程/存储/Linux-PostgreSQL-数据库安装/">
+            <time datetime="2019-02-23T11:51:00.000Z" itemprop="datePublished">2019-02-23</time>
         </a>
     </div>
 
@@ -431,13 +431,13 @@
                         
                         
                             <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/阅读学习/深度阅读.md"> Source </a>
+                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/软件工程/存储/Linux-PostgreSQL-数据库安装.md"> Source </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/阅读学习/深度阅读.md"> Edit </a>
+                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/软件工程/存储/Linux-PostgreSQL-数据库安装.md"> Edit </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/阅读学习/深度阅读.md"> History </a>
+                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/软件工程/存储/Linux-PostgreSQL-数据库安装.md"> History </a>
                             </div>
                         
                     </div>
@@ -445,7 +445,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            深度阅读
+            Linux PostgreSQL 数据库安装
         </h1>
     
 
@@ -458,37 +458,46 @@
             
         
         
-            <h1 id="7S阅读法"><a href="#7S阅读法" class="headerlink" title="7S阅读法"></a>7S阅读法</h1><p>一、快速阅读阶段</p>
-<blockquote>
-<p>明确阅读的目的，阅读的内容和速度</p>
-<ul>
-<li>【S1 提问】自我梳理，提出阅读的几个问题<ol>
-<li>我为什么要阅读它？</li>
-<li>它对我来说有多重要？</li>
-<li>我要获得哪些信息？</li>
-<li>我打算把阅读获得的知识用在哪些方面？</li>
-</ol>
-</li>
-<li>【S2 速览】关键词法，快速了解文本内容，通过段落首末句快速了解文本大概</li>
-</ul>
-</blockquote>
-<p>二、深度阅读阶段</p>
-<blockquote>
-<p>找出关键词句，总结作者表达的中心思想，整理论述结构并用自己的语言重构</p>
-<ul>
-<li>【S3 融合】摘录法，快速阅读后通过摘录关键词句搭建全文的框架</li>
-<li>【S4 重构】复述法，用自己的语言复述文本的内容</li>
-<li>【S5 回忆】提问法，通过定期自我提问，回忆文本框架</li>
-</ul>
-</blockquote>
-<p>三、书为我用阶段</p>
-<blockquote>
-<p>通过延伸、交流来加深对阅读的理解</p>
-<ul>
-<li>【S6 延伸】横向、纵向扩展，通过阅读相关资料，扩展知识的广度和深度</li>
-<li>【S7 交流】笔记法，通过与好友交流、分享与实际应用中得到新的思路</li>
-</ul>
-</blockquote>
+            <p><strong>PostgreSQL</strong> 是加州大学伯克利分校计算机系开发的 <strong>对象-关系型数据库(ORDBMS)</strong> 管理系统，在 BSD许可证 下开源发行。PostgreSQL 的稳定性极强，支持丰富的几何类型数据。它可以存储 array 和 json, 可以在 array 和 json 上建索引, 甚至还能用表达式索引。</p>
+<p>PostgreSQL 提供了很多种安装方式，本编文章主要是在 Linux 环境下以源码的方式进行安装，这样虽然在安装上步骤多了许多，但让你可以控制安装细节。</p>
+<h2 id="下载-PostgreSQL"><a href="#下载-PostgreSQL" class="headerlink" title="下载 PostgreSQL"></a>下载 PostgreSQL</h2><p>首先你需要到 <a href="https://www.postgresql.org/">postgresql.org</a> 上下载你需要的版本源码，也可以通过以下命令直接下载。</p>
+<p><code>$ sudo wget https://ftp.postgresql.org/pub/source/v11.2/postgresql-11.2.tar.gz</code></p>
+<p>解压 <code>tar.gz</code> 文件到 <code>/usr/local/etc</code> 目录。</p>
+<h2 id="安装-PostgreSQL"><a href="#安装-PostgreSQL" class="headerlink" title="安装 PostgreSQL"></a>安装 PostgreSQL</h2><p>接下来你需要从源码进行安装，这个过程分为三个步骤。首先你需要准备你的 Linux 编译环境，其次对源码进行编译生成安装文件，最后进行 PostgreSQL 安装。</p>
+<h4 id="准备编译环境"><a href="#准备编译环境" class="headerlink" title="准备编译环境"></a>准备编译环境</h4><p>进入已解压的 PostgreSQL 文件目录，执行 <code>$ ./configure</code> 命令。</p>
+<h4 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h4><p>执行命令 <code>$ make &amp;&amp; sudo make install</code></p>
+<h4 id="安装完成"><a href="#安装完成" class="headerlink" title="安装完成"></a>安装完成</h4><p>PostgreSQL 会安装在 <code>/usr/local/pgsql</code> 目录下，在 <code>bin</code> 目录下提供了一些 PostgreSQL 的命令行工具，提供给用户使用。</p>
+<h2 id="创建-Linux-用户"><a href="#创建-Linux-用户" class="headerlink" title="创建 Linux 用户"></a>创建 Linux 用户</h2><p>出于对数据库安全性和完整性的控制，为 PostgreSQL 应用创建一个用户进行管理。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ groupadd postgres</span><br><span class="line">$ useradd -g postgres postgres</span><br><span class="line">$ passwd postgres</span><br></pre></td></tr></table></figure>
+<h2 id="创建数据存储目录"><a href="#创建数据存储目录" class="headerlink" title="创建数据存储目录"></a>创建数据存储目录</h2><p>在这一步骤，你将创建一个用于存储 PostgreSQL 数据的目录，并将该目录授权给上一步创建的<code>postgres</code> 用户。</p>
+<p>进入 <code>/usr/local/pgsql</code> 目录，这个是安装 PostgreSQL 的目录，在此目录下创建 <code>data</code> 目录。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/pgsql</span><br><span class="line">$ sudo mkdir data</span><br><span class="line">$ sudo chown postgres:postgres /usr/<span class="built_in">local</span>/pgsql/data</span><br></pre></td></tr></table></figure>
+<h2 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h2><p>在这一步骤中，在 <code>/etc/profile</code> 下添加配置，方便用户在 <code>bash</code> 中直接使用 PostgreSQL 提供的工具，并且设置默认的数据文件存储位置 <code>PGDATA</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PGDATA=/usr/<span class="built_in">local</span>/pgsql/data</span><br><span class="line">PATH=<span class="variable">$PATH</span>:/usr/<span class="built_in">local</span>/pgsql/bin</span><br><span class="line"><span class="built_in">export</span> PGDATA PATH</span><br></pre></td></tr></table></figure>
+<p>最后执行 <code>source /etc/profile</code> 让环境配置生效。</p>
+<h2 id="初始化数据库"><a href="#初始化数据库" class="headerlink" title="初始化数据库"></a>初始化数据库</h2><p>切换到 <code>postgres</code> 用户，对新安装的 PostgreSQL 进行初始化，并通过 <code>-D</code> 指定数据存储目录，如果不指定则默认使用环境变量中 <code>PGDATA</code> 指向的目录。</p>
+<p><code>$ pg_ctl initdb -D /usr/local/pgsql/data</code> </p>
+<p>接下来可以启动数据服务，可以指定日志输出文件。</p>
+<p><code>$ pg_ctl -l ~/logfile start</code></p>
+<p>到此可以看到 PostgreSQL 服务已经启动，可以通过 <code>psql</code> 命令连接到服务，先给默认的用户 <code>postgres</code> 设置登录密码。</p>
+<p><code>postgres=# ALTER USER postgres PASSWORD &#39;postgres&#39;;</code></p>
+<h2 id="开启支持远程连接"><a href="#开启支持远程连接" class="headerlink" title="开启支持远程连接"></a>开启支持远程连接</h2><p>默认安装的 PostgreSQL 只支持本地连接，但我们在使用时一般都是通过客户端进行远程连接，所以这一步骤主要是修改配置文件，让PostgreSQL 数据服务可以接受远程连接。</p>
+<p>进入 <code>/usr/local/pgsql/data</code> 目录下，修改配置文件 <strong>postgresql.conf</strong> 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 开放监听的地址</span><br><span class="line">listen_addresses = &apos;*&apos;</span><br></pre></td></tr></table></figure>
+<p>修改配置文件 <strong>pg_hba.conf</strong>  添加允许连接的 IP 段。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># IPv4 local connections:</span><br><span class="line">host    all             all              0.0.0.0/0                       md5</span><br><span class="line"># IPv6 local connections:</span><br><span class="line">host    all             all              ::/0                            md5</span><br></pre></td></tr></table></figure>
+<p>修改完这两个配置文件后，重启 pgsql 服务即可支持远程连接。</p>
+<h2 id="设置开机启动"><a href="#设置开机启动" class="headerlink" title="设置开机启动"></a>设置开机启动</h2><p>PostgreSQL 数据服务一般要设置到服务器开机自动启动，接下来的步骤就是通过开机运行脚本进行设置。</p>
+<p>首先切换到 <code>root</code> 用户。</p>
+<p><code>$ su root</code></p>
+<p>接下来拷贝一份开机脚本到 <code>/etc/init.d</code> 目录。</p>
+<p><code>$ sudo cp /usr/local/etc/postgresql-11.2/contrib/start-scripts/linux /etc/init.d/postgresql</code></p>
+<p>给脚本添加执行权限。</p>
+<p><code>$ sudo chmod +x /etc/init.d/postgresql</code></p>
+<p>添加到开机启动运行服务列表中。</p>
+<p><code>$ sudo chkconfig --add postgresql</code></p>
+<p>你可以通过 <code>reboot</code> 重启 Linux 进行验证是否已设置成功。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本编文章记录了 PostgreSQL 数据的源码编译安装方式，同样也可以通过 <code>yum</code> 或 <code>rpm</code> 等在线安装的方式，也可以直接下载已编译好的包，解压配置环境变量即可。如果进行手动安装的方式，记得要配置环境变量和数据存储目录，以便 PostgreSQL 的使用。</p>
 
             </div>
         
@@ -501,19 +510,10 @@
     
 <nav id="article-nav">
     
-        <a href="/wiki-site/wiki/阅读学习/刻意练习/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Newer</strong>
-            <div class="article-nav-title">
-                
-                    《刻意练习》读书笔记
-                
-            </div>
-        </a>
     
-    
-        <a href="/wiki-site/wiki/软件工程/devops/docker/docker mysql/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/JDK 多版本环境共存/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">Docker Mysql</div>
+            <div class="article-nav-title">JDK 多版本环境共存</div>
         </a>
     
 </nav>
