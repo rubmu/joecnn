@@ -1,959 +1,2094 @@
 <!DOCTYPE html>
-<html lang="en">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
-    <meta charset="utf-8">
-    
-    <title>Joe&#39;s Wiki</title>
-    
-    
-        <meta name="keywords" content="Joe&#39;s Wiki">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="大道至简">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Joe&#39;s Wiki">
-<meta property="og:url" content="https://joecnn.github.io/wiki-site/page/10/index.html">
-<meta property="og:site_name" content="Joe&#39;s Wiki">
-<meta property="og:description" content="大道至简">
-<meta property="og:locale" content="en">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Joe&#39;s Wiki">
-<meta name="twitter:description" content="大道至简">
-    
-
-    
-        <link rel="alternate" href="/atom.xml" title="Joe&#39;s Wiki" type="application/atom+xml">
-    
-
-    
-        <link rel="icon" href="/wiki-site/wiki-site/favicon.ico">
-    
-
-    <link rel="stylesheet" href="/wiki-site/libs/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/wiki-site/libs/open-sans/styles.css">
-    <link rel="stylesheet" href="/wiki-site/libs/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/wiki-site/css/style.css">
-    <script src="/wiki-site/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/wiki-site/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
-    
-    
-        <link rel="stylesheet" href="/wiki-site/libs/lightgallery/css/lightgallery.min.css">
-    
-    
-        <link rel="stylesheet" href="/wiki-site/libs/justified-gallery/justifiedGallery.min.css">
-    
-    
-    
-    
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
 
 
-    
-</head>
-</html>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/wiki-site/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">Joe&#39;s Wiki</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/wiki-site/">首页</a>
-                
-                    <a class="main-nav-link" href="/wiki-site/archives">归档</a>
-                
-                    <a class="main-nav-link" href="/wiki-site/categories">分类</a>
-                
-                    <a class="main-nav-link" href="/wiki-site/tags">标签</a>
-                
-                    <a class="main-nav-link" href="/wiki-site/about">关于</a>
-                
-            </nav>
-            
-            <div id="search-form-wrap">
 
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something...">
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/wiki-site/',
-        CONTENT_URL: '/wiki-site/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/wiki-site/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/wiki-site/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/wiki-site/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/wiki-site/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/wiki-site/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/wiki-site/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/wiki-site/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
 </script>
-<script src="/wiki-site/js/insight.js"></script>
+
+
+  
+
+
+
+
+  <meta name="description" content="大道至简">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Joe&#39;s Notes">
+<meta property="og:url" content="https://joecnn.github.io/wiki-site/page/10/index.html">
+<meta property="og:site_name" content="Joe&#39;s Notes">
+<meta property="og:description" content="大道至简">
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Joe&#39;s Notes">
+<meta name="twitter:description" content="大道至简">
+
+
+
+  <link rel="alternate" href="/wiki-site/atom.xml" title="Joe's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://joecnn.github.io/wiki-site/page/10/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Joe's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/wiki-site/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Joe's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Quick notes</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/wiki-site/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/wiki-site/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/wiki-site/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
 
 </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/编程语言/javascript/Gruntjs uglify 代码压缩/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joshua Chen">
+      <meta itemprop="description" content="大道至简">
+      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joe's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/wiki-site/wiki/软件工程/编程语言/javascript/Gruntjs uglify 代码压缩/" class="post-title-link" itemprop="url">Gruntjs uglify 代码压缩</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2014-12-26 00:00:00" itemprop="dateCreated datePublished" datetime="2014-12-26T00:00:00+08:00">2014-12-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-08 16:52:17" itemprop="dateModified" datetime="2019-02-08T16:52:17+08:00">2019-02-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/编程语言/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
         </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/wiki-site/">首页</a></td>
-                
-                    <td><a class="main-nav-link" href="/wiki-site/archives">归档</a></td>
-                
-                    <td><a class="main-nav-link" href="/wiki-site/categories">分类</a></td>
-                
-                    <td><a class="main-nav-link" href="/wiki-site/tags">标签</a></td>
-                
-                    <td><a class="main-nav-link" href="/wiki-site/about">关于</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap" id="categories">
-        <h3 class="widget-title">
-            <span>categories</span>
-            &nbsp;
-            <a id="allExpand" href="#">
-                <i class="fa fa-angle-double-down fa-2x"></i>
-            </a>
-        </h3>
-        
-        
-        
-         <ul class="unstyled" id="tree"> 
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            Playing
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/Playing/黑暗之魂2/">《 黑暗之魂2 原罪贤者 》白金攻略</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            软件工程
-                        </a>
-                         <ul class="unstyled" id="tree"> 
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            devops
-                        </a>
-                         <ul class="unstyled" id="tree"> 
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            docker
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/docker/docker start/">Docker Start</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/docker/docker mysql/">Docker Mysql</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/docker/docker 镜像加速/">Docker 镜像仓库加速</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            git
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/git/Git 介绍/">Git 介绍</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/git/Git 安装/">Git 安装</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/git/Git 基本操作/">Git 基本操作</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/git/Git 标签/">Git 标签</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/git/gitignore不生效解决方法/">gitignore不生效解决方法</a></li>  </ul> 
-                    </li> 
-                     <li class="file"><a href="/wiki-site/wiki/软件工程/devops/Jenkins 持续编译/">Jenkins 持续编译</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/Jenkins 开机启动/">Jenkins 开机启动</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            linux
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/How To Open A Port In CentOS 7 With Firewalld/">How To Open A Port In CentOS 7 With Firewalld</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/安装Python3/">安装Python3</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/安装gcc/">安装gcc</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/常见问题收集/">常见问题收集</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/网络配置/">网络配置</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/添加开机运行脚本/">添加开机运行脚本</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            分布式
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Kafka 实现原理/">Kafka 实现原理</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Kafka quickstart/">Kafka quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/ActiveMQ configuration/">ActiveMQ configuration</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Redis 集群/">Redis 集群</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Hadoop quickstart/">Hadoop quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/zookeeper 应用篇/">zookeeper 应用篇</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Zookeeper quickstart/">Zookeeper quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/系统并发用户估算/">系统并发用户估算</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Redis 持久化机制/">Redis 持久化机制</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Redis quickstart/">Redis quickstart</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            存储
-                        </a>
-                         <ul class="unstyled" id="tree"> 
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            mssql
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mssql/Mssql 日期格式化/">Mssql 日期格式化</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mssql/Mssql 表结构查询/">Mssql 表结构查询</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            mysql
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mysql/MySQL quickstart/">MySQL quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mysql/MySQL 主从模式/">MySQL 主从模式</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mysql/MySQL 表结构查询/">MySQL 表结构查询</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mysql/MySQL 树形结构查询/">MySQL 树形结构查询</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            oracle
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 切换数据模式/">Oracle 切换数据模式</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 表空间/">Oracle 表空间</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 冷备启库/">Oracle 冷备启库</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 分区表/">Oracle 分区表</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 导入导出/">Oracle 导入导出</a></li>  </ul> 
-                    </li> 
-                     <li class="file"><a href="/wiki-site/wiki/软件工程/存储/事务的4种隔离级别/">事务的4种隔离级别</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/Access 表结构查询/">Access 表结构查询</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/Linux-PostgreSQL-数据库安装/">Linux PostgreSQL 数据库安装</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            工具
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/工具/PowerDesigner 导出表结构/">PowerDesigner导出表结构</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/工具/VirtualBox 共享文件/">VirtualBox共享文件</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            编程语言
-                        </a>
-                         <ul class="unstyled" id="tree"> 
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            donet
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/donet/VS&FTS 常见问题/">VS&FTS 常见问题</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/donet/DataTable 常用操作/">DataTable 常用操作</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/donet/WPF 基础之控件与布局/">WPF 基础之控件与布局</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            java
-                        </a>
-                         <ul class="unstyled" id="tree"> 
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            struts2
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/Struts2 quickstart/">Struts2 quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/OGNL 表达式/">OGNL 表达式</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/Struts2 action result/">Struts2 action result</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/Struts2 获取上下文/">Struts2 获取上下文</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/Struts2 action 传参/">Struts2 action 传参</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/Struts2 action 配置/">Struts2 action 配置</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            开发工具
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/Java env for linux/">Java env for linux</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/Eclipse 使用配置/">Eclipse 使用配置</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/JDK 多版本环境共存/">JDK 多版本环境共存</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/项目管理利器 - Maven/">项目管理利器 - Maven</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/为代码瘦身 - Lombok/">为代码瘦身 - Lombok</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/Java tomcat/">在Idea中配置Tomcat</a></li>  </ul> 
-                    </li> 
-                     </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            javascript
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/javascript/Gruntjs JSHint 代码校验/">Gruntjs JSHint 代码校验</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs Express/">Nodejs Express</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/javascript/Gruntjs uglify 代码压缩/">Gruntjs uglify 代码压缩</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs MongoDB/">Nodejs MongoDB</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs quickstart/">Nodejs quickstart</a></li>  </ul> 
-                    </li> 
-                     </ul> 
-                    </li> 
-                     </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            阅读学习
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/阅读学习/刻意练习/">《刻意练习》读书笔记</a></li>  <li class="file"><a href="/wiki-site/wiki/阅读学习/深度阅读/">深度阅读</a></li>  </ul> 
-                    </li> 
-                     </ul> 
-    </div>
-    <script>
-        $(document).ready(function() {
-            var iconFolderOpenClass  = 'fa-folder-open';
-            var iconFolderCloseClass = 'fa-folder';
-            var iconAllExpandClass = 'fa-angle-double-down';
-            var iconAllPackClass = 'fa-angle-double-up';
-            // Handle directory-tree expansion:
-            // 左键单独展开目录
-            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
-                event.preventDefault();
-
-                var icon = $(this).children('.fa');
-                var expanded = icon.hasClass(iconFolderOpenClass);
-                var subtree = $(this).siblings('ul');
-                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
-                if (expanded) {
-                    if (typeof subtree != 'undefined') {
-                        subtree.slideUp({ duration: 100 });
-                    }
-                    icon.addClass(iconFolderCloseClass);
-                } else {
-                    if (typeof subtree != 'undefined') {
-                        subtree.slideDown({ duration: 100 });
-                    }
-                    icon.addClass(iconFolderOpenClass);
-                }
-            });
-            // 右键展开下属所有目录
-            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
-                event.preventDefault();
-                
-                var icon = $(this).children('.fa');
-                var expanded = icon.hasClass(iconFolderOpenClass);
-                var listNode = $(this).siblings('ul');
-                var subtrees = $.merge(listNode.find('li ul'), listNode);
-                var icons = $.merge(listNode.find('.fa'), icon);
-                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
-                if(expanded) {
-                    subtrees.slideUp({ duration: 100 });
-                    icons.addClass(iconFolderCloseClass);
-                } else {
-                    subtrees.slideDown({ duration: 100 });
-                    icons.addClass(iconFolderOpenClass);
-                }
-            })
-            // 展开关闭所有目录按钮
-            $(document).on('click', '#allExpand', function (event) {
-                event.preventDefault();
-                
-                var icon = $(this).children('.fa');
-                var expanded = icon.hasClass(iconAllExpandClass);
-                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
-                if(expanded) {
-                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
-                    $('#categories li ul').slideDown({ duration: 100 });
-                    icon.addClass(iconAllPackClass);
-                } else {
-                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
-                    $('#categories li ul').slideUp({ duration: 100 });
-                    icon.addClass(iconAllExpandClass);
-                }
-            });  
-        });
-    </script>
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-            <section id="main">
-        <article id="post-软件工程/编程语言/javascript/Gruntjs JSHint 代码校验" class="article article-type-post" itemscope="" itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/wiki-site/categories/软件工程/">软件工程</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/编程语言/">编程语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/编程语言/javascript/">javascript</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/wiki-site/tags/javascript/">javascript</a>
-    </div>
-
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/wiki-site/wiki/软件工程/编程语言/javascript/Gruntjs JSHint 代码校验/">
-            <time datetime="2014-12-25T16:00:00.000Z" itemprop="datePublished">2014-12-26</time>
-        </a>
-    </div>
-
-
-                        
-                        
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/软件工程/编程语言/javascript/Gruntjs JSHint 代码校验.md"> Source </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/软件工程/编程语言/javascript/Gruntjs JSHint 代码校验.md"> Edit </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/软件工程/编程语言/javascript/Gruntjs JSHint 代码校验.md"> History </a>
-                            </div>
-                        
-                    </div>
-                
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/wiki-site/wiki/软件工程/编程语言/javascript/Gruntjs JSHint 代码校验/">Gruntjs JSHint 代码校验</a>
-        </h1>
+      </header>
     
 
-            </header>
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
+          
+            <p>uglify是一个文件压缩插件，项目地址：<a href="https://github.com/gruntjs/grunt-contrib-uglify">https://github.com/gruntjs/grunt-contrib-uglify</a><br>本文将以一个DEMO来展示如何使用uglify插件。 </p>
+<p>现在直接通过Gruntfile.js来看看这四个任务的配置： </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">grunt</span>)</span>&#123; </span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 项目配置 </span></span><br><span class="line">    grunt.initConfig(&#123; </span><br><span class="line">        pkg: grunt.file.readJSON(<span class="string">'package.json'</span>), </span><br><span class="line">        uglify: &#123; </span><br><span class="line">            options: &#123; </span><br><span class="line">                banner: <span class="string">'/*! &lt;%= pkg.name %&gt; &lt;%= grunt.template.today("yyyy-mm-dd") %&gt; */\n'</span><span class="comment">//添加banner </span></span><br><span class="line">            &#125;, </span><br><span class="line">            builda: &#123;<span class="comment">//任务一：压缩a.js，不混淆变量名，保留注释，添加banner和footer </span></span><br><span class="line">                options: &#123; </span><br><span class="line">                    mangle: <span class="literal">false</span>, <span class="comment">//不混淆变量名 </span></span><br><span class="line">                    preserveComments: <span class="string">'all'</span>, <span class="comment">//不删除注释，还可以为 false（删除全部注释），some（保留@preserve @license @cc_on等注释） </span></span><br><span class="line">                    footer:<span class="string">'\n/*! &lt;%= pkg.name %&gt; 最后修改于： &lt;%= grunt.template.today("yyyy-mm-dd") %&gt; */'</span><span class="comment">//添加footer </span></span><br><span class="line">                &#125;, </span><br><span class="line">                files: &#123; </span><br><span class="line">                    <span class="string">'output/js/a.min.js'</span>: [<span class="string">'js/a.js'</span>] </span><br><span class="line">                &#125; </span><br><span class="line">            &#125;, </span><br><span class="line">            buildb:&#123;<span class="comment">//任务二：压缩b.js，输出压缩信息 </span></span><br><span class="line">                options: &#123; </span><br><span class="line">                    report: <span class="string">"min"</span><span class="comment">//输出压缩率，可选的值有 false(不输出信息)，gzip </span></span><br><span class="line">                &#125;, </span><br><span class="line">                files: &#123; </span><br><span class="line">                    <span class="string">'output/js/b.min.js'</span>: [<span class="string">'js/main/b.js'</span>] </span><br><span class="line">                &#125; </span><br><span class="line">            &#125;, </span><br><span class="line">            buildall: &#123;<span class="comment">//任务三：按原文件结构压缩js文件夹内所有JS文件 </span></span><br><span class="line">                files: [&#123; </span><br><span class="line">                    expand:<span class="literal">true</span>, </span><br><span class="line">                    cwd:<span class="string">'js'</span>,<span class="comment">//js目录下 </span></span><br><span class="line">                    src:<span class="string">'**/*.js'</span>,<span class="comment">//所有js文件 </span></span><br><span class="line">                    dest: <span class="string">'output/js'</span><span class="comment">//输出到此目录下 </span></span><br><span class="line">                &#125;] </span><br><span class="line">            &#125;, </span><br><span class="line">            release: &#123;<span class="comment">//任务四：合并压缩a.js和b.js </span></span><br><span class="line">                files: &#123; </span><br><span class="line">                    <span class="string">'output/js/index.min.js'</span>: [<span class="string">'js/a.js'</span>, <span class="string">'js/main/b.js'</span>] </span><br><span class="line">                &#125; </span><br><span class="line">            &#125; </span><br><span class="line">        &#125; </span><br><span class="line">    &#125;); </span><br><span class="line">    <span class="comment">// 加载提供"uglify"任务的插件 </span></span><br><span class="line">    grunt.loadNpmTasks(<span class="string">'grunt-contrib-uglify'</span>); </span><br><span class="line">    <span class="comment">// 默认任务 </span></span><br><span class="line">    grunt.registerTask(<span class="string">'default'</span>, [<span class="string">'uglify:release'</span>]); </span><br><span class="line">    grunt.registerTask(<span class="string">'mina'</span>, [<span class="string">'uglify:builda'</span>]); </span><br><span class="line">    grunt.registerTask(<span class="string">'minb'</span>, [<span class="string">'uglify:buildb'</span>]); </span><br><span class="line">    grunt.registerTask(<span class="string">'minall'</span>, [<span class="string">'uglify:buildall'</span>]); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
         
-        <div class="article-entry" itemprop="articleBody">
-        
-        
-            
-                
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                
-                    
-                    <p></p><p>JSHint跟JSLint非常像，都是Javascript代码验证工具，这种工具可以检查你的代码并提供相关的代码改进意见。<br>对于你的代码，你可以选择多种方式来进行检验： </p>
-<h3 id="第一种方法"><a href="#第一种方法" class="headerlink" title="第一种方法"></a>第一种方法</h3><p>进入JSHint首页，粘贴你的代码，选择相关的选项，然后点击右下角的Lint按钮就可以了。</p>
-<h3 id="第二种方法"><a href="#第二种方法" class="headerlink" title="第二种方法"></a>第二种方法</h3><p>使用Grunt整合的JSHint, 在项目根目录中建立一个grunt.js文件： </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params">grunt</span>) </span>&#123; </span><br><span class="line"><span class="meta">    'use strict'</span>;  </span><br><span class="line">    <span class="comment">// Project configuration.</span></span><br><span class="line">    grunt.initConfig(&#123;</span><br><span class="line">        pkg: <span class="string">'&lt;json:package.json&gt;'</span>,</span><br><span class="line">        test: &#123;</span><br><span class="line">            files: [<span class="string">'test/**/*.js'</span>]</span><br><span class="line">        &#125;,</span><br><span class="line">        lint: &#123;</span><br><span class="line">            files: [<span class="string">'grunt.js'</span>, <span class="string">'lib/**/*.js'</span>, <span class="string">'test/**/*.js'</span>]</span><br><span class="line">        &#125;,</span><br><span class="line">        watch: &#123;</span><br><span class="line">            files: <span class="string">'&lt;config:lint.files&gt;'</span>,</span><br><span class="line">            tasks: <span class="string">'default'</span></span><br><span class="line">        &#125;,</span><br><span class="line">        jshint: &#123;</span><br><span class="line">            options: &#123;</span><br><span class="line">                curly: <span class="literal">true</span>,</span><br><span class="line">                eqeqeq: <span class="literal">true</span>,</span><br><span class="line">                newcap: <span class="literal">true</span>,</span><br><span class="line">                noarg: <span class="literal">true</span>,</span><br><span class="line">                sub: <span class="literal">true</span>,</span><br><span class="line">                undef: <span class="literal">true</span>,</span><br><span class="line">                boss: <span class="literal">true</span>,</span><br><span class="line">                node: <span class="literal">true</span></span><br><span class="line">            &#125;,</span><br><span class="line">            globals: &#123;</span><br><span class="line">                exports: <span class="literal">true</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);  </span><br><span class="line">    <span class="comment">// Default task.</span></span><br><span class="line">    grunt.registerTask(<span class="string">'default'</span>, <span class="string">'lint test'</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>这里的lint.files就是要验证的所有文件。而下面的jshint.option是jshint的具体配置信息。简单介绍一下：</p>
-<p>
-                
-            
-        
-        
-            </p></div>   
-            <div class="article-more-link">
-                <a href="/wiki-site/wiki/软件工程/编程语言/javascript/Gruntjs JSHint 代码校验/#more">Read More</a>
-            </div>
-        
-        <footer class="article-footer">
-        </footer>
+      
     </div>
-</article>
 
+    
 
+    
+    
+    
 
+    
 
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
 
 
     
-        <article id="post-软件工程/编程语言/java/开发工具/Java env for linux" class="article article-type-post" itemscope="" itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/wiki-site/categories/软件工程/">软件工程</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/编程语言/">编程语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/编程语言/java/">java</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/编程语言/java/开发工具/">开发工具</a>
-    </div>
+      
 
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/wiki-site/tags/java/">java</a>, <a class="tag-link" href="/wiki-site/tags/linux/">linux</a>
-    </div>
+  
 
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/Java env for linux/">
-            <time datetime="2014-10-15T16:00:00.000Z" itemprop="datePublished">2014-10-16</time>
-        </a>
-    </div>
+  
+  
+  
 
+  
 
-                        
-                        
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/软件工程/编程语言/java/开发工具/Java env for linux.md"> Source </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/软件工程/编程语言/java/开发工具/Java env for linux.md"> Edit </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/软件工程/编程语言/java/开发工具/Java env for linux.md"> History </a>
-                            </div>
-                        
-                    </div>
-                
-                
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/编程语言/java/开发工具/Java env for linux/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joshua Chen">
+      <meta itemprop="description" content="大道至简">
+      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joe's Notes">
+    </span>
+
     
-        <h1 itemprop="name">
-            <a class="article-title" href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/Java env for linux/">Java env for linux</a>
-        </h1>
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/Java env for linux/" class="post-title-link" itemprop="url">Java env for linux</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2014-10-16 00:00:00" itemprop="dateCreated datePublished" datetime="2014-10-16T00:00:00+08:00">2014-10-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-08 16:17:14" itemprop="dateModified" datetime="2019-02-08T16:17:14+08:00">2019-02-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/编程语言/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/编程语言/java/开发工具/" itemprop="url" rel="index"><span itemprop="name">开发工具</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
     
 
-            </header>
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-        
-            
-                
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-            
-        
-        
+          
             <h5 id="1-解压文件"><a href="#1-解压文件" class="headerlink" title="1. 解压文件"></a>1. 解压文件</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir /usr/<span class="built_in">local</span>/java</span><br><span class="line">$ tar -zxf /mnt/jre-8u151-linux-x64.tar.gz -C /usr/<span class="built_in">local</span>/java/</span><br></pre></td></tr></table></figure>
 <h5 id="2-设置环境变量"><a href="#2-设置环境变量" class="headerlink" title="2. 设置环境变量"></a>2. 设置环境变量</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ vi /etc/profile</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;</span><br><span class="line">JAVA_HOME=/usr/<span class="built_in">local</span>/java/jre1.8.0_151  </span><br><span class="line">PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin</span><br><span class="line">CLASSPATH=.:<span class="variable">$JAVA_HOME</span>/lib/tools.jar:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$CLASSPATH</span>  </span><br><span class="line"><span class="built_in">export</span> PATH</span><br><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
 <h5 id="3-验证环境"><a href="#3-验证环境" class="headerlink" title="3. 验证环境"></a>3. 验证环境</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ java -version</span><br></pre></td></tr></table></figure>
 
-            </div>
+          
         
-        <footer class="article-footer">
-        </footer>
+      
     </div>
-</article>
 
+    
 
+    
+    
+    
 
+    
 
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
 
 
     
-        <article id="post-软件工程/编程语言/javascript/Nodejs MongoDB" class="article article-type-post" itemscope="" itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/wiki-site/categories/软件工程/">软件工程</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/编程语言/">编程语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/编程语言/javascript/">javascript</a>
-    </div>
+      
 
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/wiki-site/tags/javascript/">javascript</a>
-    </div>
+  
 
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs MongoDB/">
-            <time datetime="2013-12-25T16:00:00.000Z" itemprop="datePublished">2013-12-26</time>
-        </a>
-    </div>
+  
+  
+  
 
+  
 
-                        
-                        
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/软件工程/编程语言/javascript/Nodejs MongoDB.md"> Source </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/软件工程/编程语言/javascript/Nodejs MongoDB.md"> Edit </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/软件工程/编程语言/javascript/Nodejs MongoDB.md"> History </a>
-                            </div>
-                        
-                    </div>
-                
-                
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/存储/oracle/Oracle 导入导出/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joshua Chen">
+      <meta itemprop="description" content="大道至简">
+      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joe's Notes">
+    </span>
+
     
-        <h1 itemprop="name">
-            <a class="article-title" href="/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs MongoDB/">Nodejs MongoDB</a>
-        </h1>
-    
+      <header class="post-header">
 
-            </header>
         
         
-        <div class="article-entry" itemprop="articleBody">
-        
-        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 导入导出/" class="post-title-link" itemprop="url">Oracle 导入导出</a>
+              
             
-                
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                
-                    
-                    <p></p><h3 id="1-MongoDB-是什么？"><a href="#1-MongoDB-是什么？" class="headerlink" title="1. MongoDB 是什么？"></a>1. MongoDB 是什么？</h3><p>MongoDB 是一个基于分布式文件存储的中小型数据库，与 Oracle 完全不一样，采用的是文档存储形式(NoSQL). </p>
-<h3 id="2-搭建-MongoDB-环境"><a href="#2-搭建-MongoDB-环境" class="headerlink" title="2. 搭建 MongoDB 环境"></a>2. 搭建 MongoDB 环境</h3><ol>
-<li>将下载的 mongodb.rar 解压。 </li>
-<li>在环境变量中配置 $mongodb_home/bin </li>
-<li>在同一盘符下创建 E: data/db </li>
-<p>
-                
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
             
-        
-        
-            </p></ol></div>   
-            <div class="article-more-link">
-                <a href="/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs MongoDB/#more">Read More</a>
-            </div>
-        
-        <footer class="article-footer">
-        </footer>
-    </div>
-</article>
-
-
-
-
-
-
-    
-        <article id="post-软件工程/编程语言/javascript/Nodejs quickstart" class="article article-type-post" itemscope="" itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/wiki-site/categories/软件工程/">软件工程</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/编程语言/">编程语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/编程语言/javascript/">javascript</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/wiki-site/tags/javascript/">javascript</a>
-    </div>
-
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs quickstart/">
-            <time datetime="2013-12-25T16:00:00.000Z" itemprop="datePublished">2013-12-26</time>
-        </a>
-    </div>
-
-
-                        
-                        
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/软件工程/编程语言/javascript/Nodejs quickstart.md"> Source </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/软件工程/编程语言/javascript/Nodejs quickstart.md"> Edit </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/软件工程/编程语言/javascript/Nodejs quickstart.md"> History </a>
-                            </div>
-                        
-                    </div>
-                
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs quickstart/">Nodejs quickstart</a>
-        </h1>
-    
-
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-        
             
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2013-12-26 00:00:00" itemprop="dateCreated datePublished" datetime="2013-12-26T00:00:00+08:00">2013-12-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-08 14:44:45" itemprop="dateModified" datetime="2019-02-08T14:44:45+08:00">2019-02-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+
                 
                 
-                    
-                    
+                  ，
                 
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/存储/" itemprop="url" rel="index"><span itemprop="name">存储</span></a></span>
+
                 
                 
-                    
-                    <p></p><h3 id="1-Nodejs-是什么？"><a href="#1-Nodejs-是什么？" class="headerlink" title="1. Nodejs 是什么？"></a>1. Nodejs 是什么？</h3><blockquote>
-<p>Node.js® is a JavaScript runtime built on Chrome’s V8 JavaScript engine.</p>
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/存储/oracle/" itemprop="url" rel="index"><span itemprop="name">oracle</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>可将整个数据库，用户，表导出备份，在一些包含大字段的表无法用sql插入时，很好用哦。 </p>
+<ol>
+<li>导出exp <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">exp zysys/zy2009phoenix@phoenix_my file=e:\phoenix.dmp full=y  --完全导出 </span><br><span class="line">exp zysys/zy2009phoenix@phoenix_my file=e:\zymbs.dmp owner=(zysys,zymbs)  --按用户导出 </span><br><span class="line">exp zysys/zy2009phoenix@phoenix_my file=e:\table.dmp tables=(ZYMBS.RHRSP_KPI_DICT,table2)  --导出表</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="2">
+<li><p>导入imp </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">imp zysys/zy2009phoenix@phoenix file=c:\orabackup\hkbfull.dmp <span class="built_in">log</span>=c:\orabackup\hkbimp.log full=y --完全导入 </span><br><span class="line">imp zysys/zy2009phoenix@phoenix_my fromuser=zymbs touser=zymbs FILE=E:\zymbs.dmp ignore=y; --按用户 </span><br><span class="line">imp zysys/zy2009phoenix@phoenix  file=e:\table.dmp  tables=(RHRSP_KPI_DICT)  --导入表（不需要表空间名）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>11g R2 导出空表<br>oracle 11g r2 新增了一个参数：<code>deferred_segment_creation</code>, 如果这个参数设置为 true，你新建了一个表 T1，并且没有向其中插入数据，那么这个表不会立即分配 extent，也就是不占数据空间，只有当你 insert 数据后才分配空间。这样可以节省少量的空间。<br>所以在导出时，空的表将不导出需要单独处理</p>
+</li>
+</ol>
+<ul>
+<li><p>1) 设置 <code>deferred_segment_creation</code> 参数为FALSE<br><code>SQL&gt; alter system set deferred_segment_creation=false;</code></p>
+</li>
+<li><p>2) 注意并且要重启数据库，让参数生效, 但是这样操作后只会生效于新表</p>
+</li>
+<li>3) 使用 allocate extent 可以为数据库对象分配Extent<br><code>SQL&gt; ALLOCATE EXTENT { SIZE integer [K | M] | DATAFILE &#39;filename&#39; | INSTANCE integer</code></li>
+</ul>
+<blockquote>
+<p>对现有表的处理脚本 createsql.sql：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> <span class="keyword">heading</span> <span class="keyword">off</span>; </span><br><span class="line"><span class="keyword">set</span> echo <span class="keyword">off</span>; </span><br><span class="line"><span class="keyword">set</span> feedback <span class="keyword">off</span>; </span><br><span class="line"><span class="keyword">set</span> termout <span class="keyword">on</span>; </span><br><span class="line">spool C:\allocate.sql; </span><br><span class="line"><span class="keyword">select</span> <span class="string">'alter table '</span>||table_name||<span class="string">' allocate extent;'</span> <span class="keyword">from</span> user_tables <span class="keyword">where</span> num_rows=<span class="number">0</span>; </span><br><span class="line">spool off;</span><br></pre></td></tr></table></figure></p>
 </blockquote>
-<p>Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。 </p>
-<h3 id="2-安装-Nodejs"><a href="#2-安装-Nodejs" class="headerlink" title="2. 安装 Nodejs"></a>2. 安装 Nodejs</h3><ol>
-<p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/存储/oracle/Oracle 表空间/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joshua Chen">
+      <meta itemprop="description" content="大道至简">
+      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joe's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
                 
+                
+                <a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 表空间/" class="post-title-link" itemprop="url">Oracle 表空间</a>
+              
             
+          </h1>
         
-        
-            </p></ol></div>   
-            <div class="article-more-link">
-                <a href="/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs quickstart/#more">Read More</a>
-            </div>
-        
-        <footer class="article-footer">
-        </footer>
-    </div>
-</article>
 
+        <div class="post-meta">
+          <span class="post-time">
 
-
-
-
-
-    
-        <article id="post-软件工程/存储/oracle/Oracle 表空间" class="article article-type-post" itemscope="" itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/wiki-site/categories/软件工程/">软件工程</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/存储/">存储</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/存储/oracle/">oracle</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/wiki-site/tags/oracle/">oracle</a>
-    </div>
-
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 表空间/">
-            <time datetime="2013-12-25T16:00:00.000Z" itemprop="datePublished">2013-12-26</time>
-        </a>
-    </div>
-
-
-                        
-                        
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/软件工程/存储/oracle/Oracle 表空间.md"> Source </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/软件工程/存储/oracle/Oracle 表空间.md"> Edit </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/软件工程/存储/oracle/Oracle 表空间.md"> History </a>
-                            </div>
-                        
-                    </div>
-                
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 表空间/">Oracle 表空间</a>
-        </h1>
-    
-
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-        
             
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2013-12-26 00:00:00" itemprop="dateCreated datePublished" datetime="2013-12-26T00:00:00+08:00">2013-12-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-08 14:44:47" itemprop="dateModified" datetime="2019-02-08T14:44:47+08:00">2019-02-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+
                 
                 
-                    
-                    
+                  ，
                 
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/存储/" itemprop="url" rel="index"><span itemprop="name">存储</span></a></span>
+
                 
                 
-                    
-                    <p><ol>
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/存储/oracle/" itemprop="url" rel="index"><span itemprop="name">oracle</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
 <li>查看数据文件位置 </li>
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TABLESPACE_NAME,FILE_ID,<span class="keyword">BYTES</span>,FILE_NAME <span class="keyword">FROM</span> DBA_DATA_FILES;</span><br></pre></td></tr></table></figure>
 <ol start="2">
-<p>
+<li>表空间状态 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TABLESPACE_NAME,<span class="keyword">STATUS</span> <span class="keyword">FROM</span> DBA_TABLESPACES;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>创建表空间 </li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLESPACE <span class="string">"ZYMBS"</span>  </span><br><span class="line">NOLOGGING --不创建重做日志文件 </span><br><span class="line">DATAFILE <span class="string">'E:\WORK\DATA\PHOENIX\ZYMBS01.ORA'</span> SIZE 5M  </span><br><span class="line">AUTOEXTEND ON  --自动增长 </span><br><span class="line">NEXT 50M MAXSIZE 2048M   --自动增长最大到2G </span><br><span class="line">EXTENT MANAGEMENT LOCAL;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>创建用户 </li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER zymbs IDENTIFIED BY zy2009phoenix </span><br><span class="line">DEFAULT TABLESPACE ZYMBS </span><br><span class="line">TEMPORARY TABLESPACE TEMP;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li><p>分发权限 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GRANT --系统权限 </span><br><span class="line">　　CREATE SESSION, CREATE ANY TABLE, CREATE ANY VIEW ,CREATE ANY INDEX, CREATE ANY PROCEDURE, </span><br><span class="line">　　ALTER ANY TABLE, ALTER ANY PROCEDURE, </span><br><span class="line">　　DROP ANY TABLE, DROP ANY VIEW, DROP ANY INDEX, DROP ANY PROCEDURE, </span><br><span class="line">　　SELECT ANY TABLE, INSERT ANY TABLE, UPDATE ANY TABLE, DELETE ANY TABLE </span><br><span class="line">　　TO ZYMBS; </span><br><span class="line">GRANT RESOURCE, CONNECT TO ZYMBS;  --角色权限</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除表空间 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLESPACE ZYMBS INCLUDING CONTENTS AND DATAFILES;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改状态(ONLINE,OFFLINE,READONLY,READWRITE) </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLESPACE ZYMBS OFFLINE;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改文件大小,添加文件 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLESPACE DATAFILE &apos;E:\ZYMBS01.ORA&apos; RESIZE 10M; </span><br><span class="line">ALTER TABLESPACE ZYMBS ADD DATAFILE &apos;E:\ZYMBS02.ORA&apos; SIZE 5M;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改表空间数据文件的自动扩展性  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER DATABASE DATAFIELE &apos;E:\ZYMBS01.ORA&apos; AUTOEXTEND ON NEXT 5M MAXSIZE 50M;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重新指定表空间路径   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter tablespace SIMPLE RENAME DATAFILE &apos;E:\table2.dbf&apos; to &apos;D:\table.dbf&apos;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置默认表空间  </p>
+</li>
+</ol>
+<p>   1. 查询(当前用户)默认表空间 <code>select default_tablespace from user_users;</code>  </p>
+<p>   2. 修改默认表空间 <code>alter database default tablespace SIMPLE;</code>  
+  </p>
+<blockquote>
+<p>如果是oracle 9i本语句不支持，但能让用户指向某表空间，具体做法如下： <br>      例： <code>alter user scott default tablespace users;</code> (scott为用户名, users为表空间)<br> <br>      有时会出现表空间有存在的情况，这时一般都是以下几个原因造成的： <br>     1、写错表空间名，我想的话这种机率较小。 <br>     2、回想一下，你在创建表空间时是否给表空间表加了双引号如： <br>          <code>CREATE TABLESPACE &quot;Sample&quot;</code> <br>          ……………… <br>          如果是这样的话，你在修改默认表空间，写表空间名字的时候就要区分大小了，这个是非常重要的，并且还要加上双引号， <br>         如：<code>alter user scott default tablespace &quot;Sample&quot;;</code>(scott为用户名)。  </p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs Express/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joshua Chen">
+      <meta itemprop="description" content="大道至简">
+      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joe's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
                 
+                
+                <a href="/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs Express/" class="post-title-link" itemprop="url">Nodejs Express</a>
+              
             
+          </h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2013-12-26 00:00:00" itemprop="dateCreated datePublished" datetime="2013-12-26T00:00:00+08:00">2013-12-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-08 17:09:22" itemprop="dateModified" datetime="2019-02-08T17:09:22+08:00">2019-02-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/编程语言/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
-            </p></ol></p></div>   
-            <div class="article-more-link">
-                <a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 表空间/#more">Read More</a>
+          
+            <h3 id="1-Express-是什么？"><a href="#1-Express-是什么？" class="headerlink" title="1. Express 是什么？"></a>1. Express 是什么？</h3><p>Express 是一个Node 最常用的开发包，用于快速构建 Web 项目。</p>
+<h3 id="2-安装-Express"><a href="#2-安装-Express" class="headerlink" title="2. 安装 Express"></a>2. 安装 Express</h3><p>npm install -g express@3  //全局包 </p>
+<blockquote>
+<p>注：无法使用 express 时，将 node_modules 目录加入环境变量 path 中<br>设置永久环境变量即使重启机器也能够使用node命令了。  </p>
+<blockquote>
+<p>进入/etc vi profile在最后面追加两行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; <span class="built_in">export</span> NODE_HOME=/home/node-v0.10.0-linux-x64 </span><br><span class="line">&gt;&gt; <span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$NODE_HOME</span>/bin </span><br><span class="line">&gt;&gt; <span class="built_in">export</span> NODE_PATH=<span class="variable">$NODE_HOME</span>/lib/node_modules </span><br><span class="line">&gt;&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>express4.x 以上版本，命令行工具已经分离出来 </p>
+<ol>
+<li>npm install -g express-generator  //安装命令行工具 </li>
+<li>express project1 &amp;&amp; cd project1  //创建项目 </li>
+<li>npm install   //安装express及依赖 </li>
+<li>npm start  //启动 </li>
+</ol>
+</blockquote>
+<h3 id="3-创建测试项目"><a href="#3-创建测试项目" class="headerlink" title="3. 创建测试项目"></a>3. 创建测试项目</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CD E:\Nodejs\<span class="built_in">test</span> </span><br><span class="line">Express -e myproject  //创建项目</span><br></pre></td></tr></table></figure>
+<p>目录结构： </p>
+<ul>
+<li>Node_modules：存放所有项目依赖项 </li>
+<li>Package.json：项目依赖项配置及开发者信息 </li>
+<li>App.js：程序启动文件 </li>
+<li>Public：静态文件(css、js、img) </li>
+<li>Routes：路由文件 </li>
+<li>Views：页面文件(ejs模板)</li>
+</ul>
+<h3 id="4-启动-express-test"><a href="#4-启动-express-test" class="headerlink" title="4. 启动 express test"></a>4. 启动 express test</h3><p><code>Node app.js</code></p>
+<blockquote>
+<p>提示 express 未安装<br>==&gt; 将 $home\AppData\npm\node_modules\express  文件拷至项目目录下<br>提示 ejs 未安装<br>==&gt;npm install ejs </p>
+</blockquote>
+<h3 id="5-修改ejs模板"><a href="#5-修改ejs模板" class="headerlink" title="5. 修改ejs模板"></a>5. 修改ejs模板</h3><p>Ejs view 模板默认以 .ejs 结尾，修改默认模板，修改为 html 模板。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">App.js </span><br><span class="line">==&gt;  <span class="keyword">var</span> ejs = <span class="built_in">require</span>(<span class="string">'ejs'</span>); </span><br><span class="line">==&gt;  app.engine(<span class="string">'.html'</span>,ejs__express); </span><br><span class="line">==&gt;  app.set(<span class="string">'view engine'</span>,<span class="string">'html'</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="6-安装-supervisor-debug环境"><a href="#6-安装-supervisor-debug环境" class="headerlink" title="6. 安装 supervisor  debug环境"></a>6. 安装 supervisor  debug环境</h3><p>Supervisor 组件包，可以动态加载修改后的开发程序，无需重新启动 Node。<br><code>Npm install -g supervisor</code></p>
+<h3 id="7-简单登录Demo"><a href="#7-简单登录Demo" class="headerlink" title="7. 简单登录Demo"></a>7. 简单登录Demo</h3><p>例==&gt; E:\Nodejs\test\myproject </p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/wiki-site/page/9/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/wiki-site/">1</a><span class="space">&hellip;</span><a class="page-number" href="/wiki-site/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/wiki-site/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/wiki-site/page/13/">13</a><a class="extend next" rel="next" href="/wiki-site/page/11/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/wiki-site/images/6308578.jpg" alt="Joshua Chen">
+            
+              <p class="site-author-name" itemprop="name">Joshua Chen</p>
+              <div class="site-description motion-element" itemprop="description">大道至简</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/wiki-site/archives/">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/wiki-site/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/wiki-site/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/wiki-site/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
             </div>
-        
-        <footer class="article-footer">
-        </footer>
-    </div>
-</article>
+          
 
+          
 
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/joecnn" title="GitHub &rarr; https://github.com/joecnn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:starworking@126.com" title="E-Mail &rarr; mailto:starworking@126.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
 
+          
 
+          
+          
 
-
-    
-        <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/wiki-site/page/9/">&laquo; Prev</a><a class="page-number" href="/wiki-site/">1</a><span class="space">&hellip;</span><a class="page-number" href="/wiki-site/page/8/">8</a><a class="page-number" href="/wiki-site/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/wiki-site/page/11/">11</a><a class="page-number" href="/wiki-site/page/12/">12</a><a class="page-number" href="/wiki-site/page/13/">13</a><a class="extend next" rel="next" href="/wiki-site/page/11/">Next &raquo;</a>
-        </nav>
-    
-</section>
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            Joshua Chen &copy; 2019 
-            <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
-            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+          
             
+          
+          
+
         </div>
+      </div>
+
+      
+
+      
+
     </div>
-</footer>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Joshua Chen</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
 
         
 
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
     
-        <script src="/wiki-site/libs/lightgallery/js/lightgallery.min.js"></script>
-        <script src="/wiki-site/libs/lightgallery/js/lg-thumbnail.min.js"></script>
-        <script src="/wiki-site/libs/lightgallery/js/lg-pager.min.js"></script>
-        <script src="/wiki-site/libs/lightgallery/js/lg-autoplay.min.js"></script>
-        <script src="/wiki-site/libs/lightgallery/js/lg-fullscreen.min.js"></script>
-        <script src="/wiki-site/libs/lightgallery/js/lg-zoom.min.js"></script>
-        <script src="/wiki-site/libs/lightgallery/js/lg-hash.min.js"></script>
-        <script src="/wiki-site/libs/lightgallery/js/lg-share.min.js"></script>
-        <script src="/wiki-site/libs/lightgallery/js/lg-video.min.js"></script>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
     
+
     
-        <script src="/wiki-site/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
     
+
     
-        <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true,
-            TeX: {
-                equationNumbers: {
-                  autoNumber: 'AMS'
-                }
-            }
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
-<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
 
 
 
-<!-- Custom Scripts -->
-<script src="/wiki-site/js/main.js"></script>
 
-    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/wiki-site/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/wiki-site/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/wiki-site/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/wiki-site/js/utils.js?v=7.1.1"></script>
+
+  <script src="/wiki-site/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/wiki-site/js/affix.js?v=7.1.1"></script>
+
+  <script src="/wiki-site/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+
+  
+
+
+  <script src="/wiki-site/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/wiki-site/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

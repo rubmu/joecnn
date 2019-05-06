@@ -1,956 +1,2156 @@
 <!DOCTYPE html>
-<html lang="en">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
-    <meta charset="utf-8">
-    
-    <title>Joe&#39;s Wiki</title>
-    
-    
-        <meta name="keywords" content="Joe&#39;s Wiki">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="大道至简">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Joe&#39;s Wiki">
-<meta property="og:url" content="https://joecnn.github.io/wiki-site/page/6/index.html">
-<meta property="og:site_name" content="Joe&#39;s Wiki">
-<meta property="og:description" content="大道至简">
-<meta property="og:locale" content="en">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Joe&#39;s Wiki">
-<meta name="twitter:description" content="大道至简">
-    
-
-    
-        <link rel="alternate" href="/atom.xml" title="Joe&#39;s Wiki" type="application/atom+xml">
-    
-
-    
-        <link rel="icon" href="/wiki-site/wiki-site/favicon.ico">
-    
-
-    <link rel="stylesheet" href="/wiki-site/libs/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/wiki-site/libs/open-sans/styles.css">
-    <link rel="stylesheet" href="/wiki-site/libs/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/wiki-site/css/style.css">
-    <script src="/wiki-site/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/wiki-site/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
-    
-    
-        <link rel="stylesheet" href="/wiki-site/libs/lightgallery/css/lightgallery.min.css">
-    
-    
-        <link rel="stylesheet" href="/wiki-site/libs/justified-gallery/justifiedGallery.min.css">
-    
-    
-    
-    
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
 
 
-    
-</head>
-</html>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/wiki-site/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">Joe&#39;s Wiki</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/wiki-site/">首页</a>
-                
-                    <a class="main-nav-link" href="/wiki-site/archives">归档</a>
-                
-                    <a class="main-nav-link" href="/wiki-site/categories">分类</a>
-                
-                    <a class="main-nav-link" href="/wiki-site/tags">标签</a>
-                
-                    <a class="main-nav-link" href="/wiki-site/about">关于</a>
-                
-            </nav>
-            
-            <div id="search-form-wrap">
 
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something...">
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/wiki-site/',
-        CONTENT_URL: '/wiki-site/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/wiki-site/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/wiki-site/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/wiki-site/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/wiki-site/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/wiki-site/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/wiki-site/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/wiki-site/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
 </script>
-<script src="/wiki-site/js/insight.js"></script>
+
+
+  
+
+
+
+
+  <meta name="description" content="大道至简">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Joe&#39;s Notes">
+<meta property="og:url" content="https://joecnn.github.io/wiki-site/page/6/index.html">
+<meta property="og:site_name" content="Joe&#39;s Notes">
+<meta property="og:description" content="大道至简">
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Joe&#39;s Notes">
+<meta name="twitter:description" content="大道至简">
+
+
+
+  <link rel="alternate" href="/wiki-site/atom.xml" title="Joe's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://joecnn.github.io/wiki-site/page/6/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Joe's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/wiki-site/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Joe's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Quick notes</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/wiki-site/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/wiki-site/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/wiki-site/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
 
 </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/devops/git/Git 基本操作/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joshua Chen">
+      <meta itemprop="description" content="大道至简">
+      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joe's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/wiki-site/wiki/软件工程/devops/git/Git 基本操作/" class="post-title-link" itemprop="url">Git 基本操作</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-12-26 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-26T00:00:00+08:00">2017-12-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-08 14:46:08" itemprop="dateModified" datetime="2019-02-08T14:46:08+08:00">2019-02-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/" itemprop="url" rel="index"><span itemprop="name">devops</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
         </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/wiki-site/">首页</a></td>
-                
-                    <td><a class="main-nav-link" href="/wiki-site/archives">归档</a></td>
-                
-                    <td><a class="main-nav-link" href="/wiki-site/categories">分类</a></td>
-                
-                    <td><a class="main-nav-link" href="/wiki-site/tags">标签</a></td>
-                
-                    <td><a class="main-nav-link" href="/wiki-site/about">关于</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap" id="categories">
-        <h3 class="widget-title">
-            <span>categories</span>
-            &nbsp;
-            <a id="allExpand" href="#">
-                <i class="fa fa-angle-double-down fa-2x"></i>
-            </a>
-        </h3>
-        
-        
-        
-         <ul class="unstyled" id="tree"> 
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            Playing
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/Playing/黑暗之魂2/">《 黑暗之魂2 原罪贤者 》白金攻略</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            软件工程
-                        </a>
-                         <ul class="unstyled" id="tree"> 
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            devops
-                        </a>
-                         <ul class="unstyled" id="tree"> 
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            docker
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/docker/docker start/">Docker Start</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/docker/docker mysql/">Docker Mysql</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/docker/docker 镜像加速/">Docker 镜像仓库加速</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            git
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/git/Git 介绍/">Git 介绍</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/git/Git 安装/">Git 安装</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/git/Git 基本操作/">Git 基本操作</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/git/Git 标签/">Git 标签</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/git/gitignore不生效解决方法/">gitignore不生效解决方法</a></li>  </ul> 
-                    </li> 
-                     <li class="file"><a href="/wiki-site/wiki/软件工程/devops/Jenkins 持续编译/">Jenkins 持续编译</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/devops/Jenkins 开机启动/">Jenkins 开机启动</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            linux
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/How To Open A Port In CentOS 7 With Firewalld/">How To Open A Port In CentOS 7 With Firewalld</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/安装Python3/">安装Python3</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/安装gcc/">安装gcc</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/常见问题收集/">常见问题收集</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/网络配置/">网络配置</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/linux/添加开机运行脚本/">添加开机运行脚本</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            分布式
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Kafka 实现原理/">Kafka 实现原理</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Kafka quickstart/">Kafka quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/ActiveMQ configuration/">ActiveMQ configuration</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Redis 集群/">Redis 集群</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Hadoop quickstart/">Hadoop quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/zookeeper 应用篇/">zookeeper 应用篇</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Zookeeper quickstart/">Zookeeper quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/系统并发用户估算/">系统并发用户估算</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Redis 持久化机制/">Redis 持久化机制</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/分布式/Redis quickstart/">Redis quickstart</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            存储
-                        </a>
-                         <ul class="unstyled" id="tree"> 
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            mssql
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mssql/Mssql 日期格式化/">Mssql 日期格式化</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mssql/Mssql 表结构查询/">Mssql 表结构查询</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            mysql
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mysql/MySQL quickstart/">MySQL quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mysql/MySQL 主从模式/">MySQL 主从模式</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mysql/MySQL 表结构查询/">MySQL 表结构查询</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/mysql/MySQL 树形结构查询/">MySQL 树形结构查询</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            oracle
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 切换数据模式/">Oracle 切换数据模式</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 表空间/">Oracle 表空间</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 冷备启库/">Oracle 冷备启库</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 分区表/">Oracle 分区表</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 导入导出/">Oracle 导入导出</a></li>  </ul> 
-                    </li> 
-                     <li class="file"><a href="/wiki-site/wiki/软件工程/存储/事务的4种隔离级别/">事务的4种隔离级别</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/Access 表结构查询/">Access 表结构查询</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/存储/Linux-PostgreSQL-数据库安装/">Linux PostgreSQL 数据库安装</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            工具
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/工具/PowerDesigner 导出表结构/">PowerDesigner导出表结构</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/工具/VirtualBox 共享文件/">VirtualBox共享文件</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            编程语言
-                        </a>
-                         <ul class="unstyled" id="tree"> 
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            donet
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/donet/VS&FTS 常见问题/">VS&FTS 常见问题</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/donet/DataTable 常用操作/">DataTable 常用操作</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/donet/WPF 基础之控件与布局/">WPF 基础之控件与布局</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            java
-                        </a>
-                         <ul class="unstyled" id="tree"> 
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            struts2
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/Struts2 quickstart/">Struts2 quickstart</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/OGNL 表达式/">OGNL 表达式</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/Struts2 action result/">Struts2 action result</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/Struts2 获取上下文/">Struts2 获取上下文</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/Struts2 action 传参/">Struts2 action 传参</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/struts2/Struts2 action 配置/">Struts2 action 配置</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            开发工具
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/Java env for linux/">Java env for linux</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/Eclipse 使用配置/">Eclipse 使用配置</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/JDK 多版本环境共存/">JDK 多版本环境共存</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/项目管理利器 - Maven/">项目管理利器 - Maven</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/为代码瘦身 - Lombok/">为代码瘦身 - Lombok</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/Java tomcat/">在Idea中配置Tomcat</a></li>  </ul> 
-                    </li> 
-                     </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            javascript
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/javascript/Gruntjs JSHint 代码校验/">Gruntjs JSHint 代码校验</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs Express/">Nodejs Express</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/javascript/Gruntjs uglify 代码压缩/">Gruntjs uglify 代码压缩</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs MongoDB/">Nodejs MongoDB</a></li>  <li class="file"><a href="/wiki-site/wiki/软件工程/编程语言/javascript/Nodejs quickstart/">Nodejs quickstart</a></li>  </ul> 
-                    </li> 
-                     </ul> 
-                    </li> 
-                     </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            阅读学习
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki-site/wiki/阅读学习/刻意练习/">《刻意练习》读书笔记</a></li>  <li class="file"><a href="/wiki-site/wiki/阅读学习/深度阅读/">深度阅读</a></li>  </ul> 
-                    </li> 
-                     </ul> 
-    </div>
-    <script>
-        $(document).ready(function() {
-            var iconFolderOpenClass  = 'fa-folder-open';
-            var iconFolderCloseClass = 'fa-folder';
-            var iconAllExpandClass = 'fa-angle-double-down';
-            var iconAllPackClass = 'fa-angle-double-up';
-            // Handle directory-tree expansion:
-            // 左键单独展开目录
-            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
-                event.preventDefault();
-
-                var icon = $(this).children('.fa');
-                var expanded = icon.hasClass(iconFolderOpenClass);
-                var subtree = $(this).siblings('ul');
-                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
-                if (expanded) {
-                    if (typeof subtree != 'undefined') {
-                        subtree.slideUp({ duration: 100 });
-                    }
-                    icon.addClass(iconFolderCloseClass);
-                } else {
-                    if (typeof subtree != 'undefined') {
-                        subtree.slideDown({ duration: 100 });
-                    }
-                    icon.addClass(iconFolderOpenClass);
-                }
-            });
-            // 右键展开下属所有目录
-            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
-                event.preventDefault();
-                
-                var icon = $(this).children('.fa');
-                var expanded = icon.hasClass(iconFolderOpenClass);
-                var listNode = $(this).siblings('ul');
-                var subtrees = $.merge(listNode.find('li ul'), listNode);
-                var icons = $.merge(listNode.find('.fa'), icon);
-                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
-                if(expanded) {
-                    subtrees.slideUp({ duration: 100 });
-                    icons.addClass(iconFolderCloseClass);
-                } else {
-                    subtrees.slideDown({ duration: 100 });
-                    icons.addClass(iconFolderOpenClass);
-                }
-            })
-            // 展开关闭所有目录按钮
-            $(document).on('click', '#allExpand', function (event) {
-                event.preventDefault();
-                
-                var icon = $(this).children('.fa');
-                var expanded = icon.hasClass(iconAllExpandClass);
-                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
-                if(expanded) {
-                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
-                    $('#categories li ul').slideDown({ duration: 100 });
-                    icon.addClass(iconAllPackClass);
-                } else {
-                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
-                    $('#categories li ul').slideUp({ duration: 100 });
-                    icon.addClass(iconAllExpandClass);
-                }
-            });  
-        });
-    </script>
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-            <section id="main">
-        <article id="post-软件工程/devops/git/Git 安装" class="article article-type-post" itemscope="" itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/wiki-site/categories/软件工程/">软件工程</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/devops/">devops</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/devops/git/">git</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/wiki-site/tags/git/">git</a>
-    </div>
-
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/wiki-site/wiki/软件工程/devops/git/Git 安装/">
-            <time datetime="2017-12-25T16:00:00.000Z" itemprop="datePublished">2017-12-26</time>
-        </a>
-    </div>
-
-
-                        
-                        
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/软件工程/devops/git/Git 安装.md"> Source </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/软件工程/devops/git/Git 安装.md"> Edit </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/软件工程/devops/git/Git 安装.md"> History </a>
-                            </div>
-                        
-                    </div>
-                
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/wiki-site/wiki/软件工程/devops/git/Git 安装/">Git 安装</a>
-        </h1>
+      </header>
     
 
-            </header>
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-取得-Git-仓库"><a href="#1-取得-Git-仓库" class="headerlink" title="1. 取得 Git 仓库"></a>1. 取得 Git 仓库</h3><p>有两种取得 Git 项目仓库的方法，第一种是在现存的目录下，通过<strong>初始化文件夹</strong>来创建新的 Git 仓库：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure></p>
+<p>第二种是<strong>克隆仓库</strong>项目，Git 支持许多数据传输协议(git://, http(s)://, ssh)：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> [url] new_project_name</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-检查当前文件状态"><a href="#2-检查当前文件状态" class="headerlink" title="2. 检查当前文件状态"></a>2. 检查当前文件状态</h3><p>要确定<strong>文件状态</strong>，可以使用 git status 命令。文件状态分为： </p>
+<ul>
+<li>untracked files: 未跟踪 </li>
+<li>changes to be committed: 已暂存 </li>
+<li>changed but not updated: 已修改，未暂存 </li>
+</ul>
+<h3 id="3-追踪文件"><a href="#3-追踪文件" class="headerlink" title="3. 追踪文件"></a>3. 追踪文件</h3><p>使用命令 git add 开始跟踪文件或文件夹：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git add README</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>git add 命令是个多功能命令，根据目标文件的状态不同，此命令的效果也不同：可以用它开始跟踪新文件，或者把已跟踪的文件放到暂存区，还能用于合并时把有冲突的文件标记为已解决状态等。</p>
+</blockquote>
+<h3 id="4-忽略文件"><a href="#4-忽略文件" class="headerlink" title="4. 忽略文件"></a>4. 忽略文件</h3><p>当某些文件无需纳入 Git 管理时，可以创建一个名为 <strong>.gitignore</strong> 的文件，列出要忽略的文件模式。文件 .gitignore 的格式如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 此为注释 – 将被 Git 忽略 </span></span><br><span class="line">*.a       <span class="comment"># 忽略所有 .a 结尾的文件 </span></span><br><span class="line">!lib.a    <span class="comment"># 但 lib.a 除外 </span></span><br><span class="line">/TODO     <span class="comment"># 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO </span></span><br><span class="line">build/    <span class="comment"># 忽略 build/ 目录下的所有文件 </span></span><br><span class="line"> doc/*.txt <span class="comment"># 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt</span></span><br></pre></td></tr></table></figure></p>
+<p> 对现有项目添加 git gitignore 不生效的解决办法： .gitignore 不生效解决方法</p>
+<h3 id="5-查看已暂存和未暂存的变更内容"><a href="#5-查看已暂存和未暂存的变更内容" class="headerlink" title="5. 查看已暂存和未暂存的变更内容"></a>5. 查看已暂存和未暂存的变更内容</h3><p>如果想要查看具体修改内容，可以使用 git diff 命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git diff</span><br></pre></td></tr></table></figure></p>
+<p>此命令比较的是当前目录文件和暂存区快照之间的差异，也就是被修改后没有暂存的内容。<br>如果想要查看暂存起来的文件和上次提交时的文件的差异，可以使用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git diff --cached </span><br><span class="line">$ git diff --staged  <span class="comment">#v1.6.1+</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="6-提交更新"><a href="#6-提交更新" class="headerlink" title="6. 提交更新"></a>6. 提交更新</h3><p>当将所有文件加入暂存区后可以提交了，运行命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m <span class="string">"提交已经暂存(add)过的变更"</span></span><br></pre></td></tr></table></figure></p>
+<p>给 git commit 加上 -a 选项，跳过暂存步骤，自动将所有已跟踪过的文件提交：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -a -m <span class="string">'直接提交变更，跳过暂存步骤'</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="7-撤消操作"><a href="#7-撤消操作" class="headerlink" title="7. 撤消操作"></a>7. 撤消操作</h3><p>某些时候，提交完后才发现漏了几个文件，或者提交信息写错了，<strong>修改最后一次提交</strong>，可以使用 –amend 选项重新提交：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git  commit  --amend  -m <span class="string">"修改备注信息"</span></span><br></pre></td></tr></table></figure></p>
+<p>某些时间，不小心将不需要提交的文件使用了 git add，要<strong>取消暂存文件</strong>，可以使用以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git  reset  HEAD  file_name</span><br></pre></td></tr></table></figure></p>
+<p>如果对文件修改没必要，需要<strong>撤销对文件的修改</strong>，可以使用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git  checkout  --  file_name</span><br></pre></td></tr></table></figure></p>
+<p>注意此条命令会取消文件所有修改，回到上次提交的状态，需要谨慎使用。 </p>
+<h3 id="8-移除文件"><a href="#8-移除文件" class="headerlink" title="8. 移除文件"></a>8. 移除文件</h3><p>移除文件，并从工作目录中删除文件，也支持正则匹配：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git  rm  -f   file_name</span><br></pre></td></tr></table></figure></p>
+<p>另一种情况，从 Git 中移除跟踪，但仍然保留文件，使用 –cached 选项即可：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git  rm --cached file_name</span><br></pre></td></tr></table></figure></p>
+<h3 id="9-移动文件"><a href="#9-移动文件" class="headerlink" title="9. 移动文件"></a>9. 移动文件</h3><p>重命名或移动文件，都可以使用以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git mv file_from  file_to</span><br></pre></td></tr></table></figure></p>
+<p>其实运行 git mv 就相当于运行下面三条命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mv  README.txt README </span><br><span class="line">$ git rm README.txt </span><br><span class="line">$ git add  README</span><br></pre></td></tr></table></figure></p>
+<h3 id="10-查看提交历史"><a href="#10-查看提交历史" class="headerlink" title="10. 查看提交历史"></a>10. 查看提交历史</h3><p>想回顾下提交历史记录，可以使用 git log 命令查看。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-p : 显示每次提交的内容差异 </span><br><span class="line">-2：仅显示最近两次更新 </span><br><span class="line">--<span class="built_in">stat</span> : 仅显示简要的增改行数统计 </span><br><span class="line">--pretty : 自定义显示风格 </span><br><span class="line">    =oneline : 放在一行显示 </span><br><span class="line">    =format:<span class="string">"%h - %an, %ar : %s"</span> 格式输出 </span><br><span class="line">--since=2.weeks : 最近时间段 </span><br><span class="line">--author=xx :  作者 </span><br><span class="line">--committer=xx : 提交者</span><br></pre></td></tr></table></figure></p>
+<p>使用图形化工具查看历史提交记录，使用命令 gitk 即可。 </p>
+<h3 id="11-远程仓库的使用"><a href="#11-远程仓库的使用" class="headerlink" title="11. 远程仓库的使用"></a>11. 远程仓库的使用</h3><p>要查看当前配置有哪些远程仓库，可以使用 git remote 命令，会列出每个远程仓库：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote -v</span><br></pre></td></tr></table></figure></p>
+<p>要添加一个新的远程仓库，需要在 github 上创建一个空的仓库，指定一个简单的名字，以便引用，运行 git remote add [shortname] [url] 创建本地仓库:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add repository_name git://github.com/joecnn/imgcompact.git</span><br></pre></td></tr></table></figure></p>
+<p>从远程仓库拉取数据到本地，但并<strong>不合并</strong>到当前工作分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch [remote-name]</span><br></pre></td></tr></table></figure></p>
+<p>使用 git pull 命令拉取远程仓库并<strong>合并</strong>到本地分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git pull [remote-name]</span><br></pre></td></tr></table></figure></p>
+<p>推送数据到远程仓库：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure></p>
+<p>查看远程仓库信息：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote show origin</span><br></pre></td></tr></table></figure></p>
+<p>远程仓库的删除和重命名：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git remote rename old_name new_name </span><br><span class="line">$ git remote rm rp_name</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/devops/git/Git 安装/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joshua Chen">
+      <meta itemprop="description" content="大道至简">
+      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joe's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
-        <div class="article-entry" itemprop="articleBody">
-        
-        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/wiki-site/wiki/软件工程/devops/git/Git 安装/" class="post-title-link" itemprop="url">Git 安装</a>
+              
             
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-12-26 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-26T00:00:00+08:00">2017-12-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-08 14:46:06" itemprop="dateModified" datetime="2019-02-08T14:46:06+08:00">2019-02-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+
                 
                 
-                    
-                    
+                  ，
                 
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/" itemprop="url" rel="index"><span itemprop="name">devops</span></a></span>
+
                 
                 
-                    
-                    <p></p><h3 id="1-从源码安装"><a href="#1-从源码安装" class="headerlink" title="1. 从源码安装"></a>1. 从源码安装</h3><p>Git的工作需要调用 curl, zlib, openssl, expat, libconv 等库，所以需要先安装这些依赖工具。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel</span><br></pre></td></tr></table></figure></p>
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-从源码安装"><a href="#1-从源码安装" class="headerlink" title="1. 从源码安装"></a>1. 从源码安装</h3><p>Git的工作需要调用 curl, zlib, openssl, expat, libconv 等库，所以需要先安装这些依赖工具。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel</span><br></pre></td></tr></table></figure></p>
 <h5 id="之后从Git官方站点下载源码："><a href="#之后从Git官方站点下载源码：" class="headerlink" title="之后从Git官方站点下载源码："></a>之后从Git官方站点下载源码：</h5><pre><code>http://git-scm.com/download 
 </code></pre><h5 id="进行编译安装："><a href="#进行编译安装：" class="headerlink" title="进行编译安装："></a>进行编译安装：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxf git-1.7.2.2.tar.gz </span><br><span class="line">$ <span class="built_in">cd</span> git-1.7.2.2 </span><br><span class="line">$ make prefix=/usr/<span class="built_in">local</span> all </span><br><span class="line">$ sudo make prefix=/usr/<span class="built_in">local</span> install</span><br></pre></td></tr></table></figure>
 <h3 id="2-在-Linux-上安装"><a href="#2-在-Linux-上安装" class="headerlink" title="2. 在 Linux 上安装"></a>2. 在 Linux 上安装</h3><p>如果要在 Linux 上安装预编译好的 Git 安装包，使用系统提供的包管理工具即可：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum install git-core </span><br><span class="line">$ apt-get install git-core</span><br></pre></td></tr></table></figure></p>
 <h3 id="3-在-Mac-上安装"><a href="#3-在-Mac-上安装" class="headerlink" title="3. 在 Mac 上安装"></a>3. 在 Mac 上安装</h3><p>在 Mac 上安装有两种方式，一种是下载 Git 安装工具，下载地址：<br>    <a href="http://git-scm.com/download/mac">http://git-scm.com/download/mac</a> </p>
-<p>
+<p>另一种是通过 MacPorts 安装，用下面的命令安装：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo port install git-core +svn +doc +bash_completion +gitweb</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-在-Windows-上安装"><a href="#4-在-Windows-上安装" class="headerlink" title="4. 在 Windows 上安装"></a>4. 在 Windows 上安装</h3><p>在 Windows 上安装非常简单，只要下载 Git 安装工具，下载地址：<br>    <a href="http://git-scm.com/download/win">http://git-scm.com/download/win</a> </p>
+<h3 id="5-初始配置"><a href="#5-初始配置" class="headerlink" title="5. 初始配置"></a>5. 初始配置</h3><p>一般在新的系统上，首先要配置 Git 的工作环境，Git 提供了 git config 的工具，用于配置和读取工作环境变量，这些变量可以存放在以下三个不同地方： </p>
+<ul>
+<li>/etc/gitconfig 文件：对系统中所有用户都适用，若使用 git config 时用 –system 选项，读写的就是这个文件。 </li>
+<li>~/.gitconfig 文件：用户目录下仅用于用户，若使用 git config 时用 –global 选项，读写的就是这个文件。 </li>
+<li>当前项目的 git 目录中的配置文件：这里的配置仅仅对当前项目有效。每一个级别的配置都会覆盖上层的相同配置。 </li>
+</ul>
+<h5 id="第一个要配置的是账户名称和邮箱地址："><a href="#第一个要配置的是账户名称和邮箱地址：" class="headerlink" title="第一个要配置的是账户名称和邮箱地址："></a>第一个要配置的是账户名称和邮箱地址：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name <span class="string">"joecnn"</span> </span><br><span class="line">$ git config --global user.email <span class="string">"starworking@126.com "</span></span><br></pre></td></tr></table></figure>
+<h5 id="配置文本编辑器："><a href="#配置文本编辑器：" class="headerlink" title="配置文本编辑器："></a>配置文本编辑器：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global core.editor vim</span><br></pre></td></tr></table></figure>
+<h5 id="配置差异分析工具："><a href="#配置差异分析工具：" class="headerlink" title="配置差异分析工具："></a>配置差异分析工具：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global merge.tool vimdiff</span><br></pre></td></tr></table></figure>
+<h3 id="6-查看配置信息"><a href="#6-查看配置信息" class="headerlink" title="6. 查看配置信息"></a>6. 查看配置信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --list</span><br></pre></td></tr></table></figure>
+<h3 id="7-获取帮助"><a href="#7-获取帮助" class="headerlink" title="7. 获取帮助"></a>7. 获取帮助</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">help</span>  </span><br><span class="line">$ man git-</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/devops/git/gitignore不生效解决方法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joshua Chen">
+      <meta itemprop="description" content="大道至简">
+      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joe's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
                 
+                
+                <a href="/wiki-site/wiki/软件工程/devops/git/gitignore不生效解决方法/" class="post-title-link" itemprop="url">gitignore不生效解决方法</a>
+              
             
+          </h1>
         
-        
-            </p></div>   
-            <div class="article-more-link">
-                <a href="/wiki-site/wiki/软件工程/devops/git/Git 安装/#more">Read More</a>
-            </div>
-        
-        <footer class="article-footer">
-        </footer>
-    </div>
-</article>
 
+        <div class="post-meta">
+          <span class="post-time">
 
-
-
-
-
-    
-        <article id="post-软件工程/devops/git/Git 介绍" class="article article-type-post" itemscope="" itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/wiki-site/categories/软件工程/">软件工程</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/devops/">devops</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/devops/git/">git</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/wiki-site/tags/git/">git</a>
-    </div>
-
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/wiki-site/wiki/软件工程/devops/git/Git 介绍/">
-            <time datetime="2017-12-25T16:00:00.000Z" itemprop="datePublished">2017-12-26</time>
-        </a>
-    </div>
-
-
-                        
-                        
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/软件工程/devops/git/Git 介绍.md"> Source </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/软件工程/devops/git/Git 介绍.md"> Edit </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/软件工程/devops/git/Git 介绍.md"> History </a>
-                            </div>
-                        
-                    </div>
-                
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/wiki-site/wiki/软件工程/devops/git/Git 介绍/">Git 介绍</a>
-        </h1>
-    
-
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-        
             
-                
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                
-                    
-                    <p></p><p> Git是一个<font size="4" color="dark" weight="bold">分布式的版本控制系统</font>，最初由Linus Torvalds编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在Ruby社区中。  </p>
-<h3 id="一、Git-特点"><a href="#一、Git-特点" class="headerlink" title="一、Git 特点"></a>一、Git 特点</h3><p><font size="4" color="dark" weight="bold">直接记录快照，而非差异</font>，只关心文件数据的整体是否发生变化，并不保存这些前后变化的差异数据。实际上，Git 更像是把变化的文件作快照后，记录在一个微型的文件系统中。每次提交更新时，它会纵览一遍所有文件的指纹信息并对文件作一快照，然后保存一个指向这次快照 的索引。为提高性能，若文件没有变化，Git 不会再次保存，而只对上次保存的快照作一链接。 </p>
-<ol>
-<li><strong>近乎所有操作都是本地执行</strong><br>Git 绝大多数操作都只访问本地文件和资源，因为 Git 在本地磁盘上就保存着所有当前项目的历史更新，所以处理起来速度飞快。而到需要上传到远程仓库或获取远程仓库上内容时才需联网。 </li>
-<li><strong>时刻保持数据完整性：</strong><br>Git 在保存前，所有数据都要进行校验计算，并将结果做为数据的唯一标识。 </li>
-<p>
-                
             
-        
-        
-            </p></ol></div>   
-            <div class="article-more-link">
-                <a href="/wiki-site/wiki/软件工程/devops/git/Git 介绍/#more">Read More</a>
-            </div>
-        
-        <footer class="article-footer">
-        </footer>
-    </div>
-</article>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
 
-
-
-
-
-    
-        <article id="post-软件工程/devops/git/gitignore不生效解决方法" class="article article-type-post" itemscope="" itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
+              
                 
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/wiki-site/categories/软件工程/">软件工程</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/devops/">devops</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/devops/git/">git</a>
-    </div>
+              
 
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/wiki-site/tags/git/">git</a>
-    </div>
+              <time title="创建时间：2017-11-18 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-18T00:00:00+08:00">2017-11-18</time>
+            
 
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/wiki-site/wiki/软件工程/devops/git/gitignore不生效解决方法/">
-            <time datetime="2017-11-17T16:00:00.000Z" itemprop="datePublished">2017-11-18</time>
-        </a>
-    </div>
+            
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
 
-                        
-                        
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/软件工程/devops/git/gitignore不生效解决方法.md"> Source </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/软件工程/devops/git/gitignore不生效解决方法.md"> Edit </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/软件工程/devops/git/gitignore不生效解决方法.md"> History </a>
-                            </div>
-                        
-                    </div>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-06 17:18:26" itemprop="dateModified" datetime="2019-02-06T17:18:26+08:00">2019-02-06</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+
                 
                 
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/wiki-site/wiki/软件工程/devops/git/gitignore不生效解决方法/">gitignore不生效解决方法</a>
-        </h1>
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/" itemprop="url" rel="index"><span itemprop="name">devops</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
     
 
-            </header>
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-        
-            
-                
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-            
-        
-        
+          
             <p>在git中如果想忽略掉某个文件，不让这个文件提交到版本库中，可以使用修改根目录中 .gitignore 文件的方法（如无，则需自己手工建立此文件）。这个文件每一行保存了一个匹配的规则例如：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 此为注释 – 将被 Git 忽略</span></span><br><span class="line"></span><br><span class="line">*.a       <span class="comment"># 忽略所有 .a 结尾的文件</span></span><br><span class="line">!lib.a    <span class="comment"># 但 lib.a 除外</span></span><br><span class="line">/TODO     <span class="comment"># 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO</span></span><br><span class="line">build/    <span class="comment"># 忽略 build/ 目录下的所有文件</span></span><br><span class="line">doc/*.txt <span class="comment"># 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt</span></span><br></pre></td></tr></table></figure>
 <p>但是有时候在项目开发过程中，想把某些目录或文件加入忽略规则，按照上述方法定义后发现并未生效，原因是.gitignore只能忽略那些原来没有被track的文件，如果某些文件已经被纳入了版本管理中，则修改.gitignore是无效的。那么解决方法就是先把本地缓存删除（改变成未track状态），然后再提交：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --cached .</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">'update .gitignore'</span></span><br></pre></td></tr></table></figure>
 
-            </div>
+          
         
-        <footer class="article-footer">
-        </footer>
+      
     </div>
-</article>
 
+    
 
+    
+    
+    
 
+    
 
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
 
 
     
-        <article id="post-软件工程/linux/常见问题收集" class="article article-type-post" itemscope="" itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/wiki-site/categories/软件工程/">软件工程</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/linux/">linux</a>
-    </div>
+      
 
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/wiki-site/tags/linux/">linux</a>
-    </div>
+  
 
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/wiki-site/wiki/软件工程/linux/常见问题收集/">
-            <time datetime="2017-10-16T16:00:00.000Z" itemprop="datePublished">2017-10-17</time>
-        </a>
-    </div>
+  
+  
+  
 
+  
 
-                        
-                        
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/软件工程/linux/常见问题收集.md"> Source </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/软件工程/linux/常见问题收集.md"> Edit </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/软件工程/linux/常见问题收集.md"> History </a>
-                            </div>
-                        
-                    </div>
-                
-                
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/linux/常见问题收集/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joshua Chen">
+      <meta itemprop="description" content="大道至简">
+      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joe's Notes">
+    </span>
+
     
-        <h1 itemprop="name">
-            <a class="article-title" href="/wiki-site/wiki/软件工程/linux/常见问题收集/">常见问题收集</a>
-        </h1>
-    
+      <header class="post-header">
 
-            </header>
         
         
-        <div class="article-entry" itemprop="articleBody">
-        
-        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/wiki-site/wiki/软件工程/linux/常见问题收集/" class="post-title-link" itemprop="url">常见问题收集</a>
+              
             
-                
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
             
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-10-17 00:00:00" itemprop="dateCreated datePublished" datetime="2017-10-17T00:00:00+08:00">2017-10-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-06 17:37:58" itemprop="dateModified" datetime="2019-02-06T17:37:58+08:00">2019-02-06</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
-        
+          
             <p>此文档为使用linux过程中遇到的各种坑，以及跳出坑的方法。</p>
 <h3 id="1-启动时提示-systemd-1-Failed-to-load-SELinux-policy-freezing-无法进入系统"><a href="#1-启动时提示-systemd-1-Failed-to-load-SELinux-policy-freezing-无法进入系统" class="headerlink" title="1. 启动时提示 systemd[1]: Failed to load SELinux policy. freezing. 无法进入系统"></a>1. 启动时提示 systemd[1]: Failed to load SELinux policy. freezing. 无法进入系统</h3><p>此问题为设置错了 SELinux 配置，在启动时按e键修改 grub，在标签 <strong>fi</strong> 内核参数中增加一个参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">selinux=0</span><br></pre></td></tr></table></figure></p>
 <p>后按 ctrl+x 重启可进入，再修改 ==/etc/selinux/config==<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELINUX=disabled</span><br><span class="line">SELINUXTYPE=target</span><br></pre></td></tr></table></figure></p>
 <h3 id="2-centos7-端口已开放，也开放了iptables防火墙，还是无法访问"><a href="#2-centos7-端口已开放，也开放了iptables防火墙，还是无法访问" class="headerlink" title="2. centos7 端口已开放，也开放了iptables防火墙，还是无法访问"></a>2. centos7 端口已开放，也开放了iptables防火墙，还是无法访问</h3><p>此问题为 centos7 已默认使用 firewall 为防火墙！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#关闭防火墙</span><br><span class="line">systemctl stop firewalld.service</span><br><span class="line"></span><br><span class="line">#禁止防火墙开机启动</span><br><span class="line">systemctl disable firewalld.service</span><br><span class="line"></span><br><span class="line">#查看防火墙开放端口</span><br><span class="line">firewall-cmd --list-ports</span><br><span class="line"></span><br><span class="line">#开放端口</span><br><span class="line">firewall-cmd --zone=public --add-port=80/tcp --permanent</span><br></pre></td></tr></table></figure></p>
 
-            </div>
+          
         
-        <footer class="article-footer">
-        </footer>
+      
     </div>
-</article>
 
+    
 
+    
+    
+    
 
+    
 
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
 
 
     
-        <article id="post-软件工程/存储/oracle/Oracle 分区表" class="article article-type-post" itemscope="" itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/wiki-site/categories/软件工程/">软件工程</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/存储/">存储</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki-site/categories/软件工程/存储/oracle/">oracle</a>
-    </div>
+      
 
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/wiki-site/tags/oracle/">oracle</a>
-    </div>
+  
 
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 分区表/">
-            <time datetime="2017-07-31T16:00:00.000Z" itemprop="datePublished">2017-08-01</time>
-        </a>
-    </div>
+  
+  
+  
 
+  
 
-                        
-                        
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/raw/master/source/_posts/软件工程/存储/oracle/Oracle 分区表.md"> Source </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/edit/master/source/_posts/软件工程/存储/oracle/Oracle 分区表.md"> Edit </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/joecnn/wiki-site/commits/master/source/_posts/软件工程/存储/oracle/Oracle 分区表.md"> History </a>
-                            </div>
-                        
-                    </div>
-                
-                
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/存储/oracle/Oracle 分区表/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joshua Chen">
+      <meta itemprop="description" content="大道至简">
+      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joe's Notes">
+    </span>
+
     
-        <h1 itemprop="name">
-            <a class="article-title" href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 分区表/">Oracle 分区表</a>
-        </h1>
-    
+      <header class="post-header">
 
-            </header>
         
         
-        <div class="article-entry" itemprop="articleBody">
-        
-        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 分区表/" class="post-title-link" itemprop="url">Oracle 分区表</a>
+              
             
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-08-01 00:00:00" itemprop="dateCreated datePublished" datetime="2017-08-01T00:00:00+08:00">2017-08-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-08 14:44:39" itemprop="dateModified" datetime="2019-02-08T14:44:39+08:00">2019-02-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+
                 
                 
-                    
-                    
+                  ，
                 
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/存储/" itemprop="url" rel="index"><span itemprop="name">存储</span></a></span>
+
                 
                 
-                    
-                    <p></p><h3 id="一、分区表"><a href="#一、分区表" class="headerlink" title="一、分区表"></a>一、分区表</h3><p>&emsp;&emsp;随着表的不断增大，对于新纪录的增加、查找、删除等的维护也更加困难。对于数据库中的超大型表，可通过把它的数据分成若干个小表，从而简化数据库的管理活动。对于每一个简化后的小表，我们称为一个单个的分区。<br>　　对于分区的访问，我们不需要使用特殊的SQL查询语句或特定的DML语句，而且可以单独的操作单个分区，而不是整个表。同时也可以将不同分区的数据放置到不同的表空间。<br>　　对于外部应用程序来说，虽然存在不同的分区，且数据位于不同的表空间，<strong><em>但逻辑上仍然是一张表</em></strong>，可以使用SQL*Loader，IMPDP，EXPDP，Import，Export等工具来装载或卸载分区表中的数据。
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/存储/oracle/" itemprop="url" rel="index"><span itemprop="name">oracle</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一、分区表"><a href="#一、分区表" class="headerlink" title="一、分区表"></a>一、分区表</h3><p>&emsp;&emsp;随着表的不断增大，对于新纪录的增加、查找、删除等的维护也更加困难。对于数据库中的超大型表，可通过把它的数据分成若干个小表，从而简化数据库的管理活动。对于每一个简化后的小表，我们称为一个单个的分区。<br>　　对于分区的访问，我们不需要使用特殊的SQL查询语句或特定的DML语句，而且可以单独的操作单个分区，而不是整个表。同时也可以将不同分区的数据放置到不同的表空间。<br>　　对于外部应用程序来说，虽然存在不同的分区，且数据位于不同的表空间，<strong><em>但逻辑上仍然是一张表</em></strong>，可以使用SQL*Loader，IMPDP，EXPDP，Import，Export等工具来装载或卸载分区表中的数据。
 　　</p>
 <h3 id="二、何时进行分区"><a href="#二、何时进行分区" class="headerlink" title="二、何时进行分区"></a>二、何时进行分区</h3><ul>
 <li>当表达到GB大小且继续增长</li>
 <li>需要将历史数据和当前的数据分开单独处理，比如历史数据仅仅需要只读，而当前数据则实现DML</li>
-<p>
+</ul>
+<h3 id="三、分区的特性"><a href="#三、分区的特性" class="headerlink" title="三、分区的特性"></a>三、分区的特性</h3><ul>
+<li>共性：不同的分区之间必须有相同的逻辑属性，比如表名，列名，数据类型，约束等</li>
+<li>个性：各个分区可以有不同的物理属性，比如pctfree, pctused, and tablespaces</li>
+<li>独立性：即使某些分区不可用，其他分区仍然可用</li>
+<li>特殊性：含有 <strong>LONG</strong>、<strong>LONGRAW</strong> 数据类型的表不能进行分区</li>
+</ul>
+<h3 id="四、分区的优点"><a href="#四、分区的优点" class="headerlink" title="四、分区的优点"></a>四、分区的优点</h3><p>1、提高查询性能：只需要搜索特定分区，而非整张表，提高查询速度<br>2、节约维护时间：单个分区的数据装载，索引重建，备份，维护等将远小于整张表的维护时间<br>3、节约维护成本：可以单独备份和恢复每个分区<br>4、均衡I/O：将不同的分区映射到不同的磁盘以平衡I/O，提高并发</p>
+<h3 id="五、Oracle-分区类型"><a href="#五、Oracle-分区类型" class="headerlink" title="五、Oracle 分区类型"></a>五、Oracle 分区类型</h3><blockquote>
+<p>范围分区、散列分区、列表分区、组合分区</p>
+</blockquote>
+<h4 id="1-Range-分区：行映射到基于列值范围的分区"><a href="#1-Range-分区：行映射到基于列值范围的分区" class="headerlink" title="1. Range 分区：行映射到基于列值范围的分区"></a>1. Range 分区：行映射到基于列值范围的分区</h4><p>Range 分区，又成为范围分区，基于分区键值的范围将数据映射到所建立的分区。<br>创建分区时必须指定以下内容：  </p>
+<ul>
+<li>分区方法：range  </li>
+<li>分区列  </li>
+<li>标识分区边界的分区描述  </li>
+</ul>
+<p>使用 Range 分区的时候，要记住几条规则：  </p>
+<ul>
+<li>每个分区都包含 <strong>VALUES LESS THAN</strong> 字名，定义了分区的上层边界。任何等于和大于分区键值的二进制值都被添加到下一个高层分区中。  </li>
+<li>所有的分区，除了第一个，如果低于VALUES LESS THAN所定义的下层边界，都放在前面的分区中。</li>
+<li>MAXVALUE 可以用来定义最高层的分区。MAXVALUE 表示了虚拟的无限值</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建分区</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> sal_range   </span><br><span class="line">            (salesman_id <span class="built_in">number</span>(<span class="number">5</span>),</span><br><span class="line">            salesman_name varchar2(<span class="number">30</span>),</span><br><span class="line">            sales_amount <span class="built_in">number</span>(<span class="number">10</span>),</span><br><span class="line">            sales_date <span class="built_in">date</span>)</span><br><span class="line">            <span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">range</span> (sales_date)   <span class="comment">--创建基于日期的范围分区并存储到不同的表空间</span></span><br><span class="line">            (</span><br><span class="line">            <span class="keyword">partition</span> sal_jan2000 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span>(<span class="keyword">to_date</span>(<span class="string">'02/01/2000'</span>,</span><br><span class="line">                <span class="string">'DD/MM/YYYY'</span>)) <span class="keyword">tablespace</span> sal_range_jan2000,</span><br><span class="line">            <span class="keyword">partition</span> sal_feb2000 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span>(<span class="keyword">to_date</span>(<span class="string">'03/01/2000'</span>,</span><br><span class="line">                <span class="string">'DD/MM/YYYY'</span>)) <span class="keyword">tablespace</span> sal_range_feb2000,</span><br><span class="line">            <span class="keyword">partition</span> sal_mar2000 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span>(<span class="keyword">to_date</span>(<span class="string">'04/01/2000'</span>,</span><br><span class="line">                <span class="string">'DD/MM/YYYY'</span>)) <span class="keyword">tablespace</span> sal_range_mar2000,</span><br><span class="line">            <span class="keyword">partition</span> sal_apr2000 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span>(<span class="keyword">to_date</span>(<span class="string">'05/01/2000'</span>,</span><br><span class="line">                <span class="string">'DD/MM/YYYY'</span>)) <span class="keyword">tablespace</span> sal_range_apr2000</span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询分区中数据</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> r <span class="keyword">partition</span> (p1)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 添加分区</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> r <span class="keyword">add</span> <span class="keyword">partition</span> p5 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span> (xxx ) <span class="keyword">tablespace</span> xx;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看分区表信息</span></span><br><span class="line"> <span class="keyword">SELECT</span> table_name,partition_name,subpartition_count,tablespace_name,user_stats </span><br><span class="line">  <span class="keyword">FROM</span> user_tab_partitions;</span><br></pre></td></tr></table></figure>
+<h4 id="2-Hash分区：散列分区"><a href="#2-Hash分区：散列分区" class="headerlink" title="2. Hash分区：散列分区"></a>2. Hash分区：散列分区</h4><p>Hash 分区是根据分区字段的 Hash 值进行的散列分区，在下面这种<br>情况下，使用hash分区比range分区更好：</p>
+<ul>
+<li>事先不知道需要将多少数据映射到给定范围的时候</li>
+<li>分区的范围大小很难确定，或者很难平衡的时候</li>
+<li>Range 分区使数据得到不希望的聚集时</li>
+<li>性能特性，如并行DML、分区剪枝和分区连接很重要的时候</li>
+</ul>
+<p>创建散列分区时，必须指定以下信息</p>
+<ul>
+<li>分区方法：hash</li>
+<li>分区列</li>
+<li>分区数量或单独的分区描述</li>
+</ul>
+<p>创建hash分区有两种方法：一种方法是指定分区数量，另一种方法是指定分区的名字，但两者不能同时指定。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 方法一：指定分区数量</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> dept2 (deptno <span class="built_in">number</span>,deptname varchar2(<span class="number">32</span>))</span><br><span class="line"><span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">hash</span>(deptno) <span class="keyword">partitions</span> <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 方法二：指定分区的名字</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> sales_hash</span><br><span class="line">        (salesman_id <span class="built_in">number</span>(<span class="number">5</span>),</span><br><span class="line">        salesman_name varchar2(<span class="number">30</span>),</span><br><span class="line">        sales_amount <span class="built_in">number</span>(<span class="number">10</span>),</span><br><span class="line">        week_no <span class="built_in">number</span>(<span class="number">2</span>))</span><br><span class="line"><span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">hash</span> (salesman_id) <span class="keyword">partitions</span> <span class="number">4</span></span><br><span class="line"><span class="keyword">store</span> <span class="keyword">in</span> (data1,data2,data3,data4) <span class="comment">--指定表空间</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-List分区：列表分区"><a href="#3-List分区：列表分区" class="headerlink" title="3. List分区：列表分区"></a>3. List分区：列表分区</h4><p>List分区可以控制如何将行映射到分区中去，可以定义具体值指定到具体的分区。<br>不同于Range分区和Hash分区：</p>
+<ul>
+<li>Range 分区与分区相关联，为分区列假设了一个值的自然范围，故不可能将该值的范围以外的分区组织到一起</li>
+<li>Hash 分区时不允许对数据的划分进行控制，因为系统使用的是散列函数来划分数据的</li>
+<li>List 分区的优点在于按照自然的方式将无序和不相关的数据集合分组</li>
+<li>List 分区不支持多列分区，如果将表按列分区，那么分区键就只能有表的一个单独列组成</li>
+</ul>
+<p>List分区时必须指定的以下内容：</p>
+<ul>
+<li>分区方法：list</li>
+<li>分区列</li>
+<li>分区描述，每个描述指定一串文字值(值的列表),它们是分区列(它们限定将被包括在分区中的行)的离散值</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建分区</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> sales_list</span><br><span class="line">        (salesman_id <span class="built_in">number</span>(<span class="number">5</span>),</span><br><span class="line">        salesman_name varchar2(<span class="number">30</span>),</span><br><span class="line">        sales_state varchar2(<span class="number">20</span>),</span><br><span class="line">        sales_amount <span class="built_in">number</span>(<span class="number">10</span>),</span><br><span class="line">        sales_date <span class="built_in">date</span>)</span><br><span class="line"><span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">list</span> (sales_state)</span><br><span class="line">(</span><br><span class="line">    <span class="keyword">partition</span> sales_west <span class="keyword">values</span> (<span class="string">'California'</span>,<span class="string">'Hawaii'</span>) <span class="keyword">tablespace</span> x,</span><br><span class="line">    <span class="keyword">partition</span> sales_east <span class="keyword">values</span> (<span class="string">'New York'</span>,<span class="string">'Virginia'</span>) <span class="keyword">tablespace</span> y,</span><br><span class="line">    <span class="keyword">partition</span> sales_central <span class="keyword">values</span> (<span class="string">'Texas'</span>,<span class="string">'Illinois'</span>) <span class="keyword">tablespace</span> z,</span><br><span class="line">    <span class="keyword">partition</span> sales_other <span class="keyword">values</span>(<span class="keyword">DEFAULT</span>) <span class="keyword">tablespace</span> o</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 添加分区</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> sales3 <span class="keyword">add</span> <span class="keyword">partition</span> hk <span class="keyword">values</span> (<span class="string">'HK'</span>) <span class="keyword">tablespace</span> xx</span><br></pre></td></tr></table></figure>
+<h4 id="4-Composite-Partitioning：合成分区、组合分区"><a href="#4-Composite-Partitioning：合成分区、组合分区" class="headerlink" title="4. Composite Partitioning：合成分区、组合分区"></a>4. Composite Partitioning：合成分区、组合分区</h4><p>组合分区使用 Range 方法分区，在每个子分区中使用 Hash 方法进行再分区。组合分区比 Range 分区更容易管理，充分使用了 Hash 分区的并行优势。组合分区支持历史数据和条块数据两者。<br>创建组合分区时，需要指定如下内容：</p>
+<ul>
+<li>分区方法：range</li>
+<li>分区列</li>
+<li>标识分区边界的分区描述</li>
+<li>子分区方法：hash</li>
+<li>子分区列</li>
+<li>每个分区的子分区数量，或子分区的描述</li>
+</ul>
+<p>示例：  </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建分区 Range分区，Hash子分区</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> sales_composite</span><br><span class="line">        (salesman_id <span class="built_in">number</span>(<span class="number">5</span>),</span><br><span class="line">        salesman_name varchar2(<span class="number">30</span>),</span><br><span class="line">        sales_amount <span class="built_in">number</span>(<span class="number">10</span>),</span><br><span class="line">        sales_date <span class="built_in">date</span>)</span><br><span class="line"><span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">range</span>(sales_date)</span><br><span class="line"><span class="keyword">subpartition</span> <span class="keyword">by</span> <span class="keyword">hash</span>(salesman_id) <span class="keyword">subpartitions</span> <span class="number">4</span></span><br><span class="line"><span class="keyword">store</span> <span class="keyword">in</span> (tbs1,tbs2,tbs3,tbs4)</span><br><span class="line">(</span><br><span class="line">    <span class="keyword">partition</span> sales_jan2000 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span>(<span class="keyword">to_date</span>(<span class="string">'02/01/2000'</span>,<span class="string">'DD/MM/YYYY'</span>)),</span><br><span class="line">    <span class="keyword">partition</span> sales_feb2000 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span>(<span class="keyword">to_date</span>(<span class="string">'03/01/2000'</span>,<span class="string">'DD/MM/YYYY'</span>)),</span><br><span class="line">    <span class="keyword">partition</span> sales_mar2000 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span>(<span class="keyword">to_date</span>(<span class="string">'04/01/2000'</span>,<span class="string">'DD/MM/YYYY'</span>))</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">--Range分区，List子分区</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> T_TRACK </span><br><span class="line">        (</span><br><span class="line">            N_TRACK_ID           <span class="built_in">NUMBER</span>(<span class="number">20</span>)     <span class="keyword">NOT</span> <span class="literal">NULL</span>, </span><br><span class="line">            C_COMP_CDE           VARCHAR2(<span class="number">6</span>),</span><br><span class="line">            T_TRACK_TM           <span class="built_in">DATE</span>           <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">            C_CAR_NO             VARCHAR2(<span class="number">50</span>)</span><br><span class="line">        )</span><br><span class="line"><span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">range</span>(T_TRACK_TM)</span><br><span class="line"><span class="keyword">subpartition</span> <span class="keyword">by</span> <span class="keyword">list</span>(C_COMP_CDE)</span><br><span class="line">(</span><br><span class="line">    <span class="keyword">partition</span> P_2009_11 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span> (<span class="keyword">to_date</span>(<span class="string">'2009-12-01'</span>,<span class="string">'yyyy-MM-dd'</span>))</span><br><span class="line">    (</span><br><span class="line">        <span class="keyword">subpartition</span> P_2009_11_P1013 <span class="keyword">values</span>(<span class="string">'P1013'</span>)</span><br><span class="line">    )</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h3 id="六、分区相关操作"><a href="#六、分区相关操作" class="headerlink" title="六、分区相关操作"></a>六、分区相关操作</h3><ol>
+<li>添加分区：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> T_TRACK <span class="keyword">add</span> <span class="keyword">partition</span> P_2005_04</span><br><span class="line"><span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span>(<span class="keyword">to_date</span>(<span class="string">'2005-05-01'</span>,<span class="string">'yyyy-MM-dd'</span>))</span><br><span class="line">(</span><br><span class="line">    <span class="keyword">subpartition</span> P_2005_04_P1013 <span class="keyword">values</span>(<span class="string">'P1013'</span>),</span><br><span class="line">    <span class="keyword">subpartition</span> P_2005_04_P1013 <span class="keyword">values</span>(<span class="string">'P1014'</span>),</span><br><span class="line">    <span class="keyword">subpartition</span> P_2005_04_P1013 <span class="keyword">values</span>(<span class="string">'P1015'</span>),</span><br><span class="line">    <span class="keyword">subpartition</span> P_2005_04_P1013 <span class="keyword">values</span>(<span class="string">'P1016'</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>删除分区：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> T_TRACK <span class="keyword">drop</span> <span class="keyword">partition</span> p_2005_04;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>添加子分区：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> T_TRACK</span><br><span class="line"><span class="keyword">modify</span> <span class="keyword">partition</span> P_2005_01</span><br><span class="line"><span class="keyword">add</span> <span class="keyword">subpartition</span> P_2005_01_P1017 <span class="keyword">values</span>(<span class="string">'P1017'</span>);</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>删除子分区：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> T_TRACK <span class="keyword">drop</span> <span class="keyword">subpartition</span> p_2005_01_p1017;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>截断一个分区表中的一个分区的数据：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--这种方式会使全局分区索引无效</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> sales3  <span class="keyword">truncate</span> <span class="keyword">partition</span> sp1</span><br><span class="line"></span><br><span class="line"><span class="comment">--这种方式全局分区索引不会无效            </span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> sales3 <span class="keyword">truncate</span> <span class="keyword">partition</span> sp1 <span class="keyword">update</span> <span class="keyword">indexes</span></span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>截断分区表的子分区：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> comp <span class="keyword">truncate</span> <span class="keyword">subpartition</span> sub1</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>截断带有约束的分区表</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--禁用约束</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> sales <span class="keyword">disable</span> <span class="keyword">constraint</span> dname_sales1</span><br><span class="line"></span><br><span class="line"><span class="comment">--截断分区</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> sales <span class="keyword">truncate</span> partitoin <span class="built_in">dec</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--启用约束</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> sales <span class="keyword">enable</span> <span class="keyword">constraint</span> dname_sales1</span><br></pre></td></tr></table></figure>
+<ol start="8">
+<li>查看一个表是不是分区表</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> table_name,partitioned <span class="keyword">from</span> user_tables;</span><br></pre></td></tr></table></figure>
+<ol start="9">
+<li>将一个表的分区从一个表空间移动到另一个表空间：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--查看分区在哪个表空间</span></span><br><span class="line"><span class="keyword">SELECT</span> TABLE_OWNER,TABLE_NAME,PARTITION_NAME,TABLESPACE_NAME, SUBPARTITION_COUNT</span><br><span class="line">  <span class="keyword">FROM</span> DBA_TAB_PARTITIONS <span class="keyword">WHERE</span> TABLE_OWNER=<span class="string">'SCOTT'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--移动分区</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> sales <span class="keyword">move</span> partiton sp1 <span class="keyword">tablespace</span> tp;</span><br><span class="line"></span><br><span class="line"><span class="comment">--检查是否移动成功</span></span><br><span class="line"><span class="keyword">SELECT</span> TABLE_OWNER,TABLE_NAME,PARTITION_NAME,TABLESPACE_NAME,SUBPARTITION_COUNT</span><br><span class="line">  <span class="keyword">FROM</span> DBA_TAB_PARTITIONS <span class="keyword">WHERE</span> TABLE_OWNER=<span class="string">'SCOTT'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--移动表空间后，要重建索引，否则索引会变得无效</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">index</span> xxx <span class="keyword">rebuild</span></span><br></pre></td></tr></table></figure>
+<ol start="10">
+<li>合并分区：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--合并后的分区名，不能是边界值较低的那个</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> sales3 <span class="keyword">merge</span> partitons sp1,sp3 <span class="keyword">into</span> <span class="keyword">partition</span> sp3</span><br></pre></td></tr></table></figure>
+<ol start="11">
+<li>与分区表相关的数据字典视图：</li>
+</ol>
+<ul>
+<li>DBA_TAB_PARTITIONS</li>
+<li>DBA_IND_PARTITIONS</li>
+<li>DBA_TAB_SUBPARTITIONS</li>
+<li>DBA_IND_SUBPARTITIONS</li>
+</ul>
+<p>参考文档：<br>[1] Oracle 关于分区的在线文档：<a href="http://download.oracle.com/docs/cd/B19306_01/server.102/b14220/partconc.htm#sthref2604">http://download.oracle.com/docs/cd/B19306_01/server.102/b14220/partconc.htm#sthref2604</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/wiki-site/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/wiki-site/">1</a><span class="space">&hellip;</span><a class="page-number" href="/wiki-site/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/wiki-site/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/wiki-site/page/13/">13</a><a class="extend next" rel="next" href="/wiki-site/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/wiki-site/images/6308578.jpg" alt="Joshua Chen">
+            
+              <p class="site-author-name" itemprop="name">Joshua Chen</p>
+              <div class="site-description motion-element" itemprop="description">大道至简</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
                 
-            
-        
-        
-            </p></ul></div>   
-            <div class="article-more-link">
-                <a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 分区表/#more">Read More</a>
+                  <a href="/wiki-site/archives/">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/wiki-site/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/wiki-site/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/wiki-site/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
             </div>
-        
-        <footer class="article-footer">
-        </footer>
-    </div>
-</article>
+          
 
+          
 
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/joecnn" title="GitHub &rarr; https://github.com/joecnn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:starworking@126.com" title="E-Mail &rarr; mailto:starworking@126.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
 
+          
 
+          
+          
 
-
-    
-        <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/wiki-site/page/5/">&laquo; Prev</a><a class="page-number" href="/wiki-site/">1</a><span class="space">&hellip;</span><a class="page-number" href="/wiki-site/page/4/">4</a><a class="page-number" href="/wiki-site/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/wiki-site/page/7/">7</a><a class="page-number" href="/wiki-site/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/wiki-site/page/13/">13</a><a class="extend next" rel="next" href="/wiki-site/page/7/">Next &raquo;</a>
-        </nav>
-    
-</section>
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            Joshua Chen &copy; 2019 
-            <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
-            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+          
             
+          
+          
+
         </div>
+      </div>
+
+      
+
+      
+
     </div>
-</footer>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Joshua Chen</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
 
         
 
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
     
-        <script src="/wiki-site/libs/lightgallery/js/lightgallery.min.js"></script>
-        <script src="/wiki-site/libs/lightgallery/js/lg-thumbnail.min.js"></script>
-        <script src="/wiki-site/libs/lightgallery/js/lg-pager.min.js"></script>
-        <script src="/wiki-site/libs/lightgallery/js/lg-autoplay.min.js"></script>
-        <script src="/wiki-site/libs/lightgallery/js/lg-fullscreen.min.js"></script>
-        <script src="/wiki-site/libs/lightgallery/js/lg-zoom.min.js"></script>
-        <script src="/wiki-site/libs/lightgallery/js/lg-hash.min.js"></script>
-        <script src="/wiki-site/libs/lightgallery/js/lg-share.min.js"></script>
-        <script src="/wiki-site/libs/lightgallery/js/lg-video.min.js"></script>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
     
+
     
-        <script src="/wiki-site/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
     
+
     
-        <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true,
-            TeX: {
-                equationNumbers: {
-                  autoNumber: 'AMS'
-                }
-            }
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
-<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
 
 
 
-<!-- Custom Scripts -->
-<script src="/wiki-site/js/main.js"></script>
 
-    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/wiki-site/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/wiki-site/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/wiki-site/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/wiki-site/js/utils.js?v=7.1.1"></script>
+
+  <script src="/wiki-site/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/wiki-site/js/affix.js?v=7.1.1"></script>
+
+  <script src="/wiki-site/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+
+  
+
+
+  <script src="/wiki-site/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/wiki-site/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>
