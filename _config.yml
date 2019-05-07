@@ -129,3 +129,4 @@ deploy:
   type: git
   repository: git@github.com:joecnn/wiki-site.git
   branch: gh-pages
+  message: "Updated: {{ now('YYYY-MM-DD HH:mm:ss') }}"
