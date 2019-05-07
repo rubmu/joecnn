@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-CN">
+<html class="theme-next gemini use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,7 +70,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/wiki-site/',
-    scheme: 'Pisces',
+    scheme: 'Gemini',
     version: '7.1.1',
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
     back2top: true,
@@ -341,7 +341,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/分布式/Redis 持久化机制/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/分布式/Redis 持久化机制/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -361,7 +361,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/分布式/Redis 持久化机制/" class="post-title-link" itemprop="url">Redis 持久化机制</a>
+                <a href="/wiki-site/wiki/分布式/Redis 持久化机制/" class="post-title-link" itemprop="url">Redis 持久化机制</a>
               
             
           </h1>
@@ -420,14 +420,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
 
                 
                 
@@ -464,54 +457,22 @@
       
         
           
-            <p>Redis 是一款基于内存的键值对数据库，使用单线程IO多路复用技术达到高性能。但某些场景下对数据的持久性是有要求的，所以Rdis提供了两种持久化策略，防止宕机数据丢失。</p>
-<h3 id="Redis-持久化机制"><a href="#Redis-持久化机制" class="headerlink" title="Redis 持久化机制"></a>Redis 持久化机制</h3><p>对于persistence持久化存储，Redis提供了两种方式：</p>
-<ul>
-<li>RDB(Redis database) 存储快照文件snapshot</li>
-<li>AOF(Append-only file) 存储redo文件</li>
-</ul>
-<h4 id="1-RDB"><a href="#1-RDB" class="headerlink" title="1. RDB"></a>1. RDB</h4><p>RBD 是在规定时间点将内存数据通过快照方式写入临时文件，再替换上次的持久化文件，达到数据持久化的方式。</p>
-<h5 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h5><ul>
-<li>使用fork出的子进程处理，不影响主进程</li>
-<li>输出snapshot快速且体积小<h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5></li>
-<li>RDB间隔一段时间执行，如果在执行期间发生故障，将导致数据丢失</li>
-<li>当内存数据较大时，fork操作将花费较长时间，导致Redis无法提供服务</li>
-</ul>
-<h5 id="RDB-会在指定的情况下触发快照"><a href="#RDB-会在指定的情况下触发快照" class="headerlink" title="RDB 会在指定的情况下触发快照"></a>RDB 会在指定的情况下触发快照</h5><ol>
-<li><p>配置的快照间隔时间</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># RDB默认是开启的</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># RDB文件名</span></span></span><br><span class="line">dbfilename dump.db</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># RDB文件存储目录</span></span></span><br><span class="line">dir ./</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># RDB快照触发时机, save &lt;间隔时间&gt; &lt;操作数&gt;</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 全部删除即关闭RDB</span></span></span><br><span class="line">save 900 1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># RDB快照异常时, 是否阻塞客户端"变更操作"</span></span></span><br><span class="line">stop-writes-on-bgsave-error yes</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># RDB文件是否进行压缩</span></span></span><br><span class="line">rdbcompression yes</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>执行 <code>save</code> 或 <code>bgsave</code> 时</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 同步进行</span></span></span><br><span class="line">./redis-cli -h ip -p port save</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 异步进行</span></span></span><br><span class="line">./redis-cli -h ip -p port bgsave</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>执行 <code>flushall</code> 时</p>
-</li>
-<li>执行<code>master/slave</code>全量复制时</li>
-</ol>
-<h5 id="快照的实现原理"><a href="#快照的实现原理" class="headerlink" title="快照的实现原理"></a>快照的实现原理</h5><ol>
-<li>Redis使用<code>fork</code>复制一份当前进程的副本(子进程)。</li>
-<li>父进程继续接收处理客户端请求，子进程开始将内存的数据写入到临时文件。</li>
-<li>子进程用临时文件替换原文件。<blockquote>
-<p>注意：redis在进行快照的过程中不会修改RDB文件，只有快照结束后才会将旧的文件替换成新的，也就是说任何时候RDB文件都是完整的。 这就使得我们可以通过定时备份RDB文件来实现redis数据库的备份， RDB文件是经过压缩的二进制文件，占用的空间会小于内存中的数据，更加利于传输。</p>
-</blockquote>
-</li>
-</ol>
-<h4 id="2-AOF"><a href="#2-AOF" class="headerlink" title="2. AOF"></a>2. AOF</h4><p>AOF 将”操作+数据”以格式化(RESP)的方式最佳到操作日志文件尾部，在<code>append</code>操作成功后才进行实际数据的变更。当Server需要恢复时，可以直接<code>replay</code>日志文件，即可还原所有操作过程。</p>
-<h5 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h5><ul>
-<li>可以保持更高的数据完整性，如果设置间隔<code>1S</code>则最多丢失<code>1S</code>的数据。</li>
-<li>可以手动删除其中某些命令，方便维护<h5 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h5></li>
-<li>额外的IO操作，略微影响Redis性能</li>
-<li>AOF文件比RDB文件大</li>
-<li>恢复速度慢，要逐条重放命令</li>
-</ul>
-<h5 id="AOF-默认关闭，开启时需要修改配置文件；"><a href="#AOF-默认关闭，开启时需要修改配置文件；" class="headerlink" title="AOF 默认关闭，开启时需要修改配置文件；"></a>AOF 默认关闭，开启时需要修改配置文件；</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 开启aof</span></span></span><br><span class="line">appendonly yes</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 指定aof文件名称</span></span></span><br><span class="line">appendfilename appendonly.aof</span><br></pre></td></tr></table></figure>
-<h5 id="AOF-文件重写"><a href="#AOF-文件重写" class="headerlink" title="AOF 文件重写"></a>AOF 文件重写</h5><p>在开启AOF时，命令会一直append到aof文件中，使得aof文件体积越来越大，Redis支持对aof文件进行重写(<code>rewrite</code>)，合并相同Key的操作，保留最小命令集合。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#aof文件rewrite触发的最小文件尺寸(mb,gb),只有大于此aof文件大于此尺寸是才会触发rewrite，默认“64mb”，建议“512mb”  </span></span></span><br><span class="line">auto-aof-rewrite-min-size 64mb  </span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#相对于“上一次”rewrite，本次rewrite触发时aof文件应该增长的百分比。  </span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#每一次rewrite之后，redis都会记录下此时“新aof”文件的大小(例如A)，那么当aof文件增长到A*(1 + p)之后  </span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#触发下一次rewrite，每一次aof记录的添加，都会检测当前aof文件的尺寸。  </span></span></span><br><span class="line">auto-aof-rewrite-percentage 100</span><br></pre></td></tr></table></figure></p>
-<p> 整个重写操作是绝对安全的，因为 Redis 在创建新 AOF 文件的过程中，会继续将命令追加到现有的 AOF 文件里面，即使重写过程中发生停机，现有的 AOF 文件也不会丢失。 而一旦新 AOF 文件创建完毕，Redis 就会从旧 AOF 文件切换到新 AOF 文件，并开始对新 AOF 文件进行追加操作。AOF 文件有序地保存了对数据库执行的所有写入操作， 这些写入操作以 Redis 协议的格式保存， 因此 AOF 文件的内容非常容易被人读懂， 对文件进行分析（parse）也很轻松。</p>
-<h5 id="同步磁盘数据"><a href="#同步磁盘数据" class="headerlink" title="同步磁盘数据"></a>同步磁盘数据</h5><p> Redis每次更改数据的时候都会将命令记录到aof文件，但是实际上由于<code>kernel</code>的缓存机制，数据并没有实时写入到硬盘，而是进入硬盘缓存,再通过硬盘缓存机制去刷新到保存到文件。<br> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"> #</span><span class="bash"><span class="comment"># 每次执行写入都会进行同步  ， 这个是最安全但是是效率比较低的方式</span></span></span><br><span class="line"><span class="meta"> #</span><span class="bash"> appendfsync always  </span></span><br><span class="line"> </span><br><span class="line"><span class="meta"> #</span><span class="bash"><span class="comment"># 每一秒执行</span></span></span><br><span class="line">appendfsync everysec </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 不主动进行同步操作，由操作系统去执行，这个是最快但是最不安全的方式</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> appendfsync no</span></span><br></pre></td></tr></table></figure></p>
-<h5 id="aof文件损坏后怎么恢复"><a href="#aof文件损坏后怎么恢复" class="headerlink" title="aof文件损坏后怎么恢复"></a>aof文件损坏后怎么恢复</h5><p> Redis 在执行命令中途宕机，导致命令只存储到aof一半，这个时候通过aof文件无法恢复，需要先对文件进行修复。<br> aof文件修复可以使用Redis提供的工具：<br> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># bin/</span></span></span><br><span class="line">redis-check-aof --fix</span><br></pre></td></tr></table></figure></p>
-<h4 id="3-RDB和AOF如何选择"><a href="#3-RDB和AOF如何选择" class="headerlink" title="3. RDB和AOF如何选择"></a>3. RDB和AOF如何选择</h4><p> 一般来说,如果对数据的安全性要求非常高的话，应该同时使用两种持久化功能。如果可以承受数分钟以内的数据丢失，那么可以只使用 RDB 持久化。有很多用户都只使用 AOF 持久化， 但并不推荐这种方式： 因为定时生成 RDB 快照（snapshot）非常便于进行数据库备份， 并且 RDB 恢复数据集的速度也要比 AOF 恢复的速度要快 。<br>两种持久化策略可以同时使用，也可以使用其中一种。如果同时使用的话， 那么Redis重启时，会优先使用AOF文件来还原数据。</p>
+            <p>
+              Redis 是一款基于内存的键值对数据库，使用单线程IO多路复用技术达到高性能。但某些场景下对数据的持久性是有要求的，所以Rdis提供了两种持久化策略，防止宕机数据丢失。
+Redis 持久化机制对于persistence持久化存储，Redis提供了两种方式：
 
+RDB(Redis database)
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/分布式/Redis 持久化机制/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -566,7 +527,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/分布式/Redis quickstart/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/分布式/Kafka 实现原理/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -586,432 +547,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/分布式/Redis quickstart/" class="post-title-link" itemprop="url">Redis quickstart</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-29 00:00:00" itemprop="dateCreated datePublished" datetime="2018-12-29T00:00:00+08:00">2018-12-29</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-02-06 20:08:16" itemprop="dateModified" datetime="2019-02-06T20:08:16+08:00">2019-02-06</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-Redis-是什么？"><a href="#1-Redis-是什么？" class="headerlink" title="1. Redis 是什么？"></a>1. Redis 是什么？</h3><blockquote>
-<p>Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache and message broker.  </p>
-</blockquote>
-<p>Redis 是一个开源的分布式键值对(key/value)存储数据库，常用于做为数据缓存、单点登录、网站访问排名、秒杀抢购、应用模块开发等。</p>
-<h3 id="2-安装-Redis"><a href="#2-安装-Redis" class="headerlink" title="2. 安装 Redis"></a>2. 安装 Redis</h3><ol>
-<li>下载 <a href="https://redis.io/download">redis-4.0.12.tar.gz</a> 安装包</li>
-<li>解压并进行编译测试<br><code>make &amp;&amp; make test</code></li>
-<li>安装到指定目录<br><code>cd src &amp;&amp; make install PREFIX=/usr/local/redis-4.0.12</code></li>
-</ol>
-<p><code>make install</code>安装完成后会在指定目录下生成<code>bin/</code>文件夹，里面存放着使用 redis 的工具。</p>
-<h3 id="3-启动和停止-Redis"><a href="#3-启动和停止-Redis" class="headerlink" title="3. 启动和停止 Redis"></a>3. 启动和停止 Redis</h3><ol>
-<li>首先到源目录下拷贝配置文件到安装目录<br><code>cp ~/redis-4.0.12/redis.conf /usr/local/redis-4.0.12/</code></li>
-<li>修改配置信息<ul>
-<li><strong>bind</strong>： IP绑定修改为本机IP </li>
-<li><strong>daemonize</strong>： 改为后台进程运行</li>
-</ul>
-</li>
-<li>启动 redis 服务<br><code>./redis-server ../redis.conf</code></li>
-<li>使用可以端连接到 redis<br><code>./redis-cli -h 192.168.56.110 -p 6379</code></li>
-<li>停止 redis 服务<br><code>./redis-cli shutdown</code></li>
-</ol>
-<h3 id="4-常用命令"><a href="#4-常用命令" class="headerlink" title="4. 常用命令"></a>4. 常用命令</h3><h4 id="Key-相关"><a href="#Key-相关" class="headerlink" title="Key 相关"></a>Key 相关</h4><p>keys 检索满足条件的键值对，支持正则表达式的通配符匹配，但要注意大数据量下的检索影响 redis 服务性能。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 获得一个符合匹配规则的键名列表，支持通配符</span></span><br><span class="line">keys [? / * [] ]</span><br><span class="line"><span class="comment">## 判断key是否存在</span></span><br><span class="line">exists key</span><br><span class="line"><span class="comment">## 获取key结构类型</span></span><br><span class="line"><span class="built_in">type</span> key</span><br></pre></td></tr></table></figure></p>
-<h4 id="字符类型"><a href="#字符类型" class="headerlink" title="字符类型"></a>字符类型</h4><p>最基本的数据结构，可以存储任意的字符类型的数据，单条数据最大可支持512M。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 设置key/value键值, 过期时间 EX=10s, PX=100ms</span></span><br><span class="line"><span class="built_in">set</span> key value EX 10 PX 100 </span><br><span class="line"><span class="comment">## 批量设置多个key/value</span></span><br><span class="line">mset key value key1 value1</span><br><span class="line"><span class="comment">## 只在key不存在时进行设置</span></span><br><span class="line">setnx key value</span><br><span class="line"><span class="comment">## 获取key值</span></span><br><span class="line">get key</span><br><span class="line"><span class="comment">## 获取多个key的值</span></span><br><span class="line">mget key key1</span><br><span class="line"><span class="comment">## 对数字类型原子递增 1</span></span><br><span class="line">incr num</span><br><span class="line"><span class="comment">## 原子递减 1</span></span><br><span class="line">decr num</span><br><span class="line"><span class="comment">## 原子递增 10</span></span><br><span class="line">incrby num 10</span><br><span class="line"><span class="comment">## 原子递减 10</span></span><br><span class="line">decrby num 10</span><br><span class="line"><span class="comment">## 向指定的key追加字符串</span></span><br><span class="line">append key value</span><br><span class="line"><span class="comment">## 获取key对应的value的长度</span></span><br><span class="line">strlen key</span><br></pre></td></tr></table></figure></p>
-<h4 id="列表类型"><a href="#列表类型" class="headerlink" title="列表类型"></a>列表类型</h4><p>list 可以存储一个有序的字符列表，内部是使用双向链表实现的，可以用来实现分布式消息队列。命令以 <code>l-</code>开头。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 左右两端添加数据</span></span><br><span class="line">(r|l)push key value value1 value2</span><br><span class="line"><span class="comment">## 左右两端弹出数据，输出弹出的value</span></span><br><span class="line">(r|l)pop key</span><br><span class="line"><span class="comment">## 获取列表长度</span></span><br><span class="line">llen key</span><br><span class="line"><span class="comment">## 获取列表元素，start 开始索引， stop 结束索引(-1表示最右边)</span></span><br><span class="line">lrange key start stop</span><br><span class="line"><span class="comment">## 从列表中移除N个value值的元素</span></span><br><span class="line">lrem key count value</span><br><span class="line"><span class="comment">## 更新idx位置处的元素为value</span></span><br><span class="line">lset key idx value</span><br></pre></td></tr></table></figure></p>
-<h4 id="散列类型"><a href="#散列类型" class="headerlink" title="散列类型"></a>散列类型</h4><p>散列类型是 HashMap 数据结构，存储多个键值对，适合存储多属性对象，但不支持数据类型的嵌套。命令以 <code>h-</code> 开头。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 设置对象field属性值</span></span><br><span class="line">hset key field value</span><br><span class="line">hmset key field value field2 value2</span><br><span class="line"></span><br><span class="line"><span class="comment">## 获取field属性值</span></span><br><span class="line">hget key field</span><br><span class="line">hmget key field field2</span><br><span class="line"></span><br><span class="line"><span class="comment">## 获取所有field值</span></span><br><span class="line">hgetall key</span><br><span class="line"><span class="comment">## 判断field属性是否存在</span></span><br><span class="line">hexists key field</span><br></pre></td></tr></table></figure></p>
-<h4 id="集合类型"><a href="#集合类型" class="headerlink" title="集合类型"></a>集合类型</h4><p>集合类型 set 与列表不同，不能存在重复的数据，而且是无序存储。命令以 <code>s-</code> 开头。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 增加元素，如果value存在则忽略，返回成功加入集合的数量</span></span><br><span class="line">sadd key value value2</span><br><span class="line"><span class="comment">## 删除元素</span></span><br><span class="line">srem key value</span><br><span class="line"><span class="comment">## 获取所有元素</span></span><br><span class="line">smembers key</span><br><span class="line"><span class="comment">## 获取集合长度</span></span><br><span class="line">scard key</span><br><span class="line"><span class="comment">## 集合key1与key2的差集，列出key1中存在而在key2中不存在的元素</span></span><br><span class="line">sdiff key1 key2</span><br><span class="line"><span class="comment">## 将差集存储在des中</span></span><br><span class="line">sdiffstore des key key2</span><br><span class="line"><span class="comment">## 集合key1与key2的交集</span></span><br><span class="line">sinter key1 key2</span><br><span class="line"><span class="comment">## 集合key1与key2的并集</span></span><br><span class="line">sunion key1 key2</span><br></pre></td></tr></table></figure></p>
-<h4 id="有序集合类型"><a href="#有序集合类型" class="headerlink" title="有序集合类型"></a>有序集合类型</h4><p>有序集合是在集合set的基础上，增加了排序功能，增加了<code>score</code>表示元素的优先级。命令以 <code>z-</code> 开头。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 增加元素，优先级 score</span></span><br><span class="line">zadd key score value</span><br><span class="line"><span class="comment">## 列出集合，并且输出优先级</span></span><br><span class="line">zrange key start stop withscores</span><br></pre></td></tr></table></figure></p>
-<h4 id="事务处理"><a href="#事务处理" class="headerlink" title="事务处理"></a>事务处理</h4><p>Redis 中支持事务，将多个命令加入到<code>QUEUED</code>中到最后一起提交或回滚，但有特例的情况无法回滚(命令运行时出错)。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 开启事务</span></span><br><span class="line">multi</span><br><span class="line">...</span><br><span class="line"><span class="comment">## 提交事务</span></span><br><span class="line"><span class="built_in">exec</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="过期时间"><a href="#过期时间" class="headerlink" title="过期时间"></a>过期时间</h4><p>Redis 中可以对每个键值设置对应的过期时间。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 设置key过期时间为seconds秒</span></span><br><span class="line">expire key seconds</span><br><span class="line"><span class="comment">## 获得key的过期时间,-1 未设置  -2已过期 </span></span><br><span class="line">ttl key</span><br></pre></td></tr></table></figure></p>
-<h4 id="发布订阅-pub-sub"><a href="#发布订阅-pub-sub" class="headerlink" title="发布订阅(pub/sub)"></a>发布订阅(pub/sub)</h4><p>Redis 中支持消息的发布订阅模式，类型消息中间件的功能，但性能不高一般不推荐使用。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 发布消息到channel频道</span></span><br><span class="line">publish channel msg</span><br><span class="line"><span class="comment">## 订阅channel频道的消息</span></span><br><span class="line">subscribe channel</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/分布式/Kafka quickstart/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joshua Chen">
-      <meta itemprop="description" content="大道至简">
-      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Joe's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/wiki-site/wiki/软件工程/分布式/Kafka quickstart/" class="post-title-link" itemprop="url">Kafka quickstart</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-29 00:00:00" itemprop="dateCreated datePublished" datetime="2018-12-29T00:00:00+08:00">2018-12-29</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-02-06 20:10:02" itemprop="dateModified" datetime="2019-02-06T20:10:02+08:00">2019-02-06</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-Kafka是什么"><a href="#1-Kafka是什么" class="headerlink" title="1. Kafka是什么?"></a>1. Kafka是什么?</h3><blockquote>
-<p><a href="https://kafka.apache.org/documentation/#introduction">Apache Kafka®</a> is a distributed streaming platform. </p>
-</blockquote>
-<p>Kafka是一个高性能、高吞吐量的分布式消息通信系统。常用于系统的日志收集分析、消息通信、用户行为分析、服务器指标监控、流式处理等。</p>
-<h3 id="2-Kafka集群安装"><a href="#2-Kafka集群安装" class="headerlink" title="2. Kafka集群安装"></a>2. Kafka集群安装</h3><ol>
-<li>下载kafka二进制安装包, 并解压到 /usr/local目录下。</li>
-<li>进入到config目录下修改server.properties配置文件：<ul>
-<li>broker.id 在集群中的唯一编号</li>
-<li>listeners 本机ip</li>
-<li>num.partitions 默认的topic分区数</li>
-<li>zookeeper.connect 连接到zookeeper集群，可以设置根路径 <code>ip:port/kafka</code></li>
-</ul>
-</li>
-<li>进入到bin目录下，以守护进程方式启动。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-server-start.sh -daemon ../config/server.properties</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="3-Kafka基本操作"><a href="#3-Kafka基本操作" class="headerlink" title="3. Kafka基本操作"></a>3. Kafka基本操作</h3><ol>
-<li><p>创建一个topic</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-topics.sh --create --zookeeper 192.168.56.110:2181/kafka --replication-factor 1 --partitions 2 --topic first-topic</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>列出所有topic</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-topics.sh --list --zookeeper 192.168.56.110:2181/kafka</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>生成者发送消息</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-console-producer.sh --broker-list 192.168.56.110:9092 --topic first-topic</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>消费者接收消息</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-console-consumer.sh --bootstrap-server 192.168.56.110:9092 --topic first-topic --from-beginning</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看消息日志</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-run-class.sh kafka.tools.DumpLogSegments --files /tmp/kafka-logs/first-topic-0/00000000000000000000.log --<span class="built_in">print</span>-data-log</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="4-Kafka中的概念"><a href="#4-Kafka中的概念" class="headerlink" title="4. Kafka中的概念"></a>4. Kafka中的概念</h3><h4 id="Message"><a href="#Message" class="headerlink" title="Message"></a>Message</h4><p>消息是 Kafka 中最基本的数据单元，由 Key/Value 组成(byte[])，根据Key的哈希值路由到不同区间进行存储。Kafka 会对消息进行压缩和批量发送。</p>
-<h4 id="Topic"><a href="#Topic" class="headerlink" title="Topic"></a>Topic</h4><p>topic 是用于存储消息的逻辑单元，可以看作一个消息集合，每个 topic 可以有多个生产者向其推送消息，也可以有任意多个消费者。</p>
-<h4 id="Partition"><a href="#Partition" class="headerlink" title="Partition"></a>Partition</h4><p>每个 topic 可以划分多个分区，即 Kafka 存储消息的物理单元。Partition 是以文件的形式存储在 kafka-logs 目录下，命名规则是 <code>&lt;topic_name&gt;-&lt;partition_id&gt;</code>。</p>
-<h4 id="Group"><a href="#Group" class="headerlink" title="Group"></a>Group</h4><p>Kafka 中的逻辑分组，同一个组内的一条消息只被一个组员消费，并且共同维护 consumer offset。不同组内的消费者可以同时消费同一条消息，实现 pub/sub 模式。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/分布式/Kafka 实现原理/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joshua Chen">
-      <meta itemprop="description" content="大道至简">
-      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Joe's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/wiki-site/wiki/软件工程/分布式/Kafka 实现原理/" class="post-title-link" itemprop="url">Kafka 实现原理</a>
+                <a href="/wiki-site/wiki/分布式/Kafka 实现原理/" class="post-title-link" itemprop="url">Kafka 实现原理</a>
               
             
           </h1>
@@ -1070,14 +606,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
 
                 
                 
@@ -1114,67 +643,23 @@
       
         
           
-            <h3 id="1-消息可靠性机制"><a href="#1-消息可靠性机制" class="headerlink" title="1. 消息可靠性机制"></a>1. 消息可靠性机制</h3><h4 id="消息发送可靠性"><a href="#消息发送可靠性" class="headerlink" title="消息发送可靠性"></a>消息发送可靠性</h4><p>消息发送到 broker 有三种确认方式 <code>request.required.acks</code> ：</p>
-<ul>
-<li><strong>acks=0</strong>  producer 不会等待 broker 发送ack，既可能丢失也可能重发。</li>
-<li><strong>acks=1</strong>  当 leader 接收到消息后发送ack，可能重发。</li>
-<li><strong>acks=-1</strong> 当所有 follower 同步成功后发送ack，丢失消息可能性低。</li>
-</ul>
-<h4 id="消息存储可靠性"><a href="#消息存储可靠性" class="headerlink" title="消息存储可靠性"></a>消息存储可靠性</h4><p>每一条消息发送到broker中，会跟据partition规则存储到对应分区，如果规则设置合理可以实现消息均匀分布到不同分区，实现存储的水平扩展。<br>高可靠性的保障来自另一个叫副本(replication)策略，通过设置(–replication-factor)参数设置。</p>
-<h3 id="2-副本存储机制"><a href="#2-副本存储机制" class="headerlink" title="2. 副本存储机制"></a>2. 副本存储机制</h3><p>Kafka 在创建 topic 支持设置对应的副本个数 <code>--replication-factor</code>，会生成对应的分区副本数交叉存储在每个节点上。</p>
-<h5 id="副本存活条件"><a href="#副本存活条件" class="headerlink" title="副本存活条件"></a>副本存活条件</h5><ol>
-<li>副本所有节点必须和zookeeper保持连接状态</li>
-<li>副本的最后一条消息的offset和leader的最后一条消息的offset之间差值不能超过设定值<code>replica.lag.max.messages</code></li>
-</ol>
-<h5 id="如何同步消息"><a href="#如何同步消息" class="headerlink" title="如何同步消息"></a>如何同步消息</h5><p>第一个启动的节点成功在zookeeper中注册信息成为leader对外提供服务，其它replica做为follower要定时同步数据。  </p>
-<ul>
-<li><strong>HW(high watermark)</strong> ：表示所有follower已同步完成的offset位置  </li>
-<li><strong>LEO(Log End Offset)</strong> ：表示leader节点当前消息的offset位置</li>
-</ul>
-<p>consumer只能消费所有follower已同步完成的数据，即HW标注的位置。</p>
-<h5 id="如何均匀分布"><a href="#如何均匀分布" class="headerlink" title="如何均匀分布"></a>如何均匀分布</h5><p>Kafka 为了更好的做到负载均衡，会尽量把所有的 partition 均匀分配到整个集群上，分配的算法：</p>
-<ol>
-<li>把所有 <code>broker(n)</code> 和 <code>partition(n)</code> 排序</li>
-<li>把第<code>i</code>个partition分配到 <code>(i%n)</code> 个broker上</li>
-<li>把第 <code>i</code> 个 partition 的第 j 个 replica 分配到 <code>((i+j) % n)</code> 个broker上</li>
-</ol>
-<h5 id="如何处理所有副本不工作情况"><a href="#如何处理所有副本不工作情况" class="headerlink" title="如何处理所有副本不工作情况"></a>如何处理所有副本不工作情况</h5><p>在ISR中至少有一个follower工作时，Kafka可以确保消息不丢失，但如果某个分区所有备份都宕机了，采取以下措施：</p>
-<ol>
-<li>等待ISR中任意一个follower活过来，并且选择它为leader</li>
-<li>选择任意一个replica(不一定是ISR中的)活过来作为leader</li>
-</ol>
-<p>这两种需要在可用性和一致性当中做一个选择。</p>
-<h3 id="3-Kafka-文件存储机制"><a href="#3-Kafka-文件存储机制" class="headerlink" title="3. Kafka 文件存储机制"></a>3. Kafka 文件存储机制</h3><h4 id="partition"><a href="#partition" class="headerlink" title="partition"></a>partition</h4><p>每个partition为一个目录，命名规则为 <code>&lt;topic_name&gt;-&lt;partition_no&gt;</code>，存储在 kafka_logs 目录下。</p>
-<h4 id="segment"><a href="#segment" class="headerlink" title="segment"></a>segment</h4><p>Kafka 为防止分区文件过大，又将分区拆分为 segment 存储，一个segment文件<code>.index</code>和<code>.log</code>两部分组成，即索引文件和数据文件。<br>segment 文件由64位long数值命名，文件名即记录的最大 offset 值，查找时先通过定位 offset 落的范围，再进入文件查找。</p>
-<h4 id="日志保留"><a href="#日志保留" class="headerlink" title="日志保留"></a>日志保留</h4><p>Kafka 中无论是否消费了消息(只是移动了 offset)，都会一直保留这些消息，为了避免磁盘爆满，使用相应的保留策略(retention policy)，以实现周期性的删除陈旧消息：</p>
-<ul>
-<li>根据消息保留时间，超过指定时间则删除</li>
-<li>根据 topic 大小，超过阈值开始删除最旧消息</li>
-</ul>
-<h4 id="日志压缩"><a href="#日志压缩" class="headerlink" title="日志压缩"></a>日志压缩</h4><p>Kafka 会定期将相同 Key 的消息进行合并，只保留最新的 Value 值。</p>
-<h3 id="4-Kafka-消息的消费原理"><a href="#4-Kafka-消息的消费原理" class="headerlink" title="4. Kafka 消息的消费原理"></a>4. Kafka 消息的消费原理</h3><p>旧版本的 Kafka 将 Consumer group 的消费进度记录在 zookeeper 中，导致对 zookeeper 频繁的写入而性能低下。<br>新版本1.0+已修改为记录在对应 topic 目录下，默认创建了50个 <code>__consumer_offset_topic</code> 文件夹，将消费的进度 offset 保存在对应的文件中。</p>
-<ol>
-<li><p>计算 consumer group 的哈希值</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Math.abs(<span class="string">"group1"</span>.hashCode() % <span class="number">50</span>)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>根据哈希值找到对应的__consumer文件，查看消费进度</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh kafka-simple-consumer-shell.sh --topic __consumer_offsets --partition 15 -broker-list 192.168.56.110:9092,192.168.56.120:9092,192.168.56.130:9092 --formatter kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="5-Kafka-的消费者分区分配策略"><a href="#5-Kafka-的消费者分区分配策略" class="headerlink" title="5. Kafka 的消费者分区分配策略"></a>5. Kafka 的消费者分区分配策略</h3><p>Kafka中存在 consumer group 的概念，也就是group.id一样的consumer属于一个consumer group，组内的所有消费者协调在一起来消费消费订阅主题的所有分区。当然每一个分区只能由同一个消费组内的consumer来消费，那么同一个consumer group里面的consumer是怎么去分配该消费哪个分区里的数据，这个就设计到了kafka内部分区分配策略（Partition Assignment Strategy）。<br>在 Kafka 内部存在两种默认的分区分配策略：Range（默认） 和 RoundRobin。通过：<code>partition.assignment.strategy</code>指定</p>
-<h4 id="两种分区策略"><a href="#两种分区策略" class="headerlink" title="两种分区策略"></a>两种分区策略</h4><h5 id="Range-（默认策略）"><a href="#Range-（默认策略）" class="headerlink" title="Range （默认策略）"></a>Range （默认策略）</h5><p>0 ，1 ，2 ，3 ，4，5，6，7，8，9<br>c0 [0,3]<br>c1 [4,6]<br>c2 [7,9]<br>10<code>(partition num)</code>/3<code>(consumer num)</code> =3  </p>
-<h5 id="RoundRobin-（轮询）"><a href="#RoundRobin-（轮询）" class="headerlink" title="RoundRobin （轮询）"></a>RoundRobin （轮询）</h5><p>0 ，1 ，2 ，3 ，4，5，6，7，8，9<br>c0,c1,c2<br>c0 [0,3,6,9]<br>c1 [1,4,7]<br>c2 [2,5,8]<br>kafka 的key 为null， 是随机｛一个Metadata的同步周期内，默认是10分钟｝</p>
-<h3 id="6-高吞吐量原因"><a href="#6-高吞吐量原因" class="headerlink" title="6. 高吞吐量原因"></a>6. 高吞吐量原因</h3><ul>
-<li><strong>消息顺序存储</strong>，通过 offset 偏移量进行顺序读取，减少机械硬盘磁柱移动。</li>
-<li><strong>消息批量发送</strong>，在异步模式中允许进行批量发送消息，先将消息缓存到内存，再一次请求中批量发送出去，减少磁盘读写和网络传输。<ul>
-<li>batch.size 每批量发送的数据大小</li>
-<li>linger.ms  批量发送的间隔时间</li>
-</ul>
-</li>
-<li><strong>消息的零拷贝</strong>，使用 <code>FileChannel.transferTo</code> 直接将消息发送到 socket buffer 中，省略了将消息读取到内存的过程。</li>
-</ul>
+            <p>
+              1. 消息可靠性机制消息发送可靠性消息发送到 broker 有三种确认方式 request.required.acks ：
 
+acks=0  producer 不会等待 broker 发送ack，既可能丢失也可能重发。
+acks=1  当 leader 接收到消息后发送ack，可能重发。
+acks=
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/分布式/Kafka 实现原理/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1229,7 +714,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/分布式/ActiveMQ configuration/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/分布式/Redis quickstart/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -1249,7 +734,381 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/分布式/ActiveMQ configuration/" class="post-title-link" itemprop="url">ActiveMQ configuration</a>
+                <a href="/wiki-site/wiki/分布式/Redis quickstart/" class="post-title-link" itemprop="url">Redis quickstart</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-29 00:00:00" itemprop="dateCreated datePublished" datetime="2018-12-29T00:00:00+08:00">2018-12-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-06 20:08:16" itemprop="dateModified" datetime="2019-02-06T20:08:16+08:00">2019-02-06</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              1. Redis 是什么？
+Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache and message broker.  
+
+Redis 是一个开源的分布式
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/分布式/Redis quickstart/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/分布式/Kafka quickstart/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joshua Chen">
+      <meta itemprop="description" content="大道至简">
+      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joe's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/wiki-site/wiki/分布式/Kafka quickstart/" class="post-title-link" itemprop="url">Kafka quickstart</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-29 00:00:00" itemprop="dateCreated datePublished" datetime="2018-12-29T00:00:00+08:00">2018-12-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-06 20:10:02" itemprop="dateModified" datetime="2019-02-06T20:10:02+08:00">2019-02-06</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              1. Kafka是什么?
+Apache Kafka® is a distributed streaming platform. 
+
+Kafka是一个高性能、高吞吐量的分布式消息通信系统。常用于系统的日志收集分析、消息通信、用户行为分析、服务器指标监控、流式处理等。
+2. Kafka集群安装
+下载ka
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/分布式/Kafka quickstart/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/分布式/ActiveMQ configuration/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joshua Chen">
+      <meta itemprop="description" content="大道至简">
+      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joe's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/wiki-site/wiki/分布式/ActiveMQ configuration/" class="post-title-link" itemprop="url">ActiveMQ configuration</a>
               
             
           </h1>
@@ -1308,14 +1167,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
 
                 
                 
@@ -1352,35 +1204,20 @@
       
         
           
-            <p>ActiveMQ使用过程中涉及到的一些配置信息。</p>
-<h3 id="1-传输协议配置"><a href="#1-传输协议配置" class="headerlink" title="1. 传输协议配置"></a>1. 传输协议配置</h3><p>支持 TCP, UDP, NIO, SSL, HTTP(S), VM 等协议.<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">transportConnectors</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- DOS protection, limit concurrent connections to 1000 and frame size to 100MB --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">transportConnector</span> <span class="attr">name</span>=<span class="string">"nio"</span> <span class="attr">uri</span>=<span class="string">"nio://0.0.0.0:61618?maximumConnections=1000&amp;amp;wireFormat.maxFrameSize=104857600"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">transportConnectors</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="2-持久化策略配置"><a href="#2-持久化策略配置" class="headerlink" title="2. 持久化策略配置"></a>2. 持久化策略配置</h3><p>支持的持久化方式有 kahaDB, AMQ, JDBC, Memory.</p>
-<h4 id="使用-AMQ-文件存储"><a href="#使用-AMQ-文件存储" class="headerlink" title="使用 AMQ 文件存储"></a>使用 AMQ 文件存储</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">amqPersistenceAdapter</span> <span class="attr">directory</span>=<span class="string">"$&#123;activemq.data&#125;/amq"</span> <span class="attr">maxFileLength</span>=<span class="string">"32m"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="使用-JDBC-存储"><a href="#使用-JDBC-存储" class="headerlink" title="使用 JDBC 存储"></a>使用 JDBC 存储</h4><p>使用jdbc数据库存储的方式，需要连接到对应的数据源，要在<code>../lib</code>下加入连接包。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- jdbc存储策略 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">jdbcPersistenceAdapter</span> <span class="attr">dataSource</span>=<span class="string">"#mysqlDataSource"</span> <span class="attr">createTablesOnStartup</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 数据源配置 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"mysqlDataSource"</span> <span class="attr">class</span>=<span class="string">"org.apache.commons.dbcp.BasicDataSource"</span> <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"com.mysql.jdbc.Driver"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"jdbc:mysql://192.168.56.104:3306/practice_dev"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"root"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"123456"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="3-集群配置"><a href="#3-集群配置" class="headerlink" title="3. 集群配置"></a>3. 集群配置</h3><p>配置多态activemq服务进行联通，提高消息服务的性能。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- broker 添加此配置 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">networkConnectors</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">networkConnector</span> <span class="attr">uri</span>=<span class="string">"static://(tcp://192.168.56.110:61616,tcp://192.168.56.120:61616)"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">networkConnectors</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>配置集群后，当使用某一个节点消费时，会将另外节点的数据转移到此节点上，导致在原节点无法再消费。此时需要配置==消息回流==<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 消息回流支持，添加在 policyEntries下--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">policyEntry</span> <span class="attr">queue</span>=<span class="string">"&gt;"</span> <span class="attr">enableAudit</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">networkBridgeFilterFactory</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">conditionalNetworkBridgeFilterFactory</span> <span class="attr">replayWhenNoConsumers</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">networkBridgeFilterFactory</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">policyEntry</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="4-zk-activemq高可用配置"><a href="#4-zk-activemq高可用配置" class="headerlink" title="4. zk+activemq高可用配置"></a>4. zk+activemq高可用配置</h3><p>使用ZK进行master/slaver选举管理，在ZK中维护了临时有序节点，最先启动的先获得master。</p>
-<ul>
-<li>directory： levelDB数据文件存储的位置</li>
-<li>replicas：计算公式（replicas/2）+1  ， 当replicas的值为2的时候， 最终的结果是2. 表示集群中至少2台是启动时才能提供服务</li>
-<li>bind:  用来负责slave和master的数据同步的端口和ip</li>
-<li>zkAddress： 表示zk的服务端地址</li>
-<li>hostname：本机ip<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">replicatedLevelDB</span> <span class="attr">directory</span>=<span class="string">"$&#123;activemq.data&#125;/levelDB"</span> </span></span><br><span class="line"><span class="tag">                <span class="attr">replicas</span>=<span class="string">"2"</span> <span class="attr">bind</span>=<span class="string">"tcp://0.0.0.0:61615"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">zkAddress</span>=<span class="string">"192.168.56.110:2181"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">hostname</span>=<span class="string">"192.168.56.110"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">zkPath</span>=<span class="string">"/activemq/leveldb"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="5-hawtio-监控服务"><a href="#5-hawtio-监控服务" class="headerlink" title="5. hawtio 监控服务"></a>5. hawtio 监控服务</h3><ol>
-<li>拷贝hawtio.war包到webapps目录下.</li>
-<li><p>添加jetty容器映射<code>rewriteHandler</code>:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.eclipse.jetty.webapp.WebAppContext"</span>&gt;</span>        </span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"contextPath"</span> <span class="attr">value</span>=<span class="string">"/hawtio"</span> /&gt;</span>        </span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"war"</span> <span class="attr">value</span>=<span class="string">"$&#123;activemq.home&#125;/webapps/hawtio.war"</span> /&gt;</span>        </span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"logUrlOnStart"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改 bin/env 文件添加参数   </p>
-<blockquote>
-<p>需要注意的是-Dhawtio的三个设定必须放在ACTIVEMQ_OPTS设置的最前面(在内存参数设置之后),否则会出现验证无法通过的错误(另外,ACTIVEMQ_OPTS的设置语句不要回车换行)</p>
-</blockquote>
-</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Dhawtio.realm=activemq -Dhawtio.role=admins -Dhawtio.rolePrincipalClasses=org.apache.activemq.jaas.GroupPrincipal</span><br></pre></td></tr></table></figure>
+            <p>
+              ActiveMQ使用过程中涉及到的一些配置信息。
+1. 传输协议配置支持 TCP, UDP, NIO, SSL, HTTP(S), VM 等协议.&lt;transportConnectors&gt;    &lt;!-- DOS protection, limit concurrent conne
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/分布式/ActiveMQ configuration/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1523,7 +1360,41 @@
                     
                       
                     
-                    <span class="site-state-item-count">19</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1607,23 +1478,19 @@
                 <span class="links-of-author-item">
                   
                   
-                    
-                  
                   
                     
                   
-                  <a href="https://github.com/joecnn" title="GitHub &rarr; https://github.com/joecnn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  <a href="https://github.com/joecnn" title="GitHub &rarr; https://github.com/joecnn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
                 </span>
               
                 <span class="links-of-author-item">
                   
                   
-                    
-                  
                   
                     
                   
-                  <a href="mailto:starworking@126.com" title="E-Mail &rarr; mailto:starworking@126.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  <a href="mailto:starworking@126.com" title="E-Mail &rarr; mailto:starworking@126.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
                 </span>
               
             </div>
@@ -1657,9 +1524,9 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; 2013 – <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Joshua Chen</span>
 
@@ -1669,7 +1536,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
 
 
 
@@ -1677,7 +1544,7 @@
 
 
 
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a></div>
 
 
 
@@ -1698,6 +1565,8 @@
     
       <div class="back-to-top">
         <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
         
       </div>
     
@@ -1768,6 +1637,7 @@
   <script src="/wiki-site/js/affix.js?v=7.1.1"></script>
 
   <script src="/wiki-site/js/schemes/pisces.js?v=7.1.1"></script>
+
 
 
 

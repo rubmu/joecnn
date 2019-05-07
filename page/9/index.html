@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-CN">
+<html class="theme-next gemini use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,7 +70,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/wiki-site/',
-    scheme: 'Pisces',
+    scheme: 'Gemini',
     version: '7.1.1',
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
     back2top: true,
@@ -341,7 +341,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/存储/mssql/Mssql 日期格式化/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/存储/Mssql/Mssql 日期格式化/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -361,7 +361,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/存储/mssql/Mssql 日期格式化/" class="post-title-link" itemprop="url">Mssql 日期格式化</a>
+                <a href="/wiki-site/wiki/存储/Mssql/Mssql 日期格式化/" class="post-title-link" itemprop="url">Mssql 日期格式化</a>
               
             
           </h1>
@@ -420,21 +420,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/存储/" itemprop="url" rel="index"><span itemprop="name">存储</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/存储/" itemprop="url" rel="index"><span itemprop="name">存储</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/存储/mssql/" itemprop="url" rel="index"><span itemprop="name">mssql</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/存储/Mssql/" itemprop="url" rel="index"><span itemprop="name">Mssql</span></a></span>
 
                 
                 
@@ -471,11 +464,20 @@
       
         
           
-            <blockquote>
-<p>SQL中CONVERT的使用方法:<br>格式:<br><code>CONVERT(data_type,e­xpression[,style])</code><br>说明:<br>此样式一般在时间类型 (datetime, smalldatetime) 与字符串类型 (nchar, nvarchar, char, varchar) 相互转换的时候才用到.</p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 例子:</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">0</span>): <span class="number">05</span> <span class="number">16</span> <span class="number">2006</span> <span class="number">10</span>:<span class="number">57</span>AM</span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">1</span>): <span class="number">05</span>/<span class="number">16</span>/<span class="number">06</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">2</span>): <span class="number">06.05</span><span class="number">.16</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">3</span>): <span class="number">16</span>/<span class="number">05</span>/<span class="number">06</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">4</span>): <span class="number">16.05</span><span class="number">.06</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">5</span>): <span class="number">16</span><span class="number">-05</span><span class="number">-06</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">6</span>): <span class="number">16</span> <span class="number">05</span> <span class="number">06</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">7</span>): <span class="number">05</span> <span class="number">16</span>, <span class="number">06</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">8</span>): <span class="number">10</span>:<span class="number">57</span>:<span class="number">46</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">9</span>): <span class="number">05</span> <span class="number">16</span> <span class="number">2006</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">46</span>:<span class="number">827</span>AM</span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">10</span>): <span class="number">05</span><span class="number">-16</span><span class="number">-06</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">11</span>): <span class="number">06</span>/<span class="number">05</span>/<span class="number">16</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">12</span>): <span class="number">060516</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">13</span>): <span class="number">16</span> <span class="number">05</span> <span class="number">2006</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">46</span>:<span class="number">937</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">14</span>): <span class="number">10</span>:<span class="number">57</span>:<span class="number">46</span>:<span class="number">967</span></span><br><span class="line">**<span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">20</span>): <span class="number">2006</span><span class="number">-05</span><span class="number">-16</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">47</span>**</span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">21</span>): <span class="number">2006</span><span class="number">-05</span><span class="number">-16</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">47.157</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">22</span>): <span class="number">05</span>/<span class="number">16</span>/<span class="number">06</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">47</span> AM</span><br><span class="line">**<span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">23</span>): <span class="number">2006</span><span class="number">-05</span><span class="number">-16</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">24</span>): <span class="number">10</span>:<span class="number">57</span>:<span class="number">47</span>**</span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">25</span>): <span class="number">2006</span><span class="number">-05</span><span class="number">-16</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">47.250</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">100</span>): <span class="number">05</span> <span class="number">16</span> <span class="number">2006</span> <span class="number">10</span>:<span class="number">57</span>AM</span><br><span class="line">**<span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">101</span>): <span class="number">05</span>/<span class="number">16</span>/<span class="number">2006</span>**</span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">102</span>): <span class="number">2006.05</span><span class="number">.16</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">103</span>): <span class="number">16</span>/<span class="number">05</span>/<span class="number">2006</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">104</span>): <span class="number">16.05</span><span class="number">.2006</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">105</span>): <span class="number">16</span><span class="number">-05</span><span class="number">-2006</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">106</span>): <span class="number">16</span> <span class="number">05</span> <span class="number">2006</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">107</span>): <span class="number">05</span> <span class="number">16</span>, <span class="number">2006</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">108</span>): <span class="number">10</span>:<span class="number">57</span>:<span class="number">49</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">109</span>): <span class="number">05</span> <span class="number">16</span> <span class="number">2006</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">49</span>:<span class="number">437</span>AM</span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">110</span>): <span class="number">05</span><span class="number">-16</span><span class="number">-2006</span></span><br><span class="line">**<span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">111</span>): <span class="number">2006</span>/<span class="number">05</span>/<span class="number">16</span>**</span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">112</span>): <span class="number">20060516</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">113</span>): <span class="number">16</span> <span class="number">05</span> <span class="number">2006</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">49</span>:<span class="number">513</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">114</span>): <span class="number">10</span>:<span class="number">57</span>:<span class="number">49</span>:<span class="number">547</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">120</span>): <span class="number">2006</span><span class="number">-05</span><span class="number">-16</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">49</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">121</span>): <span class="number">2006</span><span class="number">-05</span><span class="number">-16</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">49.700</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">126</span>): <span class="number">2006</span><span class="number">-05</span><span class="number">-16</span>T10:<span class="number">57</span>:<span class="number">49.827</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">130</span>): <span class="number">18</span> ???? ?????? <span class="number">1427</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">49</span>:<span class="number">907</span>AM</span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">131</span>): <span class="number">18</span>/<span class="number">04</span>/<span class="number">1427</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">49</span>:<span class="number">920</span>AM</span><br></pre></td></tr></table></figure>
+            <p>
+              
+SQL中CONVERT的使用方法:格式:CONVERT(data_type,e­xpression[,style])说明:此样式一般在时间类型 (datetime, smalldatetime) 与字符串类型 (nchar, nvarchar, char, varchar) 相互转换的时候才用到.
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/存储/Mssql/Mssql 日期格式化/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -530,7 +532,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/linux/安装Python3/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/Linux/安装Python3/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -550,7 +552,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/linux/安装Python3/" class="post-title-link" itemprop="url">安装Python3</a>
+                <a href="/wiki-site/wiki/Linux/安装Python3/" class="post-title-link" itemprop="url">安装Python3</a>
               
             
           </h1>
@@ -609,14 +611,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
 
                 
                 
@@ -653,14 +648,19 @@
       
         
           
-            <h3 id="1-安装-Python-依赖包"><a href="#1-安装-Python-依赖包" class="headerlink" title="1. 安装 Python 依赖包"></a>1. 安装 Python 依赖包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum groupinstall <span class="string">"Development tools"</span></span><br><span class="line">$ yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel</span><br></pre></td></tr></table></figure>
-<h3 id="2-下载-Python3-5-源码包并编译"><a href="#2-下载-Python3-5-源码包并编译" class="headerlink" title="2. 下载 Python3.5 源码包并编译"></a>2. 下载 Python3.5 源码包并编译</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tgz</span><br><span class="line">$ tar -zxvf Python-3.5.0.taz</span><br><span class="line">$ <span class="built_in">cd</span> Python-3.5.0</span><br></pre></td></tr></table></figure>
-<h3 id="3-编译安装"><a href="#3-编译安装" class="headerlink" title="3. 编译安装"></a>3. 编译安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure --prefix=/usr/<span class="built_in">local</span> --<span class="built_in">enable</span>-shared</span><br><span class="line">$ make </span><br><span class="line">$ make install</span><br><span class="line">$ ln -s /usr/<span class="built_in">local</span>/bin/python3 /usr/bin/python3</span><br></pre></td></tr></table></figure>
-<h3 id="4-在运行-Python-前配置需要库"><a href="#4-在运行-Python-前配置需要库" class="headerlink" title="4. 在运行 Python 前配置需要库"></a>4. 在运行 Python 前配置需要库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> /usr/<span class="built_in">local</span>/lib &gt;&gt; /etc/ld.so.conf.d/local.conf</span><br><span class="line">$ ldconfig</span><br></pre></td></tr></table></figure>
-<h3 id="5-检测安装"><a href="#5-检测安装" class="headerlink" title="5. 检测安装"></a>5. 检测安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python3 --version</span><br></pre></td></tr></table></figure>
-<h3 id="6-移除编译-Python-安装的库"><a href="#6-移除编译-Python-安装的库" class="headerlink" title="6. 移除编译 Python 安装的库"></a>6. 移除编译 Python 安装的库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum groupremove <span class="string">"Development tools"</span></span><br><span class="line">$ yum remove zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel</span><br></pre></td></tr></table></figure>
-<h3 id="7-设置别名"><a href="#7-设置别名" class="headerlink" title="7. 设置别名"></a>7. 设置别名</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">alias</span> py=python3</span><br></pre></td></tr></table></figure>
+            <p>
+              1. 安装 Python 依赖包$ yum groupinstall "Development tools"$ yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/Linux/安装Python3/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -715,7 +715,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/linux/网络配置/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/Linux/安装gcc/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -735,192 +735,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/linux/网络配置/" class="post-title-link" itemprop="url">网络配置</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2016-01-06 00:00:00" itemprop="dateCreated datePublished" datetime="2016-01-06T00:00:00+08:00">2016-01-06</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-02-06 17:24:25" itemprop="dateModified" datetime="2019-02-06T17:24:25+08:00">2019-02-06</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-检测是否已启动网卡"><a href="#1-检测是否已启动网卡" class="headerlink" title="1. 检测是否已启动网卡"></a>1. 检测是否已启动网卡</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ifconfig &amp; ifup eth0</span><br></pre></td></tr></table></figure>
-<h3 id="2-修改对应网卡配置信息"><a href="#2-修改对应网卡配置信息" class="headerlink" title="2. 修改对应网卡配置信息"></a>2. 修改对应网卡配置信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vi /etc/sysconfig/network-scripts/ifcfg-eth0</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DEVICE=&quot;eth0&quot;</span><br><span class="line">HWADDR=&quot;00:0C:29:FD:FF:2A&quot;</span><br><span class="line">NM_CONTROLLED=&quot;yes&quot;</span><br><span class="line">ONBOOT=&quot;yes&quot;</span><br><span class="line">IPADDR=192.168.1.31</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=192.168.1.1</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">DNS1=192.168.1.1</span><br></pre></td></tr></table></figure>
-<h3 id="3-重启网卡"><a href="#3-重启网卡" class="headerlink" title="3. 重启网卡"></a>3. 重启网卡</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ service network restart  </span><br><span class="line">$ /etc/init.d/network restart</span><br></pre></td></tr></table></figure>
-<h3 id="4-可以安装网络图形设置工具"><a href="#4-可以安装网络图形设置工具" class="headerlink" title="4. 可以安装网络图形设置工具"></a>4. 可以安装网络图形设置工具</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install setuptool</span><br></pre></td></tr></table></figure>
-<h3 id="5-检测网络状态"><a href="#5-检测网络状态" class="headerlink" title="5. 检测网络状态"></a>5. 检测网络状态</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service network status</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/linux/安装gcc/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joshua Chen">
-      <meta itemprop="description" content="大道至简">
-      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Joe's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/wiki-site/wiki/软件工程/linux/安装gcc/" class="post-title-link" itemprop="url">安装gcc</a>
+                <a href="/wiki-site/wiki/Linux/安装gcc/" class="post-title-link" itemprop="url">安装gcc</a>
               
             
           </h1>
@@ -979,14 +794,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
 
                 
                 
@@ -1023,15 +831,21 @@
       
         
           
-            <h3 id="一、安装内核支持gcc"><a href="#一、安装内核支持gcc" class="headerlink" title="一、安装内核支持gcc"></a>一、安装内核支持gcc</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum -y install gcc+ gcc-c++</span><br></pre></td></tr></table></figure>
-<h3 id="二、手动升级gcc"><a href="#二、手动升级gcc" class="headerlink" title="二、手动升级gcc"></a>二、手动升级gcc</h3><h4 id="1-获取安装包"><a href="#1-获取安装包" class="headerlink" title="1. 获取安装包"></a>1. 获取安装包</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://ftp.gnu.org/gnu/gcc/gcc-4.8.2/gcc-4.8.2.tar.bz2</span><br><span class="line">$ tar -jxvf gcc-4.8.2.tar.bz2</span><br></pre></td></tr></table></figure>
-<h4 id="2-下载编译需要的依赖项"><a href="#2-下载编译需要的依赖项" class="headerlink" title="2. 下载编译需要的依赖项"></a>2. 下载编译需要的依赖项</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> gcc-4.8.2</span><br><span class="line">$ ./contrib/down_prerequiesites</span><br></pre></td></tr></table></figure>
-<h4 id="3-建立一个目录供编译输出的文件存放"><a href="#3-建立一个目录供编译输出的文件存放" class="headerlink" title="3. 建立一个目录供编译输出的文件存放"></a>3. 建立一个目录供编译输出的文件存放</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir gcc-build-4.8.2</span><br></pre></td></tr></table></figure>
-<h4 id="4-生成-Makefile-文件"><a href="#4-生成-Makefile-文件" class="headerlink" title="4. 生成 Makefile 文件"></a>4. 生成 Makefile 文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> gcc-build-4.8.2</span><br><span class="line">$ ../configure -<span class="built_in">enable</span>-checking=release -<span class="built_in">enable</span>-languages=c,c++ -<span class="built_in">disable</span>-multilib</span><br></pre></td></tr></table></figure>
-<h4 id="5-编译-j4选项是make对多核处理器的优化"><a href="#5-编译-j4选项是make对多核处理器的优化" class="headerlink" title="5. 编译, -j4选项是make对多核处理器的优化"></a>5. 编译, -j4选项是make对多核处理器的优化</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ make -j4</span><br><span class="line">$ yum -y install glibc-devel.i686 glibc-devel</span><br></pre></td></tr></table></figure>
-<h4 id="6-安装"><a href="#6-安装" class="headerlink" title="6. 安装"></a>6. 安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make install</span><br></pre></td></tr></table></figure>
-<h4 id="7-检查gcc版本"><a href="#7-检查gcc版本" class="headerlink" title="7. 检查gcc版本"></a>7. 检查gcc版本</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gcc --version</span><br></pre></td></tr></table></figure>
+            <p>
+              一、安装内核支持gcc$ yum -y install gcc+ gcc-c++
+二、手动升级gcc1. 获取安装包$ wget http://ftp.gnu.org/gnu/gcc/gcc-4.8.2/gcc-4.8.2.tar.bz2$ tar -jxvf gcc-4.8.2.tar.bz2
+2
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/Linux/安装gcc/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1086,7 +900,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/编程语言/javascript/Gruntjs JSHint 代码校验/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/Linux/网络配置/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -1106,7 +920,192 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/编程语言/javascript/Gruntjs JSHint 代码校验/" class="post-title-link" itemprop="url">Gruntjs JSHint 代码校验</a>
+                <a href="/wiki-site/wiki/Linux/网络配置/" class="post-title-link" itemprop="url">网络配置</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-01-06 00:00:00" itemprop="dateCreated datePublished" datetime="2016-01-06T00:00:00+08:00">2016-01-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-06 17:24:25" itemprop="dateModified" datetime="2019-02-06T17:24:25+08:00">2019-02-06</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              1. 检测是否已启动网卡$ ifconfig &amp; ifup eth0
+2. 修改对应网卡配置信息$ vi /etc/sysconfig/network-scripts/ifcfg-eth0
+DEVICE=&quot;eth0&quot;HWADDR=&quot;00:0C:29:FD:FF:
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/Linux/网络配置/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/编程语言/Javascript/Gruntjs JSHint 代码校验/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joshua Chen">
+      <meta itemprop="description" content="大道至简">
+      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joe's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/wiki-site/wiki/编程语言/Javascript/Gruntjs JSHint 代码校验/" class="post-title-link" itemprop="url">Gruntjs JSHint 代码校验</a>
               
             
           </h1>
@@ -1165,21 +1164,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/编程语言/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/Javascript/" itemprop="url" rel="index"><span itemprop="name">Javascript</span></a></span>
 
                 
                 
@@ -1216,28 +1208,21 @@
       
         
           
-            <p>JSHint跟JSLint非常像，都是Javascript代码验证工具，这种工具可以检查你的代码并提供相关的代码改进意见。<br>对于你的代码，你可以选择多种方式来进行检验： </p>
-<h3 id="第一种方法"><a href="#第一种方法" class="headerlink" title="第一种方法"></a>第一种方法</h3><p>进入JSHint首页，粘贴你的代码，选择相关的选项，然后点击右下角的Lint按钮就可以了。</p>
-<h3 id="第二种方法"><a href="#第二种方法" class="headerlink" title="第二种方法"></a>第二种方法</h3><p>使用Grunt整合的JSHint, 在项目根目录中建立一个grunt.js文件： </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params">grunt</span>) </span>&#123; </span><br><span class="line"><span class="meta">    'use strict'</span>;  </span><br><span class="line">    <span class="comment">// Project configuration.</span></span><br><span class="line">    grunt.initConfig(&#123;</span><br><span class="line">        pkg: <span class="string">'&lt;json:package.json&gt;'</span>,</span><br><span class="line">        test: &#123;</span><br><span class="line">            files: [<span class="string">'test/**/*.js'</span>]</span><br><span class="line">        &#125;,</span><br><span class="line">        lint: &#123;</span><br><span class="line">            files: [<span class="string">'grunt.js'</span>, <span class="string">'lib/**/*.js'</span>, <span class="string">'test/**/*.js'</span>]</span><br><span class="line">        &#125;,</span><br><span class="line">        watch: &#123;</span><br><span class="line">            files: <span class="string">'&lt;config:lint.files&gt;'</span>,</span><br><span class="line">            tasks: <span class="string">'default'</span></span><br><span class="line">        &#125;,</span><br><span class="line">        jshint: &#123;</span><br><span class="line">            options: &#123;</span><br><span class="line">                curly: <span class="literal">true</span>,</span><br><span class="line">                eqeqeq: <span class="literal">true</span>,</span><br><span class="line">                newcap: <span class="literal">true</span>,</span><br><span class="line">                noarg: <span class="literal">true</span>,</span><br><span class="line">                sub: <span class="literal">true</span>,</span><br><span class="line">                undef: <span class="literal">true</span>,</span><br><span class="line">                boss: <span class="literal">true</span>,</span><br><span class="line">                node: <span class="literal">true</span></span><br><span class="line">            &#125;,</span><br><span class="line">            globals: &#123;</span><br><span class="line">                exports: <span class="literal">true</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);  </span><br><span class="line">    <span class="comment">// Default task.</span></span><br><span class="line">    grunt.registerTask(<span class="string">'default'</span>, <span class="string">'lint test'</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>这里的lint.files就是要验证的所有文件。而下面的jshint.option是jshint的具体配置信息。简单介绍一下：</p>
-<ul>
-<li><p><strong>curly</strong>: 大括号包裹，即不能使用这种代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (notEnd())</span><br><span class="line">    doSomething();</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>eqeqeq</strong>: 对于简单类型，使用===和!==，而不是==和!= </p>
-</li>
-<li><strong>newcap</strong>: 对于首字母大写的函数（声明的类），强制使用new </li>
-<li><strong>noarg</strong>: 禁用arguments.caller和arguments.callee </li>
-<li><strong>sub</strong>: 对于属性使用aaa.bbb而不是aaa[‘bbb’] </li>
-<li><strong>undef</strong>: 查找所有未定义变量 </li>
-<li><strong>boss</strong>: 查找类似与if(a = 0)这样的代码 </li>
-<li><strong>node</strong>: 指定运行环境为node.js </li>
-</ul>
-<h3 id="第三种方法"><a href="#第三种方法" class="headerlink" title="第三种方法"></a>第三种方法</h3><p>直接使用API： <code>var result = JSHINT(source, options, globals);</code>。<br>其中source为待检查的脚本字符串（或者字符串数组）。options同第二种方法。globals是指定全局变量。如果验证通过，返回true，否则返回false。如果返回false，那么可以使用JSHINT.errors来查看错误。</p>
-<p>参考资料：<br>[1] 官方白皮书：<a href="http://www.jshint.com/docs/">http://www.jshint.com/docs/</a> </p>
-
+            <p>
+              JSHint跟JSLint非常像，都是Javascript代码验证工具，这种工具可以检查你的代码并提供相关的代码改进意见。对于你的代码，你可以选择多种方式来进行检验： 
+第一种方法进入JSHint首页，粘贴你的代码，选择相关的选项，然后点击右下角的Lint按钮就可以了。
+第二种方法使用Grunt整合
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/编程语言/Javascript/Gruntjs JSHint 代码校验/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1380,7 +1365,41 @@
                     
                       
                     
-                    <span class="site-state-item-count">19</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1464,23 +1483,19 @@
                 <span class="links-of-author-item">
                   
                   
-                    
-                  
                   
                     
                   
-                  <a href="https://github.com/joecnn" title="GitHub &rarr; https://github.com/joecnn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  <a href="https://github.com/joecnn" title="GitHub &rarr; https://github.com/joecnn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
                 </span>
               
                 <span class="links-of-author-item">
                   
                   
-                    
-                  
                   
                     
                   
-                  <a href="mailto:starworking@126.com" title="E-Mail &rarr; mailto:starworking@126.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  <a href="mailto:starworking@126.com" title="E-Mail &rarr; mailto:starworking@126.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
                 </span>
               
             </div>
@@ -1514,9 +1529,9 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; 2013 – <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Joshua Chen</span>
 
@@ -1526,7 +1541,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
 
 
 
@@ -1534,7 +1549,7 @@
 
 
 
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a></div>
 
 
 
@@ -1555,6 +1570,8 @@
     
       <div class="back-to-top">
         <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
         
       </div>
     
@@ -1625,6 +1642,7 @@
   <script src="/wiki-site/js/affix.js?v=7.1.1"></script>
 
   <script src="/wiki-site/js/schemes/pisces.js?v=7.1.1"></script>
+
 
 
 

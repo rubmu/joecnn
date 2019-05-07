@@ -2,10 +2,9 @@
 <search>
   <entry>
     <title><![CDATA[Linux PostgreSQL 数据库安装]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%AD%98%E5%82%A8%2FLinux-PostgreSQL-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FLinux-PostgreSQL-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%2F</url>
     <content type="text"><![CDATA[PostgreSQL 是加州大学伯克利分校计算机系开发的 对象-关系型数据库(ORDBMS) 管理系统，在 BSD许可证 下开源发行。PostgreSQL 的稳定性极强，支持丰富的几何类型数据。它可以存储 array 和 json, 可以在 array 和 json 上建索引, 甚至还能用表达式索引。 PostgreSQL 提供了很多种安装方式，本编文章主要是在 Linux 环境下以源码的方式进行安装，这样虽然在安装上步骤多了许多，但让你可以控制安装细节。 下载 PostgreSQL首先你需要到 postgresql.org 上下载你需要的版本源码，也可以通过以下命令直接下载。 $ sudo wget https://ftp.postgresql.org/pub/source/v11.2/postgresql-11.2.tar.gz 解压 tar.gz 文件到 /usr/local/etc 目录。 安装 PostgreSQL接下来你需要从源码进行安装，这个过程分为三个步骤。首先你需要准备你的 Linux 编译环境，其次对源码进行编译生成安装文件，最后进行 PostgreSQL 安装。 准备编译环境进入已解压的 PostgreSQL 文件目录，执行 $ ./configure 命令。 编译安装执行命令 $ make &amp;&amp; sudo make install 安装完成PostgreSQL 会安装在 /usr/local/pgsql 目录下，在 bin 目录下提供了一些 PostgreSQL 的命令行工具，提供给用户使用。 创建 Linux 用户出于对数据库安全性和完整性的控制，为 PostgreSQL 应用创建一个用户进行管理。 123$ groupadd postgres$ useradd -g postgres postgres$ passwd postgres 创建数据存储目录在这一步骤，你将创建一个用于存储 PostgreSQL 数据的目录，并将该目录授权给上一步创建的postgres 用户。 进入 /usr/local/pgsql 目录，这个是安装 PostgreSQL 的目录，在此目录下创建 data 目录。 123$ cd /usr/local/pgsql$ sudo mkdir data$ sudo chown postgres:postgres /usr/local/pgsql/data 设置环境变量在这一步骤中，在 /etc/profile 下添加配置，方便用户在 bash 中直接使用 PostgreSQL 提供的工具，并且设置默认的数据文件存储位置 PGDATA。 123PGDATA=/usr/local/pgsql/dataPATH=$PATH:/usr/local/pgsql/binexport PGDATA PATH 最后执行 source /etc/profile 让环境配置生效。 初始化数据库切换到 postgres 用户，对新安装的 PostgreSQL 进行初始化，并通过 -D 指定数据存储目录，如果不指定则默认使用环境变量中 PGDATA 指向的目录。 $ pg_ctl initdb -D /usr/local/pgsql/data 接下来可以启动数据服务，可以指定日志输出文件。 $ pg_ctl -l ~/logfile start 到此可以看到 PostgreSQL 服务已经启动，可以通过 psql 命令连接到服务，先给默认的用户 postgres 设置登录密码。 postgres=# ALTER USER postgres PASSWORD &#39;postgres&#39;; 开启支持远程连接默认安装的 PostgreSQL 只支持本地连接，但我们在使用时一般都是通过客户端进行远程连接，所以这一步骤主要是修改配置文件，让PostgreSQL 数据服务可以接受远程连接。 进入 /usr/local/pgsql/data 目录下，修改配置文件 postgresql.conf 。 12# 开放监听的地址listen_addresses = &apos;*&apos; 修改配置文件 pg_hba.conf 添加允许连接的 IP 段。 1234# IPv4 local connections:host all all 0.0.0.0/0 md5# IPv6 local connections:host all all ::/0 md5 修改完这两个配置文件后，重启 pgsql 服务即可支持远程连接。 设置开机启动PostgreSQL 数据服务一般要设置到服务器开机自动启动，接下来的步骤就是通过开机运行脚本进行设置。 首先切换到 root 用户。 $ su root 接下来拷贝一份开机脚本到 /etc/init.d 目录。 $ sudo cp /usr/local/etc/postgresql-11.2/contrib/start-scripts/linux /etc/init.d/postgresql 给脚本添加执行权限。 $ sudo chmod +x /etc/init.d/postgresql 添加到开机启动运行服务列表中。 $ sudo chkconfig --add postgresql 你可以通过 reboot 重启 Linux 进行验证是否已设置成功。 总结本编文章记录了 PostgreSQL 数据的源码编译安装方式，同样也可以通过 yum 或 rpm 等在线安装的方式，也可以直接下载已编译好的包，解压配置环境变量即可。如果进行手动安装的方式，记得要配置环境变量和数据存储目录，以便 PostgreSQL 的使用。]]></content>
       <categories>
-        <category>软件工程</category>
         <category>存储</category>
       </categories>
       <tags>
@@ -14,13 +13,12 @@
   </entry>
   <entry>
     <title><![CDATA[JDK 多版本环境共存]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjava%2F%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%2FJDK%20%E5%A4%9A%E7%89%88%E6%9C%AC%E7%8E%AF%E5%A2%83%E5%85%B1%E5%AD%98%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJava%2Fide%2FJDK%20%E5%A4%9A%E7%89%88%E6%9C%AC%E7%8E%AF%E5%A2%83%E5%85%B1%E5%AD%98%2F</url>
     <content type="text"><![CDATA[在 JDK8 之前的版本需要手动设置环境变量 JAVA_HOME. JDK8 多了自动配置环境变量, 所以想要多版本 JDK 共存并可以进行自由切换，需要先删掉默认环境。 1. 删除自动配置的环境自动配置的环境变量指向的是一个隐藏目录 C:\ProgramData\Oracle\Java\javapath, 删除这个目录下的3个 .exe 文件，系统就无法匹配到了。 2. 安装多版本 JDK进行多个版本的 JDK 安装。 3. 设置系统环境变量12345678# 指向 jdk6 目录JAVA6_HOME = D:\Java\jdk_6# 指向 jdk8 目录JAVA8_HOME = D:\Java\jdk_8# 设置默认的 jdk, 进行切换版本JAVA_HOME = %JAVA8_HOME%]]></content>
       <categories>
-        <category>软件工程</category>
         <category>编程语言</category>
-        <category>java</category>
-        <category>开发工具</category>
+        <category>Java</category>
+        <category>ide</category>
       </categories>
       <tags>
         <tag>java</tag>
@@ -28,12 +26,11 @@
   </entry>
   <entry>
     <title><![CDATA[MySQL 主从模式]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%AD%98%E5%82%A8%2Fmysql%2FMySQL%20%E4%B8%BB%E4%BB%8E%E6%A8%A1%E5%BC%8F%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FMysql%2FMySQL%20%E4%B8%BB%E4%BB%8E%E6%A8%A1%E5%BC%8F%2F</url>
     <content type="text"><![CDATA[MySQL 支持配置 master-slave 模式，slave 从 master 定期同步数据，但不支持自动选举。常见的架构方式有：一主一从、一主多从(提升读性能)、多主一从(收集数据统计)等。 环境准备: 安装两台 MySQL-5.7 服务. 1. Master 节点配置 创建用于数据同步的 mysql 用户create user repl identified by &#39;repl&#39;; 为创建的用户授予同步权限grant replication slave on *.* to &#39;repl&#39;@&#39;%&#39; identified by &#39;repl&#39;; 修改配置文件 /etc/my.cnf, 开启binlog日志文件同步 123456789101112131415161718192021[mysqld]# 表示服务为一IDserver-id=104# 开启日志同步, 设置日志文件名称log_bin=mysql-bin# 日志文件记录方式, 默认是 ROW 记录变更内容, STATEMENT 记录语句, MIXED 为二者混合方式binlog_format=MIXED# 日志文件同步周期, 0表示交给内核处理同步, N表示事务数sync_binlog=1# 日志文件自动删除天数, 默认为0表示不自动删除expire_logs_days=7# 不进行同步的数据库binlog_ignore_db=mysqlbinlog_ignore_db=information_schemabinlog_ignore_db=performation_schemabinlog_ignore_db=sys 重启数据库, 查询 master 信息 1234567mysql&gt; show master status;+------------------+----------+--------------+--------------------------------------------------+-------------------+| File | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |+------------------+----------+--------------+--------------------------------------------------+-------------------+| mysql-bin.000001 | 154 | | mysql,information_schema,performation_schema,sys | |+------------------+----------+--------------+--------------------------------------------------+-------------------+1 row in set (0.00 sec) 2. Slave 节点配置 修改配置文件 /etc/my.cnf, 开启binlog同步 123456789101112[mysqld]# 服务节点唯一IDserver-id=110# 同步日志文件名称relay-log=slave-relay-bin# 同步日志索引relay-log-index=slave-relay-bin.index# 是否只读read_only=1 重启并连接到数据库systemctl restart mysqld &amp;&amp; mysql -uroot -proot 建立 master-slave 连接, 多主一从的情况可以执行多个 change master 指向不同主节点 1234567# master_host 主节点# master_port 主节点端口# master_user 创建的用于同步数据的用户# master_password 密码# master_log_file binlog文件由主节点获得# master_log_pos binlog开始同步位置change master to master_host=&apos;192.168.56.104&apos;,master_port=3306,master_password=&apos;repl&apos;,master_user=&apos;repl&apos;,master_log_file=&apos;mysql-bin.000001&apos;,master_log_pos=154; 开启同步 start slave; 查看 slave 运行状态123456789101112131415mysql&gt; show slave status\G;*************************** 1. row *************************** Slave_IO_State: Connecting to master Master_Host: 192.168.56.104 Master_User: repl Master_Port: 3306 Connect_Retry: 60 Master_Log_File: mysql-bin.000001 Read_Master_Log_Pos: 154 Relay_Log_File: slave-relay-bin.000001 Relay_Log_Pos: 4 Relay_Master_Log_File: mysql-bin.000001 Slave_IO_Running: Yes Slave_SQL_Running: Yes ... 运行状态中 Slave_IO_Running: Yes, Slave_SQL_Running: Yes 两个线程运行成功, 则表示主从同步成功了. 3. 主从同步的原理 master记录二进制日志。在每个事务更新数据完成之前，master在二日志记录这些改变。MySQL将事务串行的写入二进制日志，即使事务中的语句都是交叉执行的。在事件写入二进制日志完成后，master通知存储引擎提交事务 slave将master的binary log拷贝到它自己的中继日志。首先，slave开始一个工作线程——I/O线程。I/O线程在master上打开一个普通的连接，然后开始binlog dump process。Binlog dump process从master的二进制日志中读取事件，如果已经跟上master，它会睡眠并等待master产生新的事件。I/O线程将这些事件写入中继日志 SQL线程从中继日志读取事件，并重放其中的事件而更新slave的数据，使其与master中的数据一致 4. binlog 的格式 mysql 使用二进制文件binlog记录数据更新或者潜在的更新, 存储在 /var/lib/mysql 目录下. 查询binlog格式123456mysql&gt; show variables like '%binlog%';+-----------------------------------------+----------------------+| Variable_name | Value |+-----------------------------------------+----------------------+| binlog_format | MIXED |+-----------------------------------------+----------------------+ statement : 基于sql语句的存储方式. 无法记录包含函数(uuid, now, other fun). row : 基于行内容, 记录修改后每条记录变化的值. mixed : 混合模式, 由mysql判断处理. 设置binlog格式 修改配置文件中的 binlog_format=&#39;row&#39;选项 连接到mysql, 修改全局配置 set global binlog_format=’rowt’; 查看binlog内容mysql 提供了查看二进制binlog文件的工具1mysqlbinlog --base64-output=decode-rows -v mysql-bin.000001]]></content>
       <categories>
-        <category>软件工程</category>
         <category>存储</category>
-        <category>mysql</category>
+        <category>Mysql</category>
       </categories>
       <tags>
         <tag>mysql</tag>
@@ -41,12 +38,11 @@
   </entry>
   <entry>
     <title><![CDATA[MySQL quickstart]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%AD%98%E5%82%A8%2Fmysql%2FMySQL%20quickstart%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FMysql%2FMySQL%20quickstart%2F</url>
     <content type="text"><![CDATA[一、安装 MySQL-5.7 下载 MySQL-5.7 的 repo 源：wget http://repo.mysql.com/mysql57-community-release-el7.rpm 安装源：rpm -ivh mysql57-community-release-el7.rp 安装数据库：yum -install mysql-server 启动数据库：systemctl start mysqld 安装后文件对应的目录 mysql 的数据和二进制文件：/var/lib/mysql mysql 的配置文件：/etc/my.cnf mysql 的日志文件：/var/log/mysql.log 二、登录到 MySQLMySQL-5.7 版本对新安装的 root 账号有一个随机密码，可以通过 grep &quot;password&quot; /var/log/mysqld.log 获得，root@localhost 此处为随机密码 运行 mysql -uroot -p 输入初始的随机密码进入 设置密码 默认的随机密码无法对数据库进行操作，需要进行设置，而5.7版本用了validate_password密码加强插件，简单的密码无法通过验证 执行以下两条命令，让密码可以随意设置 12set global validate_password_length=1;set global validate_password_policy=0; 这样可以设置简单的密码，但是长度要求大于4位set password=password(&quot;root&quot;) 连接授权默认情况下其它服务器的客户端不能直接访问mysql服务器，需要对IP授权。GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;root&#39; WITH GRANT OPTION; 验证查询所有的数据库 show databases;]]></content>
       <categories>
-        <category>软件工程</category>
         <category>存储</category>
-        <category>mysql</category>
+        <category>Mysql</category>
       </categories>
       <tags>
         <tag>mysql</tag>
@@ -54,10 +50,9 @@
   </entry>
   <entry>
     <title><![CDATA[Redis 集群]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FRedis%20%E9%9B%86%E7%BE%A4%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FRedis%20%E9%9B%86%E7%BE%A4%2F</url>
     <content type="text"><![CDATA[Redis 是一个开源的 key-value 存储系统，由于出众的性能，大部分互联网企业都用来做服务器端缓存。Redis 在3.0版本前只支持单实例模式，虽然支持主从模式、哨兵模式部署来解决单点故障，但是现在互联网企业动辄大几百G的数据，可完全是没法满足业务的需求，所以，Redis 在 3.0 版本以后就推出了集群模式。 一、Master-slave 模式实现主从复制模式，只需要在slave服务器上修改配置文件：12## 配置master服务器slaveof &lt;masterip&gt; &lt;masterport&gt; slave服务器只接收读请求，可以用来做读写分离，通过sync命令向master同步数据。 配置完成后启动，可以通过命令查看状态：12## 输出当前服务信息info replication 数据同步从节点定时(1S)从主节点同步数据，通过发送sync命令, 通过命令可以监控同步信息： 1replconf listening –port 6379 可以使用命令手动同步数据：sync. 数据同步方式 基于RDB文件的复制(第一次连接或重启的时候) 无硬盘复制 repl-diskless-sync yes 增量复制 PSYNC master run id. Offset 实现原理 slave 第一次或者重连到 master 上以后，会向 master 发送一个SYNC的命令 master 收到SYNC的时候，会做两件事： 执行bgsave（rdb的快照文件） master 把新收到的修改命令存入到缓冲区, 通过RESP协议发送给 slave (aof方式) slave 收到文件后会先清空数据，再从rdb快照文件恢复 缺点：主从复制的模式无法对 master 进行动态选举。 二、哨兵模式Redis 提供了哨兵工具，监控 master 和 salve 是否正常运行,如果 master 出现故障，那么会把其中一台 salve 数据升级为 master。 哨兵机也可做集群防止单点问题，启动哨兵的步骤： 拷贝哨兵配置文件 sentinel.conf 修改配置文件 12## 配置主节点名称、ip、port、master需要的投票数sentinel monitor &lt;master-name&gt; &lt;ip&gt; &lt;redis-port&gt; &lt;quorum&gt; 启动哨兵 1bin/redis-sentinel sentinel.conf 三、Redis 集群Redis 集群采用了P2P的模式，完全去中心化。Redis 把所有的 Key 分成了 16384 个 slot，每个 Redis 实例负责其中一部分 slot 。集群中的所有信息（节点、端口、slot等），都通过节点之间定期的数据交换而更新。Redis 客户端可以在任意一个 Redis 实例发出请求，如果所需数据不在该实例中，通过重定向命令引导客户端访问所需的实例。 修改配置文件，采用集群方式：1234567891011## 节点标识pid 6379和port要对应pidfile /var/run/redis_6379.pid## 启动集群模式cluster-enabled yes## 集群配置文件cluster-config-file nodes-6379.conf## 集群节点连接超时cluster-node-timeout 15000 启动每个redis服务，尝试使用命令，发现集群还无法使用，提示信息： 1(error) CLUSTERDOWN Hash slot not served Redis 节点虽然启动了，但是它们之间还无法相互发现，也无法分配slot，需要一个中间人调度。 安装集群所需软件由于 Redis 集群需要使用 ruby 命令，所以我们需要安装 ruby 和相关接口。 123yum install rubyyum install rubygemsgem install redis 调用 ruby 命令创建集群： 1bin/redis-trib.rb create --replicas 1 192.168.56.110:6379 192.168.56.110:6380 192.168.56.120:6379 192.168.56.120:6380 192.168.56.130:6379 192.168.56.130:6380 --replicas 1 表示主从复制比例为 1:1, 所以这里需要有6个 Redis 服务节点，组成3主3从的集群。 验证一下依然是通过客户端命令连接上，通过集群命令看一下状态和节点信息等。 123bin/redis-cli -c -h 192.168.56.110 -p 6379cluster infocluster nodes 四、其它集群方案一致性哈希通过程序对Key进行一致性哈希，再路由到不同的 Redis 服务节点上。 redis-sharddingJedis封装的基于一致性哈希算法的解决方案，通过ShareddingJedis客户端连接到服务节点，也是在应用层面实现的。 codis基于 redis-2.8 开发的 codis-server，支持了数据的分片存储，通过codis-proxy实现请求路由。 twemproxytwitter 提供的解决方案，也是通过增加 proxy 代理层，做数据分片存储和请求路由。]]></content>
       <categories>
-        <category>软件工程</category>
         <category>分布式</category>
       </categories>
       <tags>
@@ -67,10 +62,9 @@
   </entry>
   <entry>
     <title><![CDATA[Redis 持久化机制]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FRedis%20%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%BA%E5%88%B6%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FRedis%20%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%BA%E5%88%B6%2F</url>
     <content type="text"><![CDATA[Redis 是一款基于内存的键值对数据库，使用单线程IO多路复用技术达到高性能。但某些场景下对数据的持久性是有要求的，所以Rdis提供了两种持久化策略，防止宕机数据丢失。 Redis 持久化机制对于persistence持久化存储，Redis提供了两种方式： RDB(Redis database) 存储快照文件snapshot AOF(Append-only file) 存储redo文件 1. RDBRBD 是在规定时间点将内存数据通过快照方式写入临时文件，再替换上次的持久化文件，达到数据持久化的方式。 优点： 使用fork出的子进程处理，不影响主进程 输出snapshot快速且体积小缺点： RDB间隔一段时间执行，如果在执行期间发生故障，将导致数据丢失 当内存数据较大时，fork操作将花费较长时间，导致Redis无法提供服务 RDB 会在指定的情况下触发快照 配置的快照间隔时间 12345678910111213141516## RDB默认是开启的## RDB文件名dbfilename dump.db## RDB文件存储目录dir ./## RDB快照触发时机, save &lt;间隔时间&gt; &lt;操作数&gt;## 全部删除即关闭RDBsave 900 1## RDB快照异常时, 是否阻塞客户端"变更操作"stop-writes-on-bgsave-error yes## RDB文件是否进行压缩rdbcompression yes 执行 save 或 bgsave 时 12345## 同步进行./redis-cli -h ip -p port save## 异步进行./redis-cli -h ip -p port bgsave 执行 flushall 时 执行master/slave全量复制时 快照的实现原理 Redis使用fork复制一份当前进程的副本(子进程)。 父进程继续接收处理客户端请求，子进程开始将内存的数据写入到临时文件。 子进程用临时文件替换原文件。 注意：redis在进行快照的过程中不会修改RDB文件，只有快照结束后才会将旧的文件替换成新的，也就是说任何时候RDB文件都是完整的。 这就使得我们可以通过定时备份RDB文件来实现redis数据库的备份， RDB文件是经过压缩的二进制文件，占用的空间会小于内存中的数据，更加利于传输。 2. AOFAOF 将”操作+数据”以格式化(RESP)的方式最佳到操作日志文件尾部，在append操作成功后才进行实际数据的变更。当Server需要恢复时，可以直接replay日志文件，即可还原所有操作过程。 优点： 可以保持更高的数据完整性，如果设置间隔1S则最多丢失1S的数据。 可以手动删除其中某些命令，方便维护缺点： 额外的IO操作，略微影响Redis性能 AOF文件比RDB文件大 恢复速度慢，要逐条重放命令 AOF 默认关闭，开启时需要修改配置文件；12345## 开启aofappendonly yes## 指定aof文件名称appendfilename appendonly.aof AOF 文件重写在开启AOF时，命令会一直append到aof文件中，使得aof文件体积越来越大，Redis支持对aof文件进行重写(rewrite)，合并相同Key的操作，保留最小命令集合。1234567##aof文件rewrite触发的最小文件尺寸(mb,gb),只有大于此aof文件大于此尺寸是才会触发rewrite，默认“64mb”，建议“512mb” auto-aof-rewrite-min-size 64mb ##相对于“上一次”rewrite，本次rewrite触发时aof文件应该增长的百分比。 ##每一次rewrite之后，redis都会记录下此时“新aof”文件的大小(例如A)，那么当aof文件增长到A*(1 + p)之后 ##触发下一次rewrite，每一次aof记录的添加，都会检测当前aof文件的尺寸。 auto-aof-rewrite-percentage 100 整个重写操作是绝对安全的，因为 Redis 在创建新 AOF 文件的过程中，会继续将命令追加到现有的 AOF 文件里面，即使重写过程中发生停机，现有的 AOF 文件也不会丢失。 而一旦新 AOF 文件创建完毕，Redis 就会从旧 AOF 文件切换到新 AOF 文件，并开始对新 AOF 文件进行追加操作。AOF 文件有序地保存了对数据库执行的所有写入操作， 这些写入操作以 Redis 协议的格式保存， 因此 AOF 文件的内容非常容易被人读懂， 对文件进行分析（parse）也很轻松。 同步磁盘数据 Redis每次更改数据的时候都会将命令记录到aof文件，但是实际上由于kernel的缓存机制，数据并没有实时写入到硬盘，而是进入硬盘缓存,再通过硬盘缓存机制去刷新到保存到文件。 12345678 ## 每次执行写入都会进行同步 ， 这个是最安全但是是效率比较低的方式 # appendfsync always ## 每一秒执行appendfsync everysec ## 不主动进行同步操作，由操作系统去执行，这个是最快但是最不安全的方式# appendfsync no aof文件损坏后怎么恢复 Redis 在执行命令中途宕机，导致命令只存储到aof一半，这个时候通过aof文件无法恢复，需要先对文件进行修复。 aof文件修复可以使用Redis提供的工具： 12## bin/redis-check-aof --fix 3. RDB和AOF如何选择 一般来说,如果对数据的安全性要求非常高的话，应该同时使用两种持久化功能。如果可以承受数分钟以内的数据丢失，那么可以只使用 RDB 持久化。有很多用户都只使用 AOF 持久化， 但并不推荐这种方式： 因为定时生成 RDB 快照（snapshot）非常便于进行数据库备份， 并且 RDB 恢复数据集的速度也要比 AOF 恢复的速度要快 。两种持久化策略可以同时使用，也可以使用其中一种。如果同时使用的话， 那么Redis重启时，会优先使用AOF文件来还原数据。]]></content>
       <categories>
-        <category>软件工程</category>
         <category>分布式</category>
       </categories>
       <tags>
@@ -79,11 +73,22 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Kafka 实现原理]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FKafka%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%2F</url>
+    <content type="text"><![CDATA[1. 消息可靠性机制消息发送可靠性消息发送到 broker 有三种确认方式 request.required.acks ： acks=0 producer 不会等待 broker 发送ack，既可能丢失也可能重发。 acks=1 当 leader 接收到消息后发送ack，可能重发。 acks=-1 当所有 follower 同步成功后发送ack，丢失消息可能性低。 消息存储可靠性每一条消息发送到broker中，会跟据partition规则存储到对应分区，如果规则设置合理可以实现消息均匀分布到不同分区，实现存储的水平扩展。高可靠性的保障来自另一个叫副本(replication)策略，通过设置(–replication-factor)参数设置。 2. 副本存储机制Kafka 在创建 topic 支持设置对应的副本个数 --replication-factor，会生成对应的分区副本数交叉存储在每个节点上。 副本存活条件 副本所有节点必须和zookeeper保持连接状态 副本的最后一条消息的offset和leader的最后一条消息的offset之间差值不能超过设定值replica.lag.max.messages 如何同步消息第一个启动的节点成功在zookeeper中注册信息成为leader对外提供服务，其它replica做为follower要定时同步数据。 HW(high watermark) ：表示所有follower已同步完成的offset位置 LEO(Log End Offset) ：表示leader节点当前消息的offset位置 consumer只能消费所有follower已同步完成的数据，即HW标注的位置。 如何均匀分布Kafka 为了更好的做到负载均衡，会尽量把所有的 partition 均匀分配到整个集群上，分配的算法： 把所有 broker(n) 和 partition(n) 排序 把第i个partition分配到 (i%n) 个broker上 把第 i 个 partition 的第 j 个 replica 分配到 ((i+j) % n) 个broker上 如何处理所有副本不工作情况在ISR中至少有一个follower工作时，Kafka可以确保消息不丢失，但如果某个分区所有备份都宕机了，采取以下措施： 等待ISR中任意一个follower活过来，并且选择它为leader 选择任意一个replica(不一定是ISR中的)活过来作为leader 这两种需要在可用性和一致性当中做一个选择。 3. Kafka 文件存储机制partition每个partition为一个目录，命名规则为 &lt;topic_name&gt;-&lt;partition_no&gt;，存储在 kafka_logs 目录下。 segmentKafka 为防止分区文件过大，又将分区拆分为 segment 存储，一个segment文件.index和.log两部分组成，即索引文件和数据文件。segment 文件由64位long数值命名，文件名即记录的最大 offset 值，查找时先通过定位 offset 落的范围，再进入文件查找。 日志保留Kafka 中无论是否消费了消息(只是移动了 offset)，都会一直保留这些消息，为了避免磁盘爆满，使用相应的保留策略(retention policy)，以实现周期性的删除陈旧消息： 根据消息保留时间，超过指定时间则删除 根据 topic 大小，超过阈值开始删除最旧消息 日志压缩Kafka 会定期将相同 Key 的消息进行合并，只保留最新的 Value 值。 4. Kafka 消息的消费原理旧版本的 Kafka 将 Consumer group 的消费进度记录在 zookeeper 中，导致对 zookeeper 频繁的写入而性能低下。新版本1.0+已修改为记录在对应 topic 目录下，默认创建了50个 __consumer_offset_topic 文件夹，将消费的进度 offset 保存在对应的文件中。 计算 consumer group 的哈希值 1Math.abs("group1".hashCode() % 50) 根据哈希值找到对应的__consumer文件，查看消费进度 1sh kafka-simple-consumer-shell.sh --topic __consumer_offsets --partition 15 -broker-list 192.168.56.110:9092,192.168.56.120:9092,192.168.56.130:9092 --formatter kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter 5. Kafka 的消费者分区分配策略Kafka中存在 consumer group 的概念，也就是group.id一样的consumer属于一个consumer group，组内的所有消费者协调在一起来消费消费订阅主题的所有分区。当然每一个分区只能由同一个消费组内的consumer来消费，那么同一个consumer group里面的consumer是怎么去分配该消费哪个分区里的数据，这个就设计到了kafka内部分区分配策略（Partition Assignment Strategy）。在 Kafka 内部存在两种默认的分区分配策略：Range（默认） 和 RoundRobin。通过：partition.assignment.strategy指定 两种分区策略Range （默认策略）0 ，1 ，2 ，3 ，4，5，6，7，8，9c0 [0,3]c1 [4,6]c2 [7,9]10(partition num)/3(consumer num) =3 RoundRobin （轮询）0 ，1 ，2 ，3 ，4，5，6，7，8，9c0,c1,c2c0 [0,3,6,9]c1 [1,4,7]c2 [2,5,8]kafka 的key 为null， 是随机｛一个Metadata的同步周期内，默认是10分钟｝ 6. 高吞吐量原因 消息顺序存储，通过 offset 偏移量进行顺序读取，减少机械硬盘磁柱移动。 消息批量发送，在异步模式中允许进行批量发送消息，先将消息缓存到内存，再一次请求中批量发送出去，减少磁盘读写和网络传输。 batch.size 每批量发送的数据大小 linger.ms 批量发送的间隔时间 消息的零拷贝，使用 FileChannel.transferTo 直接将消息发送到 socket buffer 中，省略了将消息读取到内存的过程。]]></content>
+      <categories>
+        <category>分布式</category>
+      </categories>
+      <tags>
+        <tag>MQ</tag>
+        <tag>分布式</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Redis quickstart]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FRedis%20quickstart%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FRedis%20quickstart%2F</url>
     <content type="text"><![CDATA[1. Redis 是什么？ Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache and message broker. Redis 是一个开源的分布式键值对(key/value)存储数据库，常用于做为数据缓存、单点登录、网站访问排名、秒杀抢购、应用模块开发等。 2. 安装 Redis 下载 redis-4.0.12.tar.gz 安装包 解压并进行编译测试make &amp;&amp; make test 安装到指定目录cd src &amp;&amp; make install PREFIX=/usr/local/redis-4.0.12 make install安装完成后会在指定目录下生成bin/文件夹，里面存放着使用 redis 的工具。 3. 启动和停止 Redis 首先到源目录下拷贝配置文件到安装目录cp ~/redis-4.0.12/redis.conf /usr/local/redis-4.0.12/ 修改配置信息 bind： IP绑定修改为本机IP daemonize： 改为后台进程运行 启动 redis 服务./redis-server ../redis.conf 使用可以端连接到 redis./redis-cli -h 192.168.56.110 -p 6379 停止 redis 服务./redis-cli shutdown 4. 常用命令Key 相关keys 检索满足条件的键值对，支持正则表达式的通配符匹配，但要注意大数据量下的检索影响 redis 服务性能。123456## 获得一个符合匹配规则的键名列表，支持通配符keys [? / * [] ]## 判断key是否存在exists key## 获取key结构类型type key 字符类型最基本的数据结构，可以存储任意的字符类型的数据，单条数据最大可支持512M。12345678910111213141516171819202122## 设置key/value键值, 过期时间 EX=10s, PX=100msset key value EX 10 PX 100 ## 批量设置多个key/valuemset key value key1 value1## 只在key不存在时进行设置setnx key value## 获取key值get key## 获取多个key的值mget key key1## 对数字类型原子递增 1incr num## 原子递减 1decr num## 原子递增 10incrby num 10## 原子递减 10decrby num 10## 向指定的key追加字符串append key value## 获取key对应的value的长度strlen key 列表类型list 可以存储一个有序的字符列表，内部是使用双向链表实现的，可以用来实现分布式消息队列。命令以 l-开头。123456789101112## 左右两端添加数据(r|l)push key value value1 value2## 左右两端弹出数据，输出弹出的value(r|l)pop key## 获取列表长度llen key## 获取列表元素，start 开始索引， stop 结束索引(-1表示最右边)lrange key start stop## 从列表中移除N个value值的元素lrem key count value## 更新idx位置处的元素为valuelset key idx value 散列类型散列类型是 HashMap 数据结构，存储多个键值对，适合存储多属性对象，但不支持数据类型的嵌套。命令以 h- 开头。123456789101112## 设置对象field属性值hset key field valuehmset key field value field2 value2## 获取field属性值hget key fieldhmget key field field2## 获取所有field值hgetall key## 判断field属性是否存在hexists key field 集合类型集合类型 set 与列表不同，不能存在重复的数据，而且是无序存储。命令以 s- 开头。12345678910111213141516## 增加元素，如果value存在则忽略，返回成功加入集合的数量sadd key value value2## 删除元素srem key value## 获取所有元素smembers key## 获取集合长度scard key## 集合key1与key2的差集，列出key1中存在而在key2中不存在的元素sdiff key1 key2## 将差集存储在des中sdiffstore des key key2## 集合key1与key2的交集sinter key1 key2## 集合key1与key2的并集sunion key1 key2 有序集合类型有序集合是在集合set的基础上，增加了排序功能，增加了score表示元素的优先级。命令以 z- 开头。1234## 增加元素，优先级 scorezadd key score value## 列出集合，并且输出优先级zrange key start stop withscores 事务处理Redis 中支持事务，将多个命令加入到QUEUED中到最后一起提交或回滚，但有特例的情况无法回滚(命令运行时出错)。12345## 开启事务multi...## 提交事务exec 过期时间Redis 中可以对每个键值设置对应的过期时间。1234## 设置key过期时间为seconds秒expire key seconds## 获得key的过期时间,-1 未设置 -2已过期 ttl key 发布订阅(pub/sub)Redis 中支持消息的发布订阅模式，类型消息中间件的功能，但性能不高一般不推荐使用。1234## 发布消息到channel频道publish channel msg## 订阅channel频道的消息subscribe channel]]></content>
       <categories>
-        <category>软件工程</category>
         <category>分布式</category>
       </categories>
       <tags>
@@ -93,23 +98,9 @@
   </entry>
   <entry>
     <title><![CDATA[Kafka quickstart]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FKafka%20quickstart%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FKafka%20quickstart%2F</url>
     <content type="text"><![CDATA[1. Kafka是什么? Apache Kafka® is a distributed streaming platform. Kafka是一个高性能、高吞吐量的分布式消息通信系统。常用于系统的日志收集分析、消息通信、用户行为分析、服务器指标监控、流式处理等。 2. Kafka集群安装 下载kafka二进制安装包, 并解压到 /usr/local目录下。 进入到config目录下修改server.properties配置文件： broker.id 在集群中的唯一编号 listeners 本机ip num.partitions 默认的topic分区数 zookeeper.connect 连接到zookeeper集群，可以设置根路径 ip:port/kafka 进入到bin目录下，以守护进程方式启动。1$ sh kafka-server-start.sh -daemon ../config/server.properties 3. Kafka基本操作 创建一个topic 1$ sh kafka-topics.sh --create --zookeeper 192.168.56.110:2181/kafka --replication-factor 1 --partitions 2 --topic first-topic 列出所有topic 1$ sh kafka-topics.sh --list --zookeeper 192.168.56.110:2181/kafka 生成者发送消息 1$ sh kafka-console-producer.sh --broker-list 192.168.56.110:9092 --topic first-topic 消费者接收消息 1$ sh kafka-console-consumer.sh --bootstrap-server 192.168.56.110:9092 --topic first-topic --from-beginning 查看消息日志 1$ sh kafka-run-class.sh kafka.tools.DumpLogSegments --files /tmp/kafka-logs/first-topic-0/00000000000000000000.log --print-data-log 4. Kafka中的概念Message消息是 Kafka 中最基本的数据单元，由 Key/Value 组成(byte[])，根据Key的哈希值路由到不同区间进行存储。Kafka 会对消息进行压缩和批量发送。 Topictopic 是用于存储消息的逻辑单元，可以看作一个消息集合，每个 topic 可以有多个生产者向其推送消息，也可以有任意多个消费者。 Partition每个 topic 可以划分多个分区，即 Kafka 存储消息的物理单元。Partition 是以文件的形式存储在 kafka-logs 目录下，命名规则是 &lt;topic_name&gt;-&lt;partition_id&gt;。 GroupKafka 中的逻辑分组，同一个组内的一条消息只被一个组员消费，并且共同维护 consumer offset。不同组内的消费者可以同时消费同一条消息，实现 pub/sub 模式。]]></content>
       <categories>
-        <category>软件工程</category>
-        <category>分布式</category>
-      </categories>
-      <tags>
-        <tag>MQ</tag>
-        <tag>分布式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Kafka 实现原理]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FKafka%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%2F</url>
-    <content type="text"><![CDATA[1. 消息可靠性机制消息发送可靠性消息发送到 broker 有三种确认方式 request.required.acks ： acks=0 producer 不会等待 broker 发送ack，既可能丢失也可能重发。 acks=1 当 leader 接收到消息后发送ack，可能重发。 acks=-1 当所有 follower 同步成功后发送ack，丢失消息可能性低。 消息存储可靠性每一条消息发送到broker中，会跟据partition规则存储到对应分区，如果规则设置合理可以实现消息均匀分布到不同分区，实现存储的水平扩展。高可靠性的保障来自另一个叫副本(replication)策略，通过设置(–replication-factor)参数设置。 2. 副本存储机制Kafka 在创建 topic 支持设置对应的副本个数 --replication-factor，会生成对应的分区副本数交叉存储在每个节点上。 副本存活条件 副本所有节点必须和zookeeper保持连接状态 副本的最后一条消息的offset和leader的最后一条消息的offset之间差值不能超过设定值replica.lag.max.messages 如何同步消息第一个启动的节点成功在zookeeper中注册信息成为leader对外提供服务，其它replica做为follower要定时同步数据。 HW(high watermark) ：表示所有follower已同步完成的offset位置 LEO(Log End Offset) ：表示leader节点当前消息的offset位置 consumer只能消费所有follower已同步完成的数据，即HW标注的位置。 如何均匀分布Kafka 为了更好的做到负载均衡，会尽量把所有的 partition 均匀分配到整个集群上，分配的算法： 把所有 broker(n) 和 partition(n) 排序 把第i个partition分配到 (i%n) 个broker上 把第 i 个 partition 的第 j 个 replica 分配到 ((i+j) % n) 个broker上 如何处理所有副本不工作情况在ISR中至少有一个follower工作时，Kafka可以确保消息不丢失，但如果某个分区所有备份都宕机了，采取以下措施： 等待ISR中任意一个follower活过来，并且选择它为leader 选择任意一个replica(不一定是ISR中的)活过来作为leader 这两种需要在可用性和一致性当中做一个选择。 3. Kafka 文件存储机制partition每个partition为一个目录，命名规则为 &lt;topic_name&gt;-&lt;partition_no&gt;，存储在 kafka_logs 目录下。 segmentKafka 为防止分区文件过大，又将分区拆分为 segment 存储，一个segment文件.index和.log两部分组成，即索引文件和数据文件。segment 文件由64位long数值命名，文件名即记录的最大 offset 值，查找时先通过定位 offset 落的范围，再进入文件查找。 日志保留Kafka 中无论是否消费了消息(只是移动了 offset)，都会一直保留这些消息，为了避免磁盘爆满，使用相应的保留策略(retention policy)，以实现周期性的删除陈旧消息： 根据消息保留时间，超过指定时间则删除 根据 topic 大小，超过阈值开始删除最旧消息 日志压缩Kafka 会定期将相同 Key 的消息进行合并，只保留最新的 Value 值。 4. Kafka 消息的消费原理旧版本的 Kafka 将 Consumer group 的消费进度记录在 zookeeper 中，导致对 zookeeper 频繁的写入而性能低下。新版本1.0+已修改为记录在对应 topic 目录下，默认创建了50个 __consumer_offset_topic 文件夹，将消费的进度 offset 保存在对应的文件中。 计算 consumer group 的哈希值 1Math.abs("group1".hashCode() % 50) 根据哈希值找到对应的__consumer文件，查看消费进度 1sh kafka-simple-consumer-shell.sh --topic __consumer_offsets --partition 15 -broker-list 192.168.56.110:9092,192.168.56.120:9092,192.168.56.130:9092 --formatter kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter 5. Kafka 的消费者分区分配策略Kafka中存在 consumer group 的概念，也就是group.id一样的consumer属于一个consumer group，组内的所有消费者协调在一起来消费消费订阅主题的所有分区。当然每一个分区只能由同一个消费组内的consumer来消费，那么同一个consumer group里面的consumer是怎么去分配该消费哪个分区里的数据，这个就设计到了kafka内部分区分配策略（Partition Assignment Strategy）。在 Kafka 内部存在两种默认的分区分配策略：Range（默认） 和 RoundRobin。通过：partition.assignment.strategy指定 两种分区策略Range （默认策略）0 ，1 ，2 ，3 ，4，5，6，7，8，9c0 [0,3]c1 [4,6]c2 [7,9]10(partition num)/3(consumer num) =3 RoundRobin （轮询）0 ，1 ，2 ，3 ，4，5，6，7，8，9c0,c1,c2c0 [0,3,6,9]c1 [1,4,7]c2 [2,5,8]kafka 的key 为null， 是随机｛一个Metadata的同步周期内，默认是10分钟｝ 6. 高吞吐量原因 消息顺序存储，通过 offset 偏移量进行顺序读取，减少机械硬盘磁柱移动。 消息批量发送，在异步模式中允许进行批量发送消息，先将消息缓存到内存，再一次请求中批量发送出去，减少磁盘读写和网络传输。 batch.size 每批量发送的数据大小 linger.ms 批量发送的间隔时间 消息的零拷贝，使用 FileChannel.transferTo 直接将消息发送到 socket buffer 中，省略了将消息读取到内存的过程。]]></content>
-      <categories>
-        <category>软件工程</category>
         <category>分布式</category>
       </categories>
       <tags>
@@ -119,10 +110,9 @@
   </entry>
   <entry>
     <title><![CDATA[ActiveMQ configuration]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FActiveMQ%20configuration%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FActiveMQ%20configuration%2F</url>
     <content type="text"><![CDATA[ActiveMQ使用过程中涉及到的一些配置信息。 1. 传输协议配置支持 TCP, UDP, NIO, SSL, HTTP(S), VM 等协议.1234&lt;transportConnectors&gt; &lt;!-- DOS protection, limit concurrent connections to 1000 and frame size to 100MB --&gt; &lt;transportConnector name="nio" uri="nio://0.0.0.0:61618?maximumConnections=1000&amp;amp;wireFormat.maxFrameSize=104857600" /&gt;&lt;/transportConnectors&gt; 2. 持久化策略配置支持的持久化方式有 kahaDB, AMQ, JDBC, Memory. 使用 AMQ 文件存储123&lt;persistenceAdapter&gt; &lt;amqPersistenceAdapter directory="$&#123;activemq.data&#125;/amq" maxFileLength="32m"/&gt; &lt;/persistenceAdapter&gt; 使用 JDBC 存储使用jdbc数据库存储的方式，需要连接到对应的数据源，要在../lib下加入连接包。123456789101112&lt;!-- jdbc存储策略 --&gt;&lt;persistenceAdapter&gt; &lt;jdbcPersistenceAdapter dataSource="#mysqlDataSource" createTablesOnStartup="true" /&gt;&lt;/persistenceAdapter&gt;&lt;!-- 数据源配置 --&gt;&lt;bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"&gt; &lt;property name="driverClassName" value="com.mysql.jdbc.Driver" /&gt; &lt;property name="url" value="jdbc:mysql://192.168.56.104:3306/practice_dev" /&gt; &lt;property name="username" value="root" /&gt; &lt;property name="password" value="123456" /&gt; &lt;/bean&gt; 3. 集群配置配置多态activemq服务进行联通，提高消息服务的性能。1234&lt;!-- broker 添加此配置 --&gt;&lt;networkConnectors&gt; &lt;networkConnector uri="static://(tcp://192.168.56.110:61616,tcp://192.168.56.120:61616)" /&gt;&lt;/networkConnectors&gt; 配置集群后，当使用某一个节点消费时，会将另外节点的数据转移到此节点上，导致在原节点无法再消费。此时需要配置==消息回流==123456&lt;!-- 消息回流支持，添加在 policyEntries下--&gt;&lt;policyEntry queue="&gt;" enableAudit="false"&gt; &lt;networkBridgeFilterFactory&gt; &lt;conditionalNetworkBridgeFilterFactory replayWhenNoConsumers="true" /&gt; &lt;/networkBridgeFilterFactory&gt;&lt;/policyEntry&gt; 4. zk+activemq高可用配置使用ZK进行master/slaver选举管理，在ZK中维护了临时有序节点，最先启动的先获得master。 directory： levelDB数据文件存储的位置 replicas：计算公式（replicas/2）+1 ， 当replicas的值为2的时候， 最终的结果是2. 表示集群中至少2台是启动时才能提供服务 bind: 用来负责slave和master的数据同步的端口和ip zkAddress： 表示zk的服务端地址 hostname：本机ip1234567&lt;persistenceAdapter&gt; &lt;replicatedLevelDB directory="$&#123;activemq.data&#125;/levelDB" replicas="2" bind="tcp://0.0.0.0:61615" zkAddress="192.168.56.110:2181" hostname="192.168.56.110" zkPath="/activemq/leveldb" /&gt;&lt;/persistenceAdapter&gt; 5. hawtio 监控服务 拷贝hawtio.war包到webapps目录下. 添加jetty容器映射rewriteHandler: 12345&lt;bean class="org.eclipse.jetty.webapp.WebAppContext"&gt; &lt;property name="contextPath" value="/hawtio" /&gt; &lt;property name="war" value="$&#123;activemq.home&#125;/webapps/hawtio.war" /&gt; &lt;property name="logUrlOnStart" value="true" /&gt; &lt;/bean&gt; 修改 bin/env 文件添加参数 需要注意的是-Dhawtio的三个设定必须放在ACTIVEMQ_OPTS设置的最前面(在内存参数设置之后),否则会出现验证无法通过的错误(另外,ACTIVEMQ_OPTS的设置语句不要回车换行) 1-Dhawtio.realm=activemq -Dhawtio.role=admins -Dhawtio.rolePrincipalClasses=org.apache.activemq.jaas.GroupPrincipal]]></content>
       <categories>
-        <category>软件工程</category>
         <category>分布式</category>
       </categories>
       <tags>
@@ -132,19 +122,17 @@
   </entry>
   <entry>
     <title><![CDATA[事务的4种隔离级别]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%AD%98%E5%82%A8%2F%E4%BA%8B%E5%8A%A1%E7%9A%844%E7%A7%8D%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2F%E4%BA%8B%E5%8A%A1%E7%9A%844%E7%A7%8D%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%2F</url>
     <content type="text"><![CDATA[数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable 。而且，在事务的==并发操作==中可能会出现脏读，不可重复读，幻读。下面通过事例一一阐述它们的概念与联系。 Read uncommitted读未提交，顾名思义，就是一个事务可以读取另一个未提交事务的数据。 事例：老板要给程序员发工资，程序员的工资是3.6万/月。但是发工资时老板不小心按错了数字，按成3.9万/月，该钱已经打到程序员的户口，但是事务还没有提交，就在这时，程序员去查看自己这个月的工资，发现比往常多了3千元，以为涨工资了非常高兴。但是老板及时发现了不对，马上回滚差点就提交了的事务，将数字改成3.6万再提交。 分析：实际程序员这个月的工资还是3.6万，但是程序员看到的是3.9万。他看到的是老板还没提交事务时的数据。这就是==脏读==。 那怎么解决脏读呢？Read committed！读提交，能解决脏读问题。 Read committed读提交，顾名思义，就是一个事务要等另一个事务提交后才能读取数据。 事例：程序员拿着信用卡去享受生活（卡里当然是只有3.6万），当他埋单时（程序员事务开启），收费系统事先检测到他的卡里有3.6万，就在这个时候！！程序员的妻子要把钱全部转出充当家用，并提交。当收费系统准备扣款时，再检测卡里的金额，发现已经没钱了（==第二次检测金额当然要等待妻子转出金额事务提交完==）。程序员就会很郁闷，明明卡里是有钱的… 分析：这就是读提交，若有事务对数据进行更新（UPDATE）操作时，读操作事务要等待这个更新操作事务提交后才能读取数据，可以解决脏读问题。但在这个事例中，出现了==一个事务范围内两个相同的查询却返回了不同数据==，这就是==不可重复读==。 那怎么解决可能的不可重复读问题？Repeatable read ！ Repeatable read重复读，就是在开始读取数据（事务开启）时，不再允许修改操作 事例：程序员拿着信用卡去享受生活（卡里当然是只有3.6万），当他埋单时（==事务开启，不允许其他事务的UPDATE修改操作==），收费系统事先检测到他的卡里有3.6万。这个时候他的妻子不能转出金额了。接下来收费系统就可以扣款了。 分析：重复读可以解决不可重复读问题。写到这里，应该明白的一点就是，==不可重复读对应的是修改，即UPDATE操作==。但是可能还会有幻读问题。因为==幻读==问题对应的是插入INSERT操作，而不是UPDATE操作。 什么时候会出现幻读？事例：程序员某一天去消费，花了2千元，然后他的妻子去查看他今天的消费记录（全表扫描FTS，妻子事务开启），看到确实是花了2千元，就在这个时候，程序员花了1万买了一部电脑，即新增==INSERT==了一条消费记录，并提交。当妻子打印程序员的消费记录清单时（妻子事务提交），发现花了1.2万元，似乎出现了幻觉，这就是幻读。 那怎么解决幻读问题？Serializable！ Serializable 序列化Serializable 是最高的事务隔离级别，在该级别下，事务==串行化顺序执行==，可以避免脏读、不可重复读与幻读。但是这种事务隔离级别效率低下，比较耗数据库性能，一般不使用。 值得一提的是：大多数数据库默认的事务隔离级别是Read committed，比如Sql Server , Oracle。Mysql的默认隔离级别是Repeatable read。]]></content>
       <categories>
-        <category>软件工程</category>
         <category>存储</category>
       </categories>
   </entry>
   <entry>
     <title><![CDATA[zookeeper 应用篇]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%88%86%E5%B8%83%E5%BC%8F%2Fzookeeper%20%E5%BA%94%E7%94%A8%E7%AF%87%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2Fzookeeper%20%E5%BA%94%E7%94%A8%E7%AF%87%2F</url>
     <content type="text"><![CDATA[实际应用zookeeper 实际应用非常的广泛，只要涉及到分布式系统中的问题，都可以尝试使用 zookeeper 解决。 但 zookeeper 不是内存数据库，存储的内容应该都是比较简短的配置信息，zookeeper 的常用应用如下： 配置管理中心 软负载均衡 分布式锁 master选举 分布式队列 1. 配置管理中心在分布式系统中，多个服务运行在不同的服务器上，这时候再使用 application.properties 文件进行配置管理，将会非常的繁琐和易出错。使用 zookeeper 做为统一的配置中心，可以实现配置信息动态设置，多服务节点切换等功能。 实现思路 开源配置中心实现：disconf 创建统一个节点 /configure 作为配置信息的根节点。 客户端启动时拉取(pull)所有的子节点，载入到内存进行缓存。 启动后的客户端，对关注的配置节点进行 watch 获取到后续动态更新的配置信息(push)。 可以按module划分配置信息节点树。 2. 分布式锁在分布式系统中，多个服务对同一资源进行争抢时要用到锁，防止因为并发操作导致数据出现的不一致行为。使用 zookeeper 可以优雅的思想分布式锁，而且性能堪比 redis 实现。 实现思路 开源分布式锁实现：curator lock 创建统一节点 /locks 作为业务锁的根节点。 当服务执行时，均在 locks 下创建临时有序节点。 当前序号最小的节点获得锁，序号大的监听上一个节点的删除事件 当捕获到删除事件，或 session 超时(临时节点特性，连接断开删除节点)时，后一个节点获得锁。 可以扩展做读写锁，分类锁，业务模块锁。 PS：如果使用创建同一节点的方式，会产生羊群效应，因为过多的服务请求涌入而压垮 zookeeper 集群。 3. master 选举在分布式系统中，为提高可用性通常可以使用冷备或热备的形式进行冗余，master-slaver模式下其实只有一个节点处理事务，而当 master 节点宕机后，热备的 slaver 自动顶替 master 节点进行处理。 实现思路 开源 master选举实现：curator selector 在服务器启动时，均到 zookeeper 参数创建临时节点 /master。 创建成功的服务器成为 master, 其它服务器进行事件监听。 当事件触发后，重新进行选举(热备自动切换)。]]></content>
       <categories>
-        <category>软件工程</category>
         <category>分布式</category>
       </categories>
       <tags>
@@ -153,11 +141,10 @@
   </entry>
   <entry>
     <title><![CDATA[How To Open A Port In CentOS 7 With Firewalld]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2Flinux%2FHow%20To%20Open%20A%20Port%20In%20CentOS%207%20With%20Firewalld%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2FLinux%2FHow%20To%20Open%20A%20Port%20In%20CentOS%207%20With%20Firewalld%2F</url>
     <content type="text"><![CDATA[This tutorial will walk you through opening a port in the default firewall in CentOS 7, firewalld. You will see that while we can manually open a specific port, it is often easier and beneficial to allow based on predefined services instead. Open Specific PortOpening a port in firewalld is fairly straightforward, in the below example we allow traffic in from any source IP address to TCP port 100. First we modify the persistent configuration, then we reload firewall-cmd to load this change into the running configuration.1234[root@centos7 ~]# firewall-cmd --permanent --add-port=100/tcpsuccess[root@centos7 ~]# firewall-cmd --reloadsuccess If the –permanent flag is not specified, this will only change the running configuration but will not be saved. We can check the ports that are opened in the current default zone with ‘–list-ports’.12[root@centos7 ~]# firewall-cmd --list-ports100/tcp As expected we see that TCP port 100 is open. Should we wish to remove a port, we can use ‘–remove-port=’ instead. We can also open a range of ports in the same way.12[root@centos7 ~]# firewall-cmd --permanent --add-port=200-300/tcpsuccess Open Predefined ServiceRather than manually specifying a port number to allow through the firewall, we can make use of a bunch of predefined services which may be easier. For example instead of opening TCP port 80, we can use the ‘http’ service. 1234[root@centos7 ~]# firewall-cmd --permanent --add-service=httpsuccess[root@centos7 ~]# firewall-cmd --reloadsuccess Now if we list the services that are accepted through the firewall, we will see http listed along with ssh and dhcpv6-client, which are allowed through by default.12[root@centos7 ~]# firewall-cmd --list-servicesdhcpv6-client http ssh This is a predefined service and can be found as an XML file in the /usr/lib/firewalld/services/ directory. Here’s what the http service we just used looks like. 1234567[root@centos7 ~]# cat /usr/lib/firewalld/services/http.xml&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;service&gt; &lt;short&gt;WWW (HTTP)&lt;/short&gt; &lt;description&gt;HTTP is the protocol used to serve Web pages. If you plan to make your Web server publicly available, enable this option. This option is not required for viewing pages locally or developing Web pages.&lt;/description&gt; &lt;port protocol="tcp" port="80"/&gt;&lt;/service&gt; We can create custom services by copying one of these into the /etc/firewalld/services/ directory and then customizing it. The services in the /usr/lib/firewalld/services/ directory should NOT be modified, changes should be copied into /etc/firewalld/services/ followed by a reload of firewall-cmd to pick up the changes. Services Or Manual Ports?Why would we want to use services if we can just specify the port? Modules can be specified in a service, for example samba.xml loads the module “nf_conntrack_netbios_ns” for us when it’s enabled, along with four different ports which is a lot easier than doing all of this ourselves as we don’t need to memorize all of the ports required for a service. Still not a fan of firewalld? Don’t worry, you can always install ifconfig in CentOS 7 instead, however note that this is considered deprecated. SummaryWe have seen that the firewall in CentOS 7 can be modified to open a specific port, or more preferably we can open it to a service. While these basic examples demonstrate opening a port to any source, this is usually not desirable. We can further filter based on source traffic with firewalld rich rules.]]></content>
       <categories>
-        <category>软件工程</category>
-        <category>linux</category>
+        <category>Linux</category>
       </categories>
       <tags>
         <tag>linux</tag>
@@ -165,10 +152,9 @@
   </entry>
   <entry>
     <title><![CDATA[Zookeeper quickstart]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FZookeeper%20quickstart%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FZookeeper%20quickstart%2F</url>
     <content type="text"><![CDATA[1. zookeeper 是什么？ ZooKeeper is a centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services. zookeeper 是Apache基金会的一个项目，它为大型分布式计算提供开源的分布式配置服务、同步服务和命名注册，是分布式协调服务，目标是解决分布式数据的一致性问题。 2. zookeeper 能做什么？数据的发布/订阅(配置中心 disconf)、 负载均衡(dubbo)、唯一ID生成器、统一命名服务、master选举(kafka, hadoop, hbase)、分布式队列、分布式锁…… 3. zookeeper 的特性 zookeeper 用来做的任务都是由他的特性决定的，理解了他的特性就可以根据实际的场景选择具体的方案。 顺序一致性：从客户端发起的事务请求，严格按照顺序被应用到zookeeper中 原子性：所有事务请求在集群上应用情况是一致的，要么都成功，要么都失败。 可靠性：一旦服务器应用了某个事务数据，那么这个数据一定是同步并且保留下来的。 实时性：一旦某个事务被成功应用，客户端能立即读取到最新数据状态(zookeeper 仅仅保证一定时间内的近实时性)。 4. 安装 zookeeper4.1 单机环境安装 下载安装包 zookeeper-3.4.12.tar.gz 解压安装包tar -zxvf zookeeper-3.4.12.tar.gz -C /usr/local/ 创建配置文件cd conf/ &amp;&amp; cp zoo_sample.cfg zoo.cfg 启动 zookeepercd bin/ &amp;&amp; sh zkServer.sh start 使用客户端连接到 zookeeper 进行操作sh zkCli.sh -server ip:port 单机环境下启动 zookeeper 状态为 standalone 仅用于测试或学习。 4.2 集群环境安装 集群环境下至少需要2N+1台服务器进行安装 修改配置文件，添加主机列表 123456……# ip:port:port # ip地址 : 用于节点通信的端口 : 用于选举的端口 [:observer]server.1 = 192.168.56.110:2888:3888server.2 = 192.168.56.120:2888:3888server.3 = 192.168.56.130:2888:3888 添加 myid 文件在配置文件的 dataDir 目录下创建 myid 文件，文件就一行数据内容是每台机器对应的server.ID的数字。 启动 zookeeper 4.3 zookeeper 节点类型 leader : 领导节点，主要接收、分发请求，发起事务处理投票，并给 follower 节点同步数据。 follower : 随从节点，处理读请求，转发事务请求，并保持和 leader 节点同步和事务的投票选举。 observer : 监控节点，处理读请求，保持和 leader 节点同步但不进行投票选举。 5. zookeeper 客户端命令使用12345678910111213141516# 列出路径下的所有节点ls / # 创建节点# -e 临时节点 -s 有序节点 acl 权限create [-e] [-s] path data acl# 获取节点信息get path# 更新节点内容# version 类似数据库乐观锁的实现set path data [version]# 删除节点delete path [version]]]></content>
       <categories>
-        <category>软件工程</category>
         <category>分布式</category>
       </categories>
       <tags>
@@ -177,11 +163,10 @@
   </entry>
   <entry>
     <title><![CDATA[Jenkins 开机启动]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2Fdevops%2FJenkins%20%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2FDevops%2FJenkins%20%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%2F</url>
     <content type="text"><![CDATA[使用 jenkins 最简单的方式即使用 war 包进行启动，war 包中带了 jetty 服务，可以直接 java -jar jenkins.war 启动使用。但每次都使用命令相当繁琐，本编即介绍如何将此步骤设置于开机启动。 1. 环境准备 Linux CentOs 7.3 下载 Jre 1.8.0下载 Jenkins 2.138.2下载 2. 编写 linux 开机自运行脚本 jenkins.sh 将该脚本加入chkconfig启动项目中，开机时运行。 JENKINS_ROOT: jenkins软件目录 JENKINS_HOME: jenkins主目录 12345678910111213141516171819202122232425262728293031323334353637#!/bin/sh#chkconfig: 2345 80 90#description:开机启动jenkins服务JENKINS_ROOT=/usr/local/jenkinsJENKINSFILENAME=jenkins.war#停止方法stop()&#123; echo "Stoping $JENKINSFILENAME " ps -ef|grep $JENKINSFILENAME |awk '&#123;print $2&#125;'|while read pid do kill -9 $pid echo " $pid kill" done&#125;case "$1" instart) echo "Starting $JENKINSFILENAME " nohup $JENKINS_ROOT/start_jenkins.sh &gt;&gt; $JENKINS_ROOT/jenkins.log 2&gt;&amp;1 &amp; ;;stop) stop ;;restart) stop start ;;status) ps -ef|grep $JENKINSFILENAME ;;*) printf 'Usage: %s &#123;start|stop|restart|status&#125;\n' "$prog" exit 1 ;;esac 3. 编写启动 war 包命令 start_jenkins.sh 启动war包的命令，由于在启动时需要使用java命令，所以在脚本中加入了java的bin路径。 12345#!/bin/bashJENKINS_ROOT=/usr/local/jenkinsexport JENKINS_HOME=$JENKINS_ROOT/homeJAVA_HOME=/usr/local/java/jre1.8.0_151 PATH=$PATH:$JAVA_HOME/binjava -jar $JENKINS_ROOT/jenkins.war --httpPort=8080 4. 加入 chkconifg 启动项目123456789# 赋予执行权限chmod +x /usr/local/jenkins/jenkins.sh# 创建软链接到 init.d 目录ln -s /usr/local/jenkins/jenkins.sh /etc/rc.d/init.d/jenkins# 添加到 chkconfigchkconfig --add jenkinschkconfig --level 345 jenkins on 5. 启动jenkins服务1/etc/rc.d/init.d/jenkins start 到此已经可以在启动服务器时自动运行jenkins了，端口占用8080.]]></content>
       <categories>
-        <category>软件工程</category>
-        <category>devops</category>
+        <category>Devops</category>
       </categories>
       <tags>
         <tag>jenkins</tag>
@@ -189,11 +174,10 @@
   </entry>
   <entry>
     <title><![CDATA[添加开机运行脚本]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2Flinux%2F%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2FLinux%2F%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC%2F</url>
     <content type="text"><![CDATA[Linux 设置开机自动启动的方式有好多种，这里介绍一种通过 chkconfig 命令添加脚本为开机启动的方法。 1. 编写脚本 autostart.sh123456#!/bin/sh#chkconfig: 2345 80 90#description: 开机自动运行脚本# 开启redis服务 端口为6379/usr/local/service/redis-2.8.3/src/redis-server --port 6379 &amp; 脚本第二行表示在 2/3/4/5运行级别启动，启动序号80，关闭序号90 在添加其他用户的脚本时，使用 su [USER] -c &quot;bash script&quot; 发送到指定用户 2. 赋予脚本执行权限1chmod +x /usr/local/service/redis-2.8.3/autostart.sh 3. 创建软链接到 init.d 目录下12# 必须是全路径，否则会报查找不到文件的错误ln -s /usr/local/service/redis-2.8.3/autostart.sh /etc/rc.d/init.d/redis 4. 添加到开机启动项中12chkconfig -add redischkconfig redis on 到这里已经将脚本添加到开机启动项中，重启服务器即可看到redis服务已经启动了。]]></content>
       <categories>
-        <category>软件工程</category>
-        <category>linux</category>
+        <category>Linux</category>
       </categories>
       <tags>
         <tag>linux</tag>
@@ -201,11 +185,10 @@
   </entry>
   <entry>
     <title><![CDATA[Jenkins 持续编译]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2Fdevops%2FJenkins%20%E6%8C%81%E7%BB%AD%E7%BC%96%E8%AF%91%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2FDevops%2FJenkins%20%E6%8C%81%E7%BB%AD%E7%BC%96%E8%AF%91%2F</url>
     <content type="text"><![CDATA[Jenkins 是一个开源自动化服务器，可用于自动化各种任务，如构建、测试和部署软件，本文档是结合Jenkins，Java，Maven，Github实现持续自动化编译。 1. 思路&amp;流程 安装 Java、Maven、Git、Jenkins 环境 配置 Jenkins 拉取 Github 项目 编译、单元测试 Maven 项目形成 war 包 2. 环境准备 由于 Maven 需要 jdk 支持，所以需要先配置 jdk 环境，再配置 maven 环境。 准备可联网的 Linux Centos 7.3 服务器 下载 Jdk1.8.0 并设置环境变量 下载 Maven3.3 并设置环境变量 安装 Git 3. 安装 Jenkins 可以设置 JENKINS_HOME 环境变量，改变 jenkins 启动生成文件存放位置.其它安装方式参考：Jenkins安装 首先从 Jenkins官方网站 下载最新的 war 包，只需运行命令： 1java -jar jenkins.war --httpPort=8080 Jenkins 服务就启动成功了，它的 war 包自带了 jetty 服务器，剩下的工作可以在浏览器内完成。 4. 配置 Jenkins首次进入 Jenkins 时，出于安全考虑， Jenkins 会自动生成一个随机口令，粘帖口令进入安装界面。进入 Jenkins 后选择 “Install suggested plugins“ 安装推荐插件，Jenkins 就自动配置好了 Maven、git 等常用插件。 在开始使用 Jenkins 创建项目前，需要在”系统管理“-&gt;”全局工具配置“中添加 JDK、Maven 设置：到此 Maven 项目的 Jenkins 已配置完成，下面开始创建构建任务。 5. 构建Maven项目在 Jenkins 首页选择”New 任务“，输入名字，选择”构建一个自由风格的软件项目“： 在配置页面中，”Source Code Management“ 选择 Git，填入地址，默认使用 mater 分支，如果为私人项目需要口令，在 Credentials 中添加用户名/口令： 在 “Build Triggers“ 中选择 “轮询 SCM“ 表示定时检查版本库，发现有新的提交就触发构建： 说明1：Triggerbuilds remotely(webhooks)这个选项就是配合 git 仓库的钩子功能实现代码 PUSH 后 Jenkins 收到通知自动触发构建项目的动作说明2：轮询 SCM定时检查源码变更，如果有更新就克隆下最新 code 下来，然后执行构建动作 在”Build“中可以添加编译命令，Maven默认的Root POM是pom.xml，如果pom.xml不在根目录下，则需要填入子目录： 说明1：选择之前添加的 maven 环境说明2：填入需要执行的 mvn 命令说明3：pom 不在根目录下，填入子目录 wxsell/pom.xml 保存后就可以”立即构建“，可以在”Console Output“中看到控制台详细输出： 6. 总结到此已配置了 Jenkins 自动编译任务，当 Github 上项目有变更时，会自动拉取项目进行编译，排除了可能不同机器上编译环境不同导致的影响。在完成持续编译后，可以结合 Jenkins 的编译后动作进行自动部署，实现持续部署功能。在下篇笔记中将会记录如何实现持续部署。]]></content>
       <categories>
-        <category>软件工程</category>
-        <category>devops</category>
+        <category>Devops</category>
       </categories>
       <tags>
         <tag>jenkins</tag>
@@ -213,21 +196,19 @@
   </entry>
   <entry>
     <title><![CDATA[VirtualBox共享文件]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%B7%A5%E5%85%B7%2FVirtualBox%20%E5%85%B1%E4%BA%AB%E6%96%87%E4%BB%B6%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%B7%A5%E5%85%B7%2FVirtualBox%20%E5%85%B1%E4%BA%AB%E6%96%87%E4%BB%B6%2F</url>
     <content type="text"><![CDATA[VirtualBox 与 Linux 虚拟机 可以通过 VBoxGuestAdditions 插件进行文件共享。 1. 设置共享文件夹在 VirtualBox 的共享文件夹设置中添加设置。 2. 安装 VBoxGuestAdditions 插件 需要在 linux 虚拟机中安装 将 $VirtualBox\VBoxGuestAdditions.iso 装载到光驱 挂载 cdrom： 1$ mkdir /media/cdrom &amp;&amp; mount /dev/sr0 /media/cdrom 安装插件： 1$ cd /media/cdrom &amp;&amp; ./VBoxLinuxAdditions.run 3. 验证挂载12$ mount -t vboxsf share ~/share$ df | grep &apos;share&apos; 4. 问题与解决 mount: unknown filesystem type ‘vboxsf’. 未成功安装 VBoxGuestAdditions 插件 VBoxGuestAdditions 安装失败. 查看 /var/log/vbxadd-install.log 错误信息，一般为依赖的包未安装$ yum install gcc kernel-devel kernel-headers dkms make bzip2 ERROR: Kernel configuration is invalid. 此错误是编译的 VBoxGuestAdditions 版本太老，新的 kernel 不必指定include/linux/autoconf.h，更新virtualbox即可 Please install the Linux kernel “header” files matching the current kernel for adding new hardware support to the system. 此问题为默认安装的 kernel-devel 包与当前内核版本不同，重新安装对应包即可$ sudo yum install -y &quot;kernel-devel-$(uname -r)&quot;]]></content>
       <categories>
-        <category>软件工程</category>
         <category>工具</category>
       </categories>
   </entry>
   <entry>
     <title><![CDATA[Docker 镜像仓库加速]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2Fdevops%2Fdocker%2Fdocker%20%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2FDevops%2FDocker%2Fdocker%20%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%2F</url>
     <content type="text"><![CDATA[docker 在默认安装后，当需要下载镜像时，通过命令docker pull user/image 拉取镜像都是访问默认的 docker hub 上的镜像，在国内网络环境下，下载一个镜像需要很长的时间，可以考虑使用 Registry Mirror 配置国内的镜像仓库。 使用由阿里云提供的 Docker 镜像仓库进行加速。 1. 登录阿里云 阿里云 Docker 镜像仓库 开启 Docker Hub 镜像站点 2. Windows 使用 Docker 加速 创建一台 docker machine 同时配置 docker 加速器 1docker-machine create --engine-registry-mirror=https://6bybmq21.mirror.aliyuncs.com -d virtualbox default 对于已经创建的 docker machine 实例，更换镜像源方法如下i. 在 window 命令执行 docker-machine ssh [machine-name] 进入 VM bashii. sudo vi /var/lib/boot2docker/profileiii. 在--label provider=virtualbox的添加一行 --registry-mirror https://xxx.mirror.aliyuncs.comiiii. 重启 docker 服务：sudo /etc/init.d/docker restart 或重启 VM ： docker-machine restart docker for windows 设置 Daemon Registry mirrors 查看 mirror 配置 123docker-machine env defaulteval &quot;$(docker-machine env default)&quot;docker info 3. CentOs 使用镜像加速 安装/升级 Docker 客户端 1curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh - 修改 daemon 配置文件 /etc/docker/daemon.json 来使用加速 12345678sudo mkdir -p /etc/dockersudo tee /etc/docker/daemon.json &lt;&lt;-&apos;EOF&apos;&#123; &quot;registry-mirrors&quot;: [&quot;https://6bybmq21.mirror.aliyuncs.com&quot;]&#125;EOFsudo systemctl daemon-reloadsudo systemctl restart docker]]></content>
       <categories>
-        <category>软件工程</category>
-        <category>devops</category>
-        <category>docker</category>
+        <category>Devops</category>
+        <category>Docker</category>
       </categories>
       <tags>
         <tag>docker</tag>
@@ -235,19 +216,18 @@
   </entry>
   <entry>
     <title><![CDATA[Docker Start]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2Fdevops%2Fdocker%2Fdocker%20start%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2FDevops%2FDocker%2Fdocker%20start%2F</url>
     <content type="text"><![CDATA[1. Window10 下安装 Window10 下载最新的 Docker for windows 安装包进行安装 Windows10 下可以切换 Docker Platform 为 Linux 或者 Window，下载的镜像需要对应的平台支持。 Window10 下自带了虚拟器，需要开启 Hyper-V，在 控制面板-程序-打开Windows功能 中开启 Windows10 下的 Docker 使用虚拟机 IP 即为本机 127.0.0.1 ，可以在 CMD、PowerShell 中直接进行操作。 2. Windows7 下安装 Windows7 下在最新的 DockerToolBox 安装包进行安装DockerToolBox 会自动安装 Oracle Virtual Box 虚拟机，需要依托虚拟机进行启动。 2.1 创建 docker machine 安装完成后会附带 docker-machine.exe 使用此工具可以安装 docker 环境 查询 docker machine 1docker-machine ls 创建 default machine 使用 virtualbox 驱动模式，会自动下载 docker2boot.iso 镜像进行创建 virtualbox 虚拟机 1docker-machine create -d virtalbox default 查看 docker 信息 1docker-machine env default 管理 docker machine 1docker-machine -h 2.2 使用 putty 在 Windows 命令进入 Docker 后，shell 不能复制，操作不方便，因此使用支持 SSH 的工具来连接 docker 虚拟机。 查询 docker mechine ip： 在 docker machine env 中的 DOCKER_HOST 1docker-machine env default 使用 Putty 连接到 docker 终端： 默认用户名：docker 密码： tcuser PS：在 DockerToolBox 下自动安装的是 VirtualBox5.1，但是在启动 docker default mechine 时一直出错（VERR_SUPDRV_HARDENIGN_EVIL_HANDLE），经过查询是由于该版本的 vboxdrv 核心驱动请求过大的访问权限。。最后安装旧版的 VirtualBox4.3.12 后成功解决。 2.3 docker virtualbox 管理由于使用 docker-machine 创建的虚拟机默认路径为 /user/.docker/machine/ 下，可能在以后容器创建过多时占用系统盘资源。将 virtualbox 虚拟硬盘移动到其它盘。 复制 default vmdk 到指定路径 在指定盘进行复制一份 vmdk 为 default 虚拟机添加新的虚拟硬盘 添加新的虚拟硬盘后，删除原来的 disk.vmdk 文件即可 修改完成后，重启 docker machine 即可 参考资料：[1] 白皮书：https://www.gitbook.com/book/yeasy/docker_practice/details[2] 官方：https://www.docker.com/[3] 镜像库：https://hub.docker.com/]]></content>
       <categories>
-        <category>软件工程</category>
-        <category>devops</category>
-        <category>docker</category>
+        <category>Devops</category>
+        <category>Docker</category>
       </categories>
       <tags>
         <tag>docker</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[《刻意练习》读书笔记]]></title>
+    <title><![CDATA[《刻意练习》]]></title>
     <url>%2Fwiki-site%2Fwiki%2F%E9%98%85%E8%AF%BB%E5%AD%A6%E4%B9%A0%2F%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%2F</url>
     <content type="text"><![CDATA[格拉德威尔1万小时定律：人们眼中的天才之所有卓越非凡，并非天资超人一等，而是付出了持续不断的努力。只要经过1万小时的锤炼，任何人都能从平凡变成超凡。 从不存在1万小时定律，它仅仅是畅销书作家多心理科学研究的一次不太严谨的演绎而已。 首先，不同专业的技能习得时间与练习时间并不存在一个1万小时的最低阈值。其次，成功与练习时间并不完全成正比，一部分取决于天赋也取决于练习的方法。 刻意练习的本质是长时记忆，那些卓越的专家能够将工作记忆与长时记忆对接起来，在进行专业活动时，能够调用更大容量的工作记忆。例如专家升级SSD为虚拟内存，新手还在使用小内存。 刻意练习的任务难度要适中，能收到反馈，有足够的次数重复练习，学习者能够纠正自己的错误。 长时记忆的培养要点： 赋予意义、精细编码：专家们能非常快地明白自己领域的单词与术语，在存储信息时，可以有意识的采取原认知的各项加工策略。 提取结构或模式：往往需要将专业领域的知识、提取结构或者模式以更好的方式存储。比如，开发者善用设计模式。 加快速度、增加连接：通过大量重复的刻意练习，专家在编码与提取过程比新手都快很多，增加了长时记忆与工作记忆之间的各种通路。 人们的学习受到情境的制约或促进。你要学习的 东西将实际应用在什么情境中，那么你就应该在什么样的情境中学习这些东西。比如，你要学习编程，就应该在GitHub里学习。 从“情境学习”出发，当一名“认知学徒”，逐步成为专家： 找到学习共同体 隐形知识显性化，一般被称为策略知识 模仿榜样 培养多样性：在多种情境中实践，扩展应用范围 “绝对音感”并不是只有少数人才拥有的天赋，而是一种只要经过适度的接触和训练，几乎人人都可以培养和发展的能力。 “天才”是训练的产物 “天才”更懂得利用大脑的适应力 一、有目的的练习有目的的练习VS天真的练习 所谓“天真的练习”基本上是反复地做某件事情，并指望只靠那种反复，就能提高表现和水平。 有目的的练习的四个特点： 有目的的练习具有定义明确的特点目标，主要是“积小胜为大胜”“积跬步以致千里”，最终达到长期目标。 有目的的练习是专注的，要想取得进步，必须完全把注意力集中在你的任务上。 有目的的练习包含反馈，不论你在努力做什么事情，都需要反馈来准确辨别你在哪些地方还有不足，以及怎么会存在这些不足。 有目的的练习需要走出舒适区，如果你从来不迫使自己走出舒适区，便永远无法进步。 遇到瓶颈怎么办 试着做不同的事情，而非更难的事情。不管什么障碍，越过它的最好办法是从不同方向去想办法。 并非到达极限，而是动机不足。有意义的正面反馈是保持动机的关键要素之一。 有目的的练习还不够，还需要特定的练习与训练方法，这种方法就是刻意练习。 二、大脑的适应能力大脑就像肌肉，越练越大，早在2000年，马圭尔就发表了关于“伦敦出租车司机”的研究成果，在出租车司机的大脑之中，海马体的后部比普通人更大，司龄越长的改部位也越大。 大脑拥有无限的适应力，对这种适应能力最早的观察结果，在一些研究中多次出现，这些研究着眼于盲人或者聋哑人的大脑怎样“重新布线”，当盲人使用触摸布莱叶点字进行阅读时，看到大脑中处理部分还是视觉皮层。其结果告诉我们，大脑的结构和功能并不是固定不变的，它会根据你对它的运用尔改变。 走出舒适区的重要性，人类的身体有一种偏爱稳定性的倾向，被迫走出舒适区后，身体开始响应那些变化，目的是重新建立体内平衡。 练习改变大脑结构，对音乐家的研究表明，音乐训练以各种不同方式改变了大脑的结构和运行，使人们的音乐演奏能力进一步增强。经常性的训练使大脑中受到训练挑战的区域发生改变，大脑通过自身重新布线的方式来适应这些挑战，增强其执行那些挑战的能力。]]></content>
       <categories>
@@ -270,12 +250,11 @@
   </entry>
   <entry>
     <title><![CDATA[Docker Mysql]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2Fdevops%2Fdocker%2Fdocker%20mysql%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2FDevops%2FDocker%2Fdocker%20mysql%2F</url>
     <content type="text"><![CDATA[docker mysql docker 下启动 mysql 实例步骤 1. 查询镜像 images123$ docker images$ docker search mysql$ docker pull mysql 2. 创建数据进行映射12$ mkdir -p /var/docker_data/mysql/data$ chmod 775 -R /var/docker_data/mysql 3. 运行容器1$ docker run -p 3306:3306 --name mysql-dev -v /var/docker_data/mysql/data/:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=asdf123456 -e MYSQL_USER=root -d mysql 4. 验证是否已启动1$ docker ps]]></content>
       <categories>
-        <category>软件工程</category>
-        <category>devops</category>
-        <category>docker</category>
+        <category>Devops</category>
+        <category>Docker</category>
       </categories>
       <tags>
         <tag>docker</tag>
@@ -283,10 +262,9 @@
   </entry>
   <entry>
     <title><![CDATA[系统并发用户估算]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%88%86%E5%B8%83%E5%BC%8F%2F%E7%B3%BB%E7%BB%9F%E5%B9%B6%E5%8F%91%E7%94%A8%E6%88%B7%E4%BC%B0%E7%AE%97%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2F%E7%B3%BB%E7%BB%9F%E5%B9%B6%E5%8F%91%E7%94%A8%E6%88%B7%E4%BC%B0%E7%AE%97%2F</url>
     <content type="text"><![CDATA[泊松分布并发用户与最大并发用户计算： 1.平均并发用户数C = n*L/T n 为login session数 L 为login session平均时长 T 为考察时长 2.并发峰值用户数C’≈ C + 3*√200 3.吞吐量F=VU * R / T F为吞吐量 VU表示虚拟用户个数 R表示每个虚拟用户发出的请求数 T表示性能测试所用的时间 R = T / TS 例：假设有一个OA系统，该系统有3000个用户，平均每天大约有400个用户要访问该系统，对一个典型用户来说，一天之内用户从登录到退出该系统的平均时间为4小时，在一天的时间内，用户只在8小时内使用该系统。 根据公式计算得：C = 400 4/8 = 200C’≈200+3 √200 = 242]]></content>
       <categories>
-        <category>软件工程</category>
         <category>分布式</category>
       </categories>
       <tags>
@@ -294,13 +272,12 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Git 介绍]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2Fdevops%2Fgit%2FGit%20%E4%BB%8B%E7%BB%8D%2F</url>
-    <content type="text"><![CDATA[Git是一个分布式的版本控制系统，最初由Linus Torvalds编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在Ruby社区中。 一、Git 特点直接记录快照，而非差异，只关心文件数据的整体是否发生变化，并不保存这些前后变化的差异数据。实际上，Git 更像是把变化的文件作快照后，记录在一个微型的文件系统中。每次提交更新时，它会纵览一遍所有文件的指纹信息并对文件作一快照，然后保存一个指向这次快照 的索引。为提高性能，若文件没有变化，Git 不会再次保存，而只对上次保存的快照作一链接。 近乎所有操作都是本地执行Git 绝大多数操作都只访问本地文件和资源，因为 Git 在本地磁盘上就保存着所有当前项目的历史更新，所以处理起来速度飞快。而到需要上传到远程仓库或获取远程仓库上内容时才需联网。 时刻保持数据完整性：Git 在保存前，所有数据都要进行校验计算，并将结果做为数据的唯一标识。 多数操作仅添加数据：Git 操作大多数仅仅是把数据添加到数据库，一旦提交快照就完全不用担心数据丢失。 二、Git 文件的三种状态 已提交(commited)：表示已被安全的保存到Git仓库中。 已修改(modified)：表示已修改了某个文件，但还未提交保存。 已暂存(staged)：表示已经把已修改的文件放到下次提交时要保存的清单中。 三、Git 工作流程 在工作目录中修改某些文件。 对修改后的文件进行快照，然后保存到暂存区域。 提交更新，将保存在暂存区域的文件快照永久转储到 Git 目录中]]></content>
+    <title><![CDATA[Git 安装]]></title>
+    <url>%2Fwiki-site%2Fwiki%2FDevops%2FGit%2FGit%20%E5%AE%89%E8%A3%85%2F</url>
+    <content type="text"><![CDATA[1. 从源码安装Git的工作需要调用 curl, zlib, openssl, expat, libconv 等库，所以需要先安装这些依赖工具。1$ yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel 之后从Git官方站点下载源码：http://git-scm.com/download 进行编译安装：1234$ tar -zxf git-1.7.2.2.tar.gz $ cd git-1.7.2.2 $ make prefix=/usr/local all $ sudo make prefix=/usr/local install 2. 在 Linux 上安装如果要在 Linux 上安装预编译好的 Git 安装包，使用系统提供的包管理工具即可：12$ yum install git-core $ apt-get install git-core 3. 在 Mac 上安装在 Mac 上安装有两种方式，一种是下载 Git 安装工具，下载地址： http://git-scm.com/download/mac 另一种是通过 MacPorts 安装，用下面的命令安装：1$ sudo port install git-core +svn +doc +bash_completion +gitweb 4. 在 Windows 上安装在 Windows 上安装非常简单，只要下载 Git 安装工具，下载地址： http://git-scm.com/download/win 5. 初始配置一般在新的系统上，首先要配置 Git 的工作环境，Git 提供了 git config 的工具，用于配置和读取工作环境变量，这些变量可以存放在以下三个不同地方： /etc/gitconfig 文件：对系统中所有用户都适用，若使用 git config 时用 –system 选项，读写的就是这个文件。 ~/.gitconfig 文件：用户目录下仅用于用户，若使用 git config 时用 –global 选项，读写的就是这个文件。 当前项目的 git 目录中的配置文件：这里的配置仅仅对当前项目有效。每一个级别的配置都会覆盖上层的相同配置。 第一个要配置的是账户名称和邮箱地址：12$ git config --global user.name "joecnn" $ git config --global user.email "starworking@126.com " 配置文本编辑器：1$ git config --global core.editor vim 配置差异分析工具：1$ git config --global merge.tool vimdiff 6. 查看配置信息1$ git config --list 7. 获取帮助12$ git help $ man git-]]></content>
       <categories>
-        <category>软件工程</category>
-        <category>devops</category>
-        <category>git</category>
+        <category>Devops</category>
+        <category>Git</category>
       </categories>
       <tags>
         <tag>git</tag>
@@ -308,25 +285,23 @@
   </entry>
   <entry>
     <title><![CDATA[Git 基本操作]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2Fdevops%2Fgit%2FGit%20%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2FDevops%2FGit%2FGit%20%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%2F</url>
     <content type="text"><![CDATA[1. 取得 Git 仓库有两种取得 Git 项目仓库的方法，第一种是在现存的目录下，通过初始化文件夹来创建新的 Git 仓库：1git init 第二种是克隆仓库项目，Git 支持许多数据传输协议(git://, http(s)://, ssh)：1$ git clone [url] new_project_name 2. 检查当前文件状态要确定文件状态，可以使用 git status 命令。文件状态分为： untracked files: 未跟踪 changes to be committed: 已暂存 changed but not updated: 已修改，未暂存 3. 追踪文件使用命令 git add 开始跟踪文件或文件夹：1$ git add README git add 命令是个多功能命令，根据目标文件的状态不同，此命令的效果也不同：可以用它开始跟踪新文件，或者把已跟踪的文件放到暂存区，还能用于合并时把有冲突的文件标记为已解决状态等。 4. 忽略文件当某些文件无需纳入 Git 管理时，可以创建一个名为 .gitignore 的文件，列出要忽略的文件模式。文件 .gitignore 的格式如下：123456# 此为注释 – 将被 Git 忽略 *.a # 忽略所有 .a 结尾的文件 !lib.a # 但 lib.a 除外 /TODO # 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO build/ # 忽略 build/ 目录下的所有文件 doc/*.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt 对现有项目添加 git gitignore 不生效的解决办法： .gitignore 不生效解决方法 5. 查看已暂存和未暂存的变更内容如果想要查看具体修改内容，可以使用 git diff 命令：1$ git diff 此命令比较的是当前目录文件和暂存区快照之间的差异，也就是被修改后没有暂存的内容。如果想要查看暂存起来的文件和上次提交时的文件的差异，可以使用：12$ git diff --cached $ git diff --staged #v1.6.1+ 6. 提交更新当将所有文件加入暂存区后可以提交了，运行命令：1$ git commit -m "提交已经暂存(add)过的变更" 给 git commit 加上 -a 选项，跳过暂存步骤，自动将所有已跟踪过的文件提交：1$ git commit -a -m '直接提交变更，跳过暂存步骤' 7. 撤消操作某些时候，提交完后才发现漏了几个文件，或者提交信息写错了，修改最后一次提交，可以使用 –amend 选项重新提交：1$ git commit --amend -m "修改备注信息" 某些时间，不小心将不需要提交的文件使用了 git add，要取消暂存文件，可以使用以下命令：1$ git reset HEAD file_name 如果对文件修改没必要，需要撤销对文件的修改，可以使用：1$ git checkout -- file_name 注意此条命令会取消文件所有修改，回到上次提交的状态，需要谨慎使用。 8. 移除文件移除文件，并从工作目录中删除文件，也支持正则匹配：1$ git rm -f file_name 另一种情况，从 Git 中移除跟踪，但仍然保留文件，使用 –cached 选项即可：1$ git rm --cached file_name 9. 移动文件重命名或移动文件，都可以使用以下命令：1$ git mv file_from file_to 其实运行 git mv 就相当于运行下面三条命令：123$ mv README.txt README $ git rm README.txt $ git add README 10. 查看提交历史想回顾下提交历史记录，可以使用 git log 命令查看。123456789-p : 显示每次提交的内容差异 -2：仅显示最近两次更新 --stat : 仅显示简要的增改行数统计 --pretty : 自定义显示风格 =oneline : 放在一行显示 =format:"%h - %an, %ar : %s" 格式输出 --since=2.weeks : 最近时间段 --author=xx : 作者 --committer=xx : 提交者 使用图形化工具查看历史提交记录，使用命令 gitk 即可。 11. 远程仓库的使用要查看当前配置有哪些远程仓库，可以使用 git remote 命令，会列出每个远程仓库：1$ git remote -v 要添加一个新的远程仓库，需要在 github 上创建一个空的仓库，指定一个简单的名字，以便引用，运行 git remote add [shortname] [url] 创建本地仓库:1$ git remote add repository_name git://github.com/joecnn/imgcompact.git 从远程仓库拉取数据到本地，但并不合并到当前工作分支：1$ git fetch [remote-name] 使用 git pull 命令拉取远程仓库并合并到本地分支：1$ git pull [remote-name] 推送数据到远程仓库：1$ git push origin master 查看远程仓库信息：1$ git remote show origin 远程仓库的删除和重命名：12$ git remote rename old_name new_name $ git remote rm rp_name]]></content>
       <categories>
-        <category>软件工程</category>
-        <category>devops</category>
-        <category>git</category>
+        <category>Devops</category>
+        <category>Git</category>
       </categories>
       <tags>
         <tag>git</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Git 安装]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2Fdevops%2Fgit%2FGit%20%E5%AE%89%E8%A3%85%2F</url>
-    <content type="text"><![CDATA[1. 从源码安装Git的工作需要调用 curl, zlib, openssl, expat, libconv 等库，所以需要先安装这些依赖工具。1$ yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel 之后从Git官方站点下载源码：http://git-scm.com/download 进行编译安装：1234$ tar -zxf git-1.7.2.2.tar.gz $ cd git-1.7.2.2 $ make prefix=/usr/local all $ sudo make prefix=/usr/local install 2. 在 Linux 上安装如果要在 Linux 上安装预编译好的 Git 安装包，使用系统提供的包管理工具即可：12$ yum install git-core $ apt-get install git-core 3. 在 Mac 上安装在 Mac 上安装有两种方式，一种是下载 Git 安装工具，下载地址： http://git-scm.com/download/mac 另一种是通过 MacPorts 安装，用下面的命令安装：1$ sudo port install git-core +svn +doc +bash_completion +gitweb 4. 在 Windows 上安装在 Windows 上安装非常简单，只要下载 Git 安装工具，下载地址： http://git-scm.com/download/win 5. 初始配置一般在新的系统上，首先要配置 Git 的工作环境，Git 提供了 git config 的工具，用于配置和读取工作环境变量，这些变量可以存放在以下三个不同地方： /etc/gitconfig 文件：对系统中所有用户都适用，若使用 git config 时用 –system 选项，读写的就是这个文件。 ~/.gitconfig 文件：用户目录下仅用于用户，若使用 git config 时用 –global 选项，读写的就是这个文件。 当前项目的 git 目录中的配置文件：这里的配置仅仅对当前项目有效。每一个级别的配置都会覆盖上层的相同配置。 第一个要配置的是账户名称和邮箱地址：12$ git config --global user.name "joecnn" $ git config --global user.email "starworking@126.com " 配置文本编辑器：1$ git config --global core.editor vim 配置差异分析工具：1$ git config --global merge.tool vimdiff 6. 查看配置信息1$ git config --list 7. 获取帮助12$ git help $ man git-]]></content>
+    <title><![CDATA[Git 介绍]]></title>
+    <url>%2Fwiki-site%2Fwiki%2FDevops%2FGit%2FGit%20%E4%BB%8B%E7%BB%8D%2F</url>
+    <content type="text"><![CDATA[Git是一个分布式的版本控制系统，最初由Linus Torvalds编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在Ruby社区中。 一、Git 特点直接记录快照，而非差异，只关心文件数据的整体是否发生变化，并不保存这些前后变化的差异数据。实际上，Git 更像是把变化的文件作快照后，记录在一个微型的文件系统中。每次提交更新时，它会纵览一遍所有文件的指纹信息并对文件作一快照，然后保存一个指向这次快照 的索引。为提高性能，若文件没有变化，Git 不会再次保存，而只对上次保存的快照作一链接。 近乎所有操作都是本地执行Git 绝大多数操作都只访问本地文件和资源，因为 Git 在本地磁盘上就保存着所有当前项目的历史更新，所以处理起来速度飞快。而到需要上传到远程仓库或获取远程仓库上内容时才需联网。 时刻保持数据完整性：Git 在保存前，所有数据都要进行校验计算，并将结果做为数据的唯一标识。 多数操作仅添加数据：Git 操作大多数仅仅是把数据添加到数据库，一旦提交快照就完全不用担心数据丢失。 二、Git 文件的三种状态 已提交(commited)：表示已被安全的保存到Git仓库中。 已修改(modified)：表示已修改了某个文件，但还未提交保存。 已暂存(staged)：表示已经把已修改的文件放到下次提交时要保存的清单中。 三、Git 工作流程 在工作目录中修改某些文件。 对修改后的文件进行快照，然后保存到暂存区域。 提交更新，将保存在暂存区域的文件快照永久转储到 Git 目录中]]></content>
       <categories>
-        <category>软件工程</category>
-        <category>devops</category>
-        <category>git</category>
+        <category>Devops</category>
+        <category>Git</category>
       </categories>
       <tags>
         <tag>git</tag>
@@ -334,12 +309,11 @@
   </entry>
   <entry>
     <title><![CDATA[gitignore不生效解决方法]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2Fdevops%2Fgit%2Fgitignore%E4%B8%8D%E7%94%9F%E6%95%88%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2FDevops%2FGit%2Fgitignore%E4%B8%8D%E7%94%9F%E6%95%88%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
     <content type="text"><![CDATA[在git中如果想忽略掉某个文件，不让这个文件提交到版本库中，可以使用修改根目录中 .gitignore 文件的方法（如无，则需自己手工建立此文件）。这个文件每一行保存了一个匹配的规则例如： 1234567# 此为注释 – 将被 Git 忽略*.a # 忽略所有 .a 结尾的文件!lib.a # 但 lib.a 除外/TODO # 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODObuild/ # 忽略 build/ 目录下的所有文件doc/*.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt 但是有时候在项目开发过程中，想把某些目录或文件加入忽略规则，按照上述方法定义后发现并未生效，原因是.gitignore只能忽略那些原来没有被track的文件，如果某些文件已经被纳入了版本管理中，则修改.gitignore是无效的。那么解决方法就是先把本地缓存删除（改变成未track状态），然后再提交： 123git rm -r --cached .git add .git commit -m 'update .gitignore']]></content>
       <categories>
-        <category>软件工程</category>
-        <category>devops</category>
-        <category>git</category>
+        <category>Devops</category>
+        <category>Git</category>
       </categories>
       <tags>
         <tag>git</tag>
@@ -347,11 +321,10 @@
   </entry>
   <entry>
     <title><![CDATA[常见问题收集]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2Flinux%2F%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2FLinux%2F%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%94%B6%E9%9B%86%2F</url>
     <content type="text"><![CDATA[此文档为使用linux过程中遇到的各种坑，以及跳出坑的方法。 1. 启动时提示 systemd[1]: Failed to load SELinux policy. freezing. 无法进入系统此问题为设置错了 SELinux 配置，在启动时按e键修改 grub，在标签 fi 内核参数中增加一个参数1selinux=0 后按 ctrl+x 重启可进入，再修改 ==/etc/selinux/config==12SELINUX=disabledSELINUXTYPE=target 2. centos7 端口已开放，也开放了iptables防火墙，还是无法访问此问题为 centos7 已默认使用 firewall 为防火墙！1234567891011#关闭防火墙systemctl stop firewalld.service#禁止防火墙开机启动systemctl disable firewalld.service#查看防火墙开放端口firewall-cmd --list-ports#开放端口firewall-cmd --zone=public --add-port=80/tcp --permanent]]></content>
       <categories>
-        <category>软件工程</category>
-        <category>linux</category>
+        <category>Linux</category>
       </categories>
       <tags>
         <tag>linux</tag>
@@ -359,12 +332,11 @@
   </entry>
   <entry>
     <title><![CDATA[Oracle 分区表]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%AD%98%E5%82%A8%2Foracle%2FOracle%20%E5%88%86%E5%8C%BA%E8%A1%A8%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FOracle%2FOracle%20%E5%88%86%E5%8C%BA%E8%A1%A8%2F</url>
     <content type="text"><![CDATA[一、分区表&emsp;&emsp;随着表的不断增大，对于新纪录的增加、查找、删除等的维护也更加困难。对于数据库中的超大型表，可通过把它的数据分成若干个小表，从而简化数据库的管理活动。对于每一个简化后的小表，我们称为一个单个的分区。 对于分区的访问，我们不需要使用特殊的SQL查询语句或特定的DML语句，而且可以单独的操作单个分区，而不是整个表。同时也可以将不同分区的数据放置到不同的表空间。 对于外部应用程序来说，虽然存在不同的分区，且数据位于不同的表空间，但逻辑上仍然是一张表，可以使用SQL*Loader，IMPDP，EXPDP，Import，Export等工具来装载或卸载分区表中的数据。 二、何时进行分区 当表达到GB大小且继续增长 需要将历史数据和当前的数据分开单独处理，比如历史数据仅仅需要只读，而当前数据则实现DML 三、分区的特性 共性：不同的分区之间必须有相同的逻辑属性，比如表名，列名，数据类型，约束等 个性：各个分区可以有不同的物理属性，比如pctfree, pctused, and tablespaces 独立性：即使某些分区不可用，其他分区仍然可用 特殊性：含有 LONG、LONGRAW 数据类型的表不能进行分区 四、分区的优点1、提高查询性能：只需要搜索特定分区，而非整张表，提高查询速度2、节约维护时间：单个分区的数据装载，索引重建，备份，维护等将远小于整张表的维护时间3、节约维护成本：可以单独备份和恢复每个分区4、均衡I/O：将不同的分区映射到不同的磁盘以平衡I/O，提高并发 五、Oracle 分区类型 范围分区、散列分区、列表分区、组合分区 1. Range 分区：行映射到基于列值范围的分区Range 分区，又成为范围分区，基于分区键值的范围将数据映射到所建立的分区。创建分区时必须指定以下内容： 分区方法：range 分区列 标识分区边界的分区描述 使用 Range 分区的时候，要记住几条规则： 每个分区都包含 VALUES LESS THAN 字名，定义了分区的上层边界。任何等于和大于分区键值的二进制值都被添加到下一个高层分区中。 所有的分区，除了第一个，如果低于VALUES LESS THAN所定义的下层边界，都放在前面的分区中。 MAXVALUE 可以用来定义最高层的分区。MAXVALUE 表示了虚拟的无限值 示例： 123456789101112131415161718192021222324252627-- 创建分区create table sal_range (salesman_id number(5), salesman_name varchar2(30), sales_amount number(10), sales_date date) partition by range (sales_date) --创建基于日期的范围分区并存储到不同的表空间 ( partition sal_jan2000 values less than(to_date('02/01/2000', 'DD/MM/YYYY')) tablespace sal_range_jan2000, partition sal_feb2000 values less than(to_date('03/01/2000', 'DD/MM/YYYY')) tablespace sal_range_feb2000, partition sal_mar2000 values less than(to_date('04/01/2000', 'DD/MM/YYYY')) tablespace sal_range_mar2000, partition sal_apr2000 values less than(to_date('05/01/2000', 'DD/MM/YYYY')) tablespace sal_range_apr2000 );-- 查询分区中数据select * from r partition (p1)-- 添加分区ALTER TABLE r add partition p5 values less than (xxx ) tablespace xx;-- 查看分区表信息 SELECT table_name,partition_name,subpartition_count,tablespace_name,user_stats FROM user_tab_partitions; 2. Hash分区：散列分区Hash 分区是根据分区字段的 Hash 值进行的散列分区，在下面这种情况下，使用hash分区比range分区更好： 事先不知道需要将多少数据映射到给定范围的时候 分区的范围大小很难确定，或者很难平衡的时候 Range 分区使数据得到不希望的聚集时 性能特性，如并行DML、分区剪枝和分区连接很重要的时候 创建散列分区时，必须指定以下信息 分区方法：hash 分区列 分区数量或单独的分区描述 创建hash分区有两种方法：一种方法是指定分区数量，另一种方法是指定分区的名字，但两者不能同时指定。 123456789101112-- 方法一：指定分区数量create table dept2 (deptno number,deptname varchar2(32))partition by hash(deptno) partitions 4;-- 方法二：指定分区的名字create table sales_hash (salesman_id number(5), salesman_name varchar2(30), sales_amount number(10), week_no number(2))partition by hash (salesman_id) partitions 4store in (data1,data2,data3,data4) --指定表空间 3. List分区：列表分区List分区可以控制如何将行映射到分区中去，可以定义具体值指定到具体的分区。不同于Range分区和Hash分区： Range 分区与分区相关联，为分区列假设了一个值的自然范围，故不可能将该值的范围以外的分区组织到一起 Hash 分区时不允许对数据的划分进行控制，因为系统使用的是散列函数来划分数据的 List 分区的优点在于按照自然的方式将无序和不相关的数据集合分组 List 分区不支持多列分区，如果将表按列分区，那么分区键就只能有表的一个单独列组成 List分区时必须指定的以下内容： 分区方法：list 分区列 分区描述，每个描述指定一串文字值(值的列表),它们是分区列(它们限定将被包括在分区中的行)的离散值 示例： 1234567891011121314151617-- 创建分区create table sales_list (salesman_id number(5), salesman_name varchar2(30), sales_state varchar2(20), sales_amount number(10), sales_date date)partition by list (sales_state)( partition sales_west values ('California','Hawaii') tablespace x, partition sales_east values ('New York','Virginia') tablespace y, partition sales_central values ('Texas','Illinois') tablespace z, partition sales_other values(DEFAULT) tablespace o);-- 添加分区alter table sales3 add partition hk values ('HK') tablespace xx 4. Composite Partitioning：合成分区、组合分区组合分区使用 Range 方法分区，在每个子分区中使用 Hash 方法进行再分区。组合分区比 Range 分区更容易管理，充分使用了 Hash 分区的并行优势。组合分区支持历史数据和条块数据两者。创建组合分区时，需要指定如下内容： 分区方法：range 分区列 标识分区边界的分区描述 子分区方法：hash 子分区列 每个分区的子分区数量，或子分区的描述 示例： 12345678910111213141516171819202122232425262728293031-- 创建分区 Range分区，Hash子分区create table sales_composite (salesman_id number(5), salesman_name varchar2(30), sales_amount number(10), sales_date date)partition by range(sales_date)subpartition by hash(salesman_id) subpartitions 4store in (tbs1,tbs2,tbs3,tbs4)( partition sales_jan2000 values less than(to_date('02/01/2000','DD/MM/YYYY')), partition sales_feb2000 values less than(to_date('03/01/2000','DD/MM/YYYY')), partition sales_mar2000 values less than(to_date('04/01/2000','DD/MM/YYYY')));--Range分区，List子分区create table T_TRACK ( N_TRACK_ID NUMBER(20) NOT NULL, C_COMP_CDE VARCHAR2(6), T_TRACK_TM DATE NOT NULL, C_CAR_NO VARCHAR2(50) )partition by range(T_TRACK_TM)subpartition by list(C_COMP_CDE)( partition P_2009_11 values less than (to_date('2009-12-01','yyyy-MM-dd')) ( subpartition P_2009_11_P1013 values('P1013') )); 六、分区相关操作 添加分区： 12345678alter table T_TRACK add partition P_2005_04values less than(to_date('2005-05-01','yyyy-MM-dd'))( subpartition P_2005_04_P1013 values('P1013'), subpartition P_2005_04_P1013 values('P1014'), subpartition P_2005_04_P1013 values('P1015'), subpartition P_2005_04_P1013 values('P1016')) 删除分区： 1alter table T_TRACK drop partition p_2005_04; 添加子分区： 123alter table T_TRACKmodify partition P_2005_01add subpartition P_2005_01_P1017 values('P1017'); 删除子分区： 1alter table T_TRACK drop subpartition p_2005_01_p1017; 截断一个分区表中的一个分区的数据： 12345--这种方式会使全局分区索引无效alter table sales3 truncate partition sp1--这种方式全局分区索引不会无效 alter table sales3 truncate partition sp1 update indexes 截断分区表的子分区： 1alter table comp truncate subpartition sub1 截断带有约束的分区表 12345678--禁用约束alter table sales disable constraint dname_sales1--截断分区alter table sales truncate partitoin dec--启用约束alter table sales enable constraint dname_sales1 查看一个表是不是分区表 1select table_name,partitioned from user_tables; 将一个表的分区从一个表空间移动到另一个表空间： 12345678910111213--查看分区在哪个表空间SELECT TABLE_OWNER,TABLE_NAME,PARTITION_NAME,TABLESPACE_NAME, SUBPARTITION_COUNT FROM DBA_TAB_PARTITIONS WHERE TABLE_OWNER='SCOTT';--移动分区alter table sales move partiton sp1 tablespace tp;--检查是否移动成功SELECT TABLE_OWNER,TABLE_NAME,PARTITION_NAME,TABLESPACE_NAME,SUBPARTITION_COUNT FROM DBA_TAB_PARTITIONS WHERE TABLE_OWNER='SCOTT';--移动表空间后，要重建索引，否则索引会变得无效alter index xxx rebuild 合并分区： 12--合并后的分区名，不能是边界值较低的那个alter table sales3 merge partitons sp1,sp3 into partition sp3 与分区表相关的数据字典视图： DBA_TAB_PARTITIONS DBA_IND_PARTITIONS DBA_TAB_SUBPARTITIONS DBA_IND_SUBPARTITIONS 参考文档：[1] Oracle 关于分区的在线文档：http://download.oracle.com/docs/cd/B19306_01/server.102/b14220/partconc.htm#sthref2604]]></content>
       <categories>
-        <category>软件工程</category>
         <category>存储</category>
-        <category>oracle</category>
+        <category>Oracle</category>
       </categories>
       <tags>
         <tag>oracle</tag>
@@ -372,10 +344,9 @@
   </entry>
   <entry>
     <title><![CDATA[Access 表结构查询]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%AD%98%E5%82%A8%2FAccess%20%E8%A1%A8%E7%BB%93%E6%9E%84%E6%9F%A5%E8%AF%A2%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FAccess%20%E8%A1%A8%E7%BB%93%E6%9E%84%E6%9F%A5%E8%AF%A2%2F</url>
     <content type="text"><![CDATA[获取所有表12345var dt = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);var query = dt.AsEnumerable() .Where(x =&gt; x.Field&lt;string&gt;(&quot;TABLE_TYPE&quot;) == &quot;TABLE&quot; || x.Field&lt;string&gt;(&quot;TABLE_TYPE&quot;) == &quot;VIEW&quot;) .Select(x =&gt; x.Field&lt;string&gt;(&quot;TABLE_NAME&quot;)); 获取表字段1select * from table_name where 1&lt;&gt;1 获取表主键12DataTable dt = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Primary_Keys, new object[] &#123; null, null, tableName &#125;);]]></content>
       <categories>
-        <category>软件工程</category>
         <category>存储</category>
       </categories>
       <tags>
@@ -384,38 +355,35 @@
   </entry>
   <entry>
     <title><![CDATA[Mssql 表结构查询]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%AD%98%E5%82%A8%2Fmssql%2FMssql%20%E8%A1%A8%E7%BB%93%E6%9E%84%E6%9F%A5%E8%AF%A2%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FMssql%2FMssql%20%E8%A1%A8%E7%BB%93%E6%9E%84%E6%9F%A5%E8%AF%A2%2F</url>
     <content type="text"><![CDATA[获取所有表1234SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='data_base' AND (TABLE_TYPE='BASE TABLE' OR TABLE_TYPE='VIEW') 获取表字段名1select * from table_name where 1&lt;&gt;1 获取表主键1234567891011121314SELECT col.name AS ColumnName , col.max_length AS DataLength , col.is_nullable AS IsNullable , t.name AS DataType , ( SELECT TOP 1 ind.is_primary_key FROM sys.index_columns ic LEFT JOIN sys.indexes ind ON ic.object_id = ind.object_id AND ic.index_id = ind.index_id AND ind.name LIKE 'PK_%' WHERE ic.object_id = obj.object_id AND ic.column_id = col.column_id ) AS IsPrimaryKey FROM sys.objects objINNER JOIN sys.columns col ON obj.object_id = col.object_idLEFT JOIN sys.types t ON t.user_type_id = col.user_type_id WHERE obj.name = 'table_name' 获取表字段详细信息123456789101112131415161718192021222324252627SELECT [表名] = Case When A.colorder=1 Then D.name Else '' End, [表说明] = Case When A.colorder=1 Then isnull(F.value,'') Else '' End, [字段序号] = A.colorder, [字段名] = A.name, [字段说明] = isnull(G.[value],''), [标识] = Case When COLUMNPROPERTY( A.id,A.name,'IsIdentity')=1 Then '√'Else '' End, [主键] = Case When exists(SELECT 1 FROM sysobjects Where xtype='PK' and parent_obj=A.id and name in ( SELECT name FROM sysindexes WHERE indid in( SELECT indid FROM sysindexkeys WHERE id = A.id AND colid=A.colid))) then '√' else '' end, [类型] = B.name, [占用字节数] = A.Length, [长度] = COLUMNPROPERTY(A.id,A.name,'PRECISION'), [小数位数] = isnull(COLUMNPROPERTY(A.id,A.name,'Scale'),0), [允许空] = Case When A.isnullable=1 Then '√'Else '' End, [默认值] = isnull(E.Text,'') FROM syscolumns A Left Join systypes B On A.xusertype=B.xusertype Inner Join sysobjects D On A.id=D.id and D.xtype='U' and D.name&lt;&gt;'dtproperties' Left Join syscomments E on A.cdefault=E.id Left Join sys.extended_properties G on A.id=G.major_id and A.colid=G.minor_id Left Join sys.extended_properties F On D.id=F.major_id and F.minor_id=0 where d.name='table_name'Order By A.id,A.colorder]]></content>
       <categories>
-        <category>软件工程</category>
         <category>存储</category>
-        <category>mssql</category>
+        <category>Mssql</category>
       </categories>
       <tags>
         <tag>mssql</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[MySQL 树形结构查询]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%AD%98%E5%82%A8%2Fmysql%2FMySQL%20%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84%E6%9F%A5%E8%AF%A2%2F</url>
-    <content type="text"><![CDATA[在 中可以使用 ```Hierarchical Queries``` 通过 ```CONNECT BY``` 查询当前节点下所有节点，但在 ```mysql``` 中没有此功能，需要使用函数或者存储过程进行查询。12345678910#### 0. 数据准备&gt; 树形结构，单侧树可以看做链表结构。```sql-- 树形结构create table treeNodes ( id int primary key, nodename varchar(20), pid int ); 1. 函数获得子节点12345678910111213141516171819202122-- 查询树状节点函数CREATE FUNCTION `getChildLst`(rootId INT) RETURNS varchar(1000) BEGIN DECLARE sTemp VARCHAR(1000); DECLARE sTempChd VARCHAR(1000); SET sTemp = '$'; SET sTempChd =cast(rootId as CHAR); WHILE sTempChd is not null DO SET sTemp = concat(sTemp,',',sTempChd); SELECT group_concat(id) INTO sTempChd FROM treeNodes WHERE FIND_IN_SET(pid,sTempChd)&gt;0; END WHILE; RETURN sTemp;END-- 通过节点 rootid 查询该节点下的子节点树： select getChildLst(1);-- 使用 FIND_IN_SET 配合查询节点信息： select * from treeNodes where FIND_IN_SET(id, getChildLst(1)); 优点： 简单、没有递归层数的限制(123456789101112131415161718192021222324252627282930313233343536373839404142- **缺点：** 查询结果 ```returns varchar(1000)``` 受字符长度限制，无法支持无限层树。#### 2. 临时表与递归存储过程```sql-- 用于查询、初始化临时表的存储过程 CREATE PROCEDURE showChildList (IN rootId INT) BEGIN CREATE TEMPORARY TABLE IF NOT EXISTS tmpLst ( `sno` int primary key auto_increment COMMENT &apos;排序&apos;, `id` int COMMENT &apos;节点id&apos;, `depth` int COMMENT &apos;节点深度&apos;); DELETE FROM tmpLst; CALL createChildLst(rootId,0); SELECT tmpLst.*, treeNodes.* FROM tmpLst,treeNodes WHERE tmpLst.id=treeNodes.id ORDER BY tmpLst.sno; END; -- 构建树结构存储过程 CREATE PROCEDURE createChildLst (IN rootId INT,IN nDepth INT) BEGIN DECLARE done INT DEFAULT 0; DECLARE b INT; DECLARE cur1 CURSOR FOR SELECT id FROM treeNodes where pid=rootId; DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1; insert into tmpLst values (null, rootId, nDepth); OPEN cur1; FETCH cur1 INTO b; WHILE done=0 DO CALL createChildLst(b,nDepth+1); FETCH cur1 INTO b; END WHILE; CLOSE cur1; END; -- 调用查询节点 call showChildLst(1); 优点： 可以更灵活处理、显示层数，并可以按照树的遍历顺序显示结构。 缺点： 递归层数限制255 3. 中间表和存储过程 由于 不允许在同一语句中对临时表多次引用，只能用普通表来实现，需要负责清理这个表。 123456789101112131415161718192021222324252627282930313233``` sql-- 构建树结构存储过程DROP PROCEDURE IF EXISTS showTreeNodes;CREATE PROCEDURE showTreeNodes (IN rootid INT)BEGIN DECLARE tLevel int ; DROP TABLE IF EXISTS tmpList; CREATE TABLE tmpList ( `id` int, `level` int, `sort` varchar(8000) ); Set tLevel = 0 ; INSERT into tmpList SELECT id, `tLevel`, ID FROM treeNodes WHERE PID = rootid; WHILE ROW_COUNT()&gt;0 DO SET tLevel = tLevel + 1 ; INSERT into tmpList SELECT A.ID, tLevel ,concat(B.sort, A.ID) FROM treeNodes A, tmpList WHERE A.PID=B.ID AND B.`level` = tLevel - 1 ; END WHILE; END;-- 调用存储过程，生成树结构CALL showTreeNodes(0);-- 查询结果SELECT concat(SPACE(B.`level`*2),&apos;+--&apos;,A.nodename) FROM treeNodes A,tmpList B WHERE A.ID=B.ID ORDER BY B.sort; 优点： 可以显示层数、可以按照树的遍历顺序得到结果、没有递归最大层数限制。 缺点： 由于 msql 中对临时表的限制，只能使用普通表，需要做后续数据清理工作。]]></content>
+    <title><![CDATA[MySQL 表结构查询]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FMysql%2FMySQL%20%E8%A1%A8%E7%BB%93%E6%9E%84%E6%9F%A5%E8%AF%A2%2F</url>
+    <content type="text"><![CDATA[获取所有表1234SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='&#123;0&#125;' AND (TABLE_TYPE='BASE TABLE' OR TABLE_TYPE='VIEW') 获取表字段名1select * from table_name where 1&lt;&gt;1 获取表主键列12345678910111213SELECT k.TABLE_NAME, k.COLUMN_NAME, k.ORDINAL_POSITION, c.DATA_TYPE, c.COLUMN_TYPE FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS t JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE kUSING (constraint_name,table_schema,table_name) JOIN INFORMATION_SCHEMA.COLUMNS cUSING (column_name,table_schema,table_name) WHERE t.constraint_type='PRIMARY KEY' AND t.table_schema='data_base' AND t.table_name='table_name']]></content>
       <categories>
-        <category>软件工程</category>
         <category>存储</category>
-        <category>mysql</category>
+        <category>Mysql</category>
       </categories>
       <tags>
         <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[MySQL 表结构查询]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%AD%98%E5%82%A8%2Fmysql%2FMySQL%20%E8%A1%A8%E7%BB%93%E6%9E%84%E6%9F%A5%E8%AF%A2%2F</url>
-    <content type="text"><![CDATA[获取所有表1234SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='&#123;0&#125;' AND (TABLE_TYPE='BASE TABLE' OR TABLE_TYPE='VIEW') 获取表字段名1select * from table_name where 1&lt;&gt;1 获取表主键列12345678910111213SELECT k.TABLE_NAME, k.COLUMN_NAME, k.ORDINAL_POSITION, c.DATA_TYPE, c.COLUMN_TYPE FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS t JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE kUSING (constraint_name,table_schema,table_name) JOIN INFORMATION_SCHEMA.COLUMNS cUSING (column_name,table_schema,table_name) WHERE t.constraint_type='PRIMARY KEY' AND t.table_schema='data_base' AND t.table_name='table_name']]></content>
+    <title><![CDATA[MySQL 树形结构查询]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FMysql%2FMySQL%20%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84%E6%9F%A5%E8%AF%A2%2F</url>
+    <content type="text"><![CDATA[在 中可以使用 ```Hierarchical Queries``` 通过 ```CONNECT BY``` 查询当前节点下所有节点，但在 ```mysql``` 中没有此功能，需要使用函数或者存储过程进行查询。12345678910#### 0. 数据准备&gt; 树形结构，单侧树可以看做链表结构。```sql-- 树形结构create table treeNodes ( id int primary key, nodename varchar(20), pid int ); 1. 函数获得子节点12345678910111213141516171819202122-- 查询树状节点函数CREATE FUNCTION `getChildLst`(rootId INT) RETURNS varchar(1000) BEGIN DECLARE sTemp VARCHAR(1000); DECLARE sTempChd VARCHAR(1000); SET sTemp = '$'; SET sTempChd =cast(rootId as CHAR); WHILE sTempChd is not null DO SET sTemp = concat(sTemp,',',sTempChd); SELECT group_concat(id) INTO sTempChd FROM treeNodes WHERE FIND_IN_SET(pid,sTempChd)&gt;0; END WHILE; RETURN sTemp;END-- 通过节点 rootid 查询该节点下的子节点树： select getChildLst(1);-- 使用 FIND_IN_SET 配合查询节点信息： select * from treeNodes where FIND_IN_SET(id, getChildLst(1)); 优点： 简单、没有递归层数的限制(123456789101112131415161718192021222324252627282930313233343536373839404142- **缺点：** 查询结果 ```returns varchar(1000)``` 受字符长度限制，无法支持无限层树。#### 2. 临时表与递归存储过程```sql-- 用于查询、初始化临时表的存储过程 CREATE PROCEDURE showChildList (IN rootId INT) BEGIN CREATE TEMPORARY TABLE IF NOT EXISTS tmpLst ( `sno` int primary key auto_increment COMMENT &apos;排序&apos;, `id` int COMMENT &apos;节点id&apos;, `depth` int COMMENT &apos;节点深度&apos;); DELETE FROM tmpLst; CALL createChildLst(rootId,0); SELECT tmpLst.*, treeNodes.* FROM tmpLst,treeNodes WHERE tmpLst.id=treeNodes.id ORDER BY tmpLst.sno; END; -- 构建树结构存储过程 CREATE PROCEDURE createChildLst (IN rootId INT,IN nDepth INT) BEGIN DECLARE done INT DEFAULT 0; DECLARE b INT; DECLARE cur1 CURSOR FOR SELECT id FROM treeNodes where pid=rootId; DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1; insert into tmpLst values (null, rootId, nDepth); OPEN cur1; FETCH cur1 INTO b; WHILE done=0 DO CALL createChildLst(b,nDepth+1); FETCH cur1 INTO b; END WHILE; CLOSE cur1; END; -- 调用查询节点 call showChildLst(1); 优点： 可以更灵活处理、显示层数，并可以按照树的遍历顺序显示结构。 缺点： 递归层数限制255 3. 中间表和存储过程 由于 不允许在同一语句中对临时表多次引用，只能用普通表来实现，需要负责清理这个表。 123456789101112131415161718192021222324252627282930313233``` sql-- 构建树结构存储过程DROP PROCEDURE IF EXISTS showTreeNodes;CREATE PROCEDURE showTreeNodes (IN rootid INT)BEGIN DECLARE tLevel int ; DROP TABLE IF EXISTS tmpList; CREATE TABLE tmpList ( `id` int, `level` int, `sort` varchar(8000) ); Set tLevel = 0 ; INSERT into tmpList SELECT id, `tLevel`, ID FROM treeNodes WHERE PID = rootid; WHILE ROW_COUNT()&gt;0 DO SET tLevel = tLevel + 1 ; INSERT into tmpList SELECT A.ID, tLevel ,concat(B.sort, A.ID) FROM treeNodes A, tmpList WHERE A.PID=B.ID AND B.`level` = tLevel - 1 ; END WHILE; END;-- 调用存储过程，生成树结构CALL showTreeNodes(0);-- 查询结果SELECT concat(SPACE(B.`level`*2),&apos;+--&apos;,A.nodename) FROM treeNodes A,tmpList B WHERE A.ID=B.ID ORDER BY B.sort; 优点： 可以显示层数、可以按照树的遍历顺序得到结果、没有递归最大层数限制。 缺点： 由于 msql 中对临时表的限制，只能使用普通表，需要做后续数据清理工作。]]></content>
       <categories>
-        <category>软件工程</category>
         <category>存储</category>
-        <category>mysql</category>
+        <category>Mysql</category>
       </categories>
       <tags>
         <tag>mysql</tag>
@@ -423,12 +391,11 @@
   </entry>
   <entry>
     <title><![CDATA[Git 标签]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2Fdevops%2Fgit%2FGit%20%E6%A0%87%E7%AD%BE%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2FDevops%2FGit%2FGit%20%E6%A0%87%E7%AD%BE%2F</url>
     <content type="text"><![CDATA[Git 可以对某一时间点上的版本打上标签，经常用于某个软件版本（比如v1.0等）。 一、列出标签12# -l 表示匹配(pattern)1.0.*的标签git tag -l 'v1.0.*' 二、新建标签Git 的标签分为两类： 轻量级(lightweight)的标签，指向特定提交的引用，就像个不会变化的==分支==。 含附注(annotated)的标签，实际上是存储在仓库中的一个==独立对象==。 12345# 无参数默认创建一个轻量级标签git tag v1.0.1# -a 表示创建一个含附注的标签git tag -a v1.0.1 -m '1.0.1版本' 三、查看标签信息1git tag show v1.0 四、签署和验证标签使用私钥签署(GPG)标签，需要使用对应公钥进行验证。12345# -s 使用私钥进行GPG签署git tag -s v1.0 -m '1.0版本'# -v 使用公钥进行验证git tag -v v1.0 五、推送标签到远端仓库添加完标签后，需要推送到远程仓库，其他人才能获取到标签信息。12345# 推送指定标签git push origin v1.0# 推送所有标签git push origin --tags]]></content>
       <categories>
-        <category>软件工程</category>
-        <category>devops</category>
-        <category>git</category>
+        <category>Devops</category>
+        <category>Git</category>
       </categories>
       <tags>
         <tag>git</tag>
@@ -436,13 +403,12 @@
   </entry>
   <entry>
     <title><![CDATA[为代码瘦身 - Lombok]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjava%2F%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%2F%E4%B8%BA%E4%BB%A3%E7%A0%81%E7%98%A6%E8%BA%AB%20-%20Lombok%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJava%2Fide%2F%E4%B8%BA%E4%BB%A3%E7%A0%81%E7%98%A6%E8%BA%AB%20-%20Lombok%2F</url>
     <content type="text"><![CDATA[lombok 提供了简单的注解的形式来帮助我们简化消除一些必须有但显得很臃肿的 java 代码。 一、lombok 介绍lombok 在编译生成的字节码文件中添加 getter 和 setter 方法，性能与手动编写相同！ 二、lombok 安装使用 lombok 是需要安装的，如果不安装，IDE 则无法解析 lombok 注解。 1.下载 lombok.jar 包 2.运行Lombok.jar: java -jar D:\software\lombok.jar 数秒后将弹出一框，以确认eclipse的安装路径 3.确认完eclipse的安装路径后，点击install/update按钮，即可安装完成 4.安装完成之后，请确认eclipse安装路径下是否多了一个lombok.jar包，并且其配置文件eclipse.ini中是否 添加了如下内容:12-javaagent:lombok.jar -Xbootclasspath/a:lombok.jar 如果上面的答案均为true，那么恭喜你已经安装成功，否则将缺少的部分添加到相应的位置即可 5.重启eclipse或myeclipse 三、lombok 使用注解maven 引入依赖12345&lt;dependency&gt; &lt;groupId&gt;org.projectlombok&lt;/groupId&gt; &lt;artifactId&gt;lombok&lt;/artifactId&gt; &lt;scope&gt;provided&lt;/scope&gt;&lt;/dependency&gt; @Data ：注解在类上；提供类所有属性的 getting 和 setting 方法，此外还提供了equals、canEqual、hashCode、toString 方法 @Setter：注解在属性上；为属性提供 setting 方法 @Getter：注解在属性上；为属性提供 getting 方法 @Slf4j ：注解在类上；为类提供一个 属性名为log 的 logback 日志对象 @NoArgsConstructor：注解在类上；为类提供一个无参的构造方法 @AllArgsConstructor：注解在类上；为类提供一个全参的构造方法]]></content>
       <categories>
-        <category>软件工程</category>
         <category>编程语言</category>
-        <category>java</category>
-        <category>开发工具</category>
+        <category>Java</category>
+        <category>ide</category>
       </categories>
       <tags>
         <tag>java</tag>
@@ -451,13 +417,12 @@
   </entry>
   <entry>
     <title><![CDATA[项目管理利器 - Maven]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjava%2F%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%2F%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E5%88%A9%E5%99%A8%20-%20Maven%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJava%2Fide%2F%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E5%88%A9%E5%99%A8%20-%20Maven%2F</url>
     <content type="text"><![CDATA[一、什么是maven？maven是基于项目对象模型(pom)，通过一小段描述信息来管理项目的构建、报告、文档的软件项目管理工具。是一款跨平台的开源工具。 二、为什么使用maven？方便管理项目依赖的jar包，与打包构建项目package，等同于 .NET Nuget。 三、安装maven 由于maven是Java开发的，所以依赖于Jdk, 需要先安装Java环境，设置JAVA_HOME. 在 apache maven 官网下载程序包后解压。 设置maven环境变量 M2_HOME = D:\Java\apache-maven-3.5.2 设置 PATH = %M2_HOME%\bin 验证maven环境： mvn -v 四、maven项目目录结构12345678#maven创建项目的目录结构src |- main #源代码目录 |- java |-package |- test #单元测试目录 |- resource #配置文件目录 |- pom.xml #pom配置文件 创建maven项目时，可手动进行目录创建或者使用archetype插件进行生成 12345678# 按提示创建mvn archetype:generate -DarchetypeCatalog=internal # 指定创建参数mvn archetype:generate --DarchetypeArtifactId=maven-archetype-quickstart -DgroupId=com.joshua.maven02 -DartifactId=maven02 -Dversion=0.0.1-SNAPSHOT -Dpackage=com.joshua.maven02 五、maven常用构建命令1234567mvn -v #查看maven版本mvn compile #编译项目生成target文件mvn test #运行单元测试mvn package #打包项目mvn clean #清空target文件夹mvn install #将项目打包发布到本地仓库mvn jetty:run #运行插件 六、maven中的坐标和仓库maven项目坐标： groupId(项目名称) artifactId(模块名称) version(版本号) maven项目仓库 本地仓库 远程仓库 当需要下载jar包时，先到本地仓库中搜索，如果未找到则到中心仓库中检索。 设置本地仓库路径：在 /m2_home/conf/settings.xml 文件中更改第54行 localRepository 选项 设置镜像仓库：在/m2_home/conf/settings.xml文件中更改第146行 mirrors 选项。 阿里云镜像仓库：123456&lt;mirror&gt; &lt;id&gt;alimaven&lt;/id&gt; &lt;name&gt;aliyun maven&lt;/name&gt; &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public/&lt;/url&gt; &lt;mirrorOf&gt;central&lt;/mirrorOf&gt; &lt;/mirror&gt; 七、maven构建周期 clean 清理项目 pre-clean 执行清理前的工作 clean 清理上一次构建生成的所有文件 post-clean 执行清理后的工作 default 构建项目（核心） compile 编译项目 test 运行单元测试 package 打包项目 install 注册到本地仓库 site 生成项目站点 pre-site 生成站点前工作 site 生成站点 post-site 生成站点后工作 site-deploy 发布站点 八、在 eclipse 中使用 maven 插件 eclipse3.5以后的已经默认集成了maven插件 下载 eclipse-maven-plugin 拷贝到/eclipse/dropins目录下。重启eclipse查看 插件是否已经加载。12345- maven 插件需要jdk支持，修改 /eclipse.ini 文件，添加-vm配置```bash-vmD:\Java\jdk1.8.0_152\bin\javaw.exe 添加 eclipse jdk设置 window-&gt;preferences-&gt;java-&gt;install JREs-&gt;add 修改 maven 默认设置，并设置配置文件(修改了本地仓库和镜像仓库)12window-&gt;preferences-&gt;maven-&gt;installations-&gt;addsettings-&gt;user settings 九、pom.xml 说明示例1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt; &lt;!-- 指定了当前pom的版本 --&gt; &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt; &lt;!-- 项目名称 --&gt; &lt;groupId&gt;com.joshua&lt;/groupId&gt; &lt;!-- 模块名称 --&gt; &lt;artifactId&gt;maven01&lt;/artifactId&gt; &lt;!-- 版本号 第一个0表示大版本号 第二个0表示分子版本号 第三个0表示小版本号 0.0.1-snapshot 快照版 alpha 内部测试版 beta 公测版 release 稳定版 GA 正式发布版 --&gt; &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt; &lt;!-- 打包方式 war zip pom 聚合模式/父项目使用 --&gt; &lt;packaging&gt;jar&lt;/packaging&gt; &lt;!-- 项目描述名 --&gt; &lt;name&gt;maven01&lt;/name&gt; &lt;!-- 项目地址 --&gt; &lt;url&gt;http://maven.apache.org&lt;/url&gt; &lt;!-- 项目属性 --&gt; &lt;properties&gt; &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt; &lt;/properties&gt; &lt;!-- 依赖列表 --&gt; &lt;dependencies&gt; &lt;dependency&gt; &lt;groupId&gt;junit&lt;/groupId&gt; &lt;artifactId&gt;junit&lt;/artifactId&gt; &lt;version&gt;4.10&lt;/version&gt; &lt;!-- 依赖范围，只在test范围内 --&gt; &lt;scope&gt;test&lt;/scope&gt; &lt;!-- 设置依赖是否可选，默认为false，表示可继承，否则需要显示引用 --&gt; &lt;optional&gt;false&lt;/optional&gt; &lt;!-- 排除依赖传递列表 --&gt; &lt;exclusions&gt; &lt;exclusion&gt;...&lt;/exclusion&gt; &lt;/exclusions&gt; &lt;/dependency&gt; &lt;/dependencies&gt; &lt;!-- 依赖管理，不在本项目引用，在子项目中继承 --&gt; &lt;dependencyManagement&gt; &lt;dependencies&gt;&lt;/dependencies&gt; &lt;/dependencyManagement&gt; &lt;!-- 构建支持 --&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;!-- 打包源代码插件 --&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-source-plugin&lt;/artifactId&gt; &lt;version&gt;2.4&lt;/version&gt; &lt;!-- 在package阶段运行插件，运行方式为 jar-no-fork --&gt; &lt;executions&gt; &lt;execution&gt; &lt;phase&gt;package&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;jar-no-fork&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;!-- 继承的父模块 --&gt; &lt;parent&gt;...&lt;/parent&gt; &lt;!-- 聚合多模块同时编译 --&gt; &lt;modules&gt; &lt;module&gt;../moven02&lt;/module&gt; &lt;/modules&gt;&lt;/project&gt;]]></content>
       <categories>
-        <category>软件工程</category>
         <category>编程语言</category>
-        <category>java</category>
-        <category>开发工具</category>
+        <category>Java</category>
+        <category>ide</category>
       </categories>
       <tags>
         <tag>java</tag>
@@ -466,19 +431,17 @@
   </entry>
   <entry>
     <title><![CDATA[PowerDesigner导出表结构]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%B7%A5%E5%85%B7%2FPowerDesigner%20%E5%AF%BC%E5%87%BA%E8%A1%A8%E7%BB%93%E6%9E%84%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%B7%A5%E5%85%B7%2FPowerDesigner%20%E5%AF%BC%E5%87%BA%E8%A1%A8%E7%BB%93%E6%9E%84%2F</url>
     <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106'****************************************************************************** '* File: pdm2excel.txt '* Title: pdm export to excel '* Purpose: To export the tables and columns to Excel '* Model: Physical Data Model '* Objects: Table, Column, View '* Author: ziyan '* Created: 2012-05-03 '* Version: 1.0 '****************************************************************************** Option Explicit Dim rowsNum rowsNum = 0 '----------------------------------------------------------------------------- ' Main function '----------------------------------------------------------------------------- ' Get the current active model Dim Model Set Model = ActiveModel If (Model Is Nothing) Or (Not Model.IsKindOf(PdPDM.cls_Model)) Then MsgBox "The current model is not an PDM model." Else ' Get the tables collection '创建EXCEL APP dim beginrow DIM EXCEL, SHEET set EXCEL = CREATEOBJECT("Excel.Application") EXCEL.workbooks.add(-4167)'添加工作表 EXCEL.workbooks(1).sheets(1).name ="test" set sheet = EXCEL.workbooks(1).sheets("test") ShowProperties Model, SHEET EXCEL.visible = true '设置列宽和自动换行 sheet.Columns(1).ColumnWidth = 20 sheet.Columns(2).ColumnWidth = 40 sheet.Columns(4).ColumnWidth = 20 sheet.Columns(5).ColumnWidth = 20 sheet.Columns(6).ColumnWidth = 15 sheet.Columns(1).WrapText =true sheet.Columns(2).WrapText =true sheet.Columns(4).WrapText =true End If '----------------------------------------------------------------------------- ' Show properties of tables '----------------------------------------------------------------------------- Sub ShowProperties(mdl, sheet) ' Show tables of the current model/package rowsNum=0 beginrow = rowsNum+1 ' For each table output "begin" Dim tab For Each tab In mdl.tables ShowTable tab,sheet Next if mdl.tables.count &gt; 0 then sheet.Range("A" &amp; beginrow + 1 &amp; ":A" &amp; rowsNum).Rows.Group end if output "end" End Sub '----------------------------------------------------------------------------- ' Show table properties '----------------------------------------------------------------------------- Sub ShowTable(tab, sheet) If IsObject(tab) Then Dim rangFlag rowsNum = rowsNum + 1 ' Show properties Output "================================" sheet.cells(rowsNum, 1) = "实体名" sheet.cells(rowsNum, 2) =tab.name sheet.cells(rowsNum, 3) = "" sheet.cells(rowsNum, 4) = "表名" sheet.cells(rowsNum, 5) = tab.code sheet.Range(sheet.cells(rowsNum, 5),sheet.cells(rowsNum, 6)).Merge rowsNum = rowsNum + 1 sheet.cells(rowsNum, 1) = "属性名" sheet.cells(rowsNum, 2) = "说明" sheet.cells(rowsNum, 3) = "" sheet.cells(rowsNum, 4) = "字段中文名" sheet.cells(rowsNum, 5) = "字段名" sheet.cells(rowsNum, 6) = "字段类型" '设置边框 sheet.Range(sheet.cells(rowsNum-1, 1),sheet.cells(rowsNum, 2)).Borders.LineStyle = "1" sheet.Range(sheet.cells(rowsNum-1, 4),sheet.cells(rowsNum, 6)).Borders.LineStyle = "1" Dim col ' running column Dim colsNum colsNum = 0 for each col in tab.columns rowsNum = rowsNum + 1 colsNum = colsNum + 1 sheet.cells(rowsNum, 1) = col.name sheet.cells(rowsNum, 2) = col.comment sheet.cells(rowsNum, 3) = "" sheet.cells(rowsNum, 4) = col.name sheet.cells(rowsNum, 5) = col.code sheet.cells(rowsNum, 6) = col.datatype next sheet.Range(sheet.cells(rowsNum-colsNum+1,1),sheet.cells(rowsNum,2)).Borders.LineStyle = "2" sheet.Range(sheet.cells(rowsNum-colsNum+1,4),sheet.cells(rowsNum,6)).Borders.LineStyle = "2" rowsNum = rowsNum + 1 Output "FullDescription: " + tab.Name End If End Sub]]></content>
       <categories>
-        <category>软件工程</category>
         <category>工具</category>
       </categories>
   </entry>
   <entry>
     <title><![CDATA[Hadoop quickstart]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FHadoop%20quickstart%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FHadoop%20quickstart%2F</url>
     <content type="text"><![CDATA[1. Hadoop 是什么？Hadoop是一个分布式系统架构，由Apache基金会基于Java开发。用户可以在不了解分布式底层细节的情况下，开发分布式程序，充分利用集群的威力高速运算和存储。 2. Hadoop 能做什么？Hadoop 可以解决海量数据的存储、海量的数据分析。例如：Yahoo! 的垃圾邮件识别和过滤、用户特征建模；Amazon.com（亚马逊）的协同过滤推荐系统；Facebook的Web日志分析；Twitter、LinkedIn的人脉寻找系统；淘宝商品推荐系统、淘宝搜索中的自定义筛选功能……这些应用都使用到Hadoop及其相关技术。 3. Hadoop 的构成3.1 HDFS 分布式文件系统HDFS有着高容错性的特点，并且设计用来部署在低廉的硬件上。而且它提供高传输率来访问应用程序的数据，适合那些有着超大数据集的应用程序。HDFS是一个 master/slave 的结构，在 master 上只运行一个 NameNode，而在每一个 slave 上运行一个 DataNode。 NameNode负责: 接受用户请求. 维护文件系统目录结构. 管理文件与Block间关系，Block与DataNode之间关系.(默认Block块大小为64M ) DataNode负责: 存储文件. 文件被分成Block存储在磁盘上. 为保证数据安全，文件会有多个副本. 3.2 MapReduce 并行计算框架MapReduce 是 Google 的一项重要技术, 它是一个编程模型，用于进行大数据计算，通常采用的处理手法是并行计算。MapReduce 是一个 master/slave 的结构，在 master上只运行一个 JobTracker ，而在每一个slave上运行一个 TaskTracker。 JobTracker 负责: 接收客户提交的计算. 把计算分配给 TaskTracker 执行. 监控 TaskTracker 的执行情况. TaskTracker 负责: 执行 JobTracker 分配的任务. 4. Hadoop 的特点 扩容能力：通过增加节点，扩容方便可靠. 成本低：可以通过普通机器组成服务器集群来处理数据. 高效率：通过分发数据，可以在数据所在节点上并行处理数据. 可靠性：可以自动维护数据的多个副本，并在任务失败后自动重新部署计算任务 5. 安装 Hadoop环境准备 安装 Jdk 下载 Apache Hadoop 解压并设置环境变量1234$ tar -zxvf hadoop-1.1.2.tar.gz$ export HADOOP_HOME=/usr/local/hadoop/hadoop-1.1.2 $ export PATH=.:$HADOOP_HOME/bin/:$JAVA_HOME/bin/:$PATH $ source /etc/profile 配置 修改 $hadoop_home/conf/hadoop-env.sh JAVA_HOME 配置 修改 $hadoop_home/conf/core-size.xml 123456789101112&lt;configuration&gt; &lt;property&gt; &lt;name&gt;fs.default.name&lt;/name&gt; &lt;value&gt;hdfs://joecnn:9000&lt;/value&gt; &lt;description&gt;your hostname&lt;/description&gt; &lt;/property&gt; &lt;property&gt; &lt;name&gt;hadoop.tmp.dir&lt;/name&gt; &lt;value&gt;/usr/local/hadoop/hadoop-1.1.2/tmp&lt;/value&gt; &lt;description&gt;your hadoop home&lt;/description&gt; &lt;/property&gt; &lt;/configuration&gt; 修改 $hadoop_home/conf/hdfs-site.xml 12345678910111213141516171819202122&lt;configuration&gt; &lt;property&gt; &lt;name&gt;dfs.replication&lt;/name&gt; &lt;value&gt;1&lt;/value&gt; &lt;/property&gt; &lt;property&gt; &lt;name&gt;dfs.permissions&lt;/name&gt; &lt;value&gt;false&lt;/value&gt; &lt;/property&gt; &lt;/configuration&gt; ``` 4. 修改 `修改 $hadoop_home/conf/mapred-site.xml````xml&lt;configuration&gt; &lt;property&gt; &lt;name&gt;mapred.job.tracker&lt;/name&gt; &lt;value&gt;chenquan:9001&lt;/value&gt; &lt;description&gt;change your hostname&lt;/description&gt; &lt;/property&gt; &lt;/configuration&gt; 启动 Hadoop 格式化 HDFS 文件系统 hadoop namenode -format 启动 start-all.sh start-all.sh 启动所有的Hadoop守护。包括namenode, datanode, jobtracker, tasktrack stop-all.sh 停止所有的Hadoop start-mapred.sh 启动Map/Reduce守护。包括Jobtracker和Tasktrack stop-mapred.sh 停止Map/Reduce守护 start-dfs.sh 启动Hadoop DFS守护.Namenode和Datanode stop-dfs.sh 停止DFS守护 验证: jps 5个进程，namenode，datanode，jobtracker，tasktracker，secondarynamenodehadoop:50070/ 访问 hdfs webserver 页面hadoop:50030/ 访问 mapreduce webserver 页面 去除启动警告 查看 start-all.sh -&gt; hadoop-config.sh 修改 /etc/profile 增加 export HADOOP_HOME_WARN_SUPPRESS=1 source /etc/profile 刷新环境变量 验证： start-all.sh / stop-all.sh]]></content>
       <categories>
-        <category>软件工程</category>
         <category>分布式</category>
       </categories>
       <tags>
@@ -488,10 +451,10 @@
   </entry>
   <entry>
     <title><![CDATA[《 黑暗之魂2 原罪贤者 》白金攻略]]></title>
-    <url>%2Fwiki-site%2Fwiki%2FPlaying%2F%E9%BB%91%E6%9A%97%E4%B9%8B%E9%AD%822%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%8E%A9%E4%B8%BB%E5%84%BF%2F%E9%BB%91%E6%9A%97%E4%B9%8B%E9%AD%822%2F</url>
     <content type="text"><![CDATA[丧失的记忆创建完人物自动获得奖杯。 弱者誓约如蜜村里和坐在高层大石碑边上的索丹对话，签订青教誓约获得。 强者誓约如蜜村大石板处签订霸者誓约获得。 最后的巨人打倒巨人陨落之森BOSS获得奖杯。 黑暗灵魂之始游戏中第一次死亡获得奖杯。 更衣通往虚影森林前的石化女解封后，给她换装获得奖杯。 深思首级虚影森林进入白雾区域贴左边走的废墟温格，和他说话获得奖杯。 守护誓约打败巨火塔远古的猎人BOSS后，与栏杆男对话签订誓约获得。 罪人的营火杀死罪人塔BOSS点燃始源篝火获得。 钟卫誓约月亮钟楼遗忘囚笼选择随从房间的篝火，下楼梯会有咒缚者出现。填上法洛斯之石开门后与边上的矮人侍从对话签订誓约。太阳钟楼熔铁城前篝火楼梯上去，与边上的矮人侍从对话签订誓约都可以解开奖杯。 太阳誓约流油谷左边岔道尽头，废墟雕像处签订契约获得奖杯。 被弃置的人们巨人森林洞穴里的地图男对话完。陨落之森主塔的道具商人老奶奶对话完。密港法师智力达到8以上对话完。流油谷铁匠的女儿说话完。推土塔的梯子男只要打倒BOSS毒妃后他也会回如蜜。通往虚影森林前的石化女解封对话完。 熔铁的营火熔铁城打倒BOSS老铁王，点燃始源篝火获得奖杯。 鼠王誓约打败BOSS鼠王先锋出去后，会看见一只站立的老鼠对话获得奖杯。法洛斯门径试炼休息处篝火打败鼠王的试炼，BOSS另一个门外有个老鼠躲在洞里也可以签订誓约。 血族誓约打败狩猎森林BOSS刑吏查略特，篝火旁NPC需要憎恨之证才能开启对话签订誓约获得。（憎恨之证在打死鼠王先锋BOSS后一路下去的木台下面木箱里或者杀死在线入侵玩家获得） 锻造至高武器在铁匠处任意一把武器升到顶就可以获得奖杯。 溪谷的营火打败腐败物BOSS，点燃始源篝火获得奖杯。 辉石的营火打败BOSS公爵的夫雷伯亚，点燃始源篝火获得奖杯。 熟练工匠篝火麦道夫的工坊需要点燃烛台，捡到将熄余焰交给他。在他那强化武器消费14000魂以上，选择框里的说话选项解开奖杯，他还会送一个楔形石圆盘。 国王戒指打死不死陵庙BOSS王盾韦施塔德后，在老王徘徊的附近地上捡到戒指后解开奖杯。 远古之龙在卫龙巢穴最深处遇见古龙对话获得灰雾核心，解开奖杯。 镜之骑士打败王城BOSS后，解开奖杯获得。 黑暗誓约三个远古暗穴都要找到后才能和老头对话签订契约解开奖杯。一个在茫然遗迹会塌陷的地方。另一个在黑溪谷打死巨人废弃的钥匙开门里，最后是在王城门 前篝火左上角门内下去。 远古誓约龙祭坛2层找到化石蛋，交给熔铁城里的商人，对话后签订契约解开奖杯。 亚凯提拉需要玩家召唤白符鲁卡提耶至少三次BOSS战胜利后她幸存不死，才会在安迪尔馆前庭篝火处遇见鲁卡提耶。特别提醒如果不满足条件不要和她对话说完她就会消失，满足条件得到她的装备和正统骑士团大剑解开奖杯。鲁卡提耶四个对话地点：密港房间内。遗忘囚牢离塔篝火出去直走的房间内。流油谷BOSS贪婪的恶魔右手边布满毒瓶的房间内。黑溪谷篝火出来右边小道跳下去的平台里。可以召唤她打BOSS的地点：密港四臂守卫BOSS，熔铁城熔铁恶魔BOSS，罪人塔遗忘的罪人BOSS，黑溪谷腐败物BOSS。DLC3白王BOSS。 继承者游戏通关制作组字幕结束回到如蜜，解开奖杯。 泛克拉德拿了5个巨人魂可以给老王最大的伤害，一开始要多砍几刀才会触发BOSS战。打死他获得奖杯。 肢体动作大师向NPC学会所有的动作姿势解开奖杯。如蜜索丹学习——欢迎。海德巨火塔青之骑士学习——开战礼节。虚影森林温格之首学习——枭首。如蜜被门挡住的苍剑男学习——喜悦。狩猎森林不死牢篝火处救出克雷顿学习——握拳高举。梯子男古里甘学习——下跪。带如蜜村房间里猫npc买的细雨戒指，在茫然遗迹打死蝎女和蝎子男学习——活动肩膀。罪人塔石化男史垂德学习——看不起人。不死陵庙守墓人亚格德兰学习——求饶。进入王城透明宰相学习——我来。太阳契约学习——赞美太阳。巨人回忆王国队长学习——欢呼。 献身者任何一个誓约打到三级解开奖杯。誓约等级和贡献数二周目继承。 完成奇妙的地图和回到如蜜自己家里的地图男对话解开奖杯，需要点燃八个篝火：巨人陨落之森主塔篝火。罪人塔离塔篝火。熔铁城艾吉尔铁像篝火。黑溪谷入口篝火。辉石镇盖多勒下层篝火。不死陵庙死者废弃处篝火。龙祭坛入口篝火。王都多兰古雷德国王门 前篝火。 月光大剑需要玩家召唤白符凡荷特至少三次BOSS战胜利后他幸存不死，才会在巨人的回忆处遇见，对话后得到他的装备和苍之大剑解开奖杯。（添火打同一个BOSS三次是否可行，没有验证不确定。）苍剑男对话地点：首先在虚影森林入口遇见，解封石化女后务必回去再和他对话触发下部剧情。之后会在王城中层篝火处遇见他对话完。然后他会在巨人陨落之森的咒缚者附近坐着。最后他会去到巨人回忆里。可以召唤他BOSS战的地方：辉石镇徘徊的术士他的符在帐篷里。镜之骑士BOSS。巨人王BOSS。渴望王座BOSS。dlc深渊王冠污秽艾蕾娜BOSS。 要塞守护者他在巨人汪姆德的回忆里，第一次对话触发肢体语言，打败巨人王后再进去触发转赠奖杯获得。 守财奴买走所有能架起的梯子，然后对话解开奖杯。 习得所有魔法者得到所有魔法解开奖杯。（列表在2楼） 习得所有奇迹者得到所有奇迹解开奖杯。（列表在2楼） 习得所有咒术者得到所有咒术解开奖杯。（列表在2楼） 习得所有暗术者得到所有暗术解开奖杯。（列表在2楼） 黑暗灵魂恭喜白金达成。 元素碎片*13如蜜村井内击打石头获得。咒缚者平台尸体处。虚影森林魔女居处篝火右边木门里。海德巨火塔下去用怀念香木解开杂兵上楼梯后的栏杆处。遗忘囚笼通往铁匠左手边小道尽头。狩猎森林BOSS骷髅王右手边岔路进去，拉开铁门机关的地方。辉石镇滑绳下去右边下去一个房间里。废渊底层海德骑士楼梯上去的平台处捡到。王城打死查略特马后直走下去有两个女沙之魔法师的房间宝箱里。阿玛拉祭坛第二篝火河马守护的小路后面宝箱里。 贵人骨灰*5从巨火塔走楼梯下去，通往密港的左手铁箱内。狩猎森林需要从上面跳入的洞堡铁箱内。虚影森林魔女居处篝火左边有一个口可以跳到对面铁箱内。杀死鼠王先锋BOSS后一路跳到最下面，有爆破兵的尽头铁箱内。王城门 前篝火直走楼梯上去正对面扎因骑士守护的房间里。 关于全魔法全奇迹全咒术全暗术奖杯的说明，这次的原罪贤者全收集奖杯获得条件，还包括了3个dlc里能拿到的法术请务必注意这点。收集的攻略可以参考专区置顶的索引帖，这帖如有不明白或者错误的地方欢迎回帖我再修改解答。魔法修理的位置改到了茫然遗迹一个石化狮子后面的铁箱里。 DLC1深渊王冠进入方法黑溪谷右边有悬崖可以跳下去看到一扇门，再向下跳会看到巨人，打死掉落废弃钥匙。去如蜜村的平台，从梯子男最深的梯子下去上到对面的梯子，会有扇门打开得到DLC1的钥匙龙爪。DLC2钢铁王冠进入方法熔铁城关掉机关后，进门第一个喷火马头处捡到熔铁钥匙。去巨人陨落之森最后的巨人BOSS左手边开门，直走尽头的火蛙守护的尸体处捡到DLC2的钥匙重铁钥和反叛大盾。DLC3白王王冠进入方法王城国王门 前篝火出去右边第一扇门，进去的尸体上捡到冰之花钥匙。 二周目8小时 三周目2小时就过了方法是 一周目在dlc3 刷个冰刺洗点 50敏 剩下多余的都加信仰 冰刺雷附魔二周目正常打四物 这四个灵魂换四个法术 白金路上必须换的 给出一个比较效率又兼顾多周目体验的路线，如蜜-巨人-咒缚者-海德龙骑兵-下坑杀腐肉-咒缚者那里去牢笼杀三基友和罪人（三基友没必要跳过多周目非常简单，要跳过的话需要从密港那边拿钥匙开门走法洛斯浪费时间不推荐）-茫然遗迹蝎女-辉石镇蜘蛛-狩猎森林骷髅王-流油谷大虫-推土塔娜迦-熔铁双雄（多周目熔铁一定不要急，稳健清小怪才能真正节省时间）-王城龙骑镜骑-祭坛青蛙（依然要稳扎稳打，抱着一次过小怪的谨慎）-灵庙王盾拿戒指-安第尓看守龙-跳过龙穴直奔祭坛拿核心-巨人王-王座两连战 身上不要带魂进入三周目 先去巨人森林 老奶奶买一个怀念香木之后跳废渊 再捡一个香木 腐败物前面那个营火 用一个香木穿上刷魂套 戴+2银蛇 添火刷八九次腐败物（雷附魔冰刺非常好打） 再捏身上所有的魂 就够300w魂量了然后直接开冬庙去王城 买法术 白金！ 黑暗之魂2原罪学者 全法术获取地点一览魔法：灵魂箭：巨人森林老奶奶买到强力灵魂箭： 密港魔法师买到灵魂巨箭：密港魔法师买到强力灵魂巨箭：密港魔法师买到追踪灵魂箭：遗忘牢笼魔法师追踪灵魂巨箭：遗忘牢笼魔法师需要用三守卫的灵魂交换追踪灵魂块：辉石镇鸟姐追踪结晶灵魂块：阿马那祭坛，第二个篝火附近的死尸灵魂枪：不死陵墓商人结晶灵魂枪：二周目遗忘牢笼魔法师需要用远古白龙的灵魂交换冲击：密港魔法师买到乱射灵魂枪：密港魔法师买到灵魂降雹：遗忘牢笼魔法师需要用蝎子女的灵魂交换灵魂大剑：王城打过双龙骑士之后流程会到一间楼上又有个弓箭手的房间拉机关，在那个房间里。漩涡灵魂塊：不死陵墓商人灵魂闪光：王城打过镜子骑士到了电梯那个房间不要急着马上坐电梯，向左看。灵魂洪流：安达尔之馆有硫酸的地牢里法术武器：密港魔法师买到强力法术武器：很多地方都有，最简单的是黑溪谷可以拣到结晶法术武器：龙祭坛拿化石蛋那里，从窗户跳出去之后来到一个小平台，向右看。强力法术盾：王城某个宝箱或者找安达尔之馆那个NPC可以买到思乡：密港魔法师买到静音：遗忘牢笼打3守卫的房间有个挂在平台边缘的死尸有道具，那个平台上有个暗墙进去便是。控制坠落：辉石镇鸟姐隐形武器：这个很麻烦，要成为钟塔守卫契约然后打倒20个入侵钟塔的玩家，然后和钟塔矮子对话就会给你这个魔法，其实太阳钟楼有一个随机复活的红魂杀一次也算打倒一个入侵玩家。我来说一下怎么刷： 到太阳钟楼的篝火 爬上平台之后直走左拐就能遇见这个红魂，红魂不会有任何入侵提示，就是站在那边这么一个普通的敌人，样子是持双刀的战士。 这个敌人是随机刷出来的所以如果没看见这个敌人的话果断回到篝火处坐下刷新，大概刷个15~20次能出来一次的样子。 刷到钟楼矮子给你魔法为止，大概20次修理：茫然遗迹一个石化狮子后面的铁箱里光明照耀：这个很早就能拿到，忘记在哪里拿的了拟态：流油谷某个宝箱解放魔力：安达尔之馆雾门里的法师，忘记是做杀人道具任务还是从他手里买到的了灵魂一闪：DLC3白之王冠收束灵魂块：DLC1深渊王冠 奇迹：回复：海德灯塔拜金女买到中等回复：海德灯塔拜金女买到缩约大恢复：海德灯塔拜金女买到恢复：辉石镇教堂上去的商人阳光治愈：用复仇之眼入侵拜金女打倒后得到，复仇之眼在不死陵墓，那个可以放下来的桥旁边有个平台，掉下去的宝箱里。生命力涌现：海德灯塔拜金女买到生命洋溢：海德灯塔拜金女买到阳光滋润：3周目王城前的幽灵执事治疗祈福：海德灯塔拜金女买到原力：海德灯塔拜金女买到诸神之怒：3周目王城前的幽灵执事原力四射：到处都有的东西，实在找不到辉石镇商人有卖苍天雷鸣：辉石镇商人有卖雷枪：海德灯塔拜金女买到巨雷枪：后期可以在遗忘牢笼法师商人买到，或者从黑溪谷拿到深渊钥匙之后可以在如蜜那个井下到最下面开一个门的宝箱里。阳光之枪：太阳誓约并且给30个太阳徽章得到，太阳徽章online随便在哪里丢个白印使劲刷就可以了，offline虚影森林签霸者契约添火刷大鹰骑士镇魂：流油谷大波妹光辉雷球：二周目可以在遗忘牢笼法师商人用古王的灵魂换到法术防护：狩猎森林第一个篝火前坐椅子的法师强化法术防护：王城前的幽灵执事返回：海德灯塔拜金女买到引导之语：海德灯塔拜金女买到金石之誓：遗忘牢笼法师商人用韦斯塔德的灵魂换到察觉敌意：遗忘牢笼法师商人伟大的抵抗：辉石镇商人有卖阳光之剑：遗忘牢笼法师商人或者阿马那祭坛靠近第二个篝火远处有个箱子惜别：DLC1深渊王冠分裂雷枪：DLC3白之王冠 咒术：火球：虚影森林石化妹子火弹：虚影森林石化妹子大火球：辉石镇商人有卖，或者巨人森林下面砍死火蜥蜴掉混沌大火球：3周目王城前的幽灵执事火焰风暴：不死人刑场的商人火焰大风暴：阿那马祭坛，第二个篝火往后有个房子，进去出来之后遇见一个肉搏法师敌人，遇见那个法师的地方向右走有个宝箱。混沌风暴：熔铁城第二个篝火之后那个大房间，看见西北方熔岩上那个宝箱没有?就在那里引燃火焰：虚影森林石化妹子引燃烈火：不死人刑场的商人横扫火焰：不死人刑场的商人毒雾：虚影森林石化妹子猛毒雾：遗忘牢笼法师商人用鼠王先锋灵魂交换喷射酸液：遗忘牢笼法师商人用鼠王试炼的灵魂交换漂浮火球：遗忘牢笼法师商人火锤术：遗忘牢笼法师商人封印太阳：安达尔之馆雾门里的法师，做任务得到火焰武器：二周目遗忘牢笼法师商人用古魔女之魂换到剧烈出汗：虚影森林石化妹子钢铁身躯：虚影森林石化妹子温暖的火：不死陵墓商人焚身火：太阳钟楼通过**之后进雾门宝箱便是火蛇：DLC2铁之王冠舞蹈之火：DLC2铁之王冠咆哮：DLC2铁之王冠，捡到12个煤炭新娘灵魂合并成一个灵魂后，到遗忘牢笼法师换取 暗术：暗珠：狩猎森林第一个篝火前坐椅子的法师黑暗飞沫：狩猎森林第一个篝火前坐椅子的法师暗毒雾：遗忘牢笼法师商人追踪众：遗忘牢笼法师商人死者活化：流油谷大波妹黑暗武器：狩猎森林第一个篝火前坐椅子的法师失望呢喃：圣人墓地，开法洛斯机关放下吊桥，过了吊桥后地上捡到反作用：遗忘牢笼法师商人需要巨人王的灵魂扭曲护壁：辉石镇商人有卖神经激烈迟钝：二周目遗忘牢笼法师商人需要远古死者灵魂生命残渣：辉石镇商人有卖暗黑风暴：狩猎森林第一个篝火前坐椅子的法师(似乎要后期?)灵魂共鸣：游戏早期某个宝箱，或者做暗黑契约的过程中会送强烈灵魂共鸣：游戏早期某个宝箱，或者做暗黑契约的过程中会送亢奋：完成暗黑契约所有任务(打倒暗天使)躯体共鸣：狩猎森林第一个篝火前坐椅子的法师武器共鸣：狩猎森林第一个篝火前坐椅子的法师吸精微光：遗忘牢笼法师商人需要暗黑潜伏者的灵魂深层沉默：狩猎森林第一个篝火前坐椅子的法师必然的和平足迹：DLC1深渊王冠暗之舞：DLC3白之王冠暗之大剑：DLC1深夜王冠回忆：DLC2铁之王冠]]></content>
       <categories>
-        <category>Playing</category>
+        <category>玩主儿</category>
       </categories>
       <tags>
         <tag>攻略</tag>
@@ -499,12 +462,11 @@
   </entry>
   <entry>
     <title><![CDATA[Mssql 日期格式化]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%AD%98%E5%82%A8%2Fmssql%2FMssql%20%E6%97%A5%E6%9C%9F%E6%A0%BC%E5%BC%8F%E5%8C%96%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FMssql%2FMssql%20%E6%97%A5%E6%9C%9F%E6%A0%BC%E5%BC%8F%E5%8C%96%2F</url>
     <content type="text"><![CDATA[SQL中CONVERT的使用方法:格式:CONVERT(data_type,e­xpression[,style])说明:此样式一般在时间类型 (datetime, smalldatetime) 与字符串类型 (nchar, nvarchar, char, varchar) 相互转换的时候才用到. 123456789101112131415161718192021222324252627282930313233343536373839404142-- 例子:Select CONVERT(varchar(100), GETDATE(), 0): 05 16 2006 10:57AMSelect CONVERT(varchar(100), GETDATE(), 1): 05/16/06Select CONVERT(varchar(100), GETDATE(), 2): 06.05.16Select CONVERT(varchar(100), GETDATE(), 3): 16/05/06Select CONVERT(varchar(100), GETDATE(), 4): 16.05.06Select CONVERT(varchar(100), GETDATE(), 5): 16-05-06Select CONVERT(varchar(100), GETDATE(), 6): 16 05 06Select CONVERT(varchar(100), GETDATE(), 7): 05 16, 06Select CONVERT(varchar(100), GETDATE(), 8): 10:57:46Select CONVERT(varchar(100), GETDATE(), 9): 05 16 2006 10:57:46:827AMSelect CONVERT(varchar(100), GETDATE(), 10): 05-16-06Select CONVERT(varchar(100), GETDATE(), 11): 06/05/16Select CONVERT(varchar(100), GETDATE(), 12): 060516Select CONVERT(varchar(100), GETDATE(), 13): 16 05 2006 10:57:46:937Select CONVERT(varchar(100), GETDATE(), 14): 10:57:46:967**Select CONVERT(varchar(100), GETDATE(), 20): 2006-05-16 10:57:47**Select CONVERT(varchar(100), GETDATE(), 21): 2006-05-16 10:57:47.157Select CONVERT(varchar(100), GETDATE(), 22): 05/16/06 10:57:47 AM**Select CONVERT(varchar(100), GETDATE(), 23): 2006-05-16Select CONVERT(varchar(100), GETDATE(), 24): 10:57:47**Select CONVERT(varchar(100), GETDATE(), 25): 2006-05-16 10:57:47.250Select CONVERT(varchar(100), GETDATE(), 100): 05 16 2006 10:57AM**Select CONVERT(varchar(100), GETDATE(), 101): 05/16/2006**Select CONVERT(varchar(100), GETDATE(), 102): 2006.05.16Select CONVERT(varchar(100), GETDATE(), 103): 16/05/2006Select CONVERT(varchar(100), GETDATE(), 104): 16.05.2006Select CONVERT(varchar(100), GETDATE(), 105): 16-05-2006Select CONVERT(varchar(100), GETDATE(), 106): 16 05 2006Select CONVERT(varchar(100), GETDATE(), 107): 05 16, 2006Select CONVERT(varchar(100), GETDATE(), 108): 10:57:49Select CONVERT(varchar(100), GETDATE(), 109): 05 16 2006 10:57:49:437AMSelect CONVERT(varchar(100), GETDATE(), 110): 05-16-2006**Select CONVERT(varchar(100), GETDATE(), 111): 2006/05/16**Select CONVERT(varchar(100), GETDATE(), 112): 20060516Select CONVERT(varchar(100), GETDATE(), 113): 16 05 2006 10:57:49:513Select CONVERT(varchar(100), GETDATE(), 114): 10:57:49:547Select CONVERT(varchar(100), GETDATE(), 120): 2006-05-16 10:57:49Select CONVERT(varchar(100), GETDATE(), 121): 2006-05-16 10:57:49.700Select CONVERT(varchar(100), GETDATE(), 126): 2006-05-16T10:57:49.827Select CONVERT(varchar(100), GETDATE(), 130): 18 ???? ?????? 1427 10:57:49:907AMSelect CONVERT(varchar(100), GETDATE(), 131): 18/04/1427 10:57:49:920AM]]></content>
       <categories>
-        <category>软件工程</category>
         <category>存储</category>
-        <category>mssql</category>
+        <category>Mssql</category>
       </categories>
       <tags>
         <tag>mssql</tag>
@@ -512,23 +474,10 @@
   </entry>
   <entry>
     <title><![CDATA[安装Python3]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2Flinux%2F%E5%AE%89%E8%A3%85Python3%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2FLinux%2F%E5%AE%89%E8%A3%85Python3%2F</url>
     <content type="text"><![CDATA[1. 安装 Python 依赖包12$ yum groupinstall "Development tools"$ yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel 2. 下载 Python3.5 源码包并编译123$ wget https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tgz$ tar -zxvf Python-3.5.0.taz$ cd Python-3.5.0 3. 编译安装1234$ ./configure --prefix=/usr/local --enable-shared$ make $ make install$ ln -s /usr/local/bin/python3 /usr/bin/python3 4. 在运行 Python 前配置需要库12$ echo /usr/local/lib &gt;&gt; /etc/ld.so.conf.d/local.conf$ ldconfig 5. 检测安装1$ python3 --version 6. 移除编译 Python 安装的库12$ yum groupremove "Development tools"$ yum remove zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel 7. 设置别名1$ alias py=python3]]></content>
       <categories>
-        <category>软件工程</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[网络配置]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2Flinux%2F%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%2F</url>
-    <content type="text"><![CDATA[1. 检测是否已启动网卡1$ ifconfig &amp; ifup eth0 2. 修改对应网卡配置信息1$ vi /etc/sysconfig/network-scripts/ifcfg-eth0 123456789DEVICE=&quot;eth0&quot;HWADDR=&quot;00:0C:29:FD:FF:2A&quot;NM_CONTROLLED=&quot;yes&quot;ONBOOT=&quot;yes&quot;IPADDR=192.168.1.31NETMASK=255.255.255.0GATEWAY=192.168.1.1BOOTPROTO=staticDNS1=192.168.1.1 3. 重启网卡12$ service network restart $ /etc/init.d/network restart 4. 可以安装网络图形设置工具1$ yum install setuptool 5. 检测网络状态1$ service network status]]></content>
-      <categories>
-        <category>软件工程</category>
-        <category>linux</category>
+        <category>Linux</category>
       </categories>
       <tags>
         <tag>linux</tag>
@@ -536,11 +485,21 @@
   </entry>
   <entry>
     <title><![CDATA[安装gcc]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2Flinux%2F%E5%AE%89%E8%A3%85gcc%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2FLinux%2F%E5%AE%89%E8%A3%85gcc%2F</url>
     <content type="text"><![CDATA[一、安装内核支持gcc1$ yum -y install gcc+ gcc-c++ 二、手动升级gcc1. 获取安装包12$ wget http://ftp.gnu.org/gnu/gcc/gcc-4.8.2/gcc-4.8.2.tar.bz2$ tar -jxvf gcc-4.8.2.tar.bz2 2. 下载编译需要的依赖项12$ cd gcc-4.8.2$ ./contrib/down_prerequiesites 3. 建立一个目录供编译输出的文件存放1$ mkdir gcc-build-4.8.2 4. 生成 Makefile 文件12$ cd gcc-build-4.8.2$ ../configure -enable-checking=release -enable-languages=c,c++ -disable-multilib 5. 编译, -j4选项是make对多核处理器的优化12$ make -j4$ yum -y install glibc-devel.i686 glibc-devel 6. 安装1$ make install 7. 检查gcc版本1$ gcc --version]]></content>
       <categories>
-        <category>软件工程</category>
-        <category>linux</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[网络配置]]></title>
+    <url>%2Fwiki-site%2Fwiki%2FLinux%2F%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%2F</url>
+    <content type="text"><![CDATA[1. 检测是否已启动网卡1$ ifconfig &amp; ifup eth0 2. 修改对应网卡配置信息1$ vi /etc/sysconfig/network-scripts/ifcfg-eth0 123456789DEVICE=&quot;eth0&quot;HWADDR=&quot;00:0C:29:FD:FF:2A&quot;NM_CONTROLLED=&quot;yes&quot;ONBOOT=&quot;yes&quot;IPADDR=192.168.1.31NETMASK=255.255.255.0GATEWAY=192.168.1.1BOOTPROTO=staticDNS1=192.168.1.1 3. 重启网卡12$ service network restart $ /etc/init.d/network restart 4. 可以安装网络图形设置工具1$ yum install setuptool 5. 检测网络状态1$ service network status]]></content>
+      <categories>
+        <category>Linux</category>
       </categories>
       <tags>
         <tag>linux</tag>
@@ -548,12 +507,11 @@
   </entry>
   <entry>
     <title><![CDATA[Gruntjs JSHint 代码校验]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjavascript%2FGruntjs%20JSHint%20%E4%BB%A3%E7%A0%81%E6%A0%A1%E9%AA%8C%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FGruntjs%20JSHint%20%E4%BB%A3%E7%A0%81%E6%A0%A1%E9%AA%8C%2F</url>
     <content type="text"><![CDATA[JSHint跟JSLint非常像，都是Javascript代码验证工具，这种工具可以检查你的代码并提供相关的代码改进意见。对于你的代码，你可以选择多种方式来进行检验： 第一种方法进入JSHint首页，粘贴你的代码，选择相关的选项，然后点击右下角的Lint按钮就可以了。 第二种方法使用Grunt整合的JSHint, 在项目根目录中建立一个grunt.js文件： 12345678910111213141516171819202122232425262728293031323334module.exports = function (grunt) &#123; 'use strict'; // Project configuration. grunt.initConfig(&#123; pkg: '&lt;json:package.json&gt;', test: &#123; files: ['test/**/*.js'] &#125;, lint: &#123; files: ['grunt.js', 'lib/**/*.js', 'test/**/*.js'] &#125;, watch: &#123; files: '&lt;config:lint.files&gt;', tasks: 'default' &#125;, jshint: &#123; options: &#123; curly: true, eqeqeq: true, newcap: true, noarg: true, sub: true, undef: true, boss: true, node: true &#125;, globals: &#123; exports: true &#125; &#125; &#125;); // Default task. grunt.registerTask('default', 'lint test');&#125;; 这里的lint.files就是要验证的所有文件。而下面的jshint.option是jshint的具体配置信息。简单介绍一下： curly: 大括号包裹，即不能使用这种代码： 12while (notEnd()) doSomething(); eqeqeq: 对于简单类型，使用===和!==，而不是==和!= newcap: 对于首字母大写的函数（声明的类），强制使用new noarg: 禁用arguments.caller和arguments.callee sub: 对于属性使用aaa.bbb而不是aaa[‘bbb’] undef: 查找所有未定义变量 boss: 查找类似与if(a = 0)这样的代码 node: 指定运行环境为node.js 第三种方法直接使用API： var result = JSHINT(source, options, globals);。其中source为待检查的脚本字符串（或者字符串数组）。options同第二种方法。globals是指定全局变量。如果验证通过，返回true，否则返回false。如果返回false，那么可以使用JSHINT.errors来查看错误。 参考资料：[1] 官方白皮书：http://www.jshint.com/docs/]]></content>
       <categories>
-        <category>软件工程</category>
         <category>编程语言</category>
-        <category>javascript</category>
+        <category>Javascript</category>
       </categories>
       <tags>
         <tag>javascript</tag>
@@ -561,12 +519,11 @@
   </entry>
   <entry>
     <title><![CDATA[Gruntjs uglify 代码压缩]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjavascript%2FGruntjs%20uglify%20%E4%BB%A3%E7%A0%81%E5%8E%8B%E7%BC%A9%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FGruntjs%20uglify%20%E4%BB%A3%E7%A0%81%E5%8E%8B%E7%BC%A9%2F</url>
     <content type="text"><![CDATA[uglify是一个文件压缩插件，项目地址：https://github.com/gruntjs/grunt-contrib-uglify本文将以一个DEMO来展示如何使用uglify插件。 现在直接通过Gruntfile.js来看看这四个任务的配置： 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950module.exports = function(grunt)&#123; // 项目配置 grunt.initConfig(&#123; pkg: grunt.file.readJSON('package.json'), uglify: &#123; options: &#123; banner: '/*! &lt;%= pkg.name %&gt; &lt;%= grunt.template.today("yyyy-mm-dd") %&gt; */\n'//添加banner &#125;, builda: &#123;//任务一：压缩a.js，不混淆变量名，保留注释，添加banner和footer options: &#123; mangle: false, //不混淆变量名 preserveComments: 'all', //不删除注释，还可以为 false（删除全部注释），some（保留@preserve @license @cc_on等注释） footer:'\n/*! &lt;%= pkg.name %&gt; 最后修改于： &lt;%= grunt.template.today("yyyy-mm-dd") %&gt; */'//添加footer &#125;, files: &#123; 'output/js/a.min.js': ['js/a.js'] &#125; &#125;, buildb:&#123;//任务二：压缩b.js，输出压缩信息 options: &#123; report: "min"//输出压缩率，可选的值有 false(不输出信息)，gzip &#125;, files: &#123; 'output/js/b.min.js': ['js/main/b.js'] &#125; &#125;, buildall: &#123;//任务三：按原文件结构压缩js文件夹内所有JS文件 files: [&#123; expand:true, cwd:'js',//js目录下 src:'**/*.js',//所有js文件 dest: 'output/js'//输出到此目录下 &#125;] &#125;, release: &#123;//任务四：合并压缩a.js和b.js files: &#123; 'output/js/index.min.js': ['js/a.js', 'js/main/b.js'] &#125; &#125; &#125; &#125;); // 加载提供"uglify"任务的插件 grunt.loadNpmTasks('grunt-contrib-uglify'); // 默认任务 grunt.registerTask('default', ['uglify:release']); grunt.registerTask('mina', ['uglify:builda']); grunt.registerTask('minb', ['uglify:buildb']); grunt.registerTask('minall', ['uglify:buildall']); &#125;]]></content>
       <categories>
-        <category>软件工程</category>
         <category>编程语言</category>
-        <category>javascript</category>
+        <category>Javascript</category>
       </categories>
       <tags>
         <tag>javascript</tag>
@@ -574,13 +531,12 @@
   </entry>
   <entry>
     <title><![CDATA[Java env for linux]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjava%2F%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%2FJava%20env%20for%20linux%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJava%2Fide%2FJava%20env%20for%20linux%2F</url>
     <content type="text"><![CDATA[1. 解压文件12$ mkdir /usr/local/java$ tar -zxf /mnt/jre-8u151-linux-x64.tar.gz -C /usr/local/java/ 2. 设置环境变量12345678910$ vi /etc/profile&gt;&gt;&gt;&gt;&gt;&gt;JAVA_HOME=/usr/local/java/jre1.8.0_151 PATH=$PATH:$JAVA_HOME/binCLASSPATH=.:$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:$CLASSPATH export PATH&lt;&lt;&lt;&lt;&lt;&lt;&lt;$ source /etc/profile 3. 验证环境1$ java -version]]></content>
       <categories>
-        <category>软件工程</category>
         <category>编程语言</category>
-        <category>java</category>
-        <category>开发工具</category>
+        <category>Java</category>
+        <category>ide</category>
       </categories>
       <tags>
         <tag>linux</tag>
@@ -588,134 +544,12 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Oracle 导入导出]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%AD%98%E5%82%A8%2Foracle%2FOracle%20%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%2F</url>
-    <content type="text"><![CDATA[可将整个数据库，用户，表导出备份，在一些包含大字段的表无法用sql插入时，很好用哦。 导出exp 123exp zysys/zy2009phoenix@phoenix_my file=e:\phoenix.dmp full=y --完全导出 exp zysys/zy2009phoenix@phoenix_my file=e:\zymbs.dmp owner=(zysys,zymbs) --按用户导出 exp zysys/zy2009phoenix@phoenix_my file=e:\table.dmp tables=(ZYMBS.RHRSP_KPI_DICT,table2) --导出表 导入imp 123imp zysys/zy2009phoenix@phoenix file=c:\orabackup\hkbfull.dmp log=c:\orabackup\hkbimp.log full=y --完全导入 imp zysys/zy2009phoenix@phoenix_my fromuser=zymbs touser=zymbs FILE=E:\zymbs.dmp ignore=y; --按用户 imp zysys/zy2009phoenix@phoenix file=e:\table.dmp tables=(RHRSP_KPI_DICT) --导入表（不需要表空间名） 11g R2 导出空表oracle 11g r2 新增了一个参数：deferred_segment_creation, 如果这个参数设置为 true，你新建了一个表 T1，并且没有向其中插入数据，那么这个表不会立即分配 extent，也就是不占数据空间，只有当你 insert 数据后才分配空间。这样可以节省少量的空间。所以在导出时，空的表将不导出需要单独处理 1) 设置 deferred_segment_creation 参数为FALSESQL&gt; alter system set deferred_segment_creation=false; 2) 注意并且要重启数据库，让参数生效, 但是这样操作后只会生效于新表 3) 使用 allocate extent 可以为数据库对象分配ExtentSQL&gt; ALLOCATE EXTENT { SIZE integer [K | M] | DATAFILE &#39;filename&#39; | INSTANCE integer 对现有表的处理脚本 createsql.sql：1234567set heading off; set echo off; set feedback off; set termout on; spool C:\allocate.sql; select 'alter table '||table_name||' allocate extent;' from user_tables where num_rows=0; spool off;]]></content>
-      <categories>
-        <category>软件工程</category>
-        <category>存储</category>
-        <category>oracle</category>
-      </categories>
-      <tags>
-        <tag>oracle</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Oracle 表空间]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%AD%98%E5%82%A8%2Foracle%2FOracle%20%E8%A1%A8%E7%A9%BA%E9%97%B4%2F</url>
-    <content type="text"><![CDATA[查看数据文件位置 1SELECT TABLESPACE_NAME,FILE_ID,BYTES,FILE_NAME FROM DBA_DATA_FILES; 表空间状态 1SELECT TABLESPACE_NAME,STATUS FROM DBA_TABLESPACES; 创建表空间 123456CREATE TABLESPACE "ZYMBS" NOLOGGING --不创建重做日志文件 DATAFILE 'E:\WORK\DATA\PHOENIX\ZYMBS01.ORA' SIZE 5M AUTOEXTEND ON --自动增长 NEXT 50M MAXSIZE 2048M --自动增长最大到2G EXTENT MANAGEMENT LOCAL; 创建用户 123CREATE USER zymbs IDENTIFIED BY zy2009phoenix DEFAULT TABLESPACE ZYMBS TEMPORARY TABLESPACE TEMP; 分发权限 1234567GRANT --系统权限 CREATE SESSION, CREATE ANY TABLE, CREATE ANY VIEW ,CREATE ANY INDEX, CREATE ANY PROCEDURE, ALTER ANY TABLE, ALTER ANY PROCEDURE, DROP ANY TABLE, DROP ANY VIEW, DROP ANY INDEX, DROP ANY PROCEDURE, SELECT ANY TABLE, INSERT ANY TABLE, UPDATE ANY TABLE, DELETE ANY TABLE TO ZYMBS; GRANT RESOURCE, CONNECT TO ZYMBS; --角色权限 删除表空间 1DROP TABLESPACE ZYMBS INCLUDING CONTENTS AND DATAFILES; 修改状态(ONLINE,OFFLINE,READONLY,READWRITE) 1ALTER TABLESPACE ZYMBS OFFLINE; 修改文件大小,添加文件 12ALTER TABLESPACE DATAFILE &apos;E:\ZYMBS01.ORA&apos; RESIZE 10M; ALTER TABLESPACE ZYMBS ADD DATAFILE &apos;E:\ZYMBS02.ORA&apos; SIZE 5M; 修改表空间数据文件的自动扩展性 1ALTER DATABASE DATAFIELE &apos;E:\ZYMBS01.ORA&apos; AUTOEXTEND ON NEXT 5M MAXSIZE 50M; 重新指定表空间路径 1alter tablespace SIMPLE RENAME DATAFILE &apos;E:\table2.dbf&apos; to &apos;D:\table.dbf&apos;; 设置默认表空间 1. 查询(当前用户)默认表空间 select default_tablespace from user_users; 2. 修改默认表空间 alter database default tablespace SIMPLE; 如果是oracle 9i本语句不支持，但能让用户指向某表空间，具体做法如下： 例： alter user scott default tablespace users; (scott为用户名, users为表空间) 有时会出现表空间有存在的情况，这时一般都是以下几个原因造成的： 1、写错表空间名，我想的话这种机率较小。 2、回想一下，你在创建表空间时是否给表空间表加了双引号如： CREATE TABLESPACE &quot;Sample&quot; ……………… 如果是这样的话，你在修改默认表空间，写表空间名字的时候就要区分大小了，这个是非常重要的，并且还要加上双引号， 如：alter user scott default tablespace &quot;Sample&quot;;(scott为用户名)。]]></content>
-      <categories>
-        <category>软件工程</category>
-        <category>存储</category>
-        <category>oracle</category>
-      </categories>
-      <tags>
-        <tag>oracle</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Nodejs Express]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjavascript%2FNodejs%20Express%2F</url>
-    <content type="text"><![CDATA[1. Express 是什么？Express 是一个Node 最常用的开发包，用于快速构建 Web 项目。 2. 安装 Expressnpm install -g express@3 //全局包 注：无法使用 express 时，将 node_modules 目录加入环境变量 path 中设置永久环境变量即使重启机器也能够使用node命令了。 进入/etc vi profile在最后面追加两行：1234&gt;&gt; export NODE_HOME=/home/node-v0.10.0-linux-x64 &gt;&gt; export PATH=$PATH:$NODE_HOME/bin &gt;&gt; export NODE_PATH=$NODE_HOME/lib/node_modules &gt;&gt; express4.x 以上版本，命令行工具已经分离出来 npm install -g express-generator //安装命令行工具 express project1 &amp;&amp; cd project1 //创建项目 npm install //安装express及依赖 npm start //启动 3. 创建测试项目12CD E:\Nodejs\test Express -e myproject //创建项目 目录结构： Node_modules：存放所有项目依赖项 Package.json：项目依赖项配置及开发者信息 App.js：程序启动文件 Public：静态文件(css、js、img) Routes：路由文件 Views：页面文件(ejs模板) 4. 启动 express testNode app.js 提示 express 未安装==&gt; 将 $home\AppData\npm\node_modules\express 文件拷至项目目录下提示 ejs 未安装==&gt;npm install ejs 5. 修改ejs模板Ejs view 模板默认以 .ejs 结尾，修改默认模板，修改为 html 模板。1234App.js ==&gt; var ejs = require('ejs'); ==&gt; app.engine('.html',ejs__express); ==&gt; app.set('view engine','html'); 6. 安装 supervisor debug环境Supervisor 组件包，可以动态加载修改后的开发程序，无需重新启动 Node。Npm install -g supervisor 7. 简单登录Demo例==&gt; E:\Nodejs\test\myproject]]></content>
-      <categories>
-        <category>软件工程</category>
-        <category>编程语言</category>
-        <category>javascript</category>
-      </categories>
-      <tags>
-        <tag>javascript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Nodejs MongoDB]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjavascript%2FNodejs%20MongoDB%2F</url>
-    <content type="text"><![CDATA[1. MongoDB 是什么？MongoDB 是一个基于分布式文件存储的中小型数据库，与 Oracle 完全不一样，采用的是文档存储形式(NoSQL). 2. 搭建 MongoDB 环境 将下载的 mongodb.rar 解压。 在环境变量中配置 $mongodb_home/bin 在同一盘符下创建 E: data/db Cmd ==&gt; mongod //启动 mongodb 服务 12# 进程启动成功提示信息Tue Feb 11 23:30:11.512 [initandlisten] MongoDB starting : pid=2564 port=27017 dbpath=\data\db\ 64-bit host=PC 3. 使用 MongoDB 保持 mongod 服务，在另一 cmd 中使用 mongo 进入 创建数据库：use k9 创建文档 users：因为要使用 mongoose 组件包，所以文档后到要加一个 ‘s’ 12db.users.insert(&#123;uname:'admin',pwd:'asdf'&#125;); //插入后即创建文档 db.users.find(); //查询全部 4. 使用 MongooseMongoose 是在 Nodejs 异步环境下对 mongodb 进行便捷操作的对象模型工具。 4.1 安装 Mongoose 组件12npm install -g express-mongoosenpm install -g mongoose 4.2 定义 VO 类12345678/* MongoDB models */var mongoose = require('mongoose');var schema = mongoose.Schema; //模式var UserSchema = new schema(&#123; uname:String, pwd:String&#125;);exports.User = mongoose.model('User',UserSchema); //与 Users 表关联 4.3 在程序中使用 引用组件：var mongoose = require(&#39;mongoose&#39;); 加入VO组件：var models = require(&#39;./models&#39;); 使用User模型：var User = models.User; 连接数据库：mongoose.connect(&#39;mongodb://localhost/k9&#39;); 修改登录验证： 1234567891011exports.doLogin = function(req, res)&#123; var u_u = &#123;uname:req.body.uname, pwd:req.body.pwd&#125;; User.count(u_u,function(err,doc)&#123; //根据u_u查询结果 if(doc==0)&#123; res.redirect('/login'); &#125;else&#123; res.redirect('/welcome?uname='+u_u.uname); &#125; &#125;);&#125;; 注意：提示 mongoose 未安装，则需要将 mongoose，express-mongoose 拷至当前项目下例子：E:\Nodejs\test\myproject]]></content>
-      <categories>
-        <category>软件工程</category>
-        <category>编程语言</category>
-        <category>javascript</category>
-      </categories>
-      <tags>
-        <tag>javascript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Oracle 冷备启库]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%AD%98%E5%82%A8%2Foracle%2FOracle%20%E5%86%B7%E5%A4%87%E5%90%AF%E5%BA%93%2F</url>
-    <content type="text"><![CDATA[1、准备工作 查看数据版本是否跟库文件相同 查看数据文件是否都齐全 查看 init.ora 是否在（参数文件，也可以自己配置） 2、创建文件夹 在 oracle/admin 目录下创建 实例名文件夹。如：phoenix 在此文件夹中创建 adump、dpdump、pfile ,将 init.ora 放置在 pfile 文件夹中 在 fast_recovery_area 文件夹中创建实例名文件夹4. 在 oradata 文件夹中创建实例名文件夹 3、创建空实例1$ oradim -new -sid phoenix -startmode auto -pfile init.ora 4、创建密码文件1$ orapwd file=D:\oracle\product\11.2.0\dbhome_1\database\pwdphoenix.ora password=oracle; 5、进入创建好的实例12$ sqlplus /nolog $ conn zysys/zy2009phoenix as sysdba 6、生成spfile文件1$ create spfile from pfile='D:\Oracle\admin\phoenix\pfile\init.ora'; 7、重建控制文件123456789101112131415161718$ CREATE CONTROLFILE REUSE SET DATABASE "phoenix" RESETLOGS NOARCHIVELOG MAXLOGFILES 16 MAXLOGMEMBERS 3 MAXDATAFILES 100 MAXINSTANCES 8 MAXLOGHISTORY 292 LOGFILE GROUP 1 'E:\Work\Data\Orcl\REDO01.LOG' SIZE 50M BLOCKSIZE 512, GROUP 2 'E:\Work\Data\Orcl\REDO02.LOG' SIZE 50M BLOCKSIZE 512, GROUP 3 'E:\Work\Data\Orcl\REDO03.LOG' SIZE 50M BLOCKSIZE 512 -- STANDBY LOGFILE DATAFILE 'E:\Work\Data\Orcl\SYSTEM01.DBF', 'E:\Work\Data\Orcl\SYSAUX01.DBF', 'E:\Work\Data\Orcl\UNDOTBS01.DBF', 'E:\Work\Data\Orcl\USERS01.DBF', ………………数据文件位置……………… CHARACTER SET ZHS16GBK; 8、启动数据库 alter database open; // alter database open resetlogs upgrade 小版本不同需要升级 若是选用noresetlogs选项, 若无法打开数据库, 则尝试执行recover database; 若是在线热备数据库文件,则还要把热备时刻的归档日志拷过来,恢复时用下列语法recover database using backup controlfile until cancel;写入日志文件 d：/xxx.log 创建临时表空间alter tablespace temp add tempfile &#39;C:\Oracle\database\phoenix\temp01.ora&#39; size 50M reuse autoextend on next 50M maxsize 500M; 小版本不同需要执行升级脚本oracle_home/rdbms/admin/catupgrd.sql； 重启数据库]]></content>
-      <categories>
-        <category>软件工程</category>
-        <category>存储</category>
-        <category>oracle</category>
-      </categories>
-      <tags>
-        <tag>oracle</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Nodejs quickstart]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjavascript%2FNodejs%20quickstart%2F</url>
-    <content type="text"><![CDATA[1. Nodejs 是什么？ Node.js® is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。 2. 安装 Nodejs Nodejs.org 上下载 source code 进入目录, 解压来 source Tar -zxvf nodejs-v0.10.tar.gz 进入目录, 检查安装环境 ./configure 可以使用 ./configrue --prefix /nodejs 指定安装目录 , 提示 gcc 未安装, 使用 yum -y install gcc+ gcc-c++ 安装gcc 编译安装 make &amp;&amp; make install 创建软连接 sudo ln -s /nodejs/bin/node /usr/local/bin/node 在任意目录使用 3. 卸载 Nodejs 卸载npm Npm uninstall npm 移除文件 rm -rf bin/node bin/node-waf include/node lib/node lib/pkgconfig/nodejs.pc share/man/man1/node.1]]></content>
-      <categories>
-        <category>软件工程</category>
-        <category>编程语言</category>
-        <category>javascript</category>
-      </categories>
-      <tags>
-        <tag>javascript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Oracle 切换数据模式]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E5%AD%98%E5%82%A8%2Foracle%2FOracle%20%E5%88%87%E6%8D%A2%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%BC%8F%2F</url>
-    <content type="text"><![CDATA[1alter datatbase datafile=F:\phoenix\zycure.ora offline drop ;]]></content>
-      <categories>
-        <category>软件工程</category>
-        <category>存储</category>
-        <category>oracle</category>
-      </categories>
-      <tags>
-        <tag>oracle</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Struts2 action result]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjava%2Fstruts2%2FStruts2%20action%20result%2F</url>
-    <content type="text"><![CDATA[对 action 执行后返回的 result （1） 常用几种 result type Dispatcher 拦截器，不配置type时 默认，相当于 transfer 服务器跳转。&lt;result type=&quot;dispatcher&quot;&gt;/index.jsp&lt;/result&gt; Redirect 客户端跳转，相当于再次请求另外一个页面，在url中显示的是 xxx.jsp&lt;result type=&quot;redirect&quot; name=&quot;xxx&quot;&gt;index.jsp&lt;/result&gt; Chain 跳转至 action，配置对应的 package 名字 和 action 名字 。 1234&lt;result type="chain" name="ccc"&gt; &lt;param name="actionName"&gt;action&lt;/param&gt; &lt;param name="namespace"&gt;/&lt;/param&gt;&lt;/result&gt; RedirectAction ，客户端跳转至action。跳转后 url 显示的action 名字。 1234&lt;result type="redirectAction" name="r2"&gt; &lt;param name="actionName"&gt;action&lt;/param&gt; &lt;param name="namespace"&gt;/&lt;/param&gt; &lt;/result&gt; Stream 文字流，可用于Ajax返回纯文本，或者二进制流（下载文件）。 1234&lt;result type="stream" name="sss"&gt; &lt;param name="contentType"&gt;text/html&lt;/param&gt; &lt;param name="inputName"&gt;inputStream&lt;/param&gt; &lt;/result&gt; 在action中定义 inputStream , InputStream inputStream = new StringBufferInputStream(&quot;json&quot;); 向页面直接输出 string。 （2）全局 result ：global-results 定义全局 result ，在此 package 中的 action 对此 result 均可访问。常用于错误、异常处理 123&lt;global-results&gt; &lt;result name="error"&gt;/Error.jsp&lt;/result&gt; &lt;/global-results&gt; 另外 package 要使用此全局 result ，需要继承自此 package &lt;package name=&quot;module1&quot; namespace=&quot;/&quot; extends=&quot;action&quot;&gt; （3） 动态 result result 取自 valuestack 值栈中&lt;result name=&quot;xxx&quot;&gt;${result}&lt;/result&gt; 动态设置跳转页面参数，仅在 redirect 中使用，因为在 dispatcher、chain 为同个 request ，共享同一个valueStack。&lt;result name=&quot;rrr&quot; type=&quot;redirect&quot;&gt;/index.jsp?result=${result}&lt;/result&gt;改参数被塞入 stack context 中的 parameters &lt;s:property value=&quot;#parameters.result&quot;/&gt;]]></content>
-      <categories>
-        <category>软件工程</category>
-        <category>编程语言</category>
-        <category>java</category>
-        <category>struts2</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>struts</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Struts2 action 传参]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjava%2Fstruts2%2FStruts2%20action%20%E4%BC%A0%E5%8F%82%2F</url>
-    <content type="text"><![CDATA[表单传参数给action的几种方法和简单的验证，抛出异常。 一、参数通过类属性1234567private String name;private String age;public String parm() &#123; System.out.println("name : "+getName()); System.out.println("age : "+getAge()); return SUCCESS;&#125; 对应 URl “basePath/parm/parm?name=xxx&amp;&amp;age=12” ，structs会将对应的参数填入属性中。 二、通过实体类123456private user user;public String parm() &#123; System.out.println("name : "+user.getName()); System.out.println("age : "+user.getAge()); return SUCCESS;&#125; 定义实体类Model或DTO，在url中传入值 “basePath/parmModel/parm?user.name=xxx&amp;&amp;user.age=12”,structs会实例化Model，将参数传入。 三、通过modelDriven 实现modeldriven接口 public class action5 extends ActionSupport implements ModelDriven&lt;user&gt; 重写 getModel 方法 1234567@Override public user getModel() &#123; if (user == null) &#123; user = new user(); &#125; return user;&#125; 其余与实体类传参相同（不常用） 四、简单数据验证12345678public String add() &#123; if (name == null || name.length() &lt;= 0 || name != "admin") &#123; this.addFieldError("name", "holi shit !! what you enter for!!"); this.addFieldError("name", "我去年买了个表"); return ERROR; &#125; return SUCCESS; &#125; 在方法中使用 addFieldError ，将错误信息加入 valueStack 中，前台页面使用 OGNL 标签获取 error！ 123 &lt;s:fielderror fieldName="name" /&gt; &lt;s:property value="errors.name[0]"/&gt; &lt;s:debug&gt;&lt;/s:debug&gt; 注意：在使用 ONGL 时，需要在顶部引用标签库。 &lt;%@ taglib uri=&quot;/struts-tags&quot; prefix=&quot;s&quot; %&gt;, 便签库文件在 struts-core 包的 META-INF 下的 struts-tags.tld]]></content>
-      <categories>
-        <category>软件工程</category>
-        <category>编程语言</category>
-        <category>java</category>
-        <category>struts2</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>struts</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Struts2 action 配置]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjava%2Fstruts2%2FStruts2%20action%20%E9%85%8D%E7%BD%AE%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJava%2Fstruts2%2FStruts2%20action%20%E9%85%8D%E7%BD%AE%2F</url>
     <content type="text"><![CDATA[一、action中未定义对应的method时，默认调用execute方法。 action 中定义 action1.execute() 方法，structs默认执行此方法（不建议） 1234567&lt;package name="cq.action"namespace="/"extends="struts-default"&gt; &lt;action name="index"class="cq.action.action1"&gt; &lt;result name="success"&gt; /index.jsp &lt;/result&gt; &lt;/action&gt; &lt;/package&gt; action 实现 action 接口，实现 exectue() ， structs 也会执行此方法（不建议) action 继承 actionSupport ，此父类中已经定义了许多方法 （推荐） 二、配置对应的方法 可配置 action 对应的 method 12345&lt;action name="show"class="cq.action.action2"method="show"&gt; &lt;result&gt; /show.jsp &lt;/result&gt; &lt;/action&gt; 三、使用动态调用action （DMI）12345&lt;action name="show"class="cq.action.action2"&gt; &lt;result&gt; /show.jsp &lt;/result&gt; &lt;/action&gt; 调用时使用 basePath/show!method , ‘！’后面对于方法（弊端是无法对应多个result）。使用时需要打开动态调用配置：&lt;constant name=&quot;struts.enable.DynamicMethodInvocation&quot;value=&quot;true&quot;/&gt; 四、通配符12345&lt;action name="*_*"class="cq.action.&#123;1&#125;Action"method="&#123;2&#125;"&gt; &lt;result&gt; /&#123;1&#125;_&#123;2&#125;.jsp &lt;/result&gt; &lt;/action&gt; 使用 通配符，{1} 对应第一个 ，通配符好处是可以减少配置量，但要求命名规范，如上述配置，action的命名为NameAction，方法为Get,则调用的url为 /Name/Get，对应的view 为 Name_Get.jsp。 如何配置出.net MVC 模式的通配符呢？ 五、包含xml，将其它文件包含进 struts.xml 配置中，更加容易分模块管理&lt;include file=&quot;login.xml&quot;/&gt; 六、默认 Action ，当 struts 找不到对应 action 时调用此 action。&lt;defaut-action-ref name=&quot;index&quot;&gt;&lt;/defaut-action-ref&gt;]]></content>
       <categories>
-        <category>软件工程</category>
         <category>编程语言</category>
-        <category>java</category>
+        <category>Java</category>
         <category>struts2</category>
       </categories>
       <tags>
@@ -725,12 +559,11 @@
   </entry>
   <entry>
     <title><![CDATA[Struts2 获取上下文]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjava%2Fstruts2%2FStruts2%20%E8%8E%B7%E5%8F%96%E4%B8%8A%E4%B8%8B%E6%96%87%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJava%2Fstruts2%2FStruts2%20%E8%8E%B7%E5%8F%96%E4%B8%8A%E4%B8%8B%E6%96%87%2F</url>
     <content type="text"><![CDATA[在 action 中获取上下文（request, response, session, application），主要有四种方法，前两种获取的为 Map&lt;string, Object&gt; 类型，后两种获取的为HttpContext 原类型。 一、在 struts 容器中获取上下文123requestMap=(Map)ActionContext.getContext().get("request");sessionMap=ActionContext.getContext().getSession();applicationMap=ActionContext.getContext().getApplication(); 可以将此获取下在构造函数中，获取后可以向容器中设置。 123requestMap.put("R1", "R1");sessionMap.put("S1", "S1");applicationMap.put("A1", "A1"); 在前台页面可以去 action context 中获取值： 123 &lt;s:property value="#request.R1"/&gt; || &lt;%= request.getAttribute("R1")%&gt;&lt;br/&gt; &lt;s:property value="#session.S1"/&gt; || &lt;%= session.getAttribute("S1")%&gt;&lt;br/&gt; &lt;s:property value="#application.A1" /&gt; || &lt;%= application.getAttribute("A1") %&gt;&lt;br/&gt; 带“#”的OGNL 取的是 action context 的内容，而后一种是普通的 jsp 取值方法。 二、使用 IoC ，让 struts 注入上下文（常用）123456789101112131415public class action2 extends ActionSupport implements RequestAware,SessionAware,ApplicationAware &#123; // 实现三个接口，当struts实例化action时，向其中注入 context上下文 @Override public void setApplication(Map&lt;String, Object&gt; arg0) &#123; this.requestMap=arg0; &#125; @Override public void setSession(Map&lt;String, Object&gt; arg0) &#123; this.sessionMap=arg0; &#125; @Override public void setRequest(Map&lt;String, Object&gt; arg0) &#123; this.applicationMap=arg0; &#125;&#125; 用此方法的好处是，不必一一的获取上下文，依靠spring ioc的注入。 三、获取原始的HttpContext123private HttpServletRequest request = ServletActionContext.getRequest() ; private HttpSession session = request.getSession() ; private ServletContext application = session.getServletContext() ; 四、IoC获取原始HttpContext12345678public class action4 extends ActionSupport implements ServletRequestAware // 实现接口 ServletRequestAware ； @Override public void setServletRequest(HttpServletRequest arg0) &#123; request=arg0; session=request.getSession(); application=session.getServletContext(); &#125; 以上为主要获取 HttpContext 上下文方法，常用IoC的方式以减少依赖。]]></content>
       <categories>
-        <category>软件工程</category>
         <category>编程语言</category>
-        <category>java</category>
+        <category>Java</category>
         <category>struts2</category>
       </categories>
       <tags>
@@ -739,44 +572,99 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Struts2 quickstart]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjava%2Fstruts2%2FStruts2%20quickstart%2F</url>
-    <content type="text"><![CDATA[新建 web project .当修改project名时，要同时修改 properties -&gt; myeclipse -&gt; web -&gt; ontext-root.不然发布后的文件名不会修改。 找到 struct2 -all ,打开 app 目录中（此为示例） ，解压任意一个，将 structs.xml 拷入项目。 将 \WEB-INF\lib 下引用的包拷入项目中 修改 web.xml ，将示例中的 web.xml 下的 filter 配置拷入。 12345678 &lt;filter&gt; &lt;filter-name&gt;struts2&lt;/filter-name&gt; &lt;filter-class&gt;org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter&lt;/filter- class&gt; &lt;/filter&gt; &lt;filter-mapping&gt; &lt;filter-name&gt;struts2&lt;/filter-name&gt; &lt;url-pattern&gt;/*&lt;/url-pattern&gt; &lt;/filter-mapping&gt; 修改 structs.xml 配置，以下为最简单的配置，修改完后部署到 tomcat 上，访问 http://localhost:8080/myproject/helloworld 即可。 12345678 &lt;package name="default"namespace="/"extends="struts-default"&gt; &lt;default-action-ref name="index"/&gt; &lt;action name="helloworld"&gt; &lt;result&gt; /index.jsp &lt;/result&gt; &lt;/action&gt; &lt;/package&gt; namespace 表示访问路径解析，如设置/index ,则访问的时候也需要加入/index，如果namespace为空，表示所有包含action的均会被解析，用于处理其他namespace处理不到的请求. 为 structs 包添加源码查看和api右键 structs2-core.jar -&gt; properties -&gt; 1. java source attachment 源码 struts-2.2.3.1-all/struts-2.2.3.1/src/core/src/main/java javadoc location api文档 struts-2.2.3.1-all/struts-2.2.3.1/docs/structs2-core/apidocs 开启 structs 开发模式，这样在修改配置后不需要 redeploy &lt;constant name=”struts.devMode”value=”true”/&gt; 为 structs.xml 添加提示windows -&gt; preferences -&gt; xml catalog -&gt; add -&gt; type 选择 uri , key 填写 “http://struts.apache.org/dtds/struts-2.0.dtd&quot;location 为 struct-core.jar 解压后中的 struct2.dtd]]></content>
+    <title><![CDATA[Oracle 导入导出]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FOracle%2FOracle%20%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%2F</url>
+    <content type="text"><![CDATA[可将整个数据库，用户，表导出备份，在一些包含大字段的表无法用sql插入时，很好用哦。 导出exp 123exp zysys/zy2009phoenix@phoenix_my file=e:\phoenix.dmp full=y --完全导出 exp zysys/zy2009phoenix@phoenix_my file=e:\zymbs.dmp owner=(zysys,zymbs) --按用户导出 exp zysys/zy2009phoenix@phoenix_my file=e:\table.dmp tables=(ZYMBS.RHRSP_KPI_DICT,table2) --导出表 导入imp 123imp zysys/zy2009phoenix@phoenix file=c:\orabackup\hkbfull.dmp log=c:\orabackup\hkbimp.log full=y --完全导入 imp zysys/zy2009phoenix@phoenix_my fromuser=zymbs touser=zymbs FILE=E:\zymbs.dmp ignore=y; --按用户 imp zysys/zy2009phoenix@phoenix file=e:\table.dmp tables=(RHRSP_KPI_DICT) --导入表（不需要表空间名） 11g R2 导出空表oracle 11g r2 新增了一个参数：deferred_segment_creation, 如果这个参数设置为 true，你新建了一个表 T1，并且没有向其中插入数据，那么这个表不会立即分配 extent，也就是不占数据空间，只有当你 insert 数据后才分配空间。这样可以节省少量的空间。所以在导出时，空的表将不导出需要单独处理 1) 设置 deferred_segment_creation 参数为FALSESQL&gt; alter system set deferred_segment_creation=false; 2) 注意并且要重启数据库，让参数生效, 但是这样操作后只会生效于新表 3) 使用 allocate extent 可以为数据库对象分配ExtentSQL&gt; ALLOCATE EXTENT { SIZE integer [K | M] | DATAFILE &#39;filename&#39; | INSTANCE integer 对现有表的处理脚本 createsql.sql：1234567set heading off; set echo off; set feedback off; set termout on; spool C:\allocate.sql; select 'alter table '||table_name||' allocate extent;' from user_tables where num_rows=0; spool off;]]></content>
       <categories>
-        <category>软件工程</category>
-        <category>编程语言</category>
-        <category>java</category>
-        <category>struts2</category>
+        <category>存储</category>
+        <category>Oracle</category>
       </categories>
       <tags>
-        <tag>java</tag>
-        <tag>struts</tag>
+        <tag>oracle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Nodejs Express]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FNodejs%20Express%2F</url>
+    <content type="text"><![CDATA[1. Express 是什么？Express 是一个Node 最常用的开发包，用于快速构建 Web 项目。 2. 安装 Expressnpm install -g express@3 //全局包 注：无法使用 express 时，将 node_modules 目录加入环境变量 path 中设置永久环境变量即使重启机器也能够使用node命令了。 进入/etc vi profile在最后面追加两行：1234&gt;&gt; export NODE_HOME=/home/node-v0.10.0-linux-x64 &gt;&gt; export PATH=$PATH:$NODE_HOME/bin &gt;&gt; export NODE_PATH=$NODE_HOME/lib/node_modules &gt;&gt; express4.x 以上版本，命令行工具已经分离出来 npm install -g express-generator //安装命令行工具 express project1 &amp;&amp; cd project1 //创建项目 npm install //安装express及依赖 npm start //启动 3. 创建测试项目12CD E:\Nodejs\test Express -e myproject //创建项目 目录结构： Node_modules：存放所有项目依赖项 Package.json：项目依赖项配置及开发者信息 App.js：程序启动文件 Public：静态文件(css、js、img) Routes：路由文件 Views：页面文件(ejs模板) 4. 启动 express testNode app.js 提示 express 未安装==&gt; 将 $home\AppData\npm\node_modules\express 文件拷至项目目录下提示 ejs 未安装==&gt;npm install ejs 5. 修改ejs模板Ejs view 模板默认以 .ejs 结尾，修改默认模板，修改为 html 模板。1234App.js ==&gt; var ejs = require('ejs'); ==&gt; app.engine('.html',ejs__express); ==&gt; app.set('view engine','html'); 6. 安装 supervisor debug环境Supervisor 组件包，可以动态加载修改后的开发程序，无需重新启动 Node。Npm install -g supervisor 7. 简单登录Demo例==&gt; E:\Nodejs\test\myproject]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Nodejs MongoDB]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FNodejs%20MongoDB%2F</url>
+    <content type="text"><![CDATA[1. MongoDB 是什么？MongoDB 是一个基于分布式文件存储的中小型数据库，与 Oracle 完全不一样，采用的是文档存储形式(NoSQL). 2. 搭建 MongoDB 环境 将下载的 mongodb.rar 解压。 在环境变量中配置 $mongodb_home/bin 在同一盘符下创建 E: data/db Cmd ==&gt; mongod //启动 mongodb 服务 12# 进程启动成功提示信息Tue Feb 11 23:30:11.512 [initandlisten] MongoDB starting : pid=2564 port=27017 dbpath=\data\db\ 64-bit host=PC 3. 使用 MongoDB 保持 mongod 服务，在另一 cmd 中使用 mongo 进入 创建数据库：use k9 创建文档 users：因为要使用 mongoose 组件包，所以文档后到要加一个 ‘s’ 12db.users.insert(&#123;uname:'admin',pwd:'asdf'&#125;); //插入后即创建文档 db.users.find(); //查询全部 4. 使用 MongooseMongoose 是在 Nodejs 异步环境下对 mongodb 进行便捷操作的对象模型工具。 4.1 安装 Mongoose 组件12npm install -g express-mongoosenpm install -g mongoose 4.2 定义 VO 类12345678/* MongoDB models */var mongoose = require('mongoose');var schema = mongoose.Schema; //模式var UserSchema = new schema(&#123; uname:String, pwd:String&#125;);exports.User = mongoose.model('User',UserSchema); //与 Users 表关联 4.3 在程序中使用 引用组件：var mongoose = require(&#39;mongoose&#39;); 加入VO组件：var models = require(&#39;./models&#39;); 使用User模型：var User = models.User; 连接数据库：mongoose.connect(&#39;mongodb://localhost/k9&#39;); 修改登录验证： 1234567891011exports.doLogin = function(req, res)&#123; var u_u = &#123;uname:req.body.uname, pwd:req.body.pwd&#125;; User.count(u_u,function(err,doc)&#123; //根据u_u查询结果 if(doc==0)&#123; res.redirect('/login'); &#125;else&#123; res.redirect('/welcome?uname='+u_u.uname); &#125; &#125;);&#125;; 注意：提示 mongoose 未安装，则需要将 mongoose，express-mongoose 拷至当前项目下例子：E:\Nodejs\test\myproject]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Nodejs quickstart]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FNodejs%20quickstart%2F</url>
+    <content type="text"><![CDATA[1. Nodejs 是什么？ Node.js® is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。 2. 安装 Nodejs Nodejs.org 上下载 source code 进入目录, 解压来 source Tar -zxvf nodejs-v0.10.tar.gz 进入目录, 检查安装环境 ./configure 可以使用 ./configrue --prefix /nodejs 指定安装目录 , 提示 gcc 未安装, 使用 yum -y install gcc+ gcc-c++ 安装gcc 编译安装 make &amp;&amp; make install 创建软连接 sudo ln -s /nodejs/bin/node /usr/local/bin/node 在任意目录使用 3. 卸载 Nodejs 卸载npm Npm uninstall npm 移除文件 rm -rf bin/node bin/node-waf include/node lib/node lib/pkgconfig/nodejs.pc share/man/man1/node.1]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[Eclipse 使用配置]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjava%2F%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%2FEclipse%20%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJava%2Fide%2FEclipse%20%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE%2F</url>
     <content type="text"><![CDATA[Eclipse 有众多版本，最常用的包括Eclipse EE，Eclipse SE。当然还有MyEclipse等，但是MyEclipse是基于Eclipse的商业软件，因此本文不包含MyEclipse。 1. Eclipse EE 配置TomcatEclipse EE 主要用于Java Web开发和J2EE项目开发。Eclipse EE中配置Tomcat比较简单，新建一个Tomcat Server即可，步骤如下： 1.1. 打开Servers 视图通过菜单Window-&gt;Show View-&gt;Servers打开Servers视图。 1.2. 新建Tomcat 服务器右击空白区域，选择New-&gt;Server（对于没有任何Server的环境，可以点击”new server wizard”链接）；然后在列表中选择Tomcat服务器，选中本机相应版本；选择本机Tomcat目录，点击完成即可。到此，Eclipse EE 配置Tomcat成功。 2. Eclipse SE 配置TomcatEclipse SE主要用于控制台程序的开发，如果进行Web开发建议使用Eclipse EE。当然，Eclipse SE也可以配置Tomcat，具体如下： 2.1. 下载Tomcat插件下载地址：http://marketplace.eclipse.org/content/eclipse-tomcat-plugin，下载时，请注意核对Eclipse版本和Tomcat版本。 PS: 是Tomcat插件，不是Tomcat，两者不同 2.2. 安装Tomcat插件解压Tomcat插件，拷贝到Eclipse目录中Plugin下，重启Eclipse，Tomcat插件即可安装成功。 2.3. 配置Tomcat插件在Eclipse中，点击Window-&gt;Preferences-&gt;Tomcat，选择本机Tomcat版本号（已下载并解压Tomcat到本地），选择Tomcat Home目录，即Tomcat所在目录。配置后在Eclipse中启动Tomcat，并在Eclipse中的Internal Web Browser中输入：localhost:8080，如果出现Tomcat页面，即配置Tomcat插件成功。 3. Tomcat启动后打开页面提示404错误的解决Eclipse配置并启动Tomcat成功，但有时会访问localhost:8080出现404错误，此时需要修改Tomcat配置。步骤如下： 在Eclipse中双击Tomcat server，打开Tomcat配置页面。 修改Server locations为Use Tomcat installation。 修改Deploy path为webapps。 保存配置即可。 PS：如果不能修改配置，在Server中删除Tomcat，重新添加一次，即可配置。]]></content>
       <categories>
-        <category>软件工程</category>
         <category>编程语言</category>
-        <category>java</category>
-        <category>开发工具</category>
+        <category>Java</category>
+        <category>ide</category>
       </categories>
       <tags>
         <tag>java</tag>
         <tag>ide</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Oracle 切换数据模式]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FOracle%2FOracle%20%E5%88%87%E6%8D%A2%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%BC%8F%2F</url>
+    <content type="text"><![CDATA[1alter datatbase datafile=F:\phoenix\zycure.ora offline drop ;]]></content>
+      <categories>
+        <category>存储</category>
+        <category>Oracle</category>
+      </categories>
+      <tags>
+        <tag>oracle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Oracle 表空间]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FOracle%2FOracle%20%E8%A1%A8%E7%A9%BA%E9%97%B4%2F</url>
+    <content type="text"><![CDATA[查看数据文件位置 1SELECT TABLESPACE_NAME,FILE_ID,BYTES,FILE_NAME FROM DBA_DATA_FILES; 表空间状态 1SELECT TABLESPACE_NAME,STATUS FROM DBA_TABLESPACES; 创建表空间 123456CREATE TABLESPACE "ZYMBS" NOLOGGING --不创建重做日志文件 DATAFILE 'E:\WORK\DATA\PHOENIX\ZYMBS01.ORA' SIZE 5M AUTOEXTEND ON --自动增长 NEXT 50M MAXSIZE 2048M --自动增长最大到2G EXTENT MANAGEMENT LOCAL; 创建用户 123CREATE USER zymbs IDENTIFIED BY zy2009phoenix DEFAULT TABLESPACE ZYMBS TEMPORARY TABLESPACE TEMP; 分发权限 1234567GRANT --系统权限 CREATE SESSION, CREATE ANY TABLE, CREATE ANY VIEW ,CREATE ANY INDEX, CREATE ANY PROCEDURE, ALTER ANY TABLE, ALTER ANY PROCEDURE, DROP ANY TABLE, DROP ANY VIEW, DROP ANY INDEX, DROP ANY PROCEDURE, SELECT ANY TABLE, INSERT ANY TABLE, UPDATE ANY TABLE, DELETE ANY TABLE TO ZYMBS; GRANT RESOURCE, CONNECT TO ZYMBS; --角色权限 删除表空间 1DROP TABLESPACE ZYMBS INCLUDING CONTENTS AND DATAFILES; 修改状态(ONLINE,OFFLINE,READONLY,READWRITE) 1ALTER TABLESPACE ZYMBS OFFLINE; 修改文件大小,添加文件 12ALTER TABLESPACE DATAFILE &apos;E:\ZYMBS01.ORA&apos; RESIZE 10M; ALTER TABLESPACE ZYMBS ADD DATAFILE &apos;E:\ZYMBS02.ORA&apos; SIZE 5M; 修改表空间数据文件的自动扩展性 1ALTER DATABASE DATAFIELE &apos;E:\ZYMBS01.ORA&apos; AUTOEXTEND ON NEXT 5M MAXSIZE 50M; 重新指定表空间路径 1alter tablespace SIMPLE RENAME DATAFILE &apos;E:\table2.dbf&apos; to &apos;D:\table.dbf&apos;; 设置默认表空间 1. 查询(当前用户)默认表空间 select default_tablespace from user_users; 2. 修改默认表空间 alter database default tablespace SIMPLE; 如果是oracle 9i本语句不支持，但能让用户指向某表空间，具体做法如下： 例： alter user scott default tablespace users; (scott为用户名, users为表空间) 有时会出现表空间有存在的情况，这时一般都是以下几个原因造成的： 1、写错表空间名，我想的话这种机率较小。 2、回想一下，你在创建表空间时是否给表空间表加了双引号如： CREATE TABLESPACE &quot;Sample&quot; ……………… 如果是这样的话，你在修改默认表空间，写表空间名字的时候就要区分大小了，这个是非常重要的，并且还要加上双引号， 如：alter user scott default tablespace &quot;Sample&quot;;(scott为用户名)。]]></content>
+      <categories>
+        <category>存储</category>
+        <category>Oracle</category>
+      </categories>
+      <tags>
+        <tag>oracle</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[在Idea中配置Tomcat]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjava%2F%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%2FJava%20tomcat%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJava%2Fide%2FJava%20tomcat%2F</url>
     <content type="text"><![CDATA[1. 安装 Tomcat 进入官网 http://tomcat.apache.org 下载文件 解压文件 运行 bin/startup 即可启动，端口默认为 8080 2. 设置环境变量1234CATALINA_BASE=D:\Java\apache-tomcat-9.0.2CATALINA_HOME=D:\Java\apache-tomcat-9.0.2ClassPath=;%CATALINA_HOME%\lib\servlet-api.jar;Path=;%CATALINA_HOME%\bin;%CATALINA_HOME%\lib; 验证：在命令行中运行 startup 3. 在 Idea 中配置 Tomcat 进入 Run - Edit Configurations, 添加一个 Local Tomcat Server 在 Configure 中定位到本地的 Tomcat 添加 Deployment 项目，定位到打包好的 war 包 启动配置好的 Tomcat Server]]></content>
       <categories>
-        <category>软件工程</category>
         <category>编程语言</category>
-        <category>java</category>
-        <category>开发工具</category>
+        <category>Java</category>
+        <category>ide</category>
       </categories>
       <tags>
         <tag>java</tag>
@@ -784,13 +672,38 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Struts2 quickstart]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJava%2Fstruts2%2FStruts2%20quickstart%2F</url>
+    <content type="text"><![CDATA[新建 web project .当修改project名时，要同时修改 properties -&gt; myeclipse -&gt; web -&gt; ontext-root.不然发布后的文件名不会修改。 找到 struct2 -all ,打开 app 目录中（此为示例） ，解压任意一个，将 structs.xml 拷入项目。 将 \WEB-INF\lib 下引用的包拷入项目中 修改 web.xml ，将示例中的 web.xml 下的 filter 配置拷入。 12345678 &lt;filter&gt; &lt;filter-name&gt;struts2&lt;/filter-name&gt; &lt;filter-class&gt;org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter&lt;/filter- class&gt; &lt;/filter&gt; &lt;filter-mapping&gt; &lt;filter-name&gt;struts2&lt;/filter-name&gt; &lt;url-pattern&gt;/*&lt;/url-pattern&gt; &lt;/filter-mapping&gt; 修改 structs.xml 配置，以下为最简单的配置，修改完后部署到 tomcat 上，访问 http://localhost:8080/myproject/helloworld 即可。 12345678 &lt;package name="default"namespace="/"extends="struts-default"&gt; &lt;default-action-ref name="index"/&gt; &lt;action name="helloworld"&gt; &lt;result&gt; /index.jsp &lt;/result&gt; &lt;/action&gt; &lt;/package&gt; namespace 表示访问路径解析，如设置/index ,则访问的时候也需要加入/index，如果namespace为空，表示所有包含action的均会被解析，用于处理其他namespace处理不到的请求. 为 structs 包添加源码查看和api右键 structs2-core.jar -&gt; properties -&gt; 1. java source attachment 源码 struts-2.2.3.1-all/struts-2.2.3.1/src/core/src/main/java javadoc location api文档 struts-2.2.3.1-all/struts-2.2.3.1/docs/structs2-core/apidocs 开启 structs 开发模式，这样在修改配置后不需要 redeploy &lt;constant name=”struts.devMode”value=”true”/&gt; 为 structs.xml 添加提示windows -&gt; preferences -&gt; xml catalog -&gt; add -&gt; type 选择 uri , key 填写 “http://struts.apache.org/dtds/struts-2.0.dtd&quot;location 为 struct-core.jar 解压后中的 struct2.dtd]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Java</category>
+        <category>struts2</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>struts</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Oracle 冷备启库]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FOracle%2FOracle%20%E5%86%B7%E5%A4%87%E5%90%AF%E5%BA%93%2F</url>
+    <content type="text"><![CDATA[1、准备工作 查看数据版本是否跟库文件相同 查看数据文件是否都齐全 查看 init.ora 是否在（参数文件，也可以自己配置） 2、创建文件夹 在 oracle/admin 目录下创建 实例名文件夹。如：phoenix 在此文件夹中创建 adump、dpdump、pfile ,将 init.ora 放置在 pfile 文件夹中 在 fast_recovery_area 文件夹中创建实例名文件夹4. 在 oradata 文件夹中创建实例名文件夹 3、创建空实例1$ oradim -new -sid phoenix -startmode auto -pfile init.ora 4、创建密码文件1$ orapwd file=D:\oracle\product\11.2.0\dbhome_1\database\pwdphoenix.ora password=oracle; 5、进入创建好的实例12$ sqlplus /nolog $ conn zysys/zy2009phoenix as sysdba 6、生成spfile文件1$ create spfile from pfile='D:\Oracle\admin\phoenix\pfile\init.ora'; 7、重建控制文件123456789101112131415161718$ CREATE CONTROLFILE REUSE SET DATABASE "phoenix" RESETLOGS NOARCHIVELOG MAXLOGFILES 16 MAXLOGMEMBERS 3 MAXDATAFILES 100 MAXINSTANCES 8 MAXLOGHISTORY 292 LOGFILE GROUP 1 'E:\Work\Data\Orcl\REDO01.LOG' SIZE 50M BLOCKSIZE 512, GROUP 2 'E:\Work\Data\Orcl\REDO02.LOG' SIZE 50M BLOCKSIZE 512, GROUP 3 'E:\Work\Data\Orcl\REDO03.LOG' SIZE 50M BLOCKSIZE 512 -- STANDBY LOGFILE DATAFILE 'E:\Work\Data\Orcl\SYSTEM01.DBF', 'E:\Work\Data\Orcl\SYSAUX01.DBF', 'E:\Work\Data\Orcl\UNDOTBS01.DBF', 'E:\Work\Data\Orcl\USERS01.DBF', ………………数据文件位置……………… CHARACTER SET ZHS16GBK; 8、启动数据库 alter database open; // alter database open resetlogs upgrade 小版本不同需要升级 若是选用noresetlogs选项, 若无法打开数据库, 则尝试执行recover database; 若是在线热备数据库文件,则还要把热备时刻的归档日志拷过来,恢复时用下列语法recover database using backup controlfile until cancel;写入日志文件 d：/xxx.log 创建临时表空间alter tablespace temp add tempfile &#39;C:\Oracle\database\phoenix\temp01.ora&#39; size 50M reuse autoextend on next 50M maxsize 500M; 小版本不同需要执行升级脚本oracle_home/rdbms/admin/catupgrd.sql； 重启数据库]]></content>
+      <categories>
+        <category>存储</category>
+        <category>Oracle</category>
+      </categories>
+      <tags>
+        <tag>oracle</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[OGNL 表达式]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fjava%2Fstruts2%2FOGNL%20%E8%A1%A8%E8%BE%BE%E5%BC%8F%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJava%2Fstruts2%2FOGNL%20%E8%A1%A8%E8%BE%BE%E5%BC%8F%2F</url>
     <content type="text"><![CDATA[ONGL 是用于将 ValueStack（值栈，即整个 action） 和 StackContext（上下文 context） 内容取出的语法。 访问值栈中属性 &lt;s:property value=&quot;userName&quot;/&gt; 访问值栈中的类，类属性，聚合类 123&lt;s:property value="user"/&gt;&lt;s:property value="user.userName"/&gt;&lt;s:property value="cat.frien"/&gt; 访问方法 123&lt;s:property value="userName.length()"/&gt; //普通方法&lt;s:property value="cat.frien.getName()"/&gt; //类的方法&lt;s:property value="show()"/&gt; //Action 中的方法 访问静态 123&lt;s:property value="@service.staticSerivce@show()"/&gt; //静态方法&lt;s:property value="@service.staticSerivce@STR"/&gt; //静态属性&lt;s:property value="@@max(3,10)"/&gt; //静态Math方法 访问集合 123456789101112&lt;s:property value="users"/&gt; //访问 list=new ArrayList&lt;T&gt;()&lt;s:property value="users[0]"/&gt; //访问 list 单个元素&lt;s:property value="users.&#123;userName&#125;"/&gt; //List 属性集合&lt;s:property value="users.&#123;userName&#125;[0]"/&gt; || &lt;s:property value="users[0].userName"/&gt; // List属性-------------------------------------------------------------------------------------------------&lt;s:property value="cats"/&gt; // set=new HashSet() ，Set是无序的，所以无法访问单个元素-------------------------------------------------------------------------------------------------&lt;s:property value="dogs"/&gt; // map=new HashMap&lt;string, Object&gt;()&lt;s:property value="dogs.dog1"/&gt; || &lt;s:property value="dogs['dog1']"/&gt; //访问 Map 单个元素&lt;s:property value="dogs.keys"/&gt; // Map的所有 Key&lt;s:property value="dogs.values"/&gt; // Map 所有 value&lt;s:property value="dogs.size()"/&gt; // 容器大小 投影，条件过滤集合 &lt;s:property value=&quot;users.{?#this.userName!=null}.{name}&quot;/&gt; // ?# 表达式，选择符合条件的内容，^# 第一个满足的，$#最后一个满足的 stack context 中的内容使用 #xx &lt;s:property value=&quot;#session.asdf&quot;/&gt;]]></content>
       <categories>
-        <category>软件工程</category>
         <category>编程语言</category>
-        <category>java</category>
+        <category>Java</category>
         <category>struts2</category>
       </categories>
       <tags>
@@ -798,27 +711,40 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[WPF 基础之控件与布局]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fdonet%2FWPF%20%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%8E%A7%E4%BB%B6%E4%B8%8E%E5%B8%83%E5%B1%80%2F</url>
-    <content type="text"><![CDATA[一、什么是 WPF&emsp;&emsp;WPF（Windows Presentation Foundation）是微软推出的基于Windows 的用户界面框架，属于.NET Framework 3.0的一部分。它提供了统一的编程模型、语言和框架，真正做到了分离界面设计人员与开发人员的工作；同时它提供了全新的多媒体交互用户图形界面。 二、WPF 做什么用？&emsp;&emsp;WPF 的功能就是用来编写应用程序的表现层，至于业务逻辑层和数据层的开发可以使用其它专门的技术如：WCF（Windows Communication Foundation）、WF（Windows Workflow Foundation）。 三、WPF 元素 程序的本质是“数据+算法”，将用户输入的原始数据经过算法处理后展示给用户。控件是经过组件化的能够展示数据、响应用户操作的UI元素。 WPF UI 元素的类型： 名称 注释 ContentControl 单一内容控件 HeaderedContentControl 带标题的单一内容控件 ItemsControl 以条目集合为内容的控件 HeaderedItemsControl 带标题的以条目集合为内容的控件 Decorator 控件装饰元素 Panel 面板类元素 Adorner 文字点缀元素 Flow Text 流式文本元素 TextBox 文本输入框 TextBlock 静态文字 Shape 图形元素 1. ContentControl 族本族元素的特点如下： 均派生自 ContentControl 类 它们都是控件（Control） 内容属性名称为 Content 只能由单一元素充当其内容 特点为内容只能由一个元素填充，不能同时填充多个元素在 Content 中 ContentControl 族包含的控件： Button ButtonBase CheckBox ComboBoxItem ContentControl Frame GridViewColumnHeader GroupItem Label ListBoxItem ListViewItem NavigationWidnwo RadioButton RepeatButton ScrollViewer StatusBarItem ToggleButton ToolTip UserControl Window 2. HeaderedContentControl 族本族元素的特点如下： 均派生自 HeaderedContentControl 类，是 ContentControl 的子类 它们都是控件，用于显示带标题的数据 除了显示内容区域外，还具有一个显示标题（Header）的区域 内容属性为 Content 和 Header 无论是 Content 还是Header 都只能容纳一个元素作为其内容 特点为 ContentControl 的子类，增加了一个标题内容的区域 HeaderContentControl 族包含的控件： Expander GroupBox HeaderedContentControl TabItem 3. ItemsControl 族本族元素的特点如下： 均派生自 ItemsControl 族 它们都是控件，用于显示列表化的数据 内容属性为 Items 或 ItemsSource 每种 ItemsControl 都对应有自己的条目内容（Item Container） 特点为显示列表元素，每行元素都包裹在 Item Container 中 ItemsControl 族包含的控件： Menu MenuBase ContextMenu ComboBox ItemsControl ListBox ListView TabControl TreeView Selector StatusBar ItemsControl 对应的 Item Container： ItemsControl 名称 对应的 Item Container ComboxBox ComboBoxItem ContextMenu MenuItem ListBox ListBoxItem ListView ListViewItem Menu MenuItem StatusBar StatusBarItem TabControl TabItem TreeView TreeViewItem 4. HeaderedItemsControl 族本族元素特点如下： 均派生自 HeaderedItemControl 类 它们都是控件，用于显示列表化的数据，同时可以显示一个标题 内容属性为 Items、ItemsSource、Header 与 ItemsControl 非常相似，本族控件只有3个：MenuItem、TreeViewItem、ToolBar。 5. Decorator 族 本族元素是在 UI 上起一定的装饰效果。如可以使用 Border 元素为一些组织在一起的内容加个边框。如果需要组织在一起的内容能够自由缩放，则可以使用 ViewBox 元素。 本族元素的特点如下： 均派生自 Decorator 类 起 UI 装饰作用 内容属性为 Child 只能由单一元素充当内容 Decorator 族包含的元素： ButtonChrome ClassicBorderDecorator ListBoxChrome SystemDropShadowChrome Border LnkPresenter BulletDecorator ViewBox AdornerDecorator 6. TextBlock 和 TextBox&emsp;&emsp;这两个控件最主要的功能是显示文本。TextBlock 只能显示文本不能编辑，所以又称静态文本。TextBox 则允许用户编辑内容。&emsp;&emsp;两者的内容属性均为 Text。&emsp;&emsp;TextBlock 可以使用丰富的印刷格式，可以设置 Inlines（印刷中的“行”）。 7. Shape 族&emsp;&emsp;Shape 族元素只是视觉元素，不是控件，专门用来在 UI 上绘制图形的一类元素。本族元素特点如下： 均派生自 Shape 类 用于 2D 图形绘制 无内容属性 使用 Fill 属性设置填充，使用 Stroke 属性设置边线。 8. Panel 族所有用于 UI 布局的元素都属于这一族。本族元素的特点如下： 均派生自 Panel 抽象类 主要功能是控制 UI 布局 内容属性为 Children 内容可以是多个元素，Panel 元素将控制它们的布局 本族元素包含如下： Canvas DockPanel Grid TabPanel StackPanel WrapPanel ToolBarPanel ToolBarOverflowPanel VirtualizingPanel VietualizingStackPanel UniformGrid 四、UI 布局 友好的用户界面和良好的用户体验离不开设计精良的布局。日常工作中， WPF 设计师工作量最大的两部分就是布局和动画，除了点缀性的动画外，大部分动画也是布局的转换，可见 UI 布局的重要性。 每种布局元素都有自己的特点，有自己的长处、优点，也有自己的短处和缺点，选择合适的布局元素，将极大简化编程，反之将会被迫实现一些布局控件已有的功能。 1. 布局元素 传统的 Window Form 或 Asp.Net 开发中，一般把窗口或页面当作一个以左上角为原点的坐标系，控件依靠这个坐标系来布局，而 WPF 的控件有了 Content 概念，所以控件与控件之间又多了一种关系-包含。 WPF 中的布局元素有如下几个： 元素 描述 Grid 网格，可以自定义行和列，并通过行列的数量、行高和列宽来调整控件的布局。近似于 HTML 中的 Table StackPanel 栈式面板。可将包含的元素在竖直或水平方向上排成一条直线，当移除一个元素后，后面的元素会自动向前移动以填充空缺 Canvas 画布，内部元素可以使用像素为单位的绝对坐标进行定位，类似 Window Form 的布局方式 DockPanel 泊靠式面板。内部元素可以选择泊靠方向，类似于 Windows Form 中设置控件的 Dock 属性 WrapPanel 自动折叠面板，内部元素在排满一行后能够自动换行，类似 HTML 中的流式布局 2. Grid顾名思义，Grid 元素会以网格形式对内容元素进行布局。Grid 的特点如下： 可以定义任意数量的行和列 行的高度和列的宽度可以使用绝对数值、相对比例或自动调整的方式进行设定，并可以设置最大值和最小值 内部元素可以设置自己所在的行和列，还可以设置跨几行，跨几列 可以设置 Children 元素的对齐方向 基于这些特点，Grid 适用的场景有： UI 布局的大框架设计 大量 UI 元素需要成行或成列对齐的情况 UI 整体尺寸改变时，元素需要保持固有的高度和宽度比例 UI 后期可能有较大变更或扩展 3. StackPanelStackPanel 可以把内部元素在横向或纵向上紧凑排列、形成栈式布局，通俗讲就是把内部元素相垒积木一样“堆起来”，当把排在前面的积木抽掉几块后排在之后的元素会整体向前移动，补占原来元素的空间。基于这些特点，StackPanel 适用的场景有： 同类元素需要紧凑排列 移动其中的元素后能够自动补缺的布局。 StackPanel 使用3个属性来控制内部元素的布局： 如制作菜单或者列表 属性名称 数据类型 可取值 描述 Orientation Orientation 枚举 Horizontal、 Vertical 决定内部元素排列方向 HorizontalAlignment HorizontalAlignment 枚举 Left、Center、Right、Stretch 决定内部元素水平方向上的对齐方式 VerticalAlignment VerticalAlignment 枚举 Top、Center、Bottom、Stretch 决定内部元素竖直方向上的对齐方式 4. CanvasCanvas 画布中布局就像在画布上画控件一样。通过设置 Canvas.Left 与 Canvas.Top 属性进行绝对定位的布局。 实际上应该尽量少使用 Canvas 布局，除非这个布局以后不会改变而且窗体尺寸固定。 Canvas 适用的场景包括： 一经设计基本不会再有改动的小型布局（如图标） 艺术性比较强的布局 需要大量使用纵横坐标进行绝对定位的布局 5. DockPanelDockPanel 内的元素会被附加上 DockPanel.Dock 这个属性，根据 Dock 属性值，元素会向指定的方向累积、切分 DockPanel 内部剩余的空间，就像船舶靠岸一样。 DockPanel 按照元素顺序进行空间划分，按照顺序确定每个元素是否占据整个边界。 DockPanel 适用的场景包括： 需要填充满全部窗体 自动根据窗体大小进行改变 6. WrapPanelWrapPanel 内采用的是流式布局，使用 Orientation 属性来控制流延伸方向，使用 HorizontalAlignment 和 VerticalAlignment 来个属性来控制内部控件的对齐。在延伸方向上 WrapPanel 会排列尽可能多的控件，排不下的控件会新起一行或一列继续排列。 WrapPanel 会根据窗体大小自动排列元素 WrapPanel 适用的场景包括： 实现瀑布流的元素排列 根据窗体大小自动调整布局 五、小结本记主要记录了 WPF 控件的类型，任何一个 WPF 控件都不会脱离这几种类型，还记录了如何使用 UI 布局元素将控件排列在 UI 上。根据本记已经可以动手编写 WPF 程序了，在编写过程中再详细查询使用的元素属性。]]></content>
+    <title><![CDATA[Struts2 action result]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJava%2Fstruts2%2FStruts2%20action%20result%2F</url>
+    <content type="text"><![CDATA[对 action 执行后返回的 result （1） 常用几种 result type Dispatcher 拦截器，不配置type时 默认，相当于 transfer 服务器跳转。&lt;result type=&quot;dispatcher&quot;&gt;/index.jsp&lt;/result&gt; Redirect 客户端跳转，相当于再次请求另外一个页面，在url中显示的是 xxx.jsp&lt;result type=&quot;redirect&quot; name=&quot;xxx&quot;&gt;index.jsp&lt;/result&gt; Chain 跳转至 action，配置对应的 package 名字 和 action 名字 。 1234&lt;result type="chain" name="ccc"&gt; &lt;param name="actionName"&gt;action&lt;/param&gt; &lt;param name="namespace"&gt;/&lt;/param&gt;&lt;/result&gt; RedirectAction ，客户端跳转至action。跳转后 url 显示的action 名字。 1234&lt;result type="redirectAction" name="r2"&gt; &lt;param name="actionName"&gt;action&lt;/param&gt; &lt;param name="namespace"&gt;/&lt;/param&gt; &lt;/result&gt; Stream 文字流，可用于Ajax返回纯文本，或者二进制流（下载文件）。 1234&lt;result type="stream" name="sss"&gt; &lt;param name="contentType"&gt;text/html&lt;/param&gt; &lt;param name="inputName"&gt;inputStream&lt;/param&gt; &lt;/result&gt; 在action中定义 inputStream , InputStream inputStream = new StringBufferInputStream(&quot;json&quot;); 向页面直接输出 string。 （2）全局 result ：global-results 定义全局 result ，在此 package 中的 action 对此 result 均可访问。常用于错误、异常处理 123&lt;global-results&gt; &lt;result name="error"&gt;/Error.jsp&lt;/result&gt; &lt;/global-results&gt; 另外 package 要使用此全局 result ，需要继承自此 package &lt;package name=&quot;module1&quot; namespace=&quot;/&quot; extends=&quot;action&quot;&gt; （3） 动态 result result 取自 valuestack 值栈中&lt;result name=&quot;xxx&quot;&gt;${result}&lt;/result&gt; 动态设置跳转页面参数，仅在 redirect 中使用，因为在 dispatcher、chain 为同个 request ，共享同一个valueStack。&lt;result name=&quot;rrr&quot; type=&quot;redirect&quot;&gt;/index.jsp?result=${result}&lt;/result&gt;改参数被塞入 stack context 中的 parameters &lt;s:property value=&quot;#parameters.result&quot;/&gt;]]></content>
       <categories>
-        <category>软件工程</category>
         <category>编程语言</category>
-        <category>donet</category>
+        <category>Java</category>
+        <category>struts2</category>
       </categories>
       <tags>
-        <tag>c#</tag>
-        <tag>wpf</tag>
+        <tag>java</tag>
+        <tag>struts</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Struts2 action 传参]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJava%2Fstruts2%2FStruts2%20action%20%E4%BC%A0%E5%8F%82%2F</url>
+    <content type="text"><![CDATA[表单传参数给action的几种方法和简单的验证，抛出异常。 一、参数通过类属性1234567private String name;private String age;public String parm() &#123; System.out.println("name : "+getName()); System.out.println("age : "+getAge()); return SUCCESS;&#125; 对应 URl “basePath/parm/parm?name=xxx&amp;&amp;age=12” ，structs会将对应的参数填入属性中。 二、通过实体类123456private user user;public String parm() &#123; System.out.println("name : "+user.getName()); System.out.println("age : "+user.getAge()); return SUCCESS;&#125; 定义实体类Model或DTO，在url中传入值 “basePath/parmModel/parm?user.name=xxx&amp;&amp;user.age=12”,structs会实例化Model，将参数传入。 三、通过modelDriven 实现modeldriven接口 public class action5 extends ActionSupport implements ModelDriven&lt;user&gt; 重写 getModel 方法 1234567@Override public user getModel() &#123; if (user == null) &#123; user = new user(); &#125; return user;&#125; 其余与实体类传参相同（不常用） 四、简单数据验证12345678public String add() &#123; if (name == null || name.length() &lt;= 0 || name != "admin") &#123; this.addFieldError("name", "holi shit !! what you enter for!!"); this.addFieldError("name", "我去年买了个表"); return ERROR; &#125; return SUCCESS; &#125; 在方法中使用 addFieldError ，将错误信息加入 valueStack 中，前台页面使用 OGNL 标签获取 error！ 123 &lt;s:fielderror fieldName="name" /&gt; &lt;s:property value="errors.name[0]"/&gt; &lt;s:debug&gt;&lt;/s:debug&gt; 注意：在使用 ONGL 时，需要在顶部引用标签库。 &lt;%@ taglib uri=&quot;/struts-tags&quot; prefix=&quot;s&quot; %&gt;, 便签库文件在 struts-core 包的 META-INF 下的 struts-tags.tld]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Java</category>
+        <category>struts2</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>struts</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[VS&FTS 常见问题]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fdonet%2FVS%26FTS%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FDonet%2FVS%26FTS%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[TFS工作区缓存问题 在本地 C:\Users\Kass\AppData\Local\Microsoft\Team Foundation\4.0\Cache\VersionControl.config 中缓存了本地文件夹到旧服务的一些映射关系,删除 ServerInfo 节点下内容，即可清除TFS工作区缓存。 TFS添加成员 在系统用户、用户组添加成员后，更新组策略 gpupdate /force VS重置配置 devenv.exe /setup /resetuserdata /resetsettings]]></content>
       <categories>
-        <category>软件工程</category>
         <category>编程语言</category>
-        <category>donet</category>
+        <category>Donet</category>
       </categories>
       <tags>
         <tag>c#</tag>
@@ -826,15 +752,27 @@
   </entry>
   <entry>
     <title><![CDATA[DataTable 常用操作]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2Fdonet%2FDataTable%20%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%2F</url>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FDonet%2FDataTable%20%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%2F</url>
     <content type="text"><![CDATA[创建DataTable dt = new DataTable() 读取dt.Rows[i][&quot;columnName&quot;].ToString() 创建新行DataRow row = dt.newRow() 创建新列dt.Columns.Add(&quot;columnName&quot;,typeof(string)) 添加新行dt.Rows.Add(row) 复制结构dt.clone() 过滤DataRow [] rows = dt.Select(&quot; xxx=&quot;+xxx) 排序 123DataView dv = dt.DefaultView; dv.Sort = &quot; xxx desc&quot;;DataTable dtSort=dv.ToTable(); 删除 123for(int i=dt.Rows.Count;i&gt;=0;i--) &#123; dt.Rows[i].Delete();&#125; 消除重复 12345Array columnName = dt.AsEnumerable() .Select(row =&gt;row[columnName]) .Distinct() .ToArray(); ArrayList temp = ArrayList.Adapter(columnName);]]></content>
       <categories>
-        <category>软件工程</category>
         <category>编程语言</category>
-        <category>donet</category>
+        <category>Donet</category>
       </categories>
       <tags>
         <tag>c#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[WPF 基础之控件与布局]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FDonet%2FWPF%20%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%8E%A7%E4%BB%B6%E4%B8%8E%E5%B8%83%E5%B1%80%2F</url>
+    <content type="text"><![CDATA[一、什么是 WPF&emsp;&emsp;WPF（Windows Presentation Foundation）是微软推出的基于Windows 的用户界面框架，属于.NET Framework 3.0的一部分。它提供了统一的编程模型、语言和框架，真正做到了分离界面设计人员与开发人员的工作；同时它提供了全新的多媒体交互用户图形界面。 二、WPF 做什么用？&emsp;&emsp;WPF 的功能就是用来编写应用程序的表现层，至于业务逻辑层和数据层的开发可以使用其它专门的技术如：WCF（Windows Communication Foundation）、WF（Windows Workflow Foundation）。 三、WPF 元素 程序的本质是“数据+算法”，将用户输入的原始数据经过算法处理后展示给用户。控件是经过组件化的能够展示数据、响应用户操作的UI元素。 WPF UI 元素的类型： 名称 注释 ContentControl 单一内容控件 HeaderedContentControl 带标题的单一内容控件 ItemsControl 以条目集合为内容的控件 HeaderedItemsControl 带标题的以条目集合为内容的控件 Decorator 控件装饰元素 Panel 面板类元素 Adorner 文字点缀元素 Flow Text 流式文本元素 TextBox 文本输入框 TextBlock 静态文字 Shape 图形元素 1. ContentControl 族本族元素的特点如下： 均派生自 ContentControl 类 它们都是控件（Control） 内容属性名称为 Content 只能由单一元素充当其内容 特点为内容只能由一个元素填充，不能同时填充多个元素在 Content 中 ContentControl 族包含的控件： Button ButtonBase CheckBox ComboBoxItem ContentControl Frame GridViewColumnHeader GroupItem Label ListBoxItem ListViewItem NavigationWidnwo RadioButton RepeatButton ScrollViewer StatusBarItem ToggleButton ToolTip UserControl Window 2. HeaderedContentControl 族本族元素的特点如下： 均派生自 HeaderedContentControl 类，是 ContentControl 的子类 它们都是控件，用于显示带标题的数据 除了显示内容区域外，还具有一个显示标题（Header）的区域 内容属性为 Content 和 Header 无论是 Content 还是Header 都只能容纳一个元素作为其内容 特点为 ContentControl 的子类，增加了一个标题内容的区域 HeaderContentControl 族包含的控件： Expander GroupBox HeaderedContentControl TabItem 3. ItemsControl 族本族元素的特点如下： 均派生自 ItemsControl 族 它们都是控件，用于显示列表化的数据 内容属性为 Items 或 ItemsSource 每种 ItemsControl 都对应有自己的条目内容（Item Container） 特点为显示列表元素，每行元素都包裹在 Item Container 中 ItemsControl 族包含的控件： Menu MenuBase ContextMenu ComboBox ItemsControl ListBox ListView TabControl TreeView Selector StatusBar ItemsControl 对应的 Item Container： ItemsControl 名称 对应的 Item Container ComboxBox ComboBoxItem ContextMenu MenuItem ListBox ListBoxItem ListView ListViewItem Menu MenuItem StatusBar StatusBarItem TabControl TabItem TreeView TreeViewItem 4. HeaderedItemsControl 族本族元素特点如下： 均派生自 HeaderedItemControl 类 它们都是控件，用于显示列表化的数据，同时可以显示一个标题 内容属性为 Items、ItemsSource、Header 与 ItemsControl 非常相似，本族控件只有3个：MenuItem、TreeViewItem、ToolBar。 5. Decorator 族 本族元素是在 UI 上起一定的装饰效果。如可以使用 Border 元素为一些组织在一起的内容加个边框。如果需要组织在一起的内容能够自由缩放，则可以使用 ViewBox 元素。 本族元素的特点如下： 均派生自 Decorator 类 起 UI 装饰作用 内容属性为 Child 只能由单一元素充当内容 Decorator 族包含的元素： ButtonChrome ClassicBorderDecorator ListBoxChrome SystemDropShadowChrome Border LnkPresenter BulletDecorator ViewBox AdornerDecorator 6. TextBlock 和 TextBox&emsp;&emsp;这两个控件最主要的功能是显示文本。TextBlock 只能显示文本不能编辑，所以又称静态文本。TextBox 则允许用户编辑内容。&emsp;&emsp;两者的内容属性均为 Text。&emsp;&emsp;TextBlock 可以使用丰富的印刷格式，可以设置 Inlines（印刷中的“行”）。 7. Shape 族&emsp;&emsp;Shape 族元素只是视觉元素，不是控件，专门用来在 UI 上绘制图形的一类元素。本族元素特点如下： 均派生自 Shape 类 用于 2D 图形绘制 无内容属性 使用 Fill 属性设置填充，使用 Stroke 属性设置边线。 8. Panel 族所有用于 UI 布局的元素都属于这一族。本族元素的特点如下： 均派生自 Panel 抽象类 主要功能是控制 UI 布局 内容属性为 Children 内容可以是多个元素，Panel 元素将控制它们的布局 本族元素包含如下： Canvas DockPanel Grid TabPanel StackPanel WrapPanel ToolBarPanel ToolBarOverflowPanel VirtualizingPanel VietualizingStackPanel UniformGrid 四、UI 布局 友好的用户界面和良好的用户体验离不开设计精良的布局。日常工作中， WPF 设计师工作量最大的两部分就是布局和动画，除了点缀性的动画外，大部分动画也是布局的转换，可见 UI 布局的重要性。 每种布局元素都有自己的特点，有自己的长处、优点，也有自己的短处和缺点，选择合适的布局元素，将极大简化编程，反之将会被迫实现一些布局控件已有的功能。 1. 布局元素 传统的 Window Form 或 Asp.Net 开发中，一般把窗口或页面当作一个以左上角为原点的坐标系，控件依靠这个坐标系来布局，而 WPF 的控件有了 Content 概念，所以控件与控件之间又多了一种关系-包含。 WPF 中的布局元素有如下几个： 元素 描述 Grid 网格，可以自定义行和列，并通过行列的数量、行高和列宽来调整控件的布局。近似于 HTML 中的 Table StackPanel 栈式面板。可将包含的元素在竖直或水平方向上排成一条直线，当移除一个元素后，后面的元素会自动向前移动以填充空缺 Canvas 画布，内部元素可以使用像素为单位的绝对坐标进行定位，类似 Window Form 的布局方式 DockPanel 泊靠式面板。内部元素可以选择泊靠方向，类似于 Windows Form 中设置控件的 Dock 属性 WrapPanel 自动折叠面板，内部元素在排满一行后能够自动换行，类似 HTML 中的流式布局 2. Grid顾名思义，Grid 元素会以网格形式对内容元素进行布局。Grid 的特点如下： 可以定义任意数量的行和列 行的高度和列的宽度可以使用绝对数值、相对比例或自动调整的方式进行设定，并可以设置最大值和最小值 内部元素可以设置自己所在的行和列，还可以设置跨几行，跨几列 可以设置 Children 元素的对齐方向 基于这些特点，Grid 适用的场景有： UI 布局的大框架设计 大量 UI 元素需要成行或成列对齐的情况 UI 整体尺寸改变时，元素需要保持固有的高度和宽度比例 UI 后期可能有较大变更或扩展 3. StackPanelStackPanel 可以把内部元素在横向或纵向上紧凑排列、形成栈式布局，通俗讲就是把内部元素相垒积木一样“堆起来”，当把排在前面的积木抽掉几块后排在之后的元素会整体向前移动，补占原来元素的空间。基于这些特点，StackPanel 适用的场景有： 同类元素需要紧凑排列 移动其中的元素后能够自动补缺的布局。 StackPanel 使用3个属性来控制内部元素的布局： 如制作菜单或者列表 属性名称 数据类型 可取值 描述 Orientation Orientation 枚举 Horizontal、 Vertical 决定内部元素排列方向 HorizontalAlignment HorizontalAlignment 枚举 Left、Center、Right、Stretch 决定内部元素水平方向上的对齐方式 VerticalAlignment VerticalAlignment 枚举 Top、Center、Bottom、Stretch 决定内部元素竖直方向上的对齐方式 4. CanvasCanvas 画布中布局就像在画布上画控件一样。通过设置 Canvas.Left 与 Canvas.Top 属性进行绝对定位的布局。 实际上应该尽量少使用 Canvas 布局，除非这个布局以后不会改变而且窗体尺寸固定。 Canvas 适用的场景包括： 一经设计基本不会再有改动的小型布局（如图标） 艺术性比较强的布局 需要大量使用纵横坐标进行绝对定位的布局 5. DockPanelDockPanel 内的元素会被附加上 DockPanel.Dock 这个属性，根据 Dock 属性值，元素会向指定的方向累积、切分 DockPanel 内部剩余的空间，就像船舶靠岸一样。 DockPanel 按照元素顺序进行空间划分，按照顺序确定每个元素是否占据整个边界。 DockPanel 适用的场景包括： 需要填充满全部窗体 自动根据窗体大小进行改变 6. WrapPanelWrapPanel 内采用的是流式布局，使用 Orientation 属性来控制流延伸方向，使用 HorizontalAlignment 和 VerticalAlignment 来个属性来控制内部控件的对齐。在延伸方向上 WrapPanel 会排列尽可能多的控件，排不下的控件会新起一行或一列继续排列。 WrapPanel 会根据窗体大小自动排列元素 WrapPanel 适用的场景包括： 实现瀑布流的元素排列 根据窗体大小自动调整布局 五、小结本记主要记录了 WPF 控件的类型，任何一个 WPF 控件都不会脱离这几种类型，还记录了如何使用 UI 布局元素将控件排列在 UI 上。根据本记已经可以动手编写 WPF 程序了，在编写过程中再详细查询使用的元素属性。]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Donet</category>
+      </categories>
+      <tags>
+        <tag>c#</tag>
+        <tag>wpf</tag>
       </tags>
   </entry>
 </search>

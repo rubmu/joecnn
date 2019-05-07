@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-CN">
+<html class="theme-next gemini use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,7 +70,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/wiki-site/',
-    scheme: 'Pisces',
+    scheme: 'Gemini',
     version: '7.1.1',
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
     back2top: true,
@@ -341,7 +341,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/编程语言/java/开发工具/为代码瘦身 - Lombok/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/编程语言/Java/ide/为代码瘦身 - Lombok/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -361,7 +361,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/为代码瘦身 - Lombok/" class="post-title-link" itemprop="url">为代码瘦身 - Lombok</a>
+                <a href="/wiki-site/wiki/编程语言/Java/ide/为代码瘦身 - Lombok/" class="post-title-link" itemprop="url">为代码瘦身 - Lombok</a>
               
             
           </h1>
@@ -420,28 +420,21 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/编程语言/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/编程语言/java/开发工具/" itemprop="url" rel="index"><span itemprop="name">开发工具</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/Java/ide/" itemprop="url" rel="index"><span itemprop="name">ide</span></a></span>
 
                 
                 
@@ -478,34 +471,21 @@
       
         
           
-            <p>lombok 提供了简单的注解的形式来帮助我们简化消除一些必须有但显得很臃肿的 java 代码。</p>
-<h3 id="一、lombok-介绍"><a href="#一、lombok-介绍" class="headerlink" title="一、lombok 介绍"></a>一、lombok 介绍</h3><p>lombok 在编译生成的字节码文件中添加 getter 和 setter 方法，性能与手动编写相同！ </p>
-<h3 id="二、lombok-安装"><a href="#二、lombok-安装" class="headerlink" title="二、lombok 安装"></a>二、lombok 安装</h3><p>使用 lombok 是需要安装的，如果不安装，IDE 则无法解析 lombok 注解。</p>
-<ul>
-<li>1.下载 <a href="https://projectlombok.org/download.html">lombok.jar</a> 包</li>
-<li>2.运行Lombok.jar:  java -jar D:\software\lombok.jar<blockquote>
-<p>数秒后将弹出一框，以确认eclipse的安装路径</p>
-</blockquote>
-</li>
-<li>3.确认完eclipse的安装路径后，点击install/update按钮，即可安装完成</li>
-<li>4.安装完成之后，请确认eclipse安装路径下是否多了一个lombok.jar包，并且其配置文件eclipse.ini中是否 添加了如下内容:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-javaagent:lombok.jar </span><br><span class="line">-Xbootclasspath/a:lombok.jar</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>如果上面的答案均为true，那么恭喜你已经安装成功，否则将缺少的部分添加到相应的位置即可</p>
-<ul>
-<li>5.重启eclipse或myeclipse</li>
-</ul>
-<h3 id="三、lombok-使用注解"><a href="#三、lombok-使用注解" class="headerlink" title="三、lombok 使用注解"></a>三、lombok 使用注解</h3><p>maven 引入依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>@Data   ：注解在类上；提供类所有属性的 getting 和 setting 方法，此外还提供了equals、canEqual、hashCode、toString 方法</li>
-<li>@Setter：注解在属性上；为属性提供 setting 方法</li>
-<li>@Getter：注解在属性上；为属性提供 getting 方法</li>
-<li>@Slf4j ：注解在类上；为类提供一个 属性名为log 的 logback 日志对象</li>
-<li>@NoArgsConstructor：注解在类上；为类提供一个无参的构造方法</li>
-<li>@AllArgsConstructor：注解在类上；为类提供一个全参的构造方法</li>
-</ul>
-
+            <p>
+              lombok 提供了简单的注解的形式来帮助我们简化消除一些必须有但显得很臃肿的 java 代码。
+一、lombok 介绍lombok 在编译生成的字节码文件中添加 getter 和 setter 方法，性能与手动编写相同！ 
+二、lombok 安装使用 lombok 是需要安装的，如果不安装，IDE
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/编程语言/Java/ide/为代码瘦身 - Lombok/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -560,7 +540,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/编程语言/java/开发工具/项目管理利器 - Maven/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/编程语言/Java/ide/项目管理利器 - Maven/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -580,7 +560,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/编程语言/java/开发工具/项目管理利器 - Maven/" class="post-title-link" itemprop="url">项目管理利器 - Maven</a>
+                <a href="/wiki-site/wiki/编程语言/Java/ide/项目管理利器 - Maven/" class="post-title-link" itemprop="url">项目管理利器 - Maven</a>
               
             
           </h1>
@@ -639,28 +619,21 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/编程语言/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/编程语言/java/开发工具/" itemprop="url" rel="index"><span itemprop="name">开发工具</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/Java/ide/" itemprop="url" rel="index"><span itemprop="name">ide</span></a></span>
 
                 
                 
@@ -697,77 +670,22 @@
       
         
           
-            <h3 id="一、什么是maven？"><a href="#一、什么是maven？" class="headerlink" title="一、什么是maven？"></a>一、什么是maven？</h3><p>maven是基于项目对象模型(pom)，通过一小段描述信息来管理项目的构建、报告、文档的软件项目管理工具。<br><strong>是一款跨平台的开源工具。</strong></p>
-<h3 id="二、为什么使用maven？"><a href="#二、为什么使用maven？" class="headerlink" title="二、为什么使用maven？"></a>二、为什么使用maven？</h3><p>方便管理项目依赖的jar包，与打包构建项目package，等同于 .NET Nuget。</p>
-<h3 id="三、安装maven"><a href="#三、安装maven" class="headerlink" title="三、安装maven"></a>三、安装maven</h3><blockquote>
-<p>由于maven是Java开发的，所以依赖于Jdk, 需要先安装Java环境，设置JAVA_HOME.</p>
-</blockquote>
-<ul>
-<li>在 <a href="http://maven.apache.org/download.cgi">apache maven</a> 官网下载程序包后解压。  </li>
-<li>设置maven环境变量 <code>M2_HOME = D:\Java\apache-maven-3.5.2</code></li>
-<li>设置 <code>PATH = %M2_HOME%\bin</code></li>
-<li>验证maven环境： <code>mvn -v</code></li>
-</ul>
-<h3 id="四、maven项目目录结构"><a href="#四、maven项目目录结构" class="headerlink" title="四、maven项目目录结构"></a>四、maven项目目录结构</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#maven创建项目的目录结构</span></span><br><span class="line">src  </span><br><span class="line"> |- main  <span class="comment">#源代码目录</span></span><br><span class="line">	|- java  </span><br><span class="line">		|-package  </span><br><span class="line"> |- <span class="built_in">test</span>  <span class="comment">#单元测试目录</span></span><br><span class="line"> |- resource <span class="comment">#配置文件目录</span></span><br><span class="line"> |- pom.xml <span class="comment">#pom配置文件</span></span><br></pre></td></tr></table></figure>
-<p>创建maven项目时，可手动进行目录创建或者使用archetype插件进行生成  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 按提示创建</span></span><br><span class="line">mvn archetype:generate -DarchetypeCatalog=internal  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定创建参数</span></span><br><span class="line">mvn archetype:generate --DarchetypeArtifactId=maven-archetype-quickstart -DgroupId=com.joshua.maven02 </span><br><span class="line">			-DartifactId=maven02 </span><br><span class="line">			-Dversion=0.0.1-SNAPSHOT</span><br><span class="line">			-Dpackage=com.joshua.maven02</span><br></pre></td></tr></table></figure>
-<h3 id="五、maven常用构建命令"><a href="#五、maven常用构建命令" class="headerlink" title="五、maven常用构建命令"></a>五、maven常用构建命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mvn -v   <span class="comment">#查看maven版本</span></span><br><span class="line">mvn compile   <span class="comment">#编译项目生成target文件</span></span><br><span class="line">mvn <span class="built_in">test</span>   <span class="comment">#运行单元测试</span></span><br><span class="line">mvn package   <span class="comment">#打包项目</span></span><br><span class="line">mvn clean   <span class="comment">#清空target文件夹</span></span><br><span class="line">mvn install   <span class="comment">#将项目打包发布到本地仓库</span></span><br><span class="line">mvn jetty:run  <span class="comment">#运行插件</span></span><br></pre></td></tr></table></figure>
-<h3 id="六、maven中的坐标和仓库"><a href="#六、maven中的坐标和仓库" class="headerlink" title="六、maven中的坐标和仓库"></a>六、maven中的坐标和仓库</h3><p>maven项目坐标：</p>
-<ul>
-<li><strong>groupId(项目名称)</strong> </li>
-<li><strong>artifactId(模块名称)</strong></li>
-<li><strong>version(版本号)</strong>   </li>
-</ul>
-<p>maven项目仓库</p>
-<ul>
-<li><strong>本地仓库</strong></li>
-<li><strong>远程仓库</strong>  </li>
-</ul>
-<p>当需要下载jar包时，先到本地仓库中搜索，如果未找到则到中心仓库中检索。</p>
-<blockquote>
-<p>设置本地仓库路径：在 /m2_home/conf/settings.xml 文件中更改第54行 <strong>localRepository</strong> 选项<br>  设置镜像仓库：在/m2_home/conf/settings.xml文件中更改第146行 <strong>mirrors</strong> 选项。<br>  阿里云镜像仓库：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">id</span>&gt;</span>alimaven<span class="tag">&lt;/<span class="name">id</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>aliyun maven<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<h3 id="七、maven构建周期"><a href="#七、maven构建周期" class="headerlink" title="七、maven构建周期"></a>七、maven构建周期</h3><ol>
-<li>clean 清理项目<blockquote>
-<ul>
-<li>pre-clean 执行清理前的工作  </li>
-<li>clean 清理上一次构建生成的所有文件  </li>
-<li>post-clean 执行清理后的工作</li>
-</ul>
-</blockquote>
-</li>
-<li>default 构建项目（核心）<blockquote>
-<ul>
-<li>compile 编译项目  </li>
-<li>test 运行单元测试  </li>
-<li>package 打包项目  </li>
-<li>install 注册到本地仓库  </li>
-</ul>
-</blockquote>
-</li>
-<li>site 生成项目站点<blockquote>
-<ul>
-<li>pre-site 生成站点前工作</li>
-<li>site 生成站点</li>
-<li>post-site 生成站点后工作</li>
-<li>site-deploy 发布站点</li>
-</ul>
-</blockquote>
-</li>
-</ol>
-<h3 id="八、在-eclipse-中使用-maven-插件"><a href="#八、在-eclipse-中使用-maven-插件" class="headerlink" title="八、在 eclipse 中使用 maven 插件"></a>八、在 eclipse 中使用 maven 插件</h3><blockquote>
-<p>eclipse3.5以后的已经默认集成了maven插件  </p>
-</blockquote>
-<ul>
-<li><p>下载 <a href="http://www.eclipse.org/m2e/m2e-downloads.html">eclipse-maven-plugin</a> 拷贝到/eclipse/dropins目录下。重启eclipse查看 <figure class="highlight plain"><figcaption><span>插件是否已经加载。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- maven 插件需要jdk支持，修改 /eclipse.ini 文件，添加-vm配置</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">-vm</span><br><span class="line">D:\Java\jdk1.8.0_152\bin\javaw.exe</span><br></pre></td></tr></table></figure></p>
-</li>
-<li><p>添加 eclipse jdk设置 <code>window-&gt;preferences-&gt;java-&gt;install JREs-&gt;add</code></p>
-</li>
-<li>修改 maven 默认设置，并设置配置文件(修改了本地仓库和镜像仓库)<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">window-&gt;preferences-&gt;maven-&gt;installations-&gt;add</span><br><span class="line">settings-&gt;user settings</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="九、pom-xml-说明示例"><a href="#九、pom-xml-说明示例" class="headerlink" title="九、pom.xml 说明示例"></a>九、pom.xml 说明示例</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 指定了当前pom的版本 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- 项目名称 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.joshua<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 模块名称 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven01<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 版本号 </span></span><br><span class="line"><span class="comment">  		第一个0表示大版本号</span></span><br><span class="line"><span class="comment">  		第二个0表示分子版本号</span></span><br><span class="line"><span class="comment">  		第三个0表示小版本号</span></span><br><span class="line"><span class="comment">  		0.0.1-snapshot 快照版</span></span><br><span class="line"><span class="comment">  		alpha 内部测试版</span></span><br><span class="line"><span class="comment">  		beta 公测版</span></span><br><span class="line"><span class="comment">  		release 稳定版</span></span><br><span class="line"><span class="comment">  		GA 正式发布版  --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 打包方式  war zip </span></span><br><span class="line"><span class="comment">	   pom 聚合模式/父项目使用 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- 项目描述名 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>maven01<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 项目地址 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.apache.org<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- 项目属性 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- 依赖列表 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.10<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- 依赖范围，只在test范围内 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- 设置依赖是否可选，默认为false，表示可继承，否则需要显示引用 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">optional</span>&gt;</span>false<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- 排除依赖传递列表 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">      	<span class="tag">&lt;<span class="name">exclusion</span>&gt;</span>...<span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 依赖管理，不在本项目引用，在子项目中继承 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 构建支持 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">  			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">  				<span class="comment">&lt;!-- 打包源代码插件 --&gt;</span></span><br><span class="line">  				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-source-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  				<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  				<span class="comment">&lt;!-- 在package阶段运行插件，运行方式为 jar-no-fork --&gt;</span></span><br><span class="line">  				<span class="tag">&lt;<span class="name">executions</span>&gt;</span></span><br><span class="line">  					<span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">  						<span class="tag">&lt;<span class="name">phase</span>&gt;</span>package<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">  						<span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">  							<span class="tag">&lt;<span class="name">goal</span>&gt;</span>jar-no-fork<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">  						<span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">  					<span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br><span class="line">  				<span class="tag">&lt;/<span class="name">executions</span>&gt;</span></span><br><span class="line">  			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 继承的父模块 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">parent</span>&gt;</span>...<span class="tag">&lt;/<span class="name">parent</span>&gt;</span> </span><br><span class="line">  <span class="comment">&lt;!-- 聚合多模块同时编译 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">modules</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">module</span>&gt;</span>../moven02<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">modules</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+            <p>
+              一、什么是maven？maven是基于项目对象模型(pom)，通过一小段描述信息来管理项目的构建、报告、文档的软件项目管理工具。是一款跨平台的开源工具。
+二、为什么使用maven？方便管理项目依赖的jar包，与打包构建项目package，等同于 .NET Nuget。
+三、安装maven
+由于mav
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/编程语言/Java/ide/项目管理利器 - Maven/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -822,7 +740,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/工具/PowerDesigner 导出表结构/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/工具/PowerDesigner 导出表结构/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -842,7 +760,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/工具/PowerDesigner 导出表结构/" class="post-title-link" itemprop="url">PowerDesigner导出表结构</a>
+                <a href="/wiki-site/wiki/工具/PowerDesigner 导出表结构/" class="post-title-link" itemprop="url">PowerDesigner导出表结构</a>
               
             
           </h1>
@@ -901,14 +819,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/工具/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/工具/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
 
                 
                 
@@ -945,8 +856,19 @@
       
         
           
-            <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'******************************************************************************   </span></span><br><span class="line"><span class="string">    '</span>* File:     pdm2excel.txt   </span><br><span class="line">    <span class="string">'* Title:    pdm export to excel   </span></span><br><span class="line"><span class="string">    '</span>* Purpose:  To <span class="built_in">export</span> the tables and columns to Excel   </span><br><span class="line">    <span class="string">'* Model:    Physical Data Model   </span></span><br><span class="line"><span class="string">    '</span>* Objects:  Table, Column, View   </span><br><span class="line">    <span class="string">'* Author:   ziyan   </span></span><br><span class="line"><span class="string">    '</span>* Created:  2012-05-03   </span><br><span class="line">    <span class="string">'* Version:  1.0   </span></span><br><span class="line"><span class="string">    '</span>******************************************************************************   </span><br><span class="line">    Option Explicit   </span><br><span class="line">       Dim rowsNum   </span><br><span class="line">       rowsNum = 0   </span><br><span class="line">    <span class="string">'-----------------------------------------------------------------------------   </span></span><br><span class="line"><span class="string">    '</span> Main <span class="keyword">function</span>   </span><br><span class="line">    <span class="string">'-----------------------------------------------------------------------------   </span></span><br><span class="line"><span class="string">    '</span> Get the current active model   </span><br><span class="line">    Dim Model   </span><br><span class="line">    Set Model = ActiveModel   </span><br><span class="line">    If (Model Is Nothing) Or (Not Model.IsKindOf(PdPDM.cls_Model)) Then   </span><br><span class="line">      MsgBox <span class="string">"The current model is not an PDM model."</span>   </span><br><span class="line">    Else   </span><br><span class="line">     <span class="string">' Get the tables collection   </span></span><br><span class="line"><span class="string">     '</span>创建EXCEL APP   </span><br><span class="line">     dim beginrow   </span><br><span class="line">     DIM EXCEL, SHEET   </span><br><span class="line">     <span class="built_in">set</span> EXCEL = CREATEOBJECT(<span class="string">"Excel.Application"</span>)   </span><br><span class="line">     EXCEL.workbooks.add(-4167)<span class="string">'添加工作表   </span></span><br><span class="line"><span class="string">     EXCEL.workbooks(1).sheets(1).name ="test"   </span></span><br><span class="line"><span class="string">     set sheet = EXCEL.workbooks(1).sheets("test")   </span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">     ShowProperties Model, SHEET   </span></span><br><span class="line"><span class="string">     EXCEL.visible = true   </span></span><br><span class="line"><span class="string">     '</span>设置列宽和自动换行   </span><br><span class="line">     sheet.Columns(1).ColumnWidth = 20    </span><br><span class="line">     sheet.Columns(2).ColumnWidth = 40    </span><br><span class="line">     sheet.Columns(4).ColumnWidth = 20    </span><br><span class="line">     sheet.Columns(5).ColumnWidth = 20    </span><br><span class="line">     sheet.Columns(6).ColumnWidth = 15    </span><br><span class="line">     sheet.Columns(1).WrapText =<span class="literal">true</span>   </span><br><span class="line">     sheet.Columns(2).WrapText =<span class="literal">true</span>   </span><br><span class="line">     sheet.Columns(4).WrapText =<span class="literal">true</span>   </span><br><span class="line">     End If   </span><br><span class="line">    <span class="string">'-----------------------------------------------------------------------------   </span></span><br><span class="line"><span class="string">    '</span> Show properties of tables   </span><br><span class="line">    <span class="string">'-----------------------------------------------------------------------------   </span></span><br><span class="line"><span class="string">    Sub ShowProperties(mdl, sheet)   </span></span><br><span class="line"><span class="string">       '</span> Show tables of the current model/package   </span><br><span class="line">       rowsNum=0   </span><br><span class="line">       beginrow = rowsNum+1   </span><br><span class="line">       <span class="string">' For each table   </span></span><br><span class="line"><span class="string">       output "begin"   </span></span><br><span class="line"><span class="string">       Dim tab   </span></span><br><span class="line"><span class="string">       For Each tab In mdl.tables   </span></span><br><span class="line"><span class="string">          ShowTable tab,sheet   </span></span><br><span class="line"><span class="string">       Next   </span></span><br><span class="line"><span class="string">       if mdl.tables.count &gt; 0 then   </span></span><br><span class="line"><span class="string">            sheet.Range("A" &amp; beginrow + 1 &amp; ":A" &amp; rowsNum).Rows.Group   </span></span><br><span class="line"><span class="string">       end if   </span></span><br><span class="line"><span class="string">       output "end"   </span></span><br><span class="line"><span class="string">    End Sub   </span></span><br><span class="line"><span class="string">    '</span>-----------------------------------------------------------------------------   </span><br><span class="line">    <span class="string">' Show table properties   </span></span><br><span class="line"><span class="string">    '</span>-----------------------------------------------------------------------------   </span><br><span class="line">    Sub ShowTable(tab, sheet)   </span><br><span class="line">       If IsObject(tab) Then   </span><br><span class="line">         Dim rangFlag   </span><br><span class="line">         rowsNum = rowsNum + 1   </span><br><span class="line">          <span class="string">' Show properties   </span></span><br><span class="line"><span class="string">          Output "================================"   </span></span><br><span class="line"><span class="string">          sheet.cells(rowsNum, 1) = "实体名"   </span></span><br><span class="line"><span class="string">          sheet.cells(rowsNum, 2) =tab.name   </span></span><br><span class="line"><span class="string">          sheet.cells(rowsNum, 3) = ""   </span></span><br><span class="line"><span class="string">          sheet.cells(rowsNum, 4) = "表名"   </span></span><br><span class="line"><span class="string">          sheet.cells(rowsNum, 5) = tab.code   </span></span><br><span class="line"><span class="string">          sheet.Range(sheet.cells(rowsNum, 5),sheet.cells(rowsNum, 6)).Merge   </span></span><br><span class="line"><span class="string">          rowsNum = rowsNum + 1   </span></span><br><span class="line"><span class="string">          sheet.cells(rowsNum, 1) = "属性名"   </span></span><br><span class="line"><span class="string">          sheet.cells(rowsNum, 2) = "说明"   </span></span><br><span class="line"><span class="string">          sheet.cells(rowsNum, 3) = ""   </span></span><br><span class="line"><span class="string">          sheet.cells(rowsNum, 4) = "字段中文名"   </span></span><br><span class="line"><span class="string">          sheet.cells(rowsNum, 5) = "字段名"   </span></span><br><span class="line"><span class="string">          sheet.cells(rowsNum, 6) = "字段类型"   </span></span><br><span class="line"><span class="string">          '</span>设置边框   </span><br><span class="line">          sheet.Range(sheet.cells(rowsNum-1, 1),sheet.cells(rowsNum, 2)).Borders.LineStyle = <span class="string">"1"</span>   </span><br><span class="line">          sheet.Range(sheet.cells(rowsNum-1, 4),sheet.cells(rowsNum, 6)).Borders.LineStyle = <span class="string">"1"</span>   </span><br><span class="line">    Dim col <span class="string">' running column   </span></span><br><span class="line"><span class="string">    Dim colsNum   </span></span><br><span class="line"><span class="string">    colsNum = 0   </span></span><br><span class="line"><span class="string">          for each col in tab.columns   </span></span><br><span class="line"><span class="string">            rowsNum = rowsNum + 1   </span></span><br><span class="line"><span class="string">            colsNum = colsNum + 1   </span></span><br><span class="line"><span class="string">          sheet.cells(rowsNum, 1) = col.name   </span></span><br><span class="line"><span class="string">          sheet.cells(rowsNum, 2) = col.comment   </span></span><br><span class="line"><span class="string">            sheet.cells(rowsNum, 3) = ""   </span></span><br><span class="line"><span class="string">          sheet.cells(rowsNum, 4) = col.name   </span></span><br><span class="line"><span class="string">          sheet.cells(rowsNum, 5) = col.code   </span></span><br><span class="line"><span class="string">          sheet.cells(rowsNum, 6) = col.datatype   </span></span><br><span class="line"><span class="string">          next   </span></span><br><span class="line"><span class="string">          sheet.Range(sheet.cells(rowsNum-colsNum+1,1),sheet.cells(rowsNum,2)).Borders.LineStyle = "2"          </span></span><br><span class="line"><span class="string">          sheet.Range(sheet.cells(rowsNum-colsNum+1,4),sheet.cells(rowsNum,6)).Borders.LineStyle = "2"   </span></span><br><span class="line"><span class="string">          rowsNum = rowsNum + 1   </span></span><br><span class="line"><span class="string">             </span></span><br><span class="line"><span class="string">          Output "FullDescription: "       + tab.Name   </span></span><br><span class="line"><span class="string">       End If   </span></span><br><span class="line"><span class="string">    End Sub</span></span><br></pre></td></tr></table></figure>
+            <p>
+              '******************************************************************************       '* File:     pdm2excel.txt       '* Title:    pdm export to exce
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/工具/PowerDesigner 导出表结构/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1001,7 +923,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/分布式/Hadoop quickstart/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/分布式/Hadoop quickstart/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -1021,7 +943,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/分布式/Hadoop quickstart/" class="post-title-link" itemprop="url">Hadoop quickstart</a>
+                <a href="/wiki-site/wiki/分布式/Hadoop quickstart/" class="post-title-link" itemprop="url">Hadoop quickstart</a>
               
             
           </h1>
@@ -1080,14 +1002,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
 
                 
                 
@@ -1124,69 +1039,20 @@
       
         
           
-            <h3 id="1-Hadoop-是什么？"><a href="#1-Hadoop-是什么？" class="headerlink" title="1. Hadoop 是什么？"></a>1. Hadoop 是什么？</h3><p>Hadoop是一个分布式系统架构，由Apache基金会基于Java开发。用户可以在不了解分布式底层细节的情况下，开发分布式程序，充分利用集群的威力高速运算和存储。 </p>
-<h3 id="2-Hadoop-能做什么？"><a href="#2-Hadoop-能做什么？" class="headerlink" title="2. Hadoop 能做什么？"></a>2. Hadoop 能做什么？</h3><p>Hadoop 可以解决海量数据的存储、海量的数据分析。例如：Yahoo! 的垃圾邮件识别和过滤、用户特征建模；Amazon.com（亚马逊）的协同过滤推荐系统；Facebook的Web日志分析；Twitter、LinkedIn的人脉寻找系统；淘宝商品推荐系统、淘宝搜索中的自定义筛选功能……这些应用都使用到Hadoop及其相关技术。</p>
-<h3 id="3-Hadoop-的构成"><a href="#3-Hadoop-的构成" class="headerlink" title="3. Hadoop 的构成"></a>3. Hadoop 的构成</h3><h4 id="3-1-HDFS-分布式文件系统"><a href="#3-1-HDFS-分布式文件系统" class="headerlink" title="3.1 HDFS 分布式文件系统"></a>3.1 HDFS 分布式文件系统</h4><p>HDFS有着高容错性的特点，并且设计用来部署在低廉的硬件上。而且它提供高传输率来访问应用程序的数据，适合那些有着超大数据集的应用程序。<br>HDFS是一个 <code>master/slave</code> 的结构，在 <code>master</code> 上只运行一个 <code>NameNode</code>，而在每一个 <code>slave</code> 上运行一个 <code>DataNode</code>。 </p>
-<h5 id="NameNode负责"><a href="#NameNode负责" class="headerlink" title="NameNode负责:"></a>NameNode负责:</h5><ul>
-<li>接受用户请求. </li>
-<li>维护文件系统目录结构. </li>
-<li>管理文件与Block间关系，Block与DataNode之间关系.(默认Block块大小为64M ) </li>
-</ul>
-<h5 id="DataNode负责"><a href="#DataNode负责" class="headerlink" title="DataNode负责:"></a>DataNode负责:</h5><ul>
-<li>存储文件. </li>
-<li>文件被分成Block存储在磁盘上. </li>
-<li>为保证数据安全，文件会有多个副本. </li>
-</ul>
-<h4 id="3-2-MapReduce-并行计算框架"><a href="#3-2-MapReduce-并行计算框架" class="headerlink" title="3.2 MapReduce 并行计算框架"></a>3.2 MapReduce 并行计算框架</h4><p>MapReduce 是 Google 的一项重要技术, 它是一个编程模型，用于进行大数据计算，通常采用的处理手法是并行计算。<br>MapReduce 是一个 <code>master/slave</code> 的结构，在 <code>master</code>上只运行一个 <code>JobTracker</code> ，而在每一个<code>slave</code>上运行一个 <code>TaskTracker</code>。</p>
-<h5 id="JobTracker-负责"><a href="#JobTracker-负责" class="headerlink" title="JobTracker 负责:"></a>JobTracker 负责:</h5><ul>
-<li>接收客户提交的计算. </li>
-<li>把计算分配给 TaskTracker 执行. </li>
-<li>监控 TaskTracker 的执行情况. </li>
-</ul>
-<h5 id="TaskTracker-负责"><a href="#TaskTracker-负责" class="headerlink" title="TaskTracker 负责:"></a>TaskTracker 负责:</h5><ul>
-<li>执行 JobTracker 分配的任务. </li>
-</ul>
-<h3 id="4-Hadoop-的特点"><a href="#4-Hadoop-的特点" class="headerlink" title="4. Hadoop 的特点"></a>4. Hadoop 的特点</h3><ol>
-<li>扩容能力：通过增加节点，扩容方便可靠. </li>
-<li>成本低：可以通过普通机器组成服务器集群来处理数据. </li>
-<li>高效率：通过分发数据，可以在数据所在节点上并行处理数据. </li>
-<li>可靠性：可以自动维护数据的多个副本，并在任务失败后自动重新部署计算任务 </li>
-</ol>
-<h3 id="5-安装-Hadoop"><a href="#5-安装-Hadoop" class="headerlink" title="5. 安装 Hadoop"></a>5. 安装 Hadoop</h3><h4 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h4><ul>
-<li>安装 Jdk</li>
-<li>下载 <a href="https://hadoop.apache.org/releases.html">Apache Hadoop</a> </li>
-</ul>
-<h4 id="解压并设置环境变量"><a href="#解压并设置环境变量" class="headerlink" title="解压并设置环境变量"></a>解压并设置环境变量</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf hadoop-1.1.2.tar.gz</span><br><span class="line">$ <span class="built_in">export</span> HADOOP_HOME=/usr/<span class="built_in">local</span>/hadoop/hadoop-1.1.2 </span><br><span class="line">$ <span class="built_in">export</span> PATH=.:<span class="variable">$HADOOP_HOME</span>/bin/:<span class="variable">$JAVA_HOME</span>/bin/:<span class="variable">$PATH</span> </span><br><span class="line">$ <span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
-<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><ol>
-<li>修改 <code>$hadoop_home/conf/hadoop-env.sh</code> JAVA_HOME 配置 </li>
-<li>修改 <code>$hadoop_home/conf/core-size.xml</code> </li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.default.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://joecnn:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">description</span>&gt;</span>your hostname<span class="tag">&lt;/<span class="name">description</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/local/hadoop/hadoop-1.1.2/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">description</span>&gt;</span>your hadoop home<span class="tag">&lt;/<span class="name">description</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>修改 <code>$hadoop_home/conf/hdfs-site.xml</code></li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span>1<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.permissions<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span> </span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">4. 修改 `修改 $hadoop_home/conf/mapred-site.xml`</span><br><span class="line"></span><br><span class="line">```xml</span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapred.job.tracker<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span>chenquan:9001<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">description</span>&gt;</span>change your hostname<span class="tag">&lt;/<span class="name">description</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="启动-Hadoop"><a href="#启动-Hadoop" class="headerlink" title="启动 Hadoop"></a>启动 Hadoop</h4><ol>
-<li>格式化 HDFS 文件系统  <code>hadoop namenode -format</code> </li>
-<li>启动 <code>start-all.sh</code><ul>
-<li><strong>start-all.sh</strong> 启动所有的Hadoop守护。包括namenode, datanode, jobtracker, tasktrack </li>
-<li><strong>stop-all.sh</strong> 停止所有的Hadoop </li>
-<li><strong>start-mapred.sh</strong> 启动Map/Reduce守护。包括Jobtracker和Tasktrack </li>
-<li><strong>stop-mapred.sh</strong> 停止Map/Reduce守护 </li>
-<li><strong>start-dfs.sh</strong> 启动Hadoop DFS守护.Namenode和Datanode </li>
-<li><strong>stop-dfs.sh</strong> 停止DFS守护 </li>
-</ul>
-</li>
-<li>验证: jps 5个进程，namenode，datanode，jobtracker，tasktracker，secondarynamenode<br><strong>hadoop:50070/</strong>  访问 hdfs webserver 页面<br><strong>hadoop:50030/</strong>  访问 mapreduce webserver 页面  </li>
-</ol>
-<h4 id="去除启动警告"><a href="#去除启动警告" class="headerlink" title="去除启动警告"></a>去除启动警告</h4><ol>
-<li>查看 start-all.sh -&gt; hadoop-config.sh </li>
-<li>修改 <code>/etc/profile</code> 增加 <code>export HADOOP_HOME_WARN_SUPPRESS=1</code> </li>
-<li><code>source /etc/profile</code> 刷新环境变量 </li>
-<li>验证： start-all.sh  /  stop-all.sh </li>
-</ol>
-
+            <p>
+              1. Hadoop 是什么？Hadoop是一个分布式系统架构，由Apache基金会基于Java开发。用户可以在不了解分布式底层细节的情况下，开发分布式程序，充分利用集群的威力高速运算和存储。 
+2. Hadoop 能做什么？Hadoop 可以解决海量数据的存储、海量的数据分析。例如：Yahoo! 的
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/分布式/Hadoop quickstart/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1241,7 +1107,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/Playing/黑暗之魂2/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/玩主儿/黑暗之魂2/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -1261,7 +1127,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/Playing/黑暗之魂2/" class="post-title-link" itemprop="url">《 黑暗之魂2 原罪贤者 》白金攻略</a>
+                <a href="/wiki-site/wiki/玩主儿/黑暗之魂2/" class="post-title-link" itemprop="url">《 黑暗之魂2 原罪贤者 》白金攻略</a>
               
             
           </h1>
@@ -1320,7 +1186,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Playing/" itemprop="url" rel="index"><span itemprop="name">Playing</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/玩主儿/" itemprop="url" rel="index"><span itemprop="name">玩主儿</span></a></span>
 
                 
                 
@@ -1357,72 +1223,24 @@
       
         
           
-            <p><strong>丧失的记忆</strong><br>创建完人物自动获得奖杯。</p>
-<p><strong>弱者誓约</strong><br>如蜜村里和坐在高层大石碑边上的索丹对话，签订青教誓约获得。</p>
-<p><strong>强者誓约</strong><br>如蜜村大石板处签订霸者誓约获得。</p>
-<p><strong>最后的巨人</strong><br>打倒巨人陨落之森BOSS获得奖杯。           </p>
-<p><strong>黑暗灵魂之始</strong><br>游戏中第一次死亡获得奖杯。</p>
-<p><strong>更衣</strong><br>通往虚影森林前的石化女解封后，给她换装获得奖杯。</p>
-<p><strong>深思首级</strong><br>虚影森林进入白雾区域贴左边走的废墟温格，和他说话获得奖杯。</p>
-<p><strong>守护誓约</strong><br>打败巨火塔远古的猎人BOSS后，与栏杆男对话签订誓约获得。</p>
-<p><strong>罪人的营火</strong><br>杀死罪人塔BOSS点燃始源篝火获得。</p>
-<p><strong>钟卫誓约</strong><br>月亮钟楼遗忘囚笼选择随从房间的篝火，下楼梯会有咒缚者出现。填上法洛斯之石开门后与边上的矮人侍从对话签订誓约。<br>太阳钟楼熔铁城前篝火楼梯上去，与边上的矮人侍从对话签订誓约都可以解开奖杯。</p>
-<p><strong>太阳誓约</strong><br>流油谷左边岔道尽头，废墟雕像处签订契约获得奖杯。</p>
-<p><strong>被弃置的人们</strong><br>巨人森林洞穴里的地图男对话完。陨落之森主塔的道具商人老奶奶对话完。密港法师智力达到8以上对话完。流油谷铁匠的女儿说话完。推土塔的梯子男只要打倒BOSS毒妃后他也会回如蜜。通往虚影森林前的石化女解封对话完。</p>
-<p><strong>熔铁的营火</strong><br>熔铁城打倒BOSS老铁王，点燃始源篝火获得奖杯。</p>
-<p><strong>鼠王誓约</strong><br>打败BOSS鼠王先锋出去后，会看见一只站立的老鼠对话获得奖杯。法洛斯门径试炼休息处篝火打败鼠王的试炼，BOSS另一个门外有个老鼠躲在洞里也可以签订誓约。</p>
-<p><strong>血族誓约</strong><br>打败狩猎森林BOSS刑吏查略特，篝火旁NPC需要憎恨之证才能开启对话签订誓约获得。（憎恨之证在打死鼠王先锋BOSS后一路下去的木台下面木箱里或者杀死在线入侵玩家获得）</p>
-<p><strong>锻造至高武器</strong><br>在铁匠处任意一把武器升到顶就可以获得奖杯。</p>
-<p><strong>溪谷的营火</strong><br>打败腐败物BOSS，点燃始源篝火获得奖杯。</p>
-<p><strong>辉石的营火</strong><br>打败BOSS公爵的夫雷伯亚，点燃始源篝火获得奖杯。</p>
-<p><strong>熟练工匠</strong><br>篝火麦道夫的工坊需要点燃烛台，捡到将熄余焰交给他。在他那强化武器消费14000魂以上，选择框里的说话选项解开奖杯，他还会送一个楔形石圆盘。</p>
-<p><strong>国王戒指</strong><br>打死不死陵庙BOSS王盾韦施塔德后，在老王徘徊的附近地上捡到戒指后解开奖杯。</p>
-<p><strong>远古之龙</strong><br>在卫龙巢穴最深处遇见古龙对话获得灰雾核心，解开奖杯。</p>
-<p><strong>镜之骑士</strong><br>打败王城BOSS后，解开奖杯获得。</p>
-<p><strong>黑暗誓约</strong><br>三个远古暗穴都要找到后才能和老头对话签订契约解开奖杯。一个在茫然遗迹会塌陷的地方。另一个在黑溪谷打死巨人废弃的钥匙开门里，最后是在王城门 前篝火左上角门内下去。</p>
-<p><strong>远古誓约</strong><br>龙祭坛2层找到化石蛋，交给熔铁城里的商人，对话后签订契约解开奖杯。</p>
-<p><strong>亚凯提拉</strong><br>需要玩家召唤白符鲁卡提耶至少三次BOSS战胜利后她幸存不死，才会在安迪尔馆前庭篝火处遇见鲁卡提耶。特别提醒如果不满足条件不要和她对话说完她就会消失，满足条件得到她的装备和正统骑士团大剑解开奖杯。<br>鲁卡提耶四个对话地点：密港房间内。遗忘囚牢离塔篝火出去直走的房间内。流油谷BOSS贪婪的恶魔右手边布满毒瓶的房间内。黑溪谷篝火出来右边小道跳下去的平台里。可以召唤她打BOSS的地点：密港四臂守卫BOSS，熔铁城熔铁恶魔BOSS，罪人塔遗忘的罪人BOSS，黑溪谷腐败物BOSS。DLC3白王BOSS。</p>
-<p><strong>继承者</strong><br>游戏通关制作组字幕结束回到如蜜，解开奖杯。</p>
-<p><strong>泛克拉德</strong><br>拿了5个巨人魂可以给老王最大的伤害，一开始要多砍几刀才会触发BOSS战。打死他获得奖杯。</p>
-<p><strong>肢体动作大师</strong><br>向NPC学会所有的动作姿势解开奖杯。<br>如蜜索丹学习——欢迎。<br>海德巨火塔青之骑士学习——开战礼节。<br>虚影森林温格之首学习——枭首。<br>如蜜被门挡住的苍剑男学习——喜悦。<br>狩猎森林不死牢篝火处救出克雷顿学习——握拳高举。<br>梯子男古里甘学习——下跪。<br>带如蜜村房间里猫npc买的细雨戒指，在茫然遗迹打死蝎女和蝎子男学习——活动肩膀。<br>罪人塔石化男史垂德学习——看不起人。<br>不死陵庙守墓人亚格德兰学习——求饶。进入王城透明宰相学习——我来。<br>太阳契约学习——赞美太阳。<br>巨人回忆王国队长学习——欢呼。</p>
-<p><strong>献身者</strong><br>任何一个誓约打到三级解开奖杯。誓约等级和贡献数二周目继承。</p>
-<p><strong>完成奇妙的地图</strong><br>和回到如蜜自己家里的地图男对话解开奖杯，需要点燃八个篝火：巨人陨落之森主塔篝火。罪人塔离塔篝火。熔铁城艾吉尔铁像篝火。黑溪谷入口篝火。辉石镇盖多勒下层篝火。不死陵庙死者废弃处篝火。龙祭坛入口篝火。王都多兰古雷德国王门 前篝火。</p>
-<p><strong>月光大剑</strong><br>需要玩家召唤白符凡荷特至少三次BOSS战胜利后他幸存不死，才会在巨人的回忆处遇见，对话后得到他的装备和苍之大剑解开奖杯。（添火打同一个BOSS三次是否可行，没有验证不确定。）<br>苍剑男对话地点：<br>首先在虚影森林入口遇见，解封石化女后务必回去再和他对话触发下部剧情。<br>之后会在王城中层篝火处遇见他对话完。<br>然后他会在巨人陨落之森的咒缚者附近坐着。<br>最后他会去到巨人回忆里。<br>可以召唤他BOSS战的地方：辉石镇徘徊的术士他的符在帐篷里。镜之骑士BOSS。巨人王BOSS。渴望王座BOSS。dlc深渊王冠污秽艾蕾娜BOSS。</p>
-<p><strong>要塞守护者</strong><br>他在巨人汪姆德的回忆里，第一次对话触发肢体语言，打败巨人王后再进去触发转赠奖杯获得。</p>
-<p><strong>守财奴</strong><br>买走所有能架起的梯子，然后对话解开奖杯。</p>
-<p><strong>习得所有魔法者</strong><br>得到所有魔法解开奖杯。（列表在2楼）</p>
-<p><strong>习得所有奇迹者</strong><br>得到所有奇迹解开奖杯。（列表在2楼）</p>
-<p><strong>习得所有咒术者</strong><br>得到所有咒术解开奖杯。（列表在2楼）</p>
-<p><strong>习得所有暗术者</strong><br>得到所有暗术解开奖杯。（列表在2楼）</p>
-<p><strong>黑暗灵魂</strong><br>恭喜白金达成。</p>
-<hr>
-<h3 id="元素碎片-13"><a href="#元素碎片-13" class="headerlink" title="元素碎片*13"></a>元素碎片*13</h3><p>如蜜村井内击打石头获得。<br>咒缚者平台尸体处。<br>虚影森林魔女居处篝火右边木门里。<br>海德巨火塔下去用怀念香木解开杂兵上楼梯后的栏杆处。<br>遗忘囚笼通往铁匠左手边小道尽头。<br>狩猎森林BOSS骷髅王右手边岔路进去，拉开铁门机关的地方。<br>辉石镇滑绳下去右边下去一个房间里。<br>废渊底层海德骑士楼梯上去的平台处捡到。<br>王城打死查略特马后直走下去有两个女沙之魔法师的房间宝箱里。<br>阿玛拉祭坛第二篝火河马守护的小路后面宝箱里。  </p>
-<h3 id="贵人骨灰-5"><a href="#贵人骨灰-5" class="headerlink" title="贵人骨灰*5"></a>贵人骨灰*5</h3><p>从巨火塔走楼梯下去，通往密港的左手铁箱内。<br>狩猎森林需要从上面跳入的洞堡铁箱内。<br>虚影森林魔女居处篝火左边有一个口可以跳到对面铁箱内。<br>杀死鼠王先锋BOSS后一路跳到最下面，有爆破兵的尽头铁箱内。<br>王城门 前篝火直走楼梯上去正对面扎因骑士守护的房间里。  </p>
-<blockquote>
-<p>关于全魔法全奇迹全咒术全暗术奖杯的说明，这次的原罪贤者全收集奖杯获得条件，还包括了3个dlc里能拿到的法术请务必注意这点。收集的攻略可以参考专区置顶的索引帖，这帖如有不明白或者错误的地方欢迎回帖我再修改解答。魔法修理的位置改到了茫然遗迹一个石化狮子后面的铁箱里。  </p>
-</blockquote>
-<blockquote>
-<p>DLC1深渊王冠进入方法<br>黑溪谷右边有悬崖可以跳下去看到一扇门，再向下跳会看到巨人，打死掉落废弃钥匙。去如蜜村的平台，从梯子男最深的梯子下去上到对面的梯子，会有扇门打开得到DLC1的钥匙龙爪。<br>DLC2钢铁王冠进入方法<br>熔铁城关掉机关后，进门第一个喷火马头处捡到熔铁钥匙。去巨人陨落之森最后的巨人BOSS左手边开门，直走尽头的火蛙守护的尸体处捡到DLC2的钥匙重铁钥和反叛大盾。<br>DLC3白王王冠进入方法<br>王城国王门 前篝火出去右边第一扇门，进去的尸体上捡到冰之花钥匙。  </p>
-</blockquote>
-<p>二周目8小时 三周目2小时就过了<br>方法是 一周目在dlc3 刷个冰刺<br>洗点 50敏 剩下多余的都加信仰  冰刺雷附魔<br>二周目正常打四物 这四个灵魂换四个法术 白金路上必须换的 </p>
-<blockquote>
-<p><strong><em>给出一个比较效率又兼顾多周目体验的路线，如蜜-巨人-咒缚者-海德龙骑兵-下坑杀腐肉-咒缚者那里去牢笼杀三基友和罪人（三基友没必要跳过多周目非常简单，要跳过的话需要从密港那边拿钥匙开门走法洛斯浪费时间不推荐）-茫然遗迹蝎女-辉石镇蜘蛛-狩猎森林骷髅王-流油谷大虫-推土塔娜迦-熔铁双雄（多周目熔铁一定不要急，稳健清小怪才能真正节省时间）-王城龙骑镜骑-祭坛青蛙（依然要稳扎稳打，抱着一次过小怪的谨慎）-灵庙王盾拿戒指-安第尓看守龙-跳过龙穴直奔祭坛拿核心-巨人王-王座两连战</em></strong></p>
-</blockquote>
-<blockquote>
-<p><strong><em>身上不要带魂进入三周目 先去巨人森林 老奶奶买一个怀念香木<br>之后跳废渊 再捡一个香木 腐败物前面那个营火 用一个香木<br>穿上刷魂套 戴+2银蛇 添火刷八九次腐败物（雷附魔冰刺非常好打） 再捏身上所有的魂 就够300w魂量了<br>然后直接开冬庙去王城 买法术 白金！</em></strong>  </p>
-</blockquote>
-<h2 id="黑暗之魂2原罪学者-全法术获取地点一览"><a href="#黑暗之魂2原罪学者-全法术获取地点一览" class="headerlink" title="黑暗之魂2原罪学者 全法术获取地点一览"></a>黑暗之魂2原罪学者 全法术获取地点一览</h2><h3 id="魔法："><a href="#魔法：" class="headerlink" title="魔法："></a>魔法：</h3><p>灵魂箭：巨人森林老奶奶买到<br>强力灵魂箭： 密港魔法师买到<br>灵魂巨箭：密港魔法师买到<br>强力灵魂巨箭：密港魔法师买到<br>追踪灵魂箭：遗忘牢笼魔法师<br>追踪灵魂巨箭：遗忘牢笼魔法师需要用三守卫的灵魂交换<br>追踪灵魂块：辉石镇鸟姐<br>追踪结晶灵魂块：阿马那祭坛，第二个篝火附近的死尸<br>灵魂枪：不死陵墓商人<br>结晶灵魂枪：二周目遗忘牢笼魔法师需要用远古白龙的灵魂交换<br>冲击：密港魔法师买到<br>乱射灵魂枪：密港魔法师买到<br>灵魂降雹：遗忘牢笼魔法师需要用蝎子女的灵魂交换<br>灵魂大剑：王城打过双龙骑士之后流程会到一间楼上又有个弓箭手的房间拉机关，在那个房间里。<br>漩涡灵魂塊：不死陵墓商人<br>灵魂闪光：王城打过镜子骑士到了电梯那个房间不要急着马上坐电梯，向左看。<br>灵魂洪流：安达尔之馆有硫酸的地牢里<br>法术武器：密港魔法师买到<br>强力法术武器：很多地方都有，最简单的是黑溪谷可以拣到<br>结晶法术武器：龙祭坛拿化石蛋那里，从窗户跳出去之后来到一个小平台，向右看。<br>强力法术盾：王城某个宝箱或者找安达尔之馆那个NPC可以买到<br>思乡：密港魔法师买到<br>静音：遗忘牢笼打3守卫的房间有个挂在平台边缘的死尸有道具，那个平台上有个暗墙进去便是。<br>控制坠落：辉石镇鸟姐<br>隐形武器：这个很麻烦，要成为钟塔守卫契约然后打倒20个入侵钟塔的玩家，然后和钟塔矮子对话就会给你这个魔法，其实太阳钟楼有一个随机复活的红魂杀一次也算打倒一个入侵玩家。我来说一下怎么刷：  </p>
-<ol>
-<li>到太阳钟楼的篝火  </li>
-<li>爬上平台之后直走左拐就能遇见这个红魂，红魂不会有任何入侵提示，就是站在那边这么一个普通的敌人，样子是持双刀的战士。  </li>
-<li>这个敌人是随机刷出来的所以如果没看见这个敌人的话果断回到篝火处坐下刷新，大概刷个15~20次能出来一次的样子。  </li>
-<li>刷到钟楼矮子给你魔法为止，大概20次<br>修理：茫然遗迹一个石化狮子后面的铁箱里<br>光明照耀：这个很早就能拿到，忘记在哪里拿的了<br>拟态：流油谷某个宝箱<br>解放魔力：安达尔之馆雾门里的法师，忘记是做杀人道具任务还是从他手里买到的了<br>灵魂一闪：DLC3白之王冠<br>收束灵魂块：DLC1深渊王冠  </li>
-</ol>
-<h3 id="奇迹："><a href="#奇迹：" class="headerlink" title="奇迹："></a>奇迹：</h3><p>回复：海德灯塔拜金女买到<br>中等回复：海德灯塔拜金女买到<br>缩约大恢复：海德灯塔拜金女买到<br>恢复：辉石镇教堂上去的商人<br>阳光治愈：用复仇之眼入侵拜金女打倒后得到，复仇之眼在不死陵墓，那个可以放下来的桥旁边有个平台，掉下去的宝箱里。<br>生命力涌现：海德灯塔拜金女买到<br>生命洋溢：海德灯塔拜金女买到<br>阳光滋润：3周目王城前的幽灵执事<br>治疗祈福：海德灯塔拜金女买到<br>原力：海德灯塔拜金女买到<br>诸神之怒：3周目王城前的幽灵执事<br>原力四射：到处都有的东西，实在找不到辉石镇商人有卖<br>苍天雷鸣：辉石镇商人有卖<br>雷枪：海德灯塔拜金女买到<br>巨雷枪：后期可以在遗忘牢笼法师商人买到，或者从黑溪谷拿到深渊钥匙之后可以在如蜜那个井下到最下面开一个门的宝箱里。<br>阳光之枪：太阳誓约并且给30个太阳徽章得到，太阳徽章online随便在哪里丢个白印使劲刷就可以了，offline虚影森林签霸者契约添火刷大鹰骑士<br>镇魂：流油谷大波妹<br>光辉雷球：二周目可以在遗忘牢笼法师商人用古王的灵魂换到<br>法术防护：狩猎森林第一个篝火前坐椅子的法师<br>强化法术防护：王城前的幽灵执事<br>返回：海德灯塔拜金女买到<br>引导之语：海德灯塔拜金女买到<br>金石之誓：遗忘牢笼法师商人用韦斯塔德的灵魂换到<br>察觉敌意：遗忘牢笼法师商人<br>伟大的抵抗：辉石镇商人有卖<br>阳光之剑：遗忘牢笼法师商人或者阿马那祭坛靠近第二个篝火远处有个箱子<br>惜别：DLC1深渊王冠<br>分裂雷枪：DLC3白之王冠  </p>
-<h3 id="咒术："><a href="#咒术：" class="headerlink" title="咒术："></a>咒术：</h3><p>火球：虚影森林石化妹子<br>火弹：虚影森林石化妹子<br>大火球：辉石镇商人有卖，或者巨人森林下面砍死火蜥蜴掉<br>混沌大火球：3周目王城前的幽灵执事<br>火焰风暴：不死人刑场的商人<br>火焰大风暴：阿那马祭坛，第二个篝火往后有个房子，进去出来之后遇见一个肉搏法师敌人，遇见那个法师的地方向右走有个宝箱。<br>混沌风暴：熔铁城第二个篝火之后那个大房间，看见西北方熔岩上那个宝箱没有?就在那里<br>引燃火焰：虚影森林石化妹子<br>引燃烈火：不死人刑场的商人<br>横扫火焰：不死人刑场的商人<br>毒雾：虚影森林石化妹子<br>猛毒雾：遗忘牢笼法师商人用鼠王先锋灵魂交换<br>喷射酸液：遗忘牢笼法师商人用鼠王试炼的灵魂交换<br>漂浮火球：遗忘牢笼法师商人<br>火锤术：遗忘牢笼法师商人<br>封印太阳：安达尔之馆雾门里的法师，做任务得到<br>火焰武器：二周目遗忘牢笼法师商人用古魔女之魂换到<br>剧烈出汗：虚影森林石化妹子<br>钢铁身躯：虚影森林石化妹子<br>温暖的火：不死陵墓商人<br>焚身火：太阳钟楼通过**之后进雾门宝箱便是<br>火蛇：DLC2铁之王冠<br>舞蹈之火：DLC2铁之王冠<br>咆哮：DLC2铁之王冠，捡到12个煤炭新娘灵魂合并成一个灵魂后，到遗忘牢笼法师换取  </p>
-<h3 id="暗术："><a href="#暗术：" class="headerlink" title="暗术："></a>暗术：</h3><p>暗珠：狩猎森林第一个篝火前坐椅子的法师<br>黑暗飞沫：狩猎森林第一个篝火前坐椅子的法师<br>暗毒雾：遗忘牢笼法师商人<br>追踪众：遗忘牢笼法师商人<br>死者活化：流油谷大波妹<br>黑暗武器：狩猎森林第一个篝火前坐椅子的法师<br>失望呢喃：圣人墓地，开法洛斯机关放下吊桥，过了吊桥后地上捡到<br>反作用：遗忘牢笼法师商人需要巨人王的灵魂<br>扭曲护壁：辉石镇商人有卖<br>神经激烈迟钝：二周目遗忘牢笼法师商人需要远古死者灵魂<br>生命残渣：辉石镇商人有卖<br>暗黑风暴：狩猎森林第一个篝火前坐椅子的法师(似乎要后期?)<br>灵魂共鸣：游戏早期某个宝箱，或者做暗黑契约的过程中会送<br>强烈灵魂共鸣：游戏早期某个宝箱，或者做暗黑契约的过程中会送<br>亢奋：完成暗黑契约所有任务(打倒暗天使)<br>躯体共鸣：狩猎森林第一个篝火前坐椅子的法师<br>武器共鸣：狩猎森林第一个篝火前坐椅子的法师<br>吸精微光：遗忘牢笼法师商人需要暗黑潜伏者的灵魂<br>深层沉默：狩猎森林第一个篝火前坐椅子的法师<br>必然的和平足迹：DLC1深渊王冠<br>暗之舞：DLC3白之王冠<br>暗之大剑：DLC1深夜王冠<br>回忆：DLC2铁之王冠  </p>
-
+            <p>
+              丧失的记忆创建完人物自动获得奖杯。
+弱者誓约如蜜村里和坐在高层大石碑边上的索丹对话，签订青教誓约获得。
+强者誓约如蜜村大石板处签订霸者誓约获得。
+最后的巨人打倒巨人陨落之森BOSS获得奖杯。           
+黑暗灵魂之始游戏中第一次死亡获得奖杯。
+更衣通往虚影森林前的石化女解封后，给她换装获得
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/玩主儿/黑暗之魂2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1565,7 +1383,41 @@
                     
                       
                     
-                    <span class="site-state-item-count">19</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1649,23 +1501,19 @@
                 <span class="links-of-author-item">
                   
                   
-                    
-                  
                   
                     
                   
-                  <a href="https://github.com/joecnn" title="GitHub &rarr; https://github.com/joecnn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  <a href="https://github.com/joecnn" title="GitHub &rarr; https://github.com/joecnn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
                 </span>
               
                 <span class="links-of-author-item">
                   
                   
-                    
-                  
                   
                     
                   
-                  <a href="mailto:starworking@126.com" title="E-Mail &rarr; mailto:starworking@126.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  <a href="mailto:starworking@126.com" title="E-Mail &rarr; mailto:starworking@126.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
                 </span>
               
             </div>
@@ -1699,9 +1547,9 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; 2013 – <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Joshua Chen</span>
 
@@ -1711,7 +1559,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
 
 
 
@@ -1719,7 +1567,7 @@
 
 
 
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a></div>
 
 
 
@@ -1740,6 +1588,8 @@
     
       <div class="back-to-top">
         <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
         
       </div>
     
@@ -1810,6 +1660,7 @@
   <script src="/wiki-site/js/affix.js?v=7.1.1"></script>
 
   <script src="/wiki-site/js/schemes/pisces.js?v=7.1.1"></script>
+
 
 
 

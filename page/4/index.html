@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-CN">
+<html class="theme-next gemini use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,7 +70,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/wiki-site/',
-    scheme: 'Pisces',
+    scheme: 'Gemini',
     version: '7.1.1',
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
     back2top: true,
@@ -341,7 +341,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/linux/添加开机运行脚本/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/Linux/添加开机运行脚本/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -361,7 +361,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/linux/添加开机运行脚本/" class="post-title-link" itemprop="url">添加开机运行脚本</a>
+                <a href="/wiki-site/wiki/Linux/添加开机运行脚本/" class="post-title-link" itemprop="url">添加开机运行脚本</a>
               
             
           </h1>
@@ -420,14 +420,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
 
                 
                 
@@ -464,17 +457,20 @@
       
         
           
-            <p>Linux 设置开机自动启动的方式有好多种，这里介绍一种通过 <code>chkconfig</code> 命令添加脚本为开机启动的方法。</p>
-<h3 id="1-编写脚本-autostart-sh"><a href="#1-编写脚本-autostart-sh" class="headerlink" title="1. 编写脚本 autostart.sh"></a>1. 编写脚本 autostart.sh</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="comment">#chkconfig: 2345 80 90</span></span><br><span class="line"><span class="comment">#description: 开机自动运行脚本</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启redis服务 端口为6379</span></span><br><span class="line">/usr/<span class="built_in">local</span>/service/redis-2.8.3/src/redis-server --port 6379 &amp;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>脚本第二行表示在 2/3/4/5运行级别启动，启动序号80，关闭序号90<br>  在添加其他用户的脚本时，使用 <code>su [USER] -c &quot;bash script&quot;</code> 发送到指定用户</p>
-</blockquote>
-<h3 id="2-赋予脚本执行权限"><a href="#2-赋予脚本执行权限" class="headerlink" title="2. 赋予脚本执行权限"></a>2. 赋予脚本执行权限</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /usr/local/service/redis-2.8.3/autostart.sh</span><br></pre></td></tr></table></figure>
-<h3 id="3-创建软链接到-init-d-目录下"><a href="#3-创建软链接到-init-d-目录下" class="headerlink" title="3. 创建软链接到 init.d 目录下"></a>3. 创建软链接到 init.d 目录下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 必须是全路径，否则会报查找不到文件的错误</span><br><span class="line">ln -s /usr/local/service/redis-2.8.3/autostart.sh /etc/rc.d/init.d/redis</span><br></pre></td></tr></table></figure>
-<h3 id="4-添加到开机启动项中"><a href="#4-添加到开机启动项中" class="headerlink" title="4. 添加到开机启动项中"></a>4. 添加到开机启动项中</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chkconfig -add redis</span><br><span class="line">chkconfig redis on</span><br></pre></td></tr></table></figure>
-<p>到这里已经将脚本添加到开机启动项中，重启服务器即可看到redis服务已经启动了。</p>
-
+            <p>
+              Linux 设置开机自动启动的方式有好多种，这里介绍一种通过 chkconfig 命令添加脚本为开机启动的方法。
+1. 编写脚本 autostart.sh#!/bin/sh#chkconfig: 2345 80 90#description: 开机自动运行脚本# 开启redis服务 端口为6379/
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/Linux/添加开机运行脚本/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -529,7 +525,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/devops/Jenkins 持续编译/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/Devops/Jenkins 持续编译/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -549,7 +545,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/devops/Jenkins 持续编译/" class="post-title-link" itemprop="url">Jenkins 持续编译</a>
+                <a href="/wiki-site/wiki/Devops/Jenkins 持续编译/" class="post-title-link" itemprop="url">Jenkins 持续编译</a>
               
             
           </h1>
@@ -608,14 +604,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/" itemprop="url" rel="index"><span itemprop="name">devops</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Devops/" itemprop="url" rel="index"><span itemprop="name">Devops</span></a></span>
 
                 
                 
@@ -652,45 +641,22 @@
       
         
           
-            <p><a href="https://www.w3cschool.cn/jenkins/jenkins-5h3228n2.html">Jenkins</a> 是一个开源自动化服务器，可用于自动化各种任务，如构建、测试和部署软件，本文档是结合Jenkins，Java，Maven，Github实现持续自动化编译。</p>
-<h2 id="1-思路-amp-流程"><a href="#1-思路-amp-流程" class="headerlink" title="1. 思路&amp;流程"></a>1. 思路&amp;流程</h2><ul>
-<li>安装 Java、Maven、Git、Jenkins 环境</li>
-<li>配置 Jenkins 拉取 Github 项目</li>
-<li>编译、单元测试 Maven 项目形成 war 包</li>
-</ul>
-<h2 id="2-环境准备"><a href="#2-环境准备" class="headerlink" title="2. 环境准备"></a>2. 环境准备</h2><blockquote>
-<p>由于 Maven 需要 jdk 支持，所以需要先配置 jdk 环境，再配置 maven 环境。</p>
-<ul>
-<li>准备可联网的 <a href="https://www.centos.org/download/">Linux Centos 7.3</a> 服务器</li>
-<li>下载 <a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Jdk1.8.0</a> 并设置环境变量</li>
-<li>下载 <a href="http://maven.apache.org/download.cgi">Maven3.3</a> 并设置环境变量</li>
-<li>安装 <a href="https://git-scm.com/download/linux">Git</a></li>
-</ul>
-</blockquote>
-<h2 id="3-安装-Jenkins"><a href="#3-安装-Jenkins" class="headerlink" title="3. 安装 Jenkins"></a>3. 安装 Jenkins</h2><blockquote>
-<p>可以设置 JENKINS_HOME 环境变量，改变 jenkins 启动生成文件存放位置.<br>其它安装方式参考：<a href="https://www.w3cschool.cn/jenkins/jenkins-79ex28jh.html">Jenkins安装</a></p>
-</blockquote>
-<p>首先从 <a href="https://jenkins.io/">Jenkins官方网站</a> 下载最新的 war 包，只需运行命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar jenkins.war --httpPort=8080</span><br></pre></td></tr></table></figure>
-<p>Jenkins 服务就启动成功了，它的 war 包自带了 jetty 服务器，剩下的工作可以在浏览器内完成。  </p>
-<h2 id="4-配置-Jenkins"><a href="#4-配置-Jenkins" class="headerlink" title="4. 配置 Jenkins"></a>4. 配置 Jenkins</h2><p>首次进入 Jenkins 时，出于安全考虑， Jenkins 会自动生成一个随机口令，粘帖口令进入安装界面。<br>进入 Jenkins 后选择 “<strong>Install suggested plugins</strong>“ 安装推荐插件，Jenkins 就自动配置好了 Maven、git 等常用插件。</p>
-<hr>
-
-<p>在开始使用 Jenkins 创建项目前，需要在”<strong>系统管理</strong>“-&gt;”<strong>全局工具配置</strong>“中添加 JDK、Maven 设置：<br><img src="../../../../images/jenkins_jdk.png" alt="jenkins_jdk"><br><img src="../../../../images/jenkins_maven.png" alt="jenkins_maven"><br>到此 Maven 项目的 Jenkins 已配置完成，下面开始创建构建任务。</p>
-<h2 id="5-构建Maven项目"><a href="#5-构建Maven项目" class="headerlink" title="5. 构建Maven项目"></a>5. 构建Maven项目</h2><p>在 Jenkins 首页选择”<strong>New 任务</strong>“，输入名字，选择”<strong>构建一个自由风格的软件项目</strong>“：<br><img src="../../../../images/jenkins_new_project.png" alt="jenkins_new_project"></p>
-<p>在配置页面中，”<strong>Source Code Management</strong>“ 选择 <strong>Git</strong>，填入地址，默认使用 mater 分支，如果为私人项目需要口令，在 Credentials 中添加用户名/口令：<br><img src="../../../../images/jenkins_git.png" alt="jenkins_git"></p>
-<p>在 “<strong>Build Triggers</strong>“ 中选择 “<strong>轮询 SCM</strong>“ 表示定时检查版本库，发现有新的提交就触发构建：<br><img src="../../../../images/jenkins_scm.png" alt="jenkins_scm"></p>
-<blockquote>
-<p>说明1：Triggerbuilds remotely(webhooks)<br>这个选项就是配合 git 仓库的钩子功能实现代码 PUSH 后 Jenkins 收到通知自动触发构建项目的动作<br>说明2：轮询 SCM<br>定时检查源码变更，如果有更新就克隆下最新 code 下来，然后执行构建动作</p>
-</blockquote>
-<p>在”<strong>Build</strong>“中可以添加编译命令，Maven默认的Root POM是<code>pom.xml</code>，如果<code>pom.xml</code>不在根目录下，则需要填入子目录：<br><img src="../../../../images/jenkins_build.png" alt="jenkins_build"></p>
-<blockquote>
-<p>说明1：选择之前添加的 maven 环境<br>说明2：填入需要执行的 mvn 命令<br>说明3：pom 不在根目录下，填入子目录 wxsell/pom.xml</p>
-</blockquote>
-<p>保存后就可以”<strong>立即构建</strong>“，可以在”<strong>Console Output</strong>“中看到控制台详细输出：<br><img src="../../../../images/jenkins_output.png" alt="jenkins_output"></p>
-<h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6. 总结"></a>6. 总结</h2><p>到此已配置了 Jenkins 自动编译任务，当 Github 上项目有变更时，会自动拉取项目进行编译，排除了可能不同机器上编译环境不同导致的影响。<br>在完成持续编译后，可以结合 Jenkins 的编译后动作进行自动部署，实现持续部署功能。在下篇笔记中将会记录如何实现持续部署。</p>
-
+            <p>
+              Jenkins 是一个开源自动化服务器，可用于自动化各种任务，如构建、测试和部署软件，本文档是结合Jenkins，Java，Maven，Github实现持续自动化编译。
+1. 思路&amp;流程
+安装 Java、Maven、Git、Jenkins 环境
+配置 Jenkins 拉取 Github 项目
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/Devops/Jenkins 持续编译/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -745,7 +711,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/工具/VirtualBox 共享文件/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/工具/VirtualBox 共享文件/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -765,7 +731,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/工具/VirtualBox 共享文件/" class="post-title-link" itemprop="url">VirtualBox共享文件</a>
+                <a href="/wiki-site/wiki/工具/VirtualBox 共享文件/" class="post-title-link" itemprop="url">VirtualBox共享文件</a>
               
             
           </h1>
@@ -824,14 +790,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/工具/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/工具/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
 
                 
                 
@@ -868,46 +827,25 @@
       
         
           
-            <p><code>VirtualBox</code> 与 <code>Linux</code> 虚拟机 可以通过 <code>VBoxGuestAdditions</code> 插件进行文件共享。</p>
-<h5 id="1-设置共享文件夹"><a href="#1-设置共享文件夹" class="headerlink" title="1. 设置共享文件夹"></a>1. 设置共享文件夹</h5><p>在 <code>VirtualBox</code> 的<strong>共享文件夹</strong>设置中添加设置。</p>
-<h5 id="2-安装-VBoxGuestAdditions-插件"><a href="#2-安装-VBoxGuestAdditions-插件" class="headerlink" title="2. 安装 VBoxGuestAdditions 插件"></a>2. 安装 VBoxGuestAdditions 插件</h5><blockquote>
-<p>需要在 <code>linux</code> 虚拟机中安装</p>
-</blockquote>
-<ul>
-<li><p>将 <code>$VirtualBox\VBoxGuestAdditions.iso</code> 装载到光驱</p>
-</li>
-<li><p>挂载 cdrom：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir /media/cdrom &amp;&amp; mount /dev/sr0 /media/cdrom</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装插件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /media/cdrom &amp;&amp;  ./VBoxLinuxAdditions.run</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h5 id="3-验证挂载"><a href="#3-验证挂载" class="headerlink" title="3. 验证挂载"></a>3. 验证挂载</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mount -t vboxsf share ~/share</span><br><span class="line">$ df | grep &apos;share&apos;</span><br></pre></td></tr></table></figure>
-<h5 id="4-问题与解决"><a href="#4-问题与解决" class="headerlink" title="4. 问题与解决"></a>4. 问题与解决</h5><ul>
-<li><p>mount: unknown filesystem type ‘vboxsf’.</p>
-<blockquote>
-<p>未成功安装 VBoxGuestAdditions 插件</p>
-</blockquote>
-</li>
-<li><p>VBoxGuestAdditions 安装失败.</p>
-<blockquote>
-<p>查看 /var/log/vbxadd-install.log 错误信息，一般为依赖的包未安装<br><code>$ yum install gcc kernel-devel kernel-headers dkms make bzip2</code></p>
-</blockquote>
-</li>
-<li><p>ERROR: Kernel configuration is invalid.</p>
-<blockquote>
-<p>此错误是编译的 VBoxGuestAdditions 版本太老，新的 kernel 不必指定include/linux/autoconf.h，更新virtualbox即可</p>
-</blockquote>
-</li>
-<li><p>Please install the Linux kernel “header” files matching the current kernel for adding new hardware support to the system.</p>
-<blockquote>
-<p>此问题为默认安装的 kernel-devel 包与当前内核版本不同，重新安装对应包即可<br><code>$ sudo yum install -y &quot;kernel-devel-$(uname -r)&quot;</code></p>
-</blockquote>
-</li>
-</ul>
+            <p>
+              VirtualBox 与 Linux 虚拟机 可以通过 VBoxGuestAdditions 插件进行文件共享。
+1. 设置共享文件夹在 VirtualBox 的共享文件夹设置中添加设置。
+2. 安装 VBoxGuestAdditions 插件
+需要在 linux 虚拟机中安装
 
+
+将 $Virtu
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/工具/VirtualBox 共享文件/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -962,7 +900,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/devops/docker/docker 镜像加速/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/Devops/Docker/docker 镜像加速/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -982,7 +920,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/devops/docker/docker 镜像加速/" class="post-title-link" itemprop="url">Docker 镜像仓库加速</a>
+                <a href="/wiki-site/wiki/Devops/Docker/docker 镜像加速/" class="post-title-link" itemprop="url">Docker 镜像仓库加速</a>
               
             
           </h1>
@@ -1041,21 +979,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Devops/" itemprop="url" rel="index"><span itemprop="name">Devops</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/" itemprop="url" rel="index"><span itemprop="name">devops</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Devops/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a></span>
 
                 
                 
@@ -1092,40 +1023,21 @@
       
         
           
-            <p>docker 在默认安装后，当需要下载镜像时，通过命令<code>docker pull user/image</code> 拉取镜像都是访问默认的 docker hub 上的镜像，在国内网络环境下，下载一个镜像需要很长的时间，可以考虑使用 Registry Mirror 配置国内的镜像仓库。</p>
-<blockquote>
-<p>使用由阿里云提供的 Docker 镜像仓库进行加速。</p>
-</blockquote>
-<h3 id="1-登录阿里云"><a href="#1-登录阿里云" class="headerlink" title="1. 登录阿里云"></a>1. 登录阿里云</h3><blockquote>
-<p><a href="https://cr.console.aliyun.com/?spm=5176.100239.blogcont29941.13.haQkR4#/accelerator">阿里云 Docker 镜像仓库</a></p>
-</blockquote>
-<p>开启 Docker Hub 镜像站点<br><img src="../../../../../images/docker_ali.png" alt="docker_ali"></p>
-<h3 id="2-Windows-使用-Docker-加速"><a href="#2-Windows-使用-Docker-加速" class="headerlink" title="2. Windows 使用 Docker 加速"></a>2. Windows 使用 Docker 加速</h3><ol>
-<li>创建一台 docker machine 同时配置 docker 加速器</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create --engine-registry-mirror=https://6bybmq21.mirror.aliyuncs.com -d virtualbox default</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li><p>对于已经创建的 docker machine 实例，更换镜像源方法如下<br>i. 在 window 命令执行 <code>docker-machine ssh [machine-name]</code> 进入 VM bash<br>ii. <code>sudo vi /var/lib/boot2docker/profile</code><br>iii. 在<code>--label provider=virtualbox</code>的添加一行 <code>--registry-mirror https://xxx.mirror.aliyuncs.com</code><br>iiii. 重启 docker 服务：<code>sudo /etc/init.d/docker restart</code> 或重启 VM ： <code>docker-machine restart</code></p>
-</li>
-<li><p>docker for windows</p>
-<blockquote>
-<p>设置 Daemon Registry mirrors<br><img src="../../../../../images/docker_setting.png" alt="docker_setting"></p>
-</blockquote>
-</li>
-<li><p>查看 mirror 配置</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker-machine env default</span><br><span class="line">eval &quot;$(docker-machine env default)&quot;</span><br><span class="line">docker info</span><br></pre></td></tr></table></figure>
-<h3 id="3-CentOs-使用镜像加速"><a href="#3-CentOs-使用镜像加速" class="headerlink" title="3. CentOs 使用镜像加速"></a>3. CentOs 使用镜像加速</h3><ol>
-<li>安装/升级 Docker 客户端</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>修改 daemon 配置文件 <code>/etc/docker/daemon.json</code> 来使用加速</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&apos;EOF&apos;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://6bybmq21.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+            <p>
+              docker 在默认安装后，当需要下载镜像时，通过命令docker pull user/image 拉取镜像都是访问默认的 docker hub 上的镜像，在国内网络环境下，下载一个镜像需要很长的时间，可以考虑使用 Registry Mirror 配置国内的镜像仓库。
 
+使用由阿里云提供的 Dock
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/Devops/Docker/docker 镜像加速/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1180,7 +1092,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/devops/docker/docker start/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/Devops/Docker/docker start/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -1200,7 +1112,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/devops/docker/docker start/" class="post-title-link" itemprop="url">Docker Start</a>
+                <a href="/wiki-site/wiki/Devops/Docker/docker start/" class="post-title-link" itemprop="url">Docker Start</a>
               
             
           </h1>
@@ -1259,21 +1171,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Devops/" itemprop="url" rel="index"><span itemprop="name">Devops</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/" itemprop="url" rel="index"><span itemprop="name">devops</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Devops/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a></span>
 
                 
                 
@@ -1310,78 +1215,23 @@
       
         
           
-            <h3 id="1-Window10-下安装"><a href="#1-Window10-下安装" class="headerlink" title="1. Window10 下安装"></a>1. Window10 下安装</h3><blockquote>
-<p>Window10 下载最新的 <a href="https://store.docker.com/editions/community/docker-ce-desktop-windows">Docker for windows</a> 安装包进行安装</p>
-</blockquote>
-<p>Windows10 下可以切换 Docker Platform 为 Linux 或者 Window，下载的镜像需要对应的平台支持。</p>
-<p>Window10 下自带了虚拟器，需要开启 Hyper-V，在 控制面板-程序-打开Windows功能 中开启<br><img src="../../../../../images/docker_hyperv.png" alt="docker_hyperv"></p>
-<blockquote>
-<p>Windows10 下的 Docker 使用虚拟机 IP 即为本机 127.0.0.1 ，可以在 CMD、PowerShell 中直接进行操作。</p>
-</blockquote>
-<h3 id="2-Windows7-下安装"><a href="#2-Windows7-下安装" class="headerlink" title="2. Windows7 下安装"></a>2. Windows7 下安装</h3><blockquote>
-<p>Windows7 下在最新的 <a href="https://docs.docker.com/toolbox/toolbox_install_windows/">DockerToolBox</a> 安装包进行安装<br>DockerToolBox 会自动安装 Oracle Virtual Box 虚拟机，需要依托虚拟机进行启动。  </p>
-</blockquote>
-<h4 id="2-1-创建-docker-machine"><a href="#2-1-创建-docker-machine" class="headerlink" title="2.1 创建 docker machine"></a>2.1 创建 docker machine</h4><blockquote>
-<p>安装完成后会附带 docker-machine.exe 使用此工具可以安装 docker 环境</p>
-</blockquote>
-<ol>
-<li>查询 docker machine</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine ls</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>创建 default machine</li>
-</ol>
-<blockquote>
-<p>使用 virtualbox 驱动模式，会自动下载 docker2boot.iso 镜像进行创建 virtualbox 虚拟机</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create -d virtalbox default</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>查看 docker 信息</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine env default</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>管理 docker machine</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine -h</span><br></pre></td></tr></table></figure>
-<h4 id="2-2-使用-putty"><a href="#2-2-使用-putty" class="headerlink" title="2.2 使用 putty"></a>2.2 使用 putty</h4><blockquote>
-<p>在 Windows 命令进入 Docker 后，shell 不能复制，操作不方便，因此使用支持 SSH 的工具来连接 docker 虚拟机。</p>
-</blockquote>
-<ol>
-<li>查询 docker mechine ip：<blockquote>
-<p>在 docker machine env 中的 DOCKER_HOST </p>
-</blockquote>
-</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine env default</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>使用 Putty 连接到 docker 终端：</li>
-</ol>
-<blockquote>
-<p>默认用户名：docker 密码： tcuser</p>
-</blockquote>
-<p><img src="../../../../../images/docker_cli.png" alt="docker_cli"></p>
-<blockquote>
-<p>PS：在 DockerToolBox 下自动安装的是 VirtualBox5.1，但是在启动 docker default mechine 时一直出错（VERR_SUPDRV_HARDENIGN_EVIL_HANDLE），经过查询是由于该版本的 vboxdrv 核心驱动请求过大的访问权限。。<br>最后安装旧版的 VirtualBox4.3.12 后成功解决。</p>
-</blockquote>
-<h4 id="2-3-docker-virtualbox-管理"><a href="#2-3-docker-virtualbox-管理" class="headerlink" title="2.3 docker virtualbox 管理"></a>2.3 docker virtualbox 管理</h4><p>由于使用 docker-machine 创建的虚拟机默认路径为 <strong>/user/.docker/machine/</strong> 下，可能在以后容器创建过多时占用系统盘资源。将 virtualbox 虚拟硬盘移动到其它盘。</p>
-<ol>
-<li>复制 default vmdk 到指定路径<blockquote>
-<p>在指定盘进行复制一份 vmdk </p>
-</blockquote>
-</li>
-</ol>
-<p><img src="../../../../../images/vbox_copy.png" alt="vbox_copy"></p>
-<ol start="2">
-<li>为 default 虚拟机添加新的虚拟硬盘<blockquote>
-<p>添加新的虚拟硬盘后，删除原来的 disk.vmdk 文件即可</p>
-</blockquote>
-</li>
-</ol>
-<p><img src="../../../../../images/vbox_delete.png" alt="vbox_delete"></p>
-<p>修改完成后，重启 docker machine 即可</p>
-<p>参考资料：<br>[1] 白皮书：<a href="https://www.gitbook.com/book/yeasy/docker_practice/details">https://www.gitbook.com/book/yeasy/docker_practice/details</a><br>[2] 官方：<a href="https://www.docker.com/">https://www.docker.com/</a><br>[3] 镜像库：<a href="https://hub.docker.com/">https://hub.docker.com/</a></p>
+            <p>
+              1. Window10 下安装
+Window10 下载最新的 Docker for windows 安装包进行安装
 
+Windows10 下可以切换 Docker Platform 为 Linux 或者 Window，下载的镜像需要对应的平台支持。
+Window10 下自带了虚拟器，需要开启 Hyp
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/Devops/Docker/docker start/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1524,7 +1374,41 @@
                     
                       
                     
-                    <span class="site-state-item-count">19</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1608,23 +1492,19 @@
                 <span class="links-of-author-item">
                   
                   
-                    
-                  
                   
                     
                   
-                  <a href="https://github.com/joecnn" title="GitHub &rarr; https://github.com/joecnn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  <a href="https://github.com/joecnn" title="GitHub &rarr; https://github.com/joecnn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
                 </span>
               
                 <span class="links-of-author-item">
                   
                   
-                    
-                  
                   
                     
                   
-                  <a href="mailto:starworking@126.com" title="E-Mail &rarr; mailto:starworking@126.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  <a href="mailto:starworking@126.com" title="E-Mail &rarr; mailto:starworking@126.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
                 </span>
               
             </div>
@@ -1658,9 +1538,9 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; 2013 – <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Joshua Chen</span>
 
@@ -1670,7 +1550,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
 
 
 
@@ -1678,7 +1558,7 @@
 
 
 
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a></div>
 
 
 
@@ -1699,6 +1579,8 @@
     
       <div class="back-to-top">
         <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
         
       </div>
     
@@ -1769,6 +1651,7 @@
   <script src="/wiki-site/js/affix.js?v=7.1.1"></script>
 
   <script src="/wiki-site/js/schemes/pisces.js?v=7.1.1"></script>
+
 
 
 

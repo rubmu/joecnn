@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-CN">
+<html class="theme-next gemini use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,7 +70,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/wiki-site/',
-    scheme: 'Pisces',
+    scheme: 'Gemini',
     version: '7.1.1',
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
     back2top: true,
@@ -341,7 +341,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/devops/git/Git 基本操作/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/Devops/Git/Git 基本操作/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -361,7 +361,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/devops/git/Git 基本操作/" class="post-title-link" itemprop="url">Git 基本操作</a>
+                <a href="/wiki-site/wiki/Devops/Git/Git 基本操作/" class="post-title-link" itemprop="url">Git 基本操作</a>
               
             
           </h1>
@@ -420,21 +420,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Devops/" itemprop="url" rel="index"><span itemprop="name">Devops</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/" itemprop="url" rel="index"><span itemprop="name">devops</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Devops/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a></span>
 
                 
                 
@@ -471,43 +464,20 @@
       
         
           
-            <h3 id="1-取得-Git-仓库"><a href="#1-取得-Git-仓库" class="headerlink" title="1. 取得 Git 仓库"></a>1. 取得 Git 仓库</h3><p>有两种取得 Git 项目仓库的方法，第一种是在现存的目录下，通过<strong>初始化文件夹</strong>来创建新的 Git 仓库：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure></p>
-<p>第二种是<strong>克隆仓库</strong>项目，Git 支持许多数据传输协议(git://, http(s)://, ssh)：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> [url] new_project_name</span><br></pre></td></tr></table></figure></p>
-<h3 id="2-检查当前文件状态"><a href="#2-检查当前文件状态" class="headerlink" title="2. 检查当前文件状态"></a>2. 检查当前文件状态</h3><p>要确定<strong>文件状态</strong>，可以使用 git status 命令。文件状态分为： </p>
-<ul>
-<li>untracked files: 未跟踪 </li>
-<li>changes to be committed: 已暂存 </li>
-<li>changed but not updated: 已修改，未暂存 </li>
-</ul>
-<h3 id="3-追踪文件"><a href="#3-追踪文件" class="headerlink" title="3. 追踪文件"></a>3. 追踪文件</h3><p>使用命令 git add 开始跟踪文件或文件夹：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git add README</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>git add 命令是个多功能命令，根据目标文件的状态不同，此命令的效果也不同：可以用它开始跟踪新文件，或者把已跟踪的文件放到暂存区，还能用于合并时把有冲突的文件标记为已解决状态等。</p>
-</blockquote>
-<h3 id="4-忽略文件"><a href="#4-忽略文件" class="headerlink" title="4. 忽略文件"></a>4. 忽略文件</h3><p>当某些文件无需纳入 Git 管理时，可以创建一个名为 <strong>.gitignore</strong> 的文件，列出要忽略的文件模式。文件 .gitignore 的格式如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 此为注释 – 将被 Git 忽略 </span></span><br><span class="line">*.a       <span class="comment"># 忽略所有 .a 结尾的文件 </span></span><br><span class="line">!lib.a    <span class="comment"># 但 lib.a 除外 </span></span><br><span class="line">/TODO     <span class="comment"># 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO </span></span><br><span class="line">build/    <span class="comment"># 忽略 build/ 目录下的所有文件 </span></span><br><span class="line"> doc/*.txt <span class="comment"># 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt</span></span><br></pre></td></tr></table></figure></p>
-<p> 对现有项目添加 git gitignore 不生效的解决办法： .gitignore 不生效解决方法</p>
-<h3 id="5-查看已暂存和未暂存的变更内容"><a href="#5-查看已暂存和未暂存的变更内容" class="headerlink" title="5. 查看已暂存和未暂存的变更内容"></a>5. 查看已暂存和未暂存的变更内容</h3><p>如果想要查看具体修改内容，可以使用 git diff 命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git diff</span><br></pre></td></tr></table></figure></p>
-<p>此命令比较的是当前目录文件和暂存区快照之间的差异，也就是被修改后没有暂存的内容。<br>如果想要查看暂存起来的文件和上次提交时的文件的差异，可以使用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git diff --cached </span><br><span class="line">$ git diff --staged  <span class="comment">#v1.6.1+</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="6-提交更新"><a href="#6-提交更新" class="headerlink" title="6. 提交更新"></a>6. 提交更新</h3><p>当将所有文件加入暂存区后可以提交了，运行命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m <span class="string">"提交已经暂存(add)过的变更"</span></span><br></pre></td></tr></table></figure></p>
-<p>给 git commit 加上 -a 选项，跳过暂存步骤，自动将所有已跟踪过的文件提交：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -a -m <span class="string">'直接提交变更，跳过暂存步骤'</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="7-撤消操作"><a href="#7-撤消操作" class="headerlink" title="7. 撤消操作"></a>7. 撤消操作</h3><p>某些时候，提交完后才发现漏了几个文件，或者提交信息写错了，<strong>修改最后一次提交</strong>，可以使用 –amend 选项重新提交：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git  commit  --amend  -m <span class="string">"修改备注信息"</span></span><br></pre></td></tr></table></figure></p>
-<p>某些时间，不小心将不需要提交的文件使用了 git add，要<strong>取消暂存文件</strong>，可以使用以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git  reset  HEAD  file_name</span><br></pre></td></tr></table></figure></p>
-<p>如果对文件修改没必要，需要<strong>撤销对文件的修改</strong>，可以使用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git  checkout  --  file_name</span><br></pre></td></tr></table></figure></p>
-<p>注意此条命令会取消文件所有修改，回到上次提交的状态，需要谨慎使用。 </p>
-<h3 id="8-移除文件"><a href="#8-移除文件" class="headerlink" title="8. 移除文件"></a>8. 移除文件</h3><p>移除文件，并从工作目录中删除文件，也支持正则匹配：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git  rm  -f   file_name</span><br></pre></td></tr></table></figure></p>
-<p>另一种情况，从 Git 中移除跟踪，但仍然保留文件，使用 –cached 选项即可：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git  rm --cached file_name</span><br></pre></td></tr></table></figure></p>
-<h3 id="9-移动文件"><a href="#9-移动文件" class="headerlink" title="9. 移动文件"></a>9. 移动文件</h3><p>重命名或移动文件，都可以使用以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git mv file_from  file_to</span><br></pre></td></tr></table></figure></p>
-<p>其实运行 git mv 就相当于运行下面三条命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mv  README.txt README </span><br><span class="line">$ git rm README.txt </span><br><span class="line">$ git add  README</span><br></pre></td></tr></table></figure></p>
-<h3 id="10-查看提交历史"><a href="#10-查看提交历史" class="headerlink" title="10. 查看提交历史"></a>10. 查看提交历史</h3><p>想回顾下提交历史记录，可以使用 git log 命令查看。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-p : 显示每次提交的内容差异 </span><br><span class="line">-2：仅显示最近两次更新 </span><br><span class="line">--<span class="built_in">stat</span> : 仅显示简要的增改行数统计 </span><br><span class="line">--pretty : 自定义显示风格 </span><br><span class="line">    =oneline : 放在一行显示 </span><br><span class="line">    =format:<span class="string">"%h - %an, %ar : %s"</span> 格式输出 </span><br><span class="line">--since=2.weeks : 最近时间段 </span><br><span class="line">--author=xx :  作者 </span><br><span class="line">--committer=xx : 提交者</span><br></pre></td></tr></table></figure></p>
-<p>使用图形化工具查看历史提交记录，使用命令 gitk 即可。 </p>
-<h3 id="11-远程仓库的使用"><a href="#11-远程仓库的使用" class="headerlink" title="11. 远程仓库的使用"></a>11. 远程仓库的使用</h3><p>要查看当前配置有哪些远程仓库，可以使用 git remote 命令，会列出每个远程仓库：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote -v</span><br></pre></td></tr></table></figure></p>
-<p>要添加一个新的远程仓库，需要在 github 上创建一个空的仓库，指定一个简单的名字，以便引用，运行 git remote add [shortname] [url] 创建本地仓库:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add repository_name git://github.com/joecnn/imgcompact.git</span><br></pre></td></tr></table></figure></p>
-<p>从远程仓库拉取数据到本地，但并<strong>不合并</strong>到当前工作分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch [remote-name]</span><br></pre></td></tr></table></figure></p>
-<p>使用 git pull 命令拉取远程仓库并<strong>合并</strong>到本地分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git pull [remote-name]</span><br></pre></td></tr></table></figure></p>
-<p>推送数据到远程仓库：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure></p>
-<p>查看远程仓库信息：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote show origin</span><br></pre></td></tr></table></figure></p>
-<p>远程仓库的删除和重命名：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git remote rename old_name new_name </span><br><span class="line">$ git remote rm rp_name</span><br></pre></td></tr></table></figure></p>
-
+            <p>
+              1. 取得 Git 仓库有两种取得 Git 项目仓库的方法，第一种是在现存的目录下，通过初始化文件夹来创建新的 Git 仓库：git init
+第二种是克隆仓库项目，Git 支持许多数据传输协议(git://, http(s)://, ssh)：$ git clone [url] new_proje
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/Devops/Git/Git 基本操作/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -562,7 +532,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/devops/git/Git 安装/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/Devops/Git/Git 介绍/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -582,7 +552,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/devops/git/Git 安装/" class="post-title-link" itemprop="url">Git 安装</a>
+                <a href="/wiki-site/wiki/Devops/Git/Git 介绍/" class="post-title-link" itemprop="url">Git 介绍</a>
               
             
           </h1>
@@ -624,7 +594,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-02-08 14:46:06" itemprop="dateModified" datetime="2019-02-08T14:46:06+08:00">2019-02-08</time>
+                <time title="修改时间：2019-02-08 14:46:09" itemprop="dateModified" datetime="2019-02-08T14:46:09+08:00">2019-02-08</time>
               
             
           </span>
@@ -641,21 +611,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Devops/" itemprop="url" rel="index"><span itemprop="name">Devops</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/" itemprop="url" rel="index"><span itemprop="name">devops</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Devops/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a></span>
 
                 
                 
@@ -692,25 +655,20 @@
       
         
           
-            <h3 id="1-从源码安装"><a href="#1-从源码安装" class="headerlink" title="1. 从源码安装"></a>1. 从源码安装</h3><p>Git的工作需要调用 curl, zlib, openssl, expat, libconv 等库，所以需要先安装这些依赖工具。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel</span><br></pre></td></tr></table></figure></p>
-<h5 id="之后从Git官方站点下载源码："><a href="#之后从Git官方站点下载源码：" class="headerlink" title="之后从Git官方站点下载源码："></a>之后从Git官方站点下载源码：</h5><pre><code>http://git-scm.com/download 
-</code></pre><h5 id="进行编译安装："><a href="#进行编译安装：" class="headerlink" title="进行编译安装："></a>进行编译安装：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxf git-1.7.2.2.tar.gz </span><br><span class="line">$ <span class="built_in">cd</span> git-1.7.2.2 </span><br><span class="line">$ make prefix=/usr/<span class="built_in">local</span> all </span><br><span class="line">$ sudo make prefix=/usr/<span class="built_in">local</span> install</span><br></pre></td></tr></table></figure>
-<h3 id="2-在-Linux-上安装"><a href="#2-在-Linux-上安装" class="headerlink" title="2. 在 Linux 上安装"></a>2. 在 Linux 上安装</h3><p>如果要在 Linux 上安装预编译好的 Git 安装包，使用系统提供的包管理工具即可：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum install git-core </span><br><span class="line">$ apt-get install git-core</span><br></pre></td></tr></table></figure></p>
-<h3 id="3-在-Mac-上安装"><a href="#3-在-Mac-上安装" class="headerlink" title="3. 在 Mac 上安装"></a>3. 在 Mac 上安装</h3><p>在 Mac 上安装有两种方式，一种是下载 Git 安装工具，下载地址：<br>    <a href="http://git-scm.com/download/mac">http://git-scm.com/download/mac</a> </p>
-<p>另一种是通过 MacPorts 安装，用下面的命令安装：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo port install git-core +svn +doc +bash_completion +gitweb</span><br></pre></td></tr></table></figure></p>
-<h3 id="4-在-Windows-上安装"><a href="#4-在-Windows-上安装" class="headerlink" title="4. 在 Windows 上安装"></a>4. 在 Windows 上安装</h3><p>在 Windows 上安装非常简单，只要下载 Git 安装工具，下载地址：<br>    <a href="http://git-scm.com/download/win">http://git-scm.com/download/win</a> </p>
-<h3 id="5-初始配置"><a href="#5-初始配置" class="headerlink" title="5. 初始配置"></a>5. 初始配置</h3><p>一般在新的系统上，首先要配置 Git 的工作环境，Git 提供了 git config 的工具，用于配置和读取工作环境变量，这些变量可以存放在以下三个不同地方： </p>
-<ul>
-<li>/etc/gitconfig 文件：对系统中所有用户都适用，若使用 git config 时用 –system 选项，读写的就是这个文件。 </li>
-<li>~/.gitconfig 文件：用户目录下仅用于用户，若使用 git config 时用 –global 选项，读写的就是这个文件。 </li>
-<li>当前项目的 git 目录中的配置文件：这里的配置仅仅对当前项目有效。每一个级别的配置都会覆盖上层的相同配置。 </li>
-</ul>
-<h5 id="第一个要配置的是账户名称和邮箱地址："><a href="#第一个要配置的是账户名称和邮箱地址：" class="headerlink" title="第一个要配置的是账户名称和邮箱地址："></a>第一个要配置的是账户名称和邮箱地址：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name <span class="string">"joecnn"</span> </span><br><span class="line">$ git config --global user.email <span class="string">"starworking@126.com "</span></span><br></pre></td></tr></table></figure>
-<h5 id="配置文本编辑器："><a href="#配置文本编辑器：" class="headerlink" title="配置文本编辑器："></a>配置文本编辑器：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global core.editor vim</span><br></pre></td></tr></table></figure>
-<h5 id="配置差异分析工具："><a href="#配置差异分析工具：" class="headerlink" title="配置差异分析工具："></a>配置差异分析工具：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global merge.tool vimdiff</span><br></pre></td></tr></table></figure>
-<h3 id="6-查看配置信息"><a href="#6-查看配置信息" class="headerlink" title="6. 查看配置信息"></a>6. 查看配置信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --list</span><br></pre></td></tr></table></figure>
-<h3 id="7-获取帮助"><a href="#7-获取帮助" class="headerlink" title="7. 获取帮助"></a>7. 获取帮助</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">help</span>  </span><br><span class="line">$ man git-</span><br></pre></td></tr></table></figure>
+            <p>
+               Git是一个分布式的版本控制系统，最初由Linus Torvalds编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在Ruby社区中。  
+一、Git 特点直接记录快照，而非差异，只关心文件数据的整体是否发生变化，并不保存这些前后变化的差异数据。实际上，Gi
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/Devops/Git/Git 介绍/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -765,7 +723,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/devops/git/gitignore不生效解决方法/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/Devops/Git/gitignore不生效解决方法/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -785,7 +743,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/devops/git/gitignore不生效解决方法/" class="post-title-link" itemprop="url">gitignore不生效解决方法</a>
+                <a href="/wiki-site/wiki/Devops/Git/gitignore不生效解决方法/" class="post-title-link" itemprop="url">gitignore不生效解决方法</a>
               
             
           </h1>
@@ -844,21 +802,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Devops/" itemprop="url" rel="index"><span itemprop="name">Devops</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/" itemprop="url" rel="index"><span itemprop="name">devops</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/devops/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Devops/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a></span>
 
                 
                 
@@ -895,12 +846,20 @@
       
         
           
-            <p>在git中如果想忽略掉某个文件，不让这个文件提交到版本库中，可以使用修改根目录中 .gitignore 文件的方法（如无，则需自己手工建立此文件）。这个文件每一行保存了一个匹配的规则例如：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 此为注释 – 将被 Git 忽略</span></span><br><span class="line"></span><br><span class="line">*.a       <span class="comment"># 忽略所有 .a 结尾的文件</span></span><br><span class="line">!lib.a    <span class="comment"># 但 lib.a 除外</span></span><br><span class="line">/TODO     <span class="comment"># 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO</span></span><br><span class="line">build/    <span class="comment"># 忽略 build/ 目录下的所有文件</span></span><br><span class="line">doc/*.txt <span class="comment"># 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt</span></span><br></pre></td></tr></table></figure>
-<p>但是有时候在项目开发过程中，想把某些目录或文件加入忽略规则，按照上述方法定义后发现并未生效，原因是.gitignore只能忽略那些原来没有被track的文件，如果某些文件已经被纳入了版本管理中，则修改.gitignore是无效的。那么解决方法就是先把本地缓存删除（改变成未track状态），然后再提交：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --cached .</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">'update .gitignore'</span></span><br></pre></td></tr></table></figure>
-
+            <p>
+              在git中如果想忽略掉某个文件，不让这个文件提交到版本库中，可以使用修改根目录中 .gitignore 文件的方法（如无，则需自己手工建立此文件）。这个文件每一行保存了一个匹配的规则例如：
+# 此为注释 – 将被 Git 忽略*.a       # 忽略所有 .a 结尾的文件!lib.a    # 
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/Devops/Git/gitignore不生效解决方法/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -955,7 +914,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/linux/常见问题收集/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/Linux/常见问题收集/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -975,7 +934,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/linux/常见问题收集/" class="post-title-link" itemprop="url">常见问题收集</a>
+                <a href="/wiki-site/wiki/Linux/常见问题收集/" class="post-title-link" itemprop="url">常见问题收集</a>
               
             
           </h1>
@@ -1034,14 +993,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
 
                 
                 
@@ -1078,12 +1030,20 @@
       
         
           
-            <p>此文档为使用linux过程中遇到的各种坑，以及跳出坑的方法。</p>
-<h3 id="1-启动时提示-systemd-1-Failed-to-load-SELinux-policy-freezing-无法进入系统"><a href="#1-启动时提示-systemd-1-Failed-to-load-SELinux-policy-freezing-无法进入系统" class="headerlink" title="1. 启动时提示 systemd[1]: Failed to load SELinux policy. freezing. 无法进入系统"></a>1. 启动时提示 systemd[1]: Failed to load SELinux policy. freezing. 无法进入系统</h3><p>此问题为设置错了 SELinux 配置，在启动时按e键修改 grub，在标签 <strong>fi</strong> 内核参数中增加一个参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">selinux=0</span><br></pre></td></tr></table></figure></p>
-<p>后按 ctrl+x 重启可进入，再修改 ==/etc/selinux/config==<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELINUX=disabled</span><br><span class="line">SELINUXTYPE=target</span><br></pre></td></tr></table></figure></p>
-<h3 id="2-centos7-端口已开放，也开放了iptables防火墙，还是无法访问"><a href="#2-centos7-端口已开放，也开放了iptables防火墙，还是无法访问" class="headerlink" title="2. centos7 端口已开放，也开放了iptables防火墙，还是无法访问"></a>2. centos7 端口已开放，也开放了iptables防火墙，还是无法访问</h3><p>此问题为 centos7 已默认使用 firewall 为防火墙！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#关闭防火墙</span><br><span class="line">systemctl stop firewalld.service</span><br><span class="line"></span><br><span class="line">#禁止防火墙开机启动</span><br><span class="line">systemctl disable firewalld.service</span><br><span class="line"></span><br><span class="line">#查看防火墙开放端口</span><br><span class="line">firewall-cmd --list-ports</span><br><span class="line"></span><br><span class="line">#开放端口</span><br><span class="line">firewall-cmd --zone=public --add-port=80/tcp --permanent</span><br></pre></td></tr></table></figure></p>
-
+            <p>
+              此文档为使用linux过程中遇到的各种坑，以及跳出坑的方法。
+1. 启动时提示 systemd[1]: Failed to load SELinux policy. freezing. 无法进入系统此问题为设置错了 SELinux 配置，在启动时按e键修改 grub，在标签 fi 内核参数中增加一个
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/Linux/常见问题收集/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1138,7 +1098,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/软件工程/存储/oracle/Oracle 分区表/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/存储/Oracle/Oracle 分区表/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -1158,7 +1118,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/软件工程/存储/oracle/Oracle 分区表/" class="post-title-link" itemprop="url">Oracle 分区表</a>
+                <a href="/wiki-site/wiki/存储/Oracle/Oracle 分区表/" class="post-title-link" itemprop="url">Oracle 分区表</a>
               
             
           </h1>
@@ -1217,21 +1177,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/存储/" itemprop="url" rel="index"><span itemprop="name">存储</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/存储/" itemprop="url" rel="index"><span itemprop="name">存储</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/软件工程/存储/oracle/" itemprop="url" rel="index"><span itemprop="name">oracle</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/存储/Oracle/" itemprop="url" rel="index"><span itemprop="name">Oracle</span></a></span>
 
                 
                 
@@ -1268,129 +1221,19 @@
       
         
           
-            <h3 id="一、分区表"><a href="#一、分区表" class="headerlink" title="一、分区表"></a>一、分区表</h3><p>&emsp;&emsp;随着表的不断增大，对于新纪录的增加、查找、删除等的维护也更加困难。对于数据库中的超大型表，可通过把它的数据分成若干个小表，从而简化数据库的管理活动。对于每一个简化后的小表，我们称为一个单个的分区。<br>　　对于分区的访问，我们不需要使用特殊的SQL查询语句或特定的DML语句，而且可以单独的操作单个分区，而不是整个表。同时也可以将不同分区的数据放置到不同的表空间。<br>　　对于外部应用程序来说，虽然存在不同的分区，且数据位于不同的表空间，<strong><em>但逻辑上仍然是一张表</em></strong>，可以使用SQL*Loader，IMPDP，EXPDP，Import，Export等工具来装载或卸载分区表中的数据。
-　　</p>
-<h3 id="二、何时进行分区"><a href="#二、何时进行分区" class="headerlink" title="二、何时进行分区"></a>二、何时进行分区</h3><ul>
-<li>当表达到GB大小且继续增长</li>
-<li>需要将历史数据和当前的数据分开单独处理，比如历史数据仅仅需要只读，而当前数据则实现DML</li>
-</ul>
-<h3 id="三、分区的特性"><a href="#三、分区的特性" class="headerlink" title="三、分区的特性"></a>三、分区的特性</h3><ul>
-<li>共性：不同的分区之间必须有相同的逻辑属性，比如表名，列名，数据类型，约束等</li>
-<li>个性：各个分区可以有不同的物理属性，比如pctfree, pctused, and tablespaces</li>
-<li>独立性：即使某些分区不可用，其他分区仍然可用</li>
-<li>特殊性：含有 <strong>LONG</strong>、<strong>LONGRAW</strong> 数据类型的表不能进行分区</li>
-</ul>
-<h3 id="四、分区的优点"><a href="#四、分区的优点" class="headerlink" title="四、分区的优点"></a>四、分区的优点</h3><p>1、提高查询性能：只需要搜索特定分区，而非整张表，提高查询速度<br>2、节约维护时间：单个分区的数据装载，索引重建，备份，维护等将远小于整张表的维护时间<br>3、节约维护成本：可以单独备份和恢复每个分区<br>4、均衡I/O：将不同的分区映射到不同的磁盘以平衡I/O，提高并发</p>
-<h3 id="五、Oracle-分区类型"><a href="#五、Oracle-分区类型" class="headerlink" title="五、Oracle 分区类型"></a>五、Oracle 分区类型</h3><blockquote>
-<p>范围分区、散列分区、列表分区、组合分区</p>
-</blockquote>
-<h4 id="1-Range-分区：行映射到基于列值范围的分区"><a href="#1-Range-分区：行映射到基于列值范围的分区" class="headerlink" title="1. Range 分区：行映射到基于列值范围的分区"></a>1. Range 分区：行映射到基于列值范围的分区</h4><p>Range 分区，又成为范围分区，基于分区键值的范围将数据映射到所建立的分区。<br>创建分区时必须指定以下内容：  </p>
-<ul>
-<li>分区方法：range  </li>
-<li>分区列  </li>
-<li>标识分区边界的分区描述  </li>
-</ul>
-<p>使用 Range 分区的时候，要记住几条规则：  </p>
-<ul>
-<li>每个分区都包含 <strong>VALUES LESS THAN</strong> 字名，定义了分区的上层边界。任何等于和大于分区键值的二进制值都被添加到下一个高层分区中。  </li>
-<li>所有的分区，除了第一个，如果低于VALUES LESS THAN所定义的下层边界，都放在前面的分区中。</li>
-<li>MAXVALUE 可以用来定义最高层的分区。MAXVALUE 表示了虚拟的无限值</li>
-</ul>
-<p>示例：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建分区</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> sal_range   </span><br><span class="line">            (salesman_id <span class="built_in">number</span>(<span class="number">5</span>),</span><br><span class="line">            salesman_name varchar2(<span class="number">30</span>),</span><br><span class="line">            sales_amount <span class="built_in">number</span>(<span class="number">10</span>),</span><br><span class="line">            sales_date <span class="built_in">date</span>)</span><br><span class="line">            <span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">range</span> (sales_date)   <span class="comment">--创建基于日期的范围分区并存储到不同的表空间</span></span><br><span class="line">            (</span><br><span class="line">            <span class="keyword">partition</span> sal_jan2000 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span>(<span class="keyword">to_date</span>(<span class="string">'02/01/2000'</span>,</span><br><span class="line">                <span class="string">'DD/MM/YYYY'</span>)) <span class="keyword">tablespace</span> sal_range_jan2000,</span><br><span class="line">            <span class="keyword">partition</span> sal_feb2000 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span>(<span class="keyword">to_date</span>(<span class="string">'03/01/2000'</span>,</span><br><span class="line">                <span class="string">'DD/MM/YYYY'</span>)) <span class="keyword">tablespace</span> sal_range_feb2000,</span><br><span class="line">            <span class="keyword">partition</span> sal_mar2000 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span>(<span class="keyword">to_date</span>(<span class="string">'04/01/2000'</span>,</span><br><span class="line">                <span class="string">'DD/MM/YYYY'</span>)) <span class="keyword">tablespace</span> sal_range_mar2000,</span><br><span class="line">            <span class="keyword">partition</span> sal_apr2000 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span>(<span class="keyword">to_date</span>(<span class="string">'05/01/2000'</span>,</span><br><span class="line">                <span class="string">'DD/MM/YYYY'</span>)) <span class="keyword">tablespace</span> sal_range_apr2000</span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询分区中数据</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> r <span class="keyword">partition</span> (p1)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 添加分区</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> r <span class="keyword">add</span> <span class="keyword">partition</span> p5 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span> (xxx ) <span class="keyword">tablespace</span> xx;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看分区表信息</span></span><br><span class="line"> <span class="keyword">SELECT</span> table_name,partition_name,subpartition_count,tablespace_name,user_stats </span><br><span class="line">  <span class="keyword">FROM</span> user_tab_partitions;</span><br></pre></td></tr></table></figure>
-<h4 id="2-Hash分区：散列分区"><a href="#2-Hash分区：散列分区" class="headerlink" title="2. Hash分区：散列分区"></a>2. Hash分区：散列分区</h4><p>Hash 分区是根据分区字段的 Hash 值进行的散列分区，在下面这种<br>情况下，使用hash分区比range分区更好：</p>
-<ul>
-<li>事先不知道需要将多少数据映射到给定范围的时候</li>
-<li>分区的范围大小很难确定，或者很难平衡的时候</li>
-<li>Range 分区使数据得到不希望的聚集时</li>
-<li>性能特性，如并行DML、分区剪枝和分区连接很重要的时候</li>
-</ul>
-<p>创建散列分区时，必须指定以下信息</p>
-<ul>
-<li>分区方法：hash</li>
-<li>分区列</li>
-<li>分区数量或单独的分区描述</li>
-</ul>
-<p>创建hash分区有两种方法：一种方法是指定分区数量，另一种方法是指定分区的名字，但两者不能同时指定。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 方法一：指定分区数量</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> dept2 (deptno <span class="built_in">number</span>,deptname varchar2(<span class="number">32</span>))</span><br><span class="line"><span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">hash</span>(deptno) <span class="keyword">partitions</span> <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 方法二：指定分区的名字</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> sales_hash</span><br><span class="line">        (salesman_id <span class="built_in">number</span>(<span class="number">5</span>),</span><br><span class="line">        salesman_name varchar2(<span class="number">30</span>),</span><br><span class="line">        sales_amount <span class="built_in">number</span>(<span class="number">10</span>),</span><br><span class="line">        week_no <span class="built_in">number</span>(<span class="number">2</span>))</span><br><span class="line"><span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">hash</span> (salesman_id) <span class="keyword">partitions</span> <span class="number">4</span></span><br><span class="line"><span class="keyword">store</span> <span class="keyword">in</span> (data1,data2,data3,data4) <span class="comment">--指定表空间</span></span><br></pre></td></tr></table></figure>
-<h4 id="3-List分区：列表分区"><a href="#3-List分区：列表分区" class="headerlink" title="3. List分区：列表分区"></a>3. List分区：列表分区</h4><p>List分区可以控制如何将行映射到分区中去，可以定义具体值指定到具体的分区。<br>不同于Range分区和Hash分区：</p>
-<ul>
-<li>Range 分区与分区相关联，为分区列假设了一个值的自然范围，故不可能将该值的范围以外的分区组织到一起</li>
-<li>Hash 分区时不允许对数据的划分进行控制，因为系统使用的是散列函数来划分数据的</li>
-<li>List 分区的优点在于按照自然的方式将无序和不相关的数据集合分组</li>
-<li>List 分区不支持多列分区，如果将表按列分区，那么分区键就只能有表的一个单独列组成</li>
-</ul>
-<p>List分区时必须指定的以下内容：</p>
-<ul>
-<li>分区方法：list</li>
-<li>分区列</li>
-<li>分区描述，每个描述指定一串文字值(值的列表),它们是分区列(它们限定将被包括在分区中的行)的离散值</li>
-</ul>
-<p>示例：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建分区</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> sales_list</span><br><span class="line">        (salesman_id <span class="built_in">number</span>(<span class="number">5</span>),</span><br><span class="line">        salesman_name varchar2(<span class="number">30</span>),</span><br><span class="line">        sales_state varchar2(<span class="number">20</span>),</span><br><span class="line">        sales_amount <span class="built_in">number</span>(<span class="number">10</span>),</span><br><span class="line">        sales_date <span class="built_in">date</span>)</span><br><span class="line"><span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">list</span> (sales_state)</span><br><span class="line">(</span><br><span class="line">    <span class="keyword">partition</span> sales_west <span class="keyword">values</span> (<span class="string">'California'</span>,<span class="string">'Hawaii'</span>) <span class="keyword">tablespace</span> x,</span><br><span class="line">    <span class="keyword">partition</span> sales_east <span class="keyword">values</span> (<span class="string">'New York'</span>,<span class="string">'Virginia'</span>) <span class="keyword">tablespace</span> y,</span><br><span class="line">    <span class="keyword">partition</span> sales_central <span class="keyword">values</span> (<span class="string">'Texas'</span>,<span class="string">'Illinois'</span>) <span class="keyword">tablespace</span> z,</span><br><span class="line">    <span class="keyword">partition</span> sales_other <span class="keyword">values</span>(<span class="keyword">DEFAULT</span>) <span class="keyword">tablespace</span> o</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 添加分区</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> sales3 <span class="keyword">add</span> <span class="keyword">partition</span> hk <span class="keyword">values</span> (<span class="string">'HK'</span>) <span class="keyword">tablespace</span> xx</span><br></pre></td></tr></table></figure>
-<h4 id="4-Composite-Partitioning：合成分区、组合分区"><a href="#4-Composite-Partitioning：合成分区、组合分区" class="headerlink" title="4. Composite Partitioning：合成分区、组合分区"></a>4. Composite Partitioning：合成分区、组合分区</h4><p>组合分区使用 Range 方法分区，在每个子分区中使用 Hash 方法进行再分区。组合分区比 Range 分区更容易管理，充分使用了 Hash 分区的并行优势。组合分区支持历史数据和条块数据两者。<br>创建组合分区时，需要指定如下内容：</p>
-<ul>
-<li>分区方法：range</li>
-<li>分区列</li>
-<li>标识分区边界的分区描述</li>
-<li>子分区方法：hash</li>
-<li>子分区列</li>
-<li>每个分区的子分区数量，或子分区的描述</li>
-</ul>
-<p>示例：  </p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建分区 Range分区，Hash子分区</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> sales_composite</span><br><span class="line">        (salesman_id <span class="built_in">number</span>(<span class="number">5</span>),</span><br><span class="line">        salesman_name varchar2(<span class="number">30</span>),</span><br><span class="line">        sales_amount <span class="built_in">number</span>(<span class="number">10</span>),</span><br><span class="line">        sales_date <span class="built_in">date</span>)</span><br><span class="line"><span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">range</span>(sales_date)</span><br><span class="line"><span class="keyword">subpartition</span> <span class="keyword">by</span> <span class="keyword">hash</span>(salesman_id) <span class="keyword">subpartitions</span> <span class="number">4</span></span><br><span class="line"><span class="keyword">store</span> <span class="keyword">in</span> (tbs1,tbs2,tbs3,tbs4)</span><br><span class="line">(</span><br><span class="line">    <span class="keyword">partition</span> sales_jan2000 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span>(<span class="keyword">to_date</span>(<span class="string">'02/01/2000'</span>,<span class="string">'DD/MM/YYYY'</span>)),</span><br><span class="line">    <span class="keyword">partition</span> sales_feb2000 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span>(<span class="keyword">to_date</span>(<span class="string">'03/01/2000'</span>,<span class="string">'DD/MM/YYYY'</span>)),</span><br><span class="line">    <span class="keyword">partition</span> sales_mar2000 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span>(<span class="keyword">to_date</span>(<span class="string">'04/01/2000'</span>,<span class="string">'DD/MM/YYYY'</span>))</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">--Range分区，List子分区</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> T_TRACK </span><br><span class="line">        (</span><br><span class="line">            N_TRACK_ID           <span class="built_in">NUMBER</span>(<span class="number">20</span>)     <span class="keyword">NOT</span> <span class="literal">NULL</span>, </span><br><span class="line">            C_COMP_CDE           VARCHAR2(<span class="number">6</span>),</span><br><span class="line">            T_TRACK_TM           <span class="built_in">DATE</span>           <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">            C_CAR_NO             VARCHAR2(<span class="number">50</span>)</span><br><span class="line">        )</span><br><span class="line"><span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">range</span>(T_TRACK_TM)</span><br><span class="line"><span class="keyword">subpartition</span> <span class="keyword">by</span> <span class="keyword">list</span>(C_COMP_CDE)</span><br><span class="line">(</span><br><span class="line">    <span class="keyword">partition</span> P_2009_11 <span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span> (<span class="keyword">to_date</span>(<span class="string">'2009-12-01'</span>,<span class="string">'yyyy-MM-dd'</span>))</span><br><span class="line">    (</span><br><span class="line">        <span class="keyword">subpartition</span> P_2009_11_P1013 <span class="keyword">values</span>(<span class="string">'P1013'</span>)</span><br><span class="line">    )</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<h3 id="六、分区相关操作"><a href="#六、分区相关操作" class="headerlink" title="六、分区相关操作"></a>六、分区相关操作</h3><ol>
-<li>添加分区：</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> T_TRACK <span class="keyword">add</span> <span class="keyword">partition</span> P_2005_04</span><br><span class="line"><span class="keyword">values</span> <span class="keyword">less</span> <span class="keyword">than</span>(<span class="keyword">to_date</span>(<span class="string">'2005-05-01'</span>,<span class="string">'yyyy-MM-dd'</span>))</span><br><span class="line">(</span><br><span class="line">    <span class="keyword">subpartition</span> P_2005_04_P1013 <span class="keyword">values</span>(<span class="string">'P1013'</span>),</span><br><span class="line">    <span class="keyword">subpartition</span> P_2005_04_P1013 <span class="keyword">values</span>(<span class="string">'P1014'</span>),</span><br><span class="line">    <span class="keyword">subpartition</span> P_2005_04_P1013 <span class="keyword">values</span>(<span class="string">'P1015'</span>),</span><br><span class="line">    <span class="keyword">subpartition</span> P_2005_04_P1013 <span class="keyword">values</span>(<span class="string">'P1016'</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>删除分区：</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> T_TRACK <span class="keyword">drop</span> <span class="keyword">partition</span> p_2005_04;</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>添加子分区：</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> T_TRACK</span><br><span class="line"><span class="keyword">modify</span> <span class="keyword">partition</span> P_2005_01</span><br><span class="line"><span class="keyword">add</span> <span class="keyword">subpartition</span> P_2005_01_P1017 <span class="keyword">values</span>(<span class="string">'P1017'</span>);</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>删除子分区：</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> T_TRACK <span class="keyword">drop</span> <span class="keyword">subpartition</span> p_2005_01_p1017;</span><br></pre></td></tr></table></figure>
-<ol start="5">
-<li>截断一个分区表中的一个分区的数据：</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--这种方式会使全局分区索引无效</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> sales3  <span class="keyword">truncate</span> <span class="keyword">partition</span> sp1</span><br><span class="line"></span><br><span class="line"><span class="comment">--这种方式全局分区索引不会无效            </span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> sales3 <span class="keyword">truncate</span> <span class="keyword">partition</span> sp1 <span class="keyword">update</span> <span class="keyword">indexes</span></span><br></pre></td></tr></table></figure>
-<ol start="6">
-<li>截断分区表的子分区：</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> comp <span class="keyword">truncate</span> <span class="keyword">subpartition</span> sub1</span><br></pre></td></tr></table></figure>
-<ol start="7">
-<li>截断带有约束的分区表</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--禁用约束</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> sales <span class="keyword">disable</span> <span class="keyword">constraint</span> dname_sales1</span><br><span class="line"></span><br><span class="line"><span class="comment">--截断分区</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> sales <span class="keyword">truncate</span> partitoin <span class="built_in">dec</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--启用约束</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> sales <span class="keyword">enable</span> <span class="keyword">constraint</span> dname_sales1</span><br></pre></td></tr></table></figure>
-<ol start="8">
-<li>查看一个表是不是分区表</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> table_name,partitioned <span class="keyword">from</span> user_tables;</span><br></pre></td></tr></table></figure>
-<ol start="9">
-<li>将一个表的分区从一个表空间移动到另一个表空间：</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--查看分区在哪个表空间</span></span><br><span class="line"><span class="keyword">SELECT</span> TABLE_OWNER,TABLE_NAME,PARTITION_NAME,TABLESPACE_NAME, SUBPARTITION_COUNT</span><br><span class="line">  <span class="keyword">FROM</span> DBA_TAB_PARTITIONS <span class="keyword">WHERE</span> TABLE_OWNER=<span class="string">'SCOTT'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--移动分区</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> sales <span class="keyword">move</span> partiton sp1 <span class="keyword">tablespace</span> tp;</span><br><span class="line"></span><br><span class="line"><span class="comment">--检查是否移动成功</span></span><br><span class="line"><span class="keyword">SELECT</span> TABLE_OWNER,TABLE_NAME,PARTITION_NAME,TABLESPACE_NAME,SUBPARTITION_COUNT</span><br><span class="line">  <span class="keyword">FROM</span> DBA_TAB_PARTITIONS <span class="keyword">WHERE</span> TABLE_OWNER=<span class="string">'SCOTT'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--移动表空间后，要重建索引，否则索引会变得无效</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">index</span> xxx <span class="keyword">rebuild</span></span><br></pre></td></tr></table></figure>
-<ol start="10">
-<li>合并分区：</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--合并后的分区名，不能是边界值较低的那个</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> sales3 <span class="keyword">merge</span> partitons sp1,sp3 <span class="keyword">into</span> <span class="keyword">partition</span> sp3</span><br></pre></td></tr></table></figure>
-<ol start="11">
-<li>与分区表相关的数据字典视图：</li>
-</ol>
-<ul>
-<li>DBA_TAB_PARTITIONS</li>
-<li>DBA_IND_PARTITIONS</li>
-<li>DBA_TAB_SUBPARTITIONS</li>
-<li>DBA_IND_SUBPARTITIONS</li>
-</ul>
-<p>参考文档：<br>[1] Oracle 关于分区的在线文档：<a href="http://download.oracle.com/docs/cd/B19306_01/server.102/b14220/partconc.htm#sthref2604">http://download.oracle.com/docs/cd/B19306_01/server.102/b14220/partconc.htm#sthref2604</a></p>
-
+            <p>
+              一、分区表&emsp;&emsp;随着表的不断增大，对于新纪录的增加、查找、删除等的维护也更加困难。对于数据库中的超大型表，可通过把它的数据分成若干个小表，从而简化数据库的管理活动。对于每一个简化后的小表，我们称为一个单个的分区。　　对于分区的访问，我们不需要使用特殊的SQL查询语句或特定的DML语
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/存储/Oracle/Oracle 分区表/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1533,7 +1376,41 @@
                     
                       
                     
-                    <span class="site-state-item-count">19</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1617,23 +1494,19 @@
                 <span class="links-of-author-item">
                   
                   
-                    
-                  
                   
                     
                   
-                  <a href="https://github.com/joecnn" title="GitHub &rarr; https://github.com/joecnn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  <a href="https://github.com/joecnn" title="GitHub &rarr; https://github.com/joecnn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
                 </span>
               
                 <span class="links-of-author-item">
                   
                   
-                    
-                  
                   
                     
                   
-                  <a href="mailto:starworking@126.com" title="E-Mail &rarr; mailto:starworking@126.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  <a href="mailto:starworking@126.com" title="E-Mail &rarr; mailto:starworking@126.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
                 </span>
               
             </div>
@@ -1667,9 +1540,9 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; 2013 – <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Joshua Chen</span>
 
@@ -1679,7 +1552,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
 
 
 
@@ -1687,7 +1560,7 @@
 
 
 
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a></div>
 
 
 
@@ -1708,6 +1581,8 @@
     
       <div class="back-to-top">
         <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
         
       </div>
     
@@ -1778,6 +1653,7 @@
   <script src="/wiki-site/js/affix.js?v=7.1.1"></script>
 
   <script src="/wiki-site/js/schemes/pisces.js?v=7.1.1"></script>
+
 
 
 
