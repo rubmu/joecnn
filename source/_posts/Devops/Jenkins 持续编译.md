@@ -41,33 +41,35 @@ Jenkins 服务就启动成功了，它的 war 包自带了 jetty 服务器，剩
 <hr />
 
 在开始使用 Jenkins 创建项目前，需要在"**系统管理**"->"**全局工具配置**"中添加 JDK、Maven 设置：
-![jenkins_jdk](../../../../images/jenkins_jdk.png)
-![jenkins_maven](../../../../images/jenkins_maven.png)
+![jenkins_jdk](../../../images/jenkins_jdk.png)
+![jenkins_maven](../../../images/jenkins_maven.png)
 到此 Maven 项目的 Jenkins 已配置完成，下面开始创建构建任务。
 
 ## 5. 构建Maven项目
 
 在 Jenkins 首页选择"**New 任务**"，输入名字，选择"**构建一个自由风格的软件项目**"：
-![jenkins_new_project](../../../../images/jenkins_new_project.png)
+![jenkins_new_project](../../../images/jenkins_new_project.png)
 
 在配置页面中，"**Source Code Management**" 选择 **Git**，填入地址，默认使用 mater 分支，如果为私人项目需要口令，在 Credentials 中添加用户名/口令：
-![jenkins_git](../../../../images/jenkins_git.png)
+![jenkins_git](../../../images/jenkins_git.png)
 
 在 "**Build Triggers**" 中选择 "**轮询 SCM**" 表示定时检查版本库，发现有新的提交就触发构建：
-![jenkins_scm](../../../../images/jenkins_scm.png)
+![jenkins_scm](../../../images/jenkins_scm.png)
+
 > 说明1：Triggerbuilds remotely(webhooks)   
 这个选项就是配合 git 仓库的钩子功能实现代码 PUSH 后 Jenkins 收到通知自动触发构建项目的动作  
 说明2：轮询 SCM  
 定时检查源码变更，如果有更新就克隆下最新 code 下来，然后执行构建动作
 
 在"**Build**"中可以添加编译命令，Maven默认的Root POM是```pom.xml```，如果```pom.xml```不在根目录下，则需要填入子目录：
-![jenkins_build](../../../../images/jenkins_build.png)
+![jenkins_build](../../../images/jenkins_build.png)
+
 > 说明1：选择之前添加的 maven 环境  
 说明2：填入需要执行的 mvn 命令  
 说明3：pom 不在根目录下，填入子目录 wxsell/pom.xml
 
 保存后就可以"**立即构建**"，可以在"**Console Output**"中看到控制台详细输出：
-![jenkins_output](../../../../images/jenkins_output.png)
+![jenkins_output](../../../images/jenkins_output.png)
 
 ## 6. 总结
 

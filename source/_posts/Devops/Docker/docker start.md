@@ -11,7 +11,7 @@ tags: [docker]
 Windows10 下可以切换 Docker Platform 为 Linux 或者 Window，下载的镜像需要对应的平台支持。
 
 Window10 下自带了虚拟器，需要开启 Hyper-V，在 控制面板-程序-打开Windows功能 中开启
-![docker_hyperv](../../../../../images/docker_hyperv.png)
+![docker_hyperv](../../../../images/docker_hyperv.png)
 
 >Windows10 下的 Docker 使用虚拟机 IP 即为本机 127.0.0.1 ，可以在 CMD、PowerShell 中直接进行操作。
 
@@ -67,7 +67,7 @@ docker-machine env default
 
 > 默认用户名：docker 密码： tcuser
 
-![docker_cli](../../../../../images/docker_cli.png)
+![docker_cli](../../../../images/docker_cli.png)
 
 
 > PS：在 DockerToolBox 下自动安装的是 VirtualBox5.1，但是在启动 docker default mechine 时一直出错（VERR_SUPDRV_HARDENIGN_EVIL_HANDLE），经过查询是由于该版本的 vboxdrv 核心驱动请求过大的访问权限。。
@@ -80,12 +80,12 @@ docker-machine env default
 1. 复制 default vmdk 到指定路径
 > 在指定盘进行复制一份 vmdk 
 
-![vbox_copy](../../../../../images/vbox_copy.png)
+![vbox_copy](../../../../images/vbox_copy.png)
 
 2. 为 default 虚拟机添加新的虚拟硬盘
 >添加新的虚拟硬盘后，删除原来的 disk.vmdk 文件即可
 
-![vbox_delete](../../../../../images/vbox_delete.png)
+![vbox_delete](../../../../images/vbox_delete.png)
 
 修改完成后，重启 docker machine 即可
 
