@@ -1079,7 +1079,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/分布式/Redis 集群/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/分布式/Redis 持久化机制/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -1099,7 +1099,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/分布式/Redis 集群/" class="post-title-link" itemprop="url">Redis 集群</a>
+                <a href="/wiki-site/wiki/分布式/Redis 持久化机制/" class="post-title-link" itemprop="url">Redis 持久化机制</a>
               
             
           </h1>
@@ -1141,7 +1141,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-02-06 20:15:27" itemprop="dateModified" datetime="2019-02-06T20:15:27+08:00">2019-02-06</time>
+                <time title="修改时间：2019-02-06 20:02:27" itemprop="dateModified" datetime="2019-02-06T20:02:27+08:00">2019-02-06</time>
               
             
           </span>
@@ -1196,13 +1196,16 @@
         
           
             <p>
-              Redis 是一个开源的 key-value 存储系统，由于出众的性能，大部分互联网企业都用来做服务器端缓存。Redis 在3.0版本前只支持单实例模式，虽然支持主从模式、哨兵模式部署来解决单点故障，但是现在互联网企业动辄大几百G的数据，可完全是没法满足业务的需求，所以，Redis 在 3.0 版本
+              Redis 是一款基于内存的键值对数据库，使用单线程IO多路复用技术达到高性能。但某些场景下对数据的持久性是有要求的，所以Rdis提供了两种持久化策略，防止宕机数据丢失。
+Redis 持久化机制对于persistence持久化存储，Redis提供了两种方式：
+
+RDB(Redis database)
               ...
             </p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/wiki-site/wiki/分布式/Redis 集群/#more" rel="contents">
+              <a class="btn" href="/wiki-site/wiki/分布式/Redis 持久化机制/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

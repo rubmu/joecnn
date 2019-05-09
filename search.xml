@@ -48,6 +48,18 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Redis 持久化机制]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FRedis%20%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%BA%E5%88%B6%2F</url>
+    <content type="text"><![CDATA[Redis 是一款基于内存的键值对数据库，使用单线程IO多路复用技术达到高性能。但某些场景下对数据的持久性是有要求的，所以Rdis提供了两种持久化策略，防止宕机数据丢失。 Redis 持久化机制对于persistence持久化存储，Redis提供了两种方式： RDB(Redis database) 存储快照文件snapshot AOF(Append-only file) 存储redo文件 1. RDBRBD 是在规定时间点将内存数据通过快照方式写入临时文件，再替换上次的持久化文件，达到数据持久化的方式。 优点： 使用fork出的子进程处理，不影响主进程 输出snapshot快速且体积小缺点： RDB间隔一段时间执行，如果在执行期间发生故障，将导致数据丢失 当内存数据较大时，fork操作将花费较长时间，导致Redis无法提供服务 RDB 会在指定的情况下触发快照 配置的快照间隔时间 12345678910111213141516## RDB默认是开启的## RDB文件名dbfilename dump.db## RDB文件存储目录dir ./## RDB快照触发时机, save &lt;间隔时间&gt; &lt;操作数&gt;## 全部删除即关闭RDBsave 900 1## RDB快照异常时, 是否阻塞客户端"变更操作"stop-writes-on-bgsave-error yes## RDB文件是否进行压缩rdbcompression yes 执行 save 或 bgsave 时 12345## 同步进行./redis-cli -h ip -p port save## 异步进行./redis-cli -h ip -p port bgsave 执行 flushall 时 执行master/slave全量复制时 快照的实现原理 Redis使用fork复制一份当前进程的副本(子进程)。 父进程继续接收处理客户端请求，子进程开始将内存的数据写入到临时文件。 子进程用临时文件替换原文件。 注意：redis在进行快照的过程中不会修改RDB文件，只有快照结束后才会将旧的文件替换成新的，也就是说任何时候RDB文件都是完整的。 这就使得我们可以通过定时备份RDB文件来实现redis数据库的备份， RDB文件是经过压缩的二进制文件，占用的空间会小于内存中的数据，更加利于传输。 2. AOFAOF 将”操作+数据”以格式化(RESP)的方式最佳到操作日志文件尾部，在append操作成功后才进行实际数据的变更。当Server需要恢复时，可以直接replay日志文件，即可还原所有操作过程。 优点： 可以保持更高的数据完整性，如果设置间隔1S则最多丢失1S的数据。 可以手动删除其中某些命令，方便维护缺点： 额外的IO操作，略微影响Redis性能 AOF文件比RDB文件大 恢复速度慢，要逐条重放命令 AOF 默认关闭，开启时需要修改配置文件；12345## 开启aofappendonly yes## 指定aof文件名称appendfilename appendonly.aof AOF 文件重写在开启AOF时，命令会一直append到aof文件中，使得aof文件体积越来越大，Redis支持对aof文件进行重写(rewrite)，合并相同Key的操作，保留最小命令集合。1234567##aof文件rewrite触发的最小文件尺寸(mb,gb),只有大于此aof文件大于此尺寸是才会触发rewrite，默认“64mb”，建议“512mb” auto-aof-rewrite-min-size 64mb ##相对于“上一次”rewrite，本次rewrite触发时aof文件应该增长的百分比。 ##每一次rewrite之后，redis都会记录下此时“新aof”文件的大小(例如A)，那么当aof文件增长到A*(1 + p)之后 ##触发下一次rewrite，每一次aof记录的添加，都会检测当前aof文件的尺寸。 auto-aof-rewrite-percentage 100 整个重写操作是绝对安全的，因为 Redis 在创建新 AOF 文件的过程中，会继续将命令追加到现有的 AOF 文件里面，即使重写过程中发生停机，现有的 AOF 文件也不会丢失。 而一旦新 AOF 文件创建完毕，Redis 就会从旧 AOF 文件切换到新 AOF 文件，并开始对新 AOF 文件进行追加操作。AOF 文件有序地保存了对数据库执行的所有写入操作， 这些写入操作以 Redis 协议的格式保存， 因此 AOF 文件的内容非常容易被人读懂， 对文件进行分析（parse）也很轻松。 同步磁盘数据 Redis每次更改数据的时候都会将命令记录到aof文件，但是实际上由于kernel的缓存机制，数据并没有实时写入到硬盘，而是进入硬盘缓存,再通过硬盘缓存机制去刷新到保存到文件。 12345678 ## 每次执行写入都会进行同步 ， 这个是最安全但是是效率比较低的方式 # appendfsync always ## 每一秒执行appendfsync everysec ## 不主动进行同步操作，由操作系统去执行，这个是最快但是最不安全的方式# appendfsync no aof文件损坏后怎么恢复 Redis 在执行命令中途宕机，导致命令只存储到aof一半，这个时候通过aof文件无法恢复，需要先对文件进行修复。 aof文件修复可以使用Redis提供的工具： 12## bin/redis-check-aof --fix 3. RDB和AOF如何选择 一般来说,如果对数据的安全性要求非常高的话，应该同时使用两种持久化功能。如果可以承受数分钟以内的数据丢失，那么可以只使用 RDB 持久化。有很多用户都只使用 AOF 持久化， 但并不推荐这种方式： 因为定时生成 RDB 快照（snapshot）非常便于进行数据库备份， 并且 RDB 恢复数据集的速度也要比 AOF 恢复的速度要快 。两种持久化策略可以同时使用，也可以使用其中一种。如果同时使用的话， 那么Redis重启时，会优先使用AOF文件来还原数据。]]></content>
+      <categories>
+        <category>分布式</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Redis 集群]]></title>
     <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FRedis%20%E9%9B%86%E7%BE%A4%2F</url>
     <content type="text"><![CDATA[Redis 是一个开源的 key-value 存储系统，由于出众的性能，大部分互联网企业都用来做服务器端缓存。Redis 在3.0版本前只支持单实例模式，虽然支持主从模式、哨兵模式部署来解决单点故障，但是现在互联网企业动辄大几百G的数据，可完全是没法满足业务的需求，所以，Redis 在 3.0 版本以后就推出了集群模式。 一、Master-slave 模式实现主从复制模式，只需要在slave服务器上修改配置文件：12## 配置master服务器slaveof &lt;masterip&gt; &lt;masterport&gt; slave服务器只接收读请求，可以用来做读写分离，通过sync命令向master同步数据。 配置完成后启动，可以通过命令查看状态：12## 输出当前服务信息info replication 数据同步从节点定时(1S)从主节点同步数据，通过发送sync命令, 通过命令可以监控同步信息： 1replconf listening –port 6379 可以使用命令手动同步数据：sync. 数据同步方式 基于RDB文件的复制(第一次连接或重启的时候) 无硬盘复制 repl-diskless-sync yes 增量复制 PSYNC master run id. Offset 实现原理 slave 第一次或者重连到 master 上以后，会向 master 发送一个SYNC的命令 master 收到SYNC的时候，会做两件事： 执行bgsave（rdb的快照文件） master 把新收到的修改命令存入到缓冲区, 通过RESP协议发送给 slave (aof方式) slave 收到文件后会先清空数据，再从rdb快照文件恢复 缺点：主从复制的模式无法对 master 进行动态选举。 二、哨兵模式Redis 提供了哨兵工具，监控 master 和 salve 是否正常运行,如果 master 出现故障，那么会把其中一台 salve 数据升级为 master。 哨兵机也可做集群防止单点问题，启动哨兵的步骤： 拷贝哨兵配置文件 sentinel.conf 修改配置文件 12## 配置主节点名称、ip、port、master需要的投票数sentinel monitor &lt;master-name&gt; &lt;ip&gt; &lt;redis-port&gt; &lt;quorum&gt; 启动哨兵 1bin/redis-sentinel sentinel.conf 三、Redis 集群Redis 集群采用了P2P的模式，完全去中心化。Redis 把所有的 Key 分成了 16384 个 slot，每个 Redis 实例负责其中一部分 slot 。集群中的所有信息（节点、端口、slot等），都通过节点之间定期的数据交换而更新。Redis 客户端可以在任意一个 Redis 实例发出请求，如果所需数据不在该实例中，通过重定向命令引导客户端访问所需的实例。 修改配置文件，采用集群方式：1234567891011## 节点标识pid 6379和port要对应pidfile /var/run/redis_6379.pid## 启动集群模式cluster-enabled yes## 集群配置文件cluster-config-file nodes-6379.conf## 集群节点连接超时cluster-node-timeout 15000 启动每个redis服务，尝试使用命令，发现集群还无法使用，提示信息： 1(error) CLUSTERDOWN Hash slot not served Redis 节点虽然启动了，但是它们之间还无法相互发现，也无法分配slot，需要一个中间人调度。 安装集群所需软件由于 Redis 集群需要使用 ruby 命令，所以我们需要安装 ruby 和相关接口。 123yum install rubyyum install rubygemsgem install redis 调用 ruby 命令创建集群： 1bin/redis-trib.rb create --replicas 1 192.168.56.110:6379 192.168.56.110:6380 192.168.56.120:6379 192.168.56.120:6380 192.168.56.130:6379 192.168.56.130:6380 --replicas 1 表示主从复制比例为 1:1, 所以这里需要有6个 Redis 服务节点，组成3主3从的集群。 验证一下依然是通过客户端命令连接上，通过集群命令看一下状态和节点信息等。 123bin/redis-cli -c -h 192.168.56.110 -p 6379cluster infocluster nodes 四、其它集群方案一致性哈希通过程序对Key进行一致性哈希，再路由到不同的 Redis 服务节点上。 redis-sharddingJedis封装的基于一致性哈希算法的解决方案，通过ShareddingJedis客户端连接到服务节点，也是在应用层面实现的。 codis基于 redis-2.8 开发的 codis-server，支持了数据的分片存储，通过codis-proxy实现请求路由。 twemproxytwitter 提供的解决方案，也是通过增加 proxy 代理层，做数据分片存储和请求路由。]]></content>
@@ -60,9 +72,21 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Redis 持久化机制]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FRedis%20%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%BA%E5%88%B6%2F</url>
-    <content type="text"><![CDATA[Redis 是一款基于内存的键值对数据库，使用单线程IO多路复用技术达到高性能。但某些场景下对数据的持久性是有要求的，所以Rdis提供了两种持久化策略，防止宕机数据丢失。 Redis 持久化机制对于persistence持久化存储，Redis提供了两种方式： RDB(Redis database) 存储快照文件snapshot AOF(Append-only file) 存储redo文件 1. RDBRBD 是在规定时间点将内存数据通过快照方式写入临时文件，再替换上次的持久化文件，达到数据持久化的方式。 优点： 使用fork出的子进程处理，不影响主进程 输出snapshot快速且体积小缺点： RDB间隔一段时间执行，如果在执行期间发生故障，将导致数据丢失 当内存数据较大时，fork操作将花费较长时间，导致Redis无法提供服务 RDB 会在指定的情况下触发快照 配置的快照间隔时间 12345678910111213141516## RDB默认是开启的## RDB文件名dbfilename dump.db## RDB文件存储目录dir ./## RDB快照触发时机, save &lt;间隔时间&gt; &lt;操作数&gt;## 全部删除即关闭RDBsave 900 1## RDB快照异常时, 是否阻塞客户端"变更操作"stop-writes-on-bgsave-error yes## RDB文件是否进行压缩rdbcompression yes 执行 save 或 bgsave 时 12345## 同步进行./redis-cli -h ip -p port save## 异步进行./redis-cli -h ip -p port bgsave 执行 flushall 时 执行master/slave全量复制时 快照的实现原理 Redis使用fork复制一份当前进程的副本(子进程)。 父进程继续接收处理客户端请求，子进程开始将内存的数据写入到临时文件。 子进程用临时文件替换原文件。 注意：redis在进行快照的过程中不会修改RDB文件，只有快照结束后才会将旧的文件替换成新的，也就是说任何时候RDB文件都是完整的。 这就使得我们可以通过定时备份RDB文件来实现redis数据库的备份， RDB文件是经过压缩的二进制文件，占用的空间会小于内存中的数据，更加利于传输。 2. AOFAOF 将”操作+数据”以格式化(RESP)的方式最佳到操作日志文件尾部，在append操作成功后才进行实际数据的变更。当Server需要恢复时，可以直接replay日志文件，即可还原所有操作过程。 优点： 可以保持更高的数据完整性，如果设置间隔1S则最多丢失1S的数据。 可以手动删除其中某些命令，方便维护缺点： 额外的IO操作，略微影响Redis性能 AOF文件比RDB文件大 恢复速度慢，要逐条重放命令 AOF 默认关闭，开启时需要修改配置文件；12345## 开启aofappendonly yes## 指定aof文件名称appendfilename appendonly.aof AOF 文件重写在开启AOF时，命令会一直append到aof文件中，使得aof文件体积越来越大，Redis支持对aof文件进行重写(rewrite)，合并相同Key的操作，保留最小命令集合。1234567##aof文件rewrite触发的最小文件尺寸(mb,gb),只有大于此aof文件大于此尺寸是才会触发rewrite，默认“64mb”，建议“512mb” auto-aof-rewrite-min-size 64mb ##相对于“上一次”rewrite，本次rewrite触发时aof文件应该增长的百分比。 ##每一次rewrite之后，redis都会记录下此时“新aof”文件的大小(例如A)，那么当aof文件增长到A*(1 + p)之后 ##触发下一次rewrite，每一次aof记录的添加，都会检测当前aof文件的尺寸。 auto-aof-rewrite-percentage 100 整个重写操作是绝对安全的，因为 Redis 在创建新 AOF 文件的过程中，会继续将命令追加到现有的 AOF 文件里面，即使重写过程中发生停机，现有的 AOF 文件也不会丢失。 而一旦新 AOF 文件创建完毕，Redis 就会从旧 AOF 文件切换到新 AOF 文件，并开始对新 AOF 文件进行追加操作。AOF 文件有序地保存了对数据库执行的所有写入操作， 这些写入操作以 Redis 协议的格式保存， 因此 AOF 文件的内容非常容易被人读懂， 对文件进行分析（parse）也很轻松。 同步磁盘数据 Redis每次更改数据的时候都会将命令记录到aof文件，但是实际上由于kernel的缓存机制，数据并没有实时写入到硬盘，而是进入硬盘缓存,再通过硬盘缓存机制去刷新到保存到文件。 12345678 ## 每次执行写入都会进行同步 ， 这个是最安全但是是效率比较低的方式 # appendfsync always ## 每一秒执行appendfsync everysec ## 不主动进行同步操作，由操作系统去执行，这个是最快但是最不安全的方式# appendfsync no aof文件损坏后怎么恢复 Redis 在执行命令中途宕机，导致命令只存储到aof一半，这个时候通过aof文件无法恢复，需要先对文件进行修复。 aof文件修复可以使用Redis提供的工具： 12## bin/redis-check-aof --fix 3. RDB和AOF如何选择 一般来说,如果对数据的安全性要求非常高的话，应该同时使用两种持久化功能。如果可以承受数分钟以内的数据丢失，那么可以只使用 RDB 持久化。有很多用户都只使用 AOF 持久化， 但并不推荐这种方式： 因为定时生成 RDB 快照（snapshot）非常便于进行数据库备份， 并且 RDB 恢复数据集的速度也要比 AOF 恢复的速度要快 。两种持久化策略可以同时使用，也可以使用其中一种。如果同时使用的话， 那么Redis重启时，会优先使用AOF文件来还原数据。]]></content>
+    <title><![CDATA[Kafka quickstart]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FKafka%20quickstart%2F</url>
+    <content type="text"><![CDATA[1. Kafka是什么? Apache Kafka® is a distributed streaming platform. Kafka是一个高性能、高吞吐量的分布式消息通信系统。常用于系统的日志收集分析、消息通信、用户行为分析、服务器指标监控、流式处理等。 2. Kafka集群安装 下载kafka二进制安装包, 并解压到 /usr/local目录下。 进入到config目录下修改server.properties配置文件： broker.id 在集群中的唯一编号 listeners 本机ip num.partitions 默认的topic分区数 zookeeper.connect 连接到zookeeper集群，可以设置根路径 ip:port/kafka 进入到bin目录下，以守护进程方式启动。1$ sh kafka-server-start.sh -daemon ../config/server.properties 3. Kafka基本操作 创建一个topic 1$ sh kafka-topics.sh --create --zookeeper 192.168.56.110:2181/kafka --replication-factor 1 --partitions 2 --topic first-topic 列出所有topic 1$ sh kafka-topics.sh --list --zookeeper 192.168.56.110:2181/kafka 生成者发送消息 1$ sh kafka-console-producer.sh --broker-list 192.168.56.110:9092 --topic first-topic 消费者接收消息 1$ sh kafka-console-consumer.sh --bootstrap-server 192.168.56.110:9092 --topic first-topic --from-beginning 查看消息日志 1$ sh kafka-run-class.sh kafka.tools.DumpLogSegments --files /tmp/kafka-logs/first-topic-0/00000000000000000000.log --print-data-log 4. Kafka中的概念Message消息是 Kafka 中最基本的数据单元，由 Key/Value 组成(byte[])，根据Key的哈希值路由到不同区间进行存储。Kafka 会对消息进行压缩和批量发送。 Topictopic 是用于存储消息的逻辑单元，可以看作一个消息集合，每个 topic 可以有多个生产者向其推送消息，也可以有任意多个消费者。 Partition每个 topic 可以划分多个分区，即 Kafka 存储消息的物理单元。Partition 是以文件的形式存储在 kafka-logs 目录下，命名规则是 &lt;topic_name&gt;-&lt;partition_id&gt;。 GroupKafka 中的逻辑分组，同一个组内的一条消息只被一个组员消费，并且共同维护 consumer offset。不同组内的消费者可以同时消费同一条消息，实现 pub/sub 模式。]]></content>
+      <categories>
+        <category>分布式</category>
+      </categories>
+      <tags>
+        <tag>MQ</tag>
+        <tag>分布式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Redis quickstart]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FRedis%20quickstart%2F</url>
+    <content type="text"><![CDATA[1. Redis 是什么？ Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache and message broker. Redis 是一个开源的分布式键值对(key/value)存储数据库，常用于做为数据缓存、单点登录、网站访问排名、秒杀抢购、应用模块开发等。 2. 安装 Redis 下载 redis-4.0.12.tar.gz 安装包 解压并进行编译测试make &amp;&amp; make test 安装到指定目录cd src &amp;&amp; make install PREFIX=/usr/local/redis-4.0.12 make install安装完成后会在指定目录下生成bin/文件夹，里面存放着使用 redis 的工具。 3. 启动和停止 Redis 首先到源目录下拷贝配置文件到安装目录cp ~/redis-4.0.12/redis.conf /usr/local/redis-4.0.12/ 修改配置信息 bind： IP绑定修改为本机IP daemonize： 改为后台进程运行 启动 redis 服务./redis-server ../redis.conf 使用可以端连接到 redis./redis-cli -h 192.168.56.110 -p 6379 停止 redis 服务./redis-cli shutdown 4. 常用命令Key 相关keys 检索满足条件的键值对，支持正则表达式的通配符匹配，但要注意大数据量下的检索影响 redis 服务性能。123456## 获得一个符合匹配规则的键名列表，支持通配符keys [? / * [] ]## 判断key是否存在exists key## 获取key结构类型type key 字符类型最基本的数据结构，可以存储任意的字符类型的数据，单条数据最大可支持512M。12345678910111213141516171819202122## 设置key/value键值, 过期时间 EX=10s, PX=100msset key value EX 10 PX 100 ## 批量设置多个key/valuemset key value key1 value1## 只在key不存在时进行设置setnx key value## 获取key值get key## 获取多个key的值mget key key1## 对数字类型原子递增 1incr num## 原子递减 1decr num## 原子递增 10incrby num 10## 原子递减 10decrby num 10## 向指定的key追加字符串append key value## 获取key对应的value的长度strlen key 列表类型list 可以存储一个有序的字符列表，内部是使用双向链表实现的，可以用来实现分布式消息队列。命令以 l-开头。123456789101112## 左右两端添加数据(r|l)push key value value1 value2## 左右两端弹出数据，输出弹出的value(r|l)pop key## 获取列表长度llen key## 获取列表元素，start 开始索引， stop 结束索引(-1表示最右边)lrange key start stop## 从列表中移除N个value值的元素lrem key count value## 更新idx位置处的元素为valuelset key idx value 散列类型散列类型是 HashMap 数据结构，存储多个键值对，适合存储多属性对象，但不支持数据类型的嵌套。命令以 h- 开头。123456789101112## 设置对象field属性值hset key field valuehmset key field value field2 value2## 获取field属性值hget key fieldhmget key field field2## 获取所有field值hgetall key## 判断field属性是否存在hexists key field 集合类型集合类型 set 与列表不同，不能存在重复的数据，而且是无序存储。命令以 s- 开头。12345678910111213141516## 增加元素，如果value存在则忽略，返回成功加入集合的数量sadd key value value2## 删除元素srem key value## 获取所有元素smembers key## 获取集合长度scard key## 集合key1与key2的差集，列出key1中存在而在key2中不存在的元素sdiff key1 key2## 将差集存储在des中sdiffstore des key key2## 集合key1与key2的交集sinter key1 key2## 集合key1与key2的并集sunion key1 key2 有序集合类型有序集合是在集合set的基础上，增加了排序功能，增加了score表示元素的优先级。命令以 z- 开头。1234## 增加元素，优先级 scorezadd key score value## 列出集合，并且输出优先级zrange key start stop withscores 事务处理Redis 中支持事务，将多个命令加入到QUEUED中到最后一起提交或回滚，但有特例的情况无法回滚(命令运行时出错)。12345## 开启事务multi...## 提交事务exec 过期时间Redis 中可以对每个键值设置对应的过期时间。1234## 设置key过期时间为seconds秒expire key seconds## 获得key的过期时间,-1 未设置 -2已过期 ttl key 发布订阅(pub/sub)Redis 中支持消息的发布订阅模式，类型消息中间件的功能，但性能不高一般不推荐使用。1234## 发布消息到channel频道publish channel msg## 订阅channel频道的消息subscribe channel]]></content>
       <categories>
         <category>分布式</category>
       </categories>
@@ -79,32 +103,8 @@
         <category>分布式</category>
       </categories>
       <tags>
-        <tag>分布式</tag>
         <tag>MQ</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Kafka quickstart]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FKafka%20quickstart%2F</url>
-    <content type="text"><![CDATA[1. Kafka是什么? Apache Kafka® is a distributed streaming platform. Kafka是一个高性能、高吞吐量的分布式消息通信系统。常用于系统的日志收集分析、消息通信、用户行为分析、服务器指标监控、流式处理等。 2. Kafka集群安装 下载kafka二进制安装包, 并解压到 /usr/local目录下。 进入到config目录下修改server.properties配置文件： broker.id 在集群中的唯一编号 listeners 本机ip num.partitions 默认的topic分区数 zookeeper.connect 连接到zookeeper集群，可以设置根路径 ip:port/kafka 进入到bin目录下，以守护进程方式启动。1$ sh kafka-server-start.sh -daemon ../config/server.properties 3. Kafka基本操作 创建一个topic 1$ sh kafka-topics.sh --create --zookeeper 192.168.56.110:2181/kafka --replication-factor 1 --partitions 2 --topic first-topic 列出所有topic 1$ sh kafka-topics.sh --list --zookeeper 192.168.56.110:2181/kafka 生成者发送消息 1$ sh kafka-console-producer.sh --broker-list 192.168.56.110:9092 --topic first-topic 消费者接收消息 1$ sh kafka-console-consumer.sh --bootstrap-server 192.168.56.110:9092 --topic first-topic --from-beginning 查看消息日志 1$ sh kafka-run-class.sh kafka.tools.DumpLogSegments --files /tmp/kafka-logs/first-topic-0/00000000000000000000.log --print-data-log 4. Kafka中的概念Message消息是 Kafka 中最基本的数据单元，由 Key/Value 组成(byte[])，根据Key的哈希值路由到不同区间进行存储。Kafka 会对消息进行压缩和批量发送。 Topictopic 是用于存储消息的逻辑单元，可以看作一个消息集合，每个 topic 可以有多个生产者向其推送消息，也可以有任意多个消费者。 Partition每个 topic 可以划分多个分区，即 Kafka 存储消息的物理单元。Partition 是以文件的形式存储在 kafka-logs 目录下，命名规则是 &lt;topic_name&gt;-&lt;partition_id&gt;。 GroupKafka 中的逻辑分组，同一个组内的一条消息只被一个组员消费，并且共同维护 consumer offset。不同组内的消费者可以同时消费同一条消息，实现 pub/sub 模式。]]></content>
-      <categories>
-        <category>分布式</category>
-      </categories>
-      <tags>
         <tag>分布式</tag>
-        <tag>MQ</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Redis quickstart]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FRedis%20quickstart%2F</url>
-    <content type="text"><![CDATA[1. Redis 是什么？ Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache and message broker. Redis 是一个开源的分布式键值对(key/value)存储数据库，常用于做为数据缓存、单点登录、网站访问排名、秒杀抢购、应用模块开发等。 2. 安装 Redis 下载 redis-4.0.12.tar.gz 安装包 解压并进行编译测试make &amp;&amp; make test 安装到指定目录cd src &amp;&amp; make install PREFIX=/usr/local/redis-4.0.12 make install安装完成后会在指定目录下生成bin/文件夹，里面存放着使用 redis 的工具。 3. 启动和停止 Redis 首先到源目录下拷贝配置文件到安装目录cp ~/redis-4.0.12/redis.conf /usr/local/redis-4.0.12/ 修改配置信息 bind： IP绑定修改为本机IP daemonize： 改为后台进程运行 启动 redis 服务./redis-server ../redis.conf 使用可以端连接到 redis./redis-cli -h 192.168.56.110 -p 6379 停止 redis 服务./redis-cli shutdown 4. 常用命令Key 相关keys 检索满足条件的键值对，支持正则表达式的通配符匹配，但要注意大数据量下的检索影响 redis 服务性能。123456## 获得一个符合匹配规则的键名列表，支持通配符keys [? / * [] ]## 判断key是否存在exists key## 获取key结构类型type key 字符类型最基本的数据结构，可以存储任意的字符类型的数据，单条数据最大可支持512M。12345678910111213141516171819202122## 设置key/value键值, 过期时间 EX=10s, PX=100msset key value EX 10 PX 100 ## 批量设置多个key/valuemset key value key1 value1## 只在key不存在时进行设置setnx key value## 获取key值get key## 获取多个key的值mget key key1## 对数字类型原子递增 1incr num## 原子递减 1decr num## 原子递增 10incrby num 10## 原子递减 10decrby num 10## 向指定的key追加字符串append key value## 获取key对应的value的长度strlen key 列表类型list 可以存储一个有序的字符列表，内部是使用双向链表实现的，可以用来实现分布式消息队列。命令以 l-开头。123456789101112## 左右两端添加数据(r|l)push key value value1 value2## 左右两端弹出数据，输出弹出的value(r|l)pop key## 获取列表长度llen key## 获取列表元素，start 开始索引， stop 结束索引(-1表示最右边)lrange key start stop## 从列表中移除N个value值的元素lrem key count value## 更新idx位置处的元素为valuelset key idx value 散列类型散列类型是 HashMap 数据结构，存储多个键值对，适合存储多属性对象，但不支持数据类型的嵌套。命令以 h- 开头。123456789101112## 设置对象field属性值hset key field valuehmset key field value field2 value2## 获取field属性值hget key fieldhmget key field field2## 获取所有field值hgetall key## 判断field属性是否存在hexists key field 集合类型集合类型 set 与列表不同，不能存在重复的数据，而且是无序存储。命令以 s- 开头。12345678910111213141516## 增加元素，如果value存在则忽略，返回成功加入集合的数量sadd key value value2## 删除元素srem key value## 获取所有元素smembers key## 获取集合长度scard key## 集合key1与key2的差集，列出key1中存在而在key2中不存在的元素sdiff key1 key2## 将差集存储在des中sdiffstore des key key2## 集合key1与key2的交集sinter key1 key2## 集合key1与key2的并集sunion key1 key2 有序集合类型有序集合是在集合set的基础上，增加了排序功能，增加了score表示元素的优先级。命令以 z- 开头。1234## 增加元素，优先级 scorezadd key score value## 列出集合，并且输出优先级zrange key start stop withscores 事务处理Redis 中支持事务，将多个命令加入到QUEUED中到最后一起提交或回滚，但有特例的情况无法回滚(命令运行时出错)。12345## 开启事务multi...## 提交事务exec 过期时间Redis 中可以对每个键值设置对应的过期时间。1234## 设置key过期时间为seconds秒expire key seconds## 获得key的过期时间,-1 未设置 -2已过期 ttl key 发布订阅(pub/sub)Redis 中支持消息的发布订阅模式，类型消息中间件的功能，但性能不高一般不推荐使用。1234## 发布消息到channel频道publish channel msg## 订阅channel频道的消息subscribe channel]]></content>
-      <categories>
-        <category>分布式</category>
-      </categories>
-      <tags>
-        <tag>分布式</tag>
-        <tag>redis</tag>
       </tags>
   </entry>
   <entry>
@@ -115,8 +115,8 @@
         <category>分布式</category>
       </categories>
       <tags>
-        <tag>分布式</tag>
         <tag>MQ</tag>
+        <tag>分布式</tag>
       </tags>
   </entry>
   <entry>
@@ -442,8 +442,8 @@
         <category>分布式</category>
       </categories>
       <tags>
-        <tag>hadoop</tag>
         <tag>分布式</tag>
+        <tag>hadoop</tag>
       </tags>
   </entry>
   <entry>
@@ -503,9 +503,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Gruntjs JSHint 代码校验]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FGruntjs%20JSHint%20%E4%BB%A3%E7%A0%81%E6%A0%A1%E9%AA%8C%2F</url>
-    <content type="text"><![CDATA[JSHint跟JSLint非常像，都是Javascript代码验证工具，这种工具可以检查你的代码并提供相关的代码改进意见。对于你的代码，你可以选择多种方式来进行检验： 第一种方法进入JSHint首页，粘贴你的代码，选择相关的选项，然后点击右下角的Lint按钮就可以了。 第二种方法使用Grunt整合的JSHint, 在项目根目录中建立一个grunt.js文件： 12345678910111213141516171819202122232425262728293031323334module.exports = function (grunt) &#123; 'use strict'; // Project configuration. grunt.initConfig(&#123; pkg: '&lt;json:package.json&gt;', test: &#123; files: ['test/**/*.js'] &#125;, lint: &#123; files: ['grunt.js', 'lib/**/*.js', 'test/**/*.js'] &#125;, watch: &#123; files: '&lt;config:lint.files&gt;', tasks: 'default' &#125;, jshint: &#123; options: &#123; curly: true, eqeqeq: true, newcap: true, noarg: true, sub: true, undef: true, boss: true, node: true &#125;, globals: &#123; exports: true &#125; &#125; &#125;); // Default task. grunt.registerTask('default', 'lint test');&#125;; 这里的lint.files就是要验证的所有文件。而下面的jshint.option是jshint的具体配置信息。简单介绍一下： curly: 大括号包裹，即不能使用这种代码： 12while (notEnd()) doSomething(); eqeqeq: 对于简单类型，使用===和!==，而不是==和!= newcap: 对于首字母大写的函数（声明的类），强制使用new noarg: 禁用arguments.caller和arguments.callee sub: 对于属性使用aaa.bbb而不是aaa[‘bbb’] undef: 查找所有未定义变量 boss: 查找类似与if(a = 0)这样的代码 node: 指定运行环境为node.js 第三种方法直接使用API： var result = JSHINT(source, options, globals);。其中source为待检查的脚本字符串（或者字符串数组）。options同第二种方法。globals是指定全局变量。如果验证通过，返回true，否则返回false。如果返回false，那么可以使用JSHINT.errors来查看错误。 参考资料：[1] 官方白皮书：http://www.jshint.com/docs/]]></content>
+    <title><![CDATA[Gruntjs uglify 代码压缩]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FGruntjs%20uglify%20%E4%BB%A3%E7%A0%81%E5%8E%8B%E7%BC%A9%2F</url>
+    <content type="text"><![CDATA[uglify是一个文件压缩插件，项目地址：https://github.com/gruntjs/grunt-contrib-uglify本文将以一个DEMO来展示如何使用uglify插件。 现在直接通过Gruntfile.js来看看这四个任务的配置： 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950module.exports = function(grunt)&#123; // 项目配置 grunt.initConfig(&#123; pkg: grunt.file.readJSON('package.json'), uglify: &#123; options: &#123; banner: '/*! &lt;%= pkg.name %&gt; &lt;%= grunt.template.today("yyyy-mm-dd") %&gt; */\n'//添加banner &#125;, builda: &#123;//任务一：压缩a.js，不混淆变量名，保留注释，添加banner和footer options: &#123; mangle: false, //不混淆变量名 preserveComments: 'all', //不删除注释，还可以为 false（删除全部注释），some（保留@preserve @license @cc_on等注释） footer:'\n/*! &lt;%= pkg.name %&gt; 最后修改于： &lt;%= grunt.template.today("yyyy-mm-dd") %&gt; */'//添加footer &#125;, files: &#123; 'output/js/a.min.js': ['js/a.js'] &#125; &#125;, buildb:&#123;//任务二：压缩b.js，输出压缩信息 options: &#123; report: "min"//输出压缩率，可选的值有 false(不输出信息)，gzip &#125;, files: &#123; 'output/js/b.min.js': ['js/main/b.js'] &#125; &#125;, buildall: &#123;//任务三：按原文件结构压缩js文件夹内所有JS文件 files: [&#123; expand:true, cwd:'js',//js目录下 src:'**/*.js',//所有js文件 dest: 'output/js'//输出到此目录下 &#125;] &#125;, release: &#123;//任务四：合并压缩a.js和b.js files: &#123; 'output/js/index.min.js': ['js/a.js', 'js/main/b.js'] &#125; &#125; &#125; &#125;); // 加载提供"uglify"任务的插件 grunt.loadNpmTasks('grunt-contrib-uglify'); // 默认任务 grunt.registerTask('default', ['uglify:release']); grunt.registerTask('mina', ['uglify:builda']); grunt.registerTask('minb', ['uglify:buildb']); grunt.registerTask('minall', ['uglify:buildall']); &#125;]]></content>
       <categories>
         <category>编程语言</category>
         <category>Javascript</category>
@@ -515,9 +515,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Gruntjs uglify 代码压缩]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FGruntjs%20uglify%20%E4%BB%A3%E7%A0%81%E5%8E%8B%E7%BC%A9%2F</url>
-    <content type="text"><![CDATA[uglify是一个文件压缩插件，项目地址：https://github.com/gruntjs/grunt-contrib-uglify本文将以一个DEMO来展示如何使用uglify插件。 现在直接通过Gruntfile.js来看看这四个任务的配置： 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950module.exports = function(grunt)&#123; // 项目配置 grunt.initConfig(&#123; pkg: grunt.file.readJSON('package.json'), uglify: &#123; options: &#123; banner: '/*! &lt;%= pkg.name %&gt; &lt;%= grunt.template.today("yyyy-mm-dd") %&gt; */\n'//添加banner &#125;, builda: &#123;//任务一：压缩a.js，不混淆变量名，保留注释，添加banner和footer options: &#123; mangle: false, //不混淆变量名 preserveComments: 'all', //不删除注释，还可以为 false（删除全部注释），some（保留@preserve @license @cc_on等注释） footer:'\n/*! &lt;%= pkg.name %&gt; 最后修改于： &lt;%= grunt.template.today("yyyy-mm-dd") %&gt; */'//添加footer &#125;, files: &#123; 'output/js/a.min.js': ['js/a.js'] &#125; &#125;, buildb:&#123;//任务二：压缩b.js，输出压缩信息 options: &#123; report: "min"//输出压缩率，可选的值有 false(不输出信息)，gzip &#125;, files: &#123; 'output/js/b.min.js': ['js/main/b.js'] &#125; &#125;, buildall: &#123;//任务三：按原文件结构压缩js文件夹内所有JS文件 files: [&#123; expand:true, cwd:'js',//js目录下 src:'**/*.js',//所有js文件 dest: 'output/js'//输出到此目录下 &#125;] &#125;, release: &#123;//任务四：合并压缩a.js和b.js files: &#123; 'output/js/index.min.js': ['js/a.js', 'js/main/b.js'] &#125; &#125; &#125; &#125;); // 加载提供"uglify"任务的插件 grunt.loadNpmTasks('grunt-contrib-uglify'); // 默认任务 grunt.registerTask('default', ['uglify:release']); grunt.registerTask('mina', ['uglify:builda']); grunt.registerTask('minb', ['uglify:buildb']); grunt.registerTask('minall', ['uglify:buildall']); &#125;]]></content>
+    <title><![CDATA[Gruntjs JSHint 代码校验]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FGruntjs%20JSHint%20%E4%BB%A3%E7%A0%81%E6%A0%A1%E9%AA%8C%2F</url>
+    <content type="text"><![CDATA[JSHint跟JSLint非常像，都是Javascript代码验证工具，这种工具可以检查你的代码并提供相关的代码改进意见。对于你的代码，你可以选择多种方式来进行检验： 第一种方法进入JSHint首页，粘贴你的代码，选择相关的选项，然后点击右下角的Lint按钮就可以了。 第二种方法使用Grunt整合的JSHint, 在项目根目录中建立一个grunt.js文件： 12345678910111213141516171819202122232425262728293031323334module.exports = function (grunt) &#123; 'use strict'; // Project configuration. grunt.initConfig(&#123; pkg: '&lt;json:package.json&gt;', test: &#123; files: ['test/**/*.js'] &#125;, lint: &#123; files: ['grunt.js', 'lib/**/*.js', 'test/**/*.js'] &#125;, watch: &#123; files: '&lt;config:lint.files&gt;', tasks: 'default' &#125;, jshint: &#123; options: &#123; curly: true, eqeqeq: true, newcap: true, noarg: true, sub: true, undef: true, boss: true, node: true &#125;, globals: &#123; exports: true &#125; &#125; &#125;); // Default task. grunt.registerTask('default', 'lint test');&#125;; 这里的lint.files就是要验证的所有文件。而下面的jshint.option是jshint的具体配置信息。简单介绍一下： curly: 大括号包裹，即不能使用这种代码： 12while (notEnd()) doSomething(); eqeqeq: 对于简单类型，使用===和!==，而不是==和!= newcap: 对于首字母大写的函数（声明的类），强制使用new noarg: 禁用arguments.caller和arguments.callee sub: 对于属性使用aaa.bbb而不是aaa[‘bbb’] undef: 查找所有未定义变量 boss: 查找类似与if(a = 0)这样的代码 node: 指定运行环境为node.js 第三种方法直接使用API： var result = JSHINT(source, options, globals);。其中source为待检查的脚本字符串（或者字符串数组）。options同第二种方法。globals是指定全局变量。如果验证通过，返回true，否则返回false。如果返回false，那么可以使用JSHINT.errors来查看错误。 参考资料：[1] 官方白皮书：http://www.jshint.com/docs/]]></content>
       <categories>
         <category>编程语言</category>
         <category>Javascript</category>
@@ -540,15 +540,27 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Oracle 导入导出]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FOracle%2FOracle%20%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%2F</url>
-    <content type="text"><![CDATA[可将整个数据库，用户，表导出备份，在一些包含大字段的表无法用sql插入时，很好用哦。 导出exp 123exp zysys/zy2009phoenix@phoenix_my file=e:\phoenix.dmp full=y --完全导出 exp zysys/zy2009phoenix@phoenix_my file=e:\zymbs.dmp owner=(zysys,zymbs) --按用户导出 exp zysys/zy2009phoenix@phoenix_my file=e:\table.dmp tables=(ZYMBS.RHRSP_KPI_DICT,table2) --导出表 导入imp 123imp zysys/zy2009phoenix@phoenix file=c:\orabackup\hkbfull.dmp log=c:\orabackup\hkbimp.log full=y --完全导入 imp zysys/zy2009phoenix@phoenix_my fromuser=zymbs touser=zymbs FILE=E:\zymbs.dmp ignore=y; --按用户 imp zysys/zy2009phoenix@phoenix file=e:\table.dmp tables=(RHRSP_KPI_DICT) --导入表（不需要表空间名） 11g R2 导出空表oracle 11g r2 新增了一个参数：deferred_segment_creation, 如果这个参数设置为 true，你新建了一个表 T1，并且没有向其中插入数据，那么这个表不会立即分配 extent，也就是不占数据空间，只有当你 insert 数据后才分配空间。这样可以节省少量的空间。所以在导出时，空的表将不导出需要单独处理 1) 设置 deferred_segment_creation 参数为FALSESQL&gt; alter system set deferred_segment_creation=false; 2) 注意并且要重启数据库，让参数生效, 但是这样操作后只会生效于新表 3) 使用 allocate extent 可以为数据库对象分配ExtentSQL&gt; ALLOCATE EXTENT { SIZE integer [K | M] | DATAFILE &#39;filename&#39; | INSTANCE integer 对现有表的处理脚本 createsql.sql：1234567set heading off; set echo off; set feedback off; set termout on; spool C:\allocate.sql; select 'alter table '||table_name||' allocate extent;' from user_tables where num_rows=0; spool off;]]></content>
+    <title><![CDATA[Oracle 冷备启库]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FOracle%2FOracle%20%E5%86%B7%E5%A4%87%E5%90%AF%E5%BA%93%2F</url>
+    <content type="text"><![CDATA[1、准备工作 查看数据版本是否跟库文件相同 查看数据文件是否都齐全 查看 init.ora 是否在（参数文件，也可以自己配置） 2、创建文件夹 在 oracle/admin 目录下创建 实例名文件夹。如：phoenix 在此文件夹中创建 adump、dpdump、pfile ,将 init.ora 放置在 pfile 文件夹中 在 fast_recovery_area 文件夹中创建实例名文件夹4. 在 oradata 文件夹中创建实例名文件夹 3、创建空实例1$ oradim -new -sid phoenix -startmode auto -pfile init.ora 4、创建密码文件1$ orapwd file=D:\oracle\product\11.2.0\dbhome_1\database\pwdphoenix.ora password=oracle; 5、进入创建好的实例12$ sqlplus /nolog $ conn zysys/zy2009phoenix as sysdba 6、生成spfile文件1$ create spfile from pfile='D:\Oracle\admin\phoenix\pfile\init.ora'; 7、重建控制文件123456789101112131415161718$ CREATE CONTROLFILE REUSE SET DATABASE "phoenix" RESETLOGS NOARCHIVELOG MAXLOGFILES 16 MAXLOGMEMBERS 3 MAXDATAFILES 100 MAXINSTANCES 8 MAXLOGHISTORY 292 LOGFILE GROUP 1 'E:\Work\Data\Orcl\REDO01.LOG' SIZE 50M BLOCKSIZE 512, GROUP 2 'E:\Work\Data\Orcl\REDO02.LOG' SIZE 50M BLOCKSIZE 512, GROUP 3 'E:\Work\Data\Orcl\REDO03.LOG' SIZE 50M BLOCKSIZE 512 -- STANDBY LOGFILE DATAFILE 'E:\Work\Data\Orcl\SYSTEM01.DBF', 'E:\Work\Data\Orcl\SYSAUX01.DBF', 'E:\Work\Data\Orcl\UNDOTBS01.DBF', 'E:\Work\Data\Orcl\USERS01.DBF', ………………数据文件位置……………… CHARACTER SET ZHS16GBK; 8、启动数据库 alter database open; // alter database open resetlogs upgrade 小版本不同需要升级 若是选用noresetlogs选项, 若无法打开数据库, 则尝试执行recover database; 若是在线热备数据库文件,则还要把热备时刻的归档日志拷过来,恢复时用下列语法recover database using backup controlfile until cancel;写入日志文件 d：/xxx.log 创建临时表空间alter tablespace temp add tempfile &#39;C:\Oracle\database\phoenix\temp01.ora&#39; size 50M reuse autoextend on next 50M maxsize 500M; 小版本不同需要执行升级脚本oracle_home/rdbms/admin/catupgrd.sql； 重启数据库]]></content>
       <categories>
         <category>存储</category>
         <category>Oracle</category>
       </categories>
       <tags>
         <tag>oracle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Nodejs Express]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FNodejs%20Express%2F</url>
+    <content type="text"><![CDATA[1. Express 是什么？Express 是一个Node 最常用的开发包，用于快速构建 Web 项目。 2. 安装 Expressnpm install -g express@3 //全局包 注：无法使用 express 时，将 node_modules 目录加入环境变量 path 中设置永久环境变量即使重启机器也能够使用node命令了。 进入/etc vi profile在最后面追加两行：1234&gt;&gt; export NODE_HOME=/home/node-v0.10.0-linux-x64 &gt;&gt; export PATH=$PATH:$NODE_HOME/bin &gt;&gt; export NODE_PATH=$NODE_HOME/lib/node_modules &gt;&gt; express4.x 以上版本，命令行工具已经分离出来 npm install -g express-generator //安装命令行工具 express project1 &amp;&amp; cd project1 //创建项目 npm install //安装express及依赖 npm start //启动 3. 创建测试项目12CD E:\Nodejs\test Express -e myproject //创建项目 目录结构： Node_modules：存放所有项目依赖项 Package.json：项目依赖项配置及开发者信息 App.js：程序启动文件 Public：静态文件(css、js、img) Routes：路由文件 Views：页面文件(ejs模板) 4. 启动 express testNode app.js 提示 express 未安装==&gt; 将 $home\AppData\npm\node_modules\express 文件拷至项目目录下提示 ejs 未安装==&gt;npm install ejs 5. 修改ejs模板Ejs view 模板默认以 .ejs 结尾，修改默认模板，修改为 html 模板。1234App.js ==&gt; var ejs = require('ejs'); ==&gt; app.engine('.html',ejs__express); ==&gt; app.set('view engine','html'); 6. 安装 supervisor debug环境Supervisor 组件包，可以动态加载修改后的开发程序，无需重新启动 Node。Npm install -g supervisor 7. 简单登录Demo例==&gt; E:\Nodejs\test\myproject]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
       </tags>
   </entry>
   <entry>
@@ -564,40 +576,40 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Oracle 冷备启库]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FOracle%2FOracle%20%E5%86%B7%E5%A4%87%E5%90%AF%E5%BA%93%2F</url>
-    <content type="text"><![CDATA[1、准备工作 查看数据版本是否跟库文件相同 查看数据文件是否都齐全 查看 init.ora 是否在（参数文件，也可以自己配置） 2、创建文件夹 在 oracle/admin 目录下创建 实例名文件夹。如：phoenix 在此文件夹中创建 adump、dpdump、pfile ,将 init.ora 放置在 pfile 文件夹中 在 fast_recovery_area 文件夹中创建实例名文件夹4. 在 oradata 文件夹中创建实例名文件夹 3、创建空实例1$ oradim -new -sid phoenix -startmode auto -pfile init.ora 4、创建密码文件1$ orapwd file=D:\oracle\product\11.2.0\dbhome_1\database\pwdphoenix.ora password=oracle; 5、进入创建好的实例12$ sqlplus /nolog $ conn zysys/zy2009phoenix as sysdba 6、生成spfile文件1$ create spfile from pfile='D:\Oracle\admin\phoenix\pfile\init.ora'; 7、重建控制文件123456789101112131415161718$ CREATE CONTROLFILE REUSE SET DATABASE "phoenix" RESETLOGS NOARCHIVELOG MAXLOGFILES 16 MAXLOGMEMBERS 3 MAXDATAFILES 100 MAXINSTANCES 8 MAXLOGHISTORY 292 LOGFILE GROUP 1 'E:\Work\Data\Orcl\REDO01.LOG' SIZE 50M BLOCKSIZE 512, GROUP 2 'E:\Work\Data\Orcl\REDO02.LOG' SIZE 50M BLOCKSIZE 512, GROUP 3 'E:\Work\Data\Orcl\REDO03.LOG' SIZE 50M BLOCKSIZE 512 -- STANDBY LOGFILE DATAFILE 'E:\Work\Data\Orcl\SYSTEM01.DBF', 'E:\Work\Data\Orcl\SYSAUX01.DBF', 'E:\Work\Data\Orcl\UNDOTBS01.DBF', 'E:\Work\Data\Orcl\USERS01.DBF', ………………数据文件位置……………… CHARACTER SET ZHS16GBK; 8、启动数据库 alter database open; // alter database open resetlogs upgrade 小版本不同需要升级 若是选用noresetlogs选项, 若无法打开数据库, 则尝试执行recover database; 若是在线热备数据库文件,则还要把热备时刻的归档日志拷过来,恢复时用下列语法recover database using backup controlfile until cancel;写入日志文件 d：/xxx.log 创建临时表空间alter tablespace temp add tempfile &#39;C:\Oracle\database\phoenix\temp01.ora&#39; size 50M reuse autoextend on next 50M maxsize 500M; 小版本不同需要执行升级脚本oracle_home/rdbms/admin/catupgrd.sql； 重启数据库]]></content>
+    <title><![CDATA[Nodejs quickstart]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FNodejs%20quickstart%2F</url>
+    <content type="text"><![CDATA[1. Nodejs 是什么？ Node.js® is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。 2. 安装 Nodejs Nodejs.org 上下载 source code 进入目录, 解压来 source Tar -zxvf nodejs-v0.10.tar.gz 进入目录, 检查安装环境 ./configure 可以使用 ./configrue --prefix /nodejs 指定安装目录 , 提示 gcc 未安装, 使用 yum -y install gcc+ gcc-c++ 安装gcc 编译安装 make &amp;&amp; make install 创建软连接 sudo ln -s /nodejs/bin/node /usr/local/bin/node 在任意目录使用 3. 卸载 Nodejs 卸载npm Npm uninstall npm 移除文件 rm -rf bin/node bin/node-waf include/node lib/node lib/pkgconfig/nodejs.pc share/man/man1/node.1]]></content>
       <categories>
-        <category>存储</category>
-        <category>Oracle</category>
+        <category>编程语言</category>
+        <category>Javascript</category>
       </categories>
       <tags>
-        <tag>oracle</tag>
+        <tag>javascript</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Eclipse 使用配置]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJava%2FEclipse%20%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE%2F</url>
-    <content type="text"><![CDATA[Eclipse 有众多版本，最常用的包括Eclipse EE，Eclipse SE。当然还有MyEclipse等，但是MyEclipse是基于Eclipse的商业软件，因此本文不包含MyEclipse。 1. Eclipse EE 配置TomcatEclipse EE 主要用于Java Web开发和J2EE项目开发。Eclipse EE中配置Tomcat比较简单，新建一个Tomcat Server即可，步骤如下： 1.1. 打开Servers 视图通过菜单Window-&gt;Show View-&gt;Servers打开Servers视图。 1.2. 新建Tomcat 服务器右击空白区域，选择New-&gt;Server（对于没有任何Server的环境，可以点击”new server wizard”链接）；然后在列表中选择Tomcat服务器，选中本机相应版本；选择本机Tomcat目录，点击完成即可。到此，Eclipse EE 配置Tomcat成功。 2. Eclipse SE 配置TomcatEclipse SE主要用于控制台程序的开发，如果进行Web开发建议使用Eclipse EE。当然，Eclipse SE也可以配置Tomcat，具体如下： 2.1. 下载Tomcat插件下载地址：http://marketplace.eclipse.org/content/eclipse-tomcat-plugin，下载时，请注意核对Eclipse版本和Tomcat版本。 PS: 是Tomcat插件，不是Tomcat，两者不同 2.2. 安装Tomcat插件解压Tomcat插件，拷贝到Eclipse目录中Plugin下，重启Eclipse，Tomcat插件即可安装成功。 2.3. 配置Tomcat插件在Eclipse中，点击Window-&gt;Preferences-&gt;Tomcat，选择本机Tomcat版本号（已下载并解压Tomcat到本地），选择Tomcat Home目录，即Tomcat所在目录。配置后在Eclipse中启动Tomcat，并在Eclipse中的Internal Web Browser中输入：localhost:8080，如果出现Tomcat页面，即配置Tomcat插件成功。 3. Tomcat启动后打开页面提示404错误的解决Eclipse配置并启动Tomcat成功，但有时会访问localhost:8080出现404错误，此时需要修改Tomcat配置。步骤如下： 在Eclipse中双击Tomcat server，打开Tomcat配置页面。 修改Server locations为Use Tomcat installation。 修改Deploy path为webapps。 保存配置即可。 PS：如果不能修改配置，在Server中删除Tomcat，重新添加一次，即可配置。]]></content>
+    <title><![CDATA[Struts2 action result]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FStruts2%20action%20result%2F</url>
+    <content type="text"><![CDATA[对 action 执行后返回的 result （1） 常用几种 result type Dispatcher 拦截器，不配置type时 默认，相当于 transfer 服务器跳转。&lt;result type=&quot;dispatcher&quot;&gt;/index.jsp&lt;/result&gt; Redirect 客户端跳转，相当于再次请求另外一个页面，在url中显示的是 xxx.jsp&lt;result type=&quot;redirect&quot; name=&quot;xxx&quot;&gt;index.jsp&lt;/result&gt; Chain 跳转至 action，配置对应的 package 名字 和 action 名字 。 1234&lt;result type="chain" name="ccc"&gt; &lt;param name="actionName"&gt;action&lt;/param&gt; &lt;param name="namespace"&gt;/&lt;/param&gt;&lt;/result&gt; RedirectAction ，客户端跳转至action。跳转后 url 显示的action 名字。 1234&lt;result type="redirectAction" name="r2"&gt; &lt;param name="actionName"&gt;action&lt;/param&gt; &lt;param name="namespace"&gt;/&lt;/param&gt; &lt;/result&gt; Stream 文字流，可用于Ajax返回纯文本，或者二进制流（下载文件）。 1234&lt;result type="stream" name="sss"&gt; &lt;param name="contentType"&gt;text/html&lt;/param&gt; &lt;param name="inputName"&gt;inputStream&lt;/param&gt; &lt;/result&gt; 在action中定义 inputStream , InputStream inputStream = new StringBufferInputStream(&quot;json&quot;); 向页面直接输出 string。 （2）全局 result ：global-results 定义全局 result ，在此 package 中的 action 对此 result 均可访问。常用于错误、异常处理 123&lt;global-results&gt; &lt;result name="error"&gt;/Error.jsp&lt;/result&gt; &lt;/global-results&gt; 另外 package 要使用此全局 result ，需要继承自此 package &lt;package name=&quot;module1&quot; namespace=&quot;/&quot; extends=&quot;action&quot;&gt; （3） 动态 result result 取自 valuestack 值栈中&lt;result name=&quot;xxx&quot;&gt;${result}&lt;/result&gt; 动态设置跳转页面参数，仅在 redirect 中使用，因为在 dispatcher、chain 为同个 request ，共享同一个valueStack。&lt;result name=&quot;rrr&quot; type=&quot;redirect&quot;&gt;/index.jsp?result=${result}&lt;/result&gt;改参数被塞入 stack context 中的 parameters &lt;s:property value=&quot;#parameters.result&quot;/&gt;]]></content>
       <categories>
         <category>编程语言</category>
-        <category>Java</category>
+        <category>Struts2</category>
       </categories>
       <tags>
         <tag>java</tag>
-        <tag>ide</tag>
+        <tag>struts</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Oracle 表空间]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FOracle%2FOracle%20%E8%A1%A8%E7%A9%BA%E9%97%B4%2F</url>
-    <content type="text"><![CDATA[查看数据文件位置 1SELECT TABLESPACE_NAME,FILE_ID,BYTES,FILE_NAME FROM DBA_DATA_FILES; 表空间状态 1SELECT TABLESPACE_NAME,STATUS FROM DBA_TABLESPACES; 创建表空间 123456CREATE TABLESPACE "ZYMBS" NOLOGGING --不创建重做日志文件 DATAFILE 'E:\WORK\DATA\PHOENIX\ZYMBS01.ORA' SIZE 5M AUTOEXTEND ON --自动增长 NEXT 50M MAXSIZE 2048M --自动增长最大到2G EXTENT MANAGEMENT LOCAL; 创建用户 123CREATE USER zymbs IDENTIFIED BY zy2009phoenix DEFAULT TABLESPACE ZYMBS TEMPORARY TABLESPACE TEMP; 分发权限 1234567GRANT --系统权限 CREATE SESSION, CREATE ANY TABLE, CREATE ANY VIEW ,CREATE ANY INDEX, CREATE ANY PROCEDURE, ALTER ANY TABLE, ALTER ANY PROCEDURE, DROP ANY TABLE, DROP ANY VIEW, DROP ANY INDEX, DROP ANY PROCEDURE, SELECT ANY TABLE, INSERT ANY TABLE, UPDATE ANY TABLE, DELETE ANY TABLE TO ZYMBS; GRANT RESOURCE, CONNECT TO ZYMBS; --角色权限 删除表空间 1DROP TABLESPACE ZYMBS INCLUDING CONTENTS AND DATAFILES; 修改状态(ONLINE,OFFLINE,READONLY,READWRITE) 1ALTER TABLESPACE ZYMBS OFFLINE; 修改文件大小,添加文件 12ALTER TABLESPACE DATAFILE &apos;E:\ZYMBS01.ORA&apos; RESIZE 10M; ALTER TABLESPACE ZYMBS ADD DATAFILE &apos;E:\ZYMBS02.ORA&apos; SIZE 5M; 修改表空间数据文件的自动扩展性 1ALTER DATABASE DATAFIELE &apos;E:\ZYMBS01.ORA&apos; AUTOEXTEND ON NEXT 5M MAXSIZE 50M; 重新指定表空间路径 1alter tablespace SIMPLE RENAME DATAFILE &apos;E:\table2.dbf&apos; to &apos;D:\table.dbf&apos;; 设置默认表空间 1. 查询(当前用户)默认表空间 select default_tablespace from user_users; 2. 修改默认表空间 alter database default tablespace SIMPLE; 如果是oracle 9i本语句不支持，但能让用户指向某表空间，具体做法如下： 例： alter user scott default tablespace users; (scott为用户名, users为表空间) 有时会出现表空间有存在的情况，这时一般都是以下几个原因造成的： 1、写错表空间名，我想的话这种机率较小。 2、回想一下，你在创建表空间时是否给表空间表加了双引号如： CREATE TABLESPACE &quot;Sample&quot; ……………… 如果是这样的话，你在修改默认表空间，写表空间名字的时候就要区分大小了，这个是非常重要的，并且还要加上双引号， 如：alter user scott default tablespace &quot;Sample&quot;;(scott为用户名)。]]></content>
+    <title><![CDATA[OGNL 表达式]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FOGNL%20%E8%A1%A8%E8%BE%BE%E5%BC%8F%2F</url>
+    <content type="text"><![CDATA[ONGL 是用于将 ValueStack（值栈，即整个 action） 和 StackContext（上下文 context） 内容取出的语法。 访问值栈中属性 &lt;s:property value=&quot;userName&quot;/&gt; 访问值栈中的类，类属性，聚合类 123&lt;s:property value="user"/&gt;&lt;s:property value="user.userName"/&gt;&lt;s:property value="cat.frien"/&gt; 访问方法 123&lt;s:property value="userName.length()"/&gt; //普通方法&lt;s:property value="cat.frien.getName()"/&gt; //类的方法&lt;s:property value="show()"/&gt; //Action 中的方法 访问静态 123&lt;s:property value="@service.staticSerivce@show()"/&gt; //静态方法&lt;s:property value="@service.staticSerivce@STR"/&gt; //静态属性&lt;s:property value="@@max(3,10)"/&gt; //静态Math方法 访问集合 123456789101112&lt;s:property value="users"/&gt; //访问 list=new ArrayList&lt;T&gt;()&lt;s:property value="users[0]"/&gt; //访问 list 单个元素&lt;s:property value="users.&#123;userName&#125;"/&gt; //List 属性集合&lt;s:property value="users.&#123;userName&#125;[0]"/&gt; || &lt;s:property value="users[0].userName"/&gt; // List属性-------------------------------------------------------------------------------------------------&lt;s:property value="cats"/&gt; // set=new HashSet() ，Set是无序的，所以无法访问单个元素-------------------------------------------------------------------------------------------------&lt;s:property value="dogs"/&gt; // map=new HashMap&lt;string, Object&gt;()&lt;s:property value="dogs.dog1"/&gt; || &lt;s:property value="dogs['dog1']"/&gt; //访问 Map 单个元素&lt;s:property value="dogs.keys"/&gt; // Map的所有 Key&lt;s:property value="dogs.values"/&gt; // Map 所有 value&lt;s:property value="dogs.size()"/&gt; // 容器大小 投影，条件过滤集合 &lt;s:property value=&quot;users.{?#this.userName!=null}.{name}&quot;/&gt; // ?# 表达式，选择符合条件的内容，^# 第一个满足的，$#最后一个满足的 stack context 中的内容使用 #xx &lt;s:property value=&quot;#session.asdf&quot;/&gt;]]></content>
       <categories>
-        <category>存储</category>
-        <category>Oracle</category>
+        <category>编程语言</category>
+        <category>Struts2</category>
       </categories>
       <tags>
-        <tag>oracle</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -614,15 +626,42 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Nodejs quickstart]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FNodejs%20quickstart%2F</url>
-    <content type="text"><![CDATA[1. Nodejs 是什么？ Node.js® is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。 2. 安装 Nodejs Nodejs.org 上下载 source code 进入目录, 解压来 source Tar -zxvf nodejs-v0.10.tar.gz 进入目录, 检查安装环境 ./configure 可以使用 ./configrue --prefix /nodejs 指定安装目录 , 提示 gcc 未安装, 使用 yum -y install gcc+ gcc-c++ 安装gcc 编译安装 make &amp;&amp; make install 创建软连接 sudo ln -s /nodejs/bin/node /usr/local/bin/node 在任意目录使用 3. 卸载 Nodejs 卸载npm Npm uninstall npm 移除文件 rm -rf bin/node bin/node-waf include/node lib/node lib/pkgconfig/nodejs.pc share/man/man1/node.1]]></content>
+    <title><![CDATA[Struts2 action 配置]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FStruts2%20action%20%E9%85%8D%E7%BD%AE%2F</url>
+    <content type="text"><![CDATA[一、action中未定义对应的method时，默认调用execute方法。 action 中定义 action1.execute() 方法，structs默认执行此方法（不建议） 1234567&lt;package name="cq.action"namespace="/"extends="struts-default"&gt; &lt;action name="index"class="cq.action.action1"&gt; &lt;result name="success"&gt; /index.jsp &lt;/result&gt; &lt;/action&gt; &lt;/package&gt; action 实现 action 接口，实现 exectue() ， structs 也会执行此方法（不建议) action 继承 actionSupport ，此父类中已经定义了许多方法 （推荐） 二、配置对应的方法 可配置 action 对应的 method 12345&lt;action name="show"class="cq.action.action2"method="show"&gt; &lt;result&gt; /show.jsp &lt;/result&gt; &lt;/action&gt; 三、使用动态调用action （DMI）12345&lt;action name="show"class="cq.action.action2"&gt; &lt;result&gt; /show.jsp &lt;/result&gt; &lt;/action&gt; 调用时使用 basePath/show!method , ‘！’后面对于方法（弊端是无法对应多个result）。使用时需要打开动态调用配置：&lt;constant name=&quot;struts.enable.DynamicMethodInvocation&quot;value=&quot;true&quot;/&gt; 四、通配符12345&lt;action name="*_*"class="cq.action.&#123;1&#125;Action"method="&#123;2&#125;"&gt; &lt;result&gt; /&#123;1&#125;_&#123;2&#125;.jsp &lt;/result&gt; &lt;/action&gt; 使用 通配符，{1} 对应第一个 ，通配符好处是可以减少配置量，但要求命名规范，如上述配置，action的命名为NameAction，方法为Get,则调用的url为 /Name/Get，对应的view 为 Name_Get.jsp。 如何配置出.net MVC 模式的通配符呢？ 五、包含xml，将其它文件包含进 struts.xml 配置中，更加容易分模块管理&lt;include file=&quot;login.xml&quot;/&gt; 六、默认 Action ，当 struts 找不到对应 action 时调用此 action。&lt;defaut-action-ref name=&quot;index&quot;&gt;&lt;/defaut-action-ref&gt;]]></content>
       <categories>
         <category>编程语言</category>
-        <category>Javascript</category>
+        <category>Struts2</category>
       </categories>
       <tags>
-        <tag>javascript</tag>
+        <tag>java</tag>
+        <tag>struts</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Struts2 quickstart]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FStruts2%20quickstart%2F</url>
+    <content type="text"><![CDATA[新建 web project .当修改project名时，要同时修改 properties -&gt; myeclipse -&gt; web -&gt; ontext-root.不然发布后的文件名不会修改。 找到 struct2 -all ,打开 app 目录中（此为示例） ，解压任意一个，将 structs.xml 拷入项目。 将 \WEB-INF\lib 下引用的包拷入项目中 修改 web.xml ，将示例中的 web.xml 下的 filter 配置拷入。 12345678 &lt;filter&gt; &lt;filter-name&gt;struts2&lt;/filter-name&gt; &lt;filter-class&gt;org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter&lt;/filter- class&gt; &lt;/filter&gt; &lt;filter-mapping&gt; &lt;filter-name&gt;struts2&lt;/filter-name&gt; &lt;url-pattern&gt;/*&lt;/url-pattern&gt; &lt;/filter-mapping&gt; 修改 structs.xml 配置，以下为最简单的配置，修改完后部署到 tomcat 上，访问 http://localhost:8080/myproject/helloworld 即可。 12345678 &lt;package name="default"namespace="/"extends="struts-default"&gt; &lt;default-action-ref name="index"/&gt; &lt;action name="helloworld"&gt; &lt;result&gt; /index.jsp &lt;/result&gt; &lt;/action&gt; &lt;/package&gt; namespace 表示访问路径解析，如设置/index ,则访问的时候也需要加入/index，如果namespace为空，表示所有包含action的均会被解析，用于处理其他namespace处理不到的请求. 为 structs 包添加源码查看和api右键 structs2-core.jar -&gt; properties -&gt; 1. java source attachment 源码 struts-2.2.3.1-all/struts-2.2.3.1/src/core/src/main/java javadoc location api文档 struts-2.2.3.1-all/struts-2.2.3.1/docs/structs2-core/apidocs 开启 structs 开发模式，这样在修改配置后不需要 redeploy &lt;constant name=”struts.devMode”value=”true”/&gt; 为 structs.xml 添加提示windows -&gt; preferences -&gt; xml catalog -&gt; add -&gt; type 选择 uri , key 填写 “http://struts.apache.org/dtds/struts-2.0.dtd&quot;location 为 struct-core.jar 解压后中的 struct2.dtd]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Struts2</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>struts</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Eclipse 使用配置]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJava%2FEclipse%20%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE%2F</url>
+    <content type="text"><![CDATA[Eclipse 有众多版本，最常用的包括Eclipse EE，Eclipse SE。当然还有MyEclipse等，但是MyEclipse是基于Eclipse的商业软件，因此本文不包含MyEclipse。 1. Eclipse EE 配置TomcatEclipse EE 主要用于Java Web开发和J2EE项目开发。Eclipse EE中配置Tomcat比较简单，新建一个Tomcat Server即可，步骤如下： 1.1. 打开Servers 视图通过菜单Window-&gt;Show View-&gt;Servers打开Servers视图。 1.2. 新建Tomcat 服务器右击空白区域，选择New-&gt;Server（对于没有任何Server的环境，可以点击”new server wizard”链接）；然后在列表中选择Tomcat服务器，选中本机相应版本；选择本机Tomcat目录，点击完成即可。到此，Eclipse EE 配置Tomcat成功。 2. Eclipse SE 配置TomcatEclipse SE主要用于控制台程序的开发，如果进行Web开发建议使用Eclipse EE。当然，Eclipse SE也可以配置Tomcat，具体如下： 2.1. 下载Tomcat插件下载地址：http://marketplace.eclipse.org/content/eclipse-tomcat-plugin，下载时，请注意核对Eclipse版本和Tomcat版本。 PS: 是Tomcat插件，不是Tomcat，两者不同 2.2. 安装Tomcat插件解压Tomcat插件，拷贝到Eclipse目录中Plugin下，重启Eclipse，Tomcat插件即可安装成功。 2.3. 配置Tomcat插件在Eclipse中，点击Window-&gt;Preferences-&gt;Tomcat，选择本机Tomcat版本号（已下载并解压Tomcat到本地），选择Tomcat Home目录，即Tomcat所在目录。配置后在Eclipse中启动Tomcat，并在Eclipse中的Internal Web Browser中输入：localhost:8080，如果出现Tomcat页面，即配置Tomcat插件成功。 3. Tomcat启动后打开页面提示404错误的解决Eclipse配置并启动Tomcat成功，但有时会访问localhost:8080出现404错误，此时需要修改Tomcat配置。步骤如下： 在Eclipse中双击Tomcat server，打开Tomcat配置页面。 修改Server locations为Use Tomcat installation。 修改Deploy path为webapps。 保存配置即可。 PS：如果不能修改配置，在Server中删除Tomcat，重新添加一次，即可配置。]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>ide</tag>
       </tags>
   </entry>
   <entry>
@@ -651,54 +690,27 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[OGNL 表达式]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FOGNL%20%E8%A1%A8%E8%BE%BE%E5%BC%8F%2F</url>
-    <content type="text"><![CDATA[ONGL 是用于将 ValueStack（值栈，即整个 action） 和 StackContext（上下文 context） 内容取出的语法。 访问值栈中属性 &lt;s:property value=&quot;userName&quot;/&gt; 访问值栈中的类，类属性，聚合类 123&lt;s:property value="user"/&gt;&lt;s:property value="user.userName"/&gt;&lt;s:property value="cat.frien"/&gt; 访问方法 123&lt;s:property value="userName.length()"/&gt; //普通方法&lt;s:property value="cat.frien.getName()"/&gt; //类的方法&lt;s:property value="show()"/&gt; //Action 中的方法 访问静态 123&lt;s:property value="@service.staticSerivce@show()"/&gt; //静态方法&lt;s:property value="@service.staticSerivce@STR"/&gt; //静态属性&lt;s:property value="@@max(3,10)"/&gt; //静态Math方法 访问集合 123456789101112&lt;s:property value="users"/&gt; //访问 list=new ArrayList&lt;T&gt;()&lt;s:property value="users[0]"/&gt; //访问 list 单个元素&lt;s:property value="users.&#123;userName&#125;"/&gt; //List 属性集合&lt;s:property value="users.&#123;userName&#125;[0]"/&gt; || &lt;s:property value="users[0].userName"/&gt; // List属性-------------------------------------------------------------------------------------------------&lt;s:property value="cats"/&gt; // set=new HashSet() ，Set是无序的，所以无法访问单个元素-------------------------------------------------------------------------------------------------&lt;s:property value="dogs"/&gt; // map=new HashMap&lt;string, Object&gt;()&lt;s:property value="dogs.dog1"/&gt; || &lt;s:property value="dogs['dog1']"/&gt; //访问 Map 单个元素&lt;s:property value="dogs.keys"/&gt; // Map的所有 Key&lt;s:property value="dogs.values"/&gt; // Map 所有 value&lt;s:property value="dogs.size()"/&gt; // 容器大小 投影，条件过滤集合 &lt;s:property value=&quot;users.{?#this.userName!=null}.{name}&quot;/&gt; // ?# 表达式，选择符合条件的内容，^# 第一个满足的，$#最后一个满足的 stack context 中的内容使用 #xx &lt;s:property value=&quot;#session.asdf&quot;/&gt;]]></content>
+    <title><![CDATA[Oracle 表空间]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FOracle%2FOracle%20%E8%A1%A8%E7%A9%BA%E9%97%B4%2F</url>
+    <content type="text"><![CDATA[查看数据文件位置 1SELECT TABLESPACE_NAME,FILE_ID,BYTES,FILE_NAME FROM DBA_DATA_FILES; 表空间状态 1SELECT TABLESPACE_NAME,STATUS FROM DBA_TABLESPACES; 创建表空间 123456CREATE TABLESPACE "ZYMBS" NOLOGGING --不创建重做日志文件 DATAFILE 'E:\WORK\DATA\PHOENIX\ZYMBS01.ORA' SIZE 5M AUTOEXTEND ON --自动增长 NEXT 50M MAXSIZE 2048M --自动增长最大到2G EXTENT MANAGEMENT LOCAL; 创建用户 123CREATE USER zymbs IDENTIFIED BY zy2009phoenix DEFAULT TABLESPACE ZYMBS TEMPORARY TABLESPACE TEMP; 分发权限 1234567GRANT --系统权限 CREATE SESSION, CREATE ANY TABLE, CREATE ANY VIEW ,CREATE ANY INDEX, CREATE ANY PROCEDURE, ALTER ANY TABLE, ALTER ANY PROCEDURE, DROP ANY TABLE, DROP ANY VIEW, DROP ANY INDEX, DROP ANY PROCEDURE, SELECT ANY TABLE, INSERT ANY TABLE, UPDATE ANY TABLE, DELETE ANY TABLE TO ZYMBS; GRANT RESOURCE, CONNECT TO ZYMBS; --角色权限 删除表空间 1DROP TABLESPACE ZYMBS INCLUDING CONTENTS AND DATAFILES; 修改状态(ONLINE,OFFLINE,READONLY,READWRITE) 1ALTER TABLESPACE ZYMBS OFFLINE; 修改文件大小,添加文件 12ALTER TABLESPACE DATAFILE &apos;E:\ZYMBS01.ORA&apos; RESIZE 10M; ALTER TABLESPACE ZYMBS ADD DATAFILE &apos;E:\ZYMBS02.ORA&apos; SIZE 5M; 修改表空间数据文件的自动扩展性 1ALTER DATABASE DATAFIELE &apos;E:\ZYMBS01.ORA&apos; AUTOEXTEND ON NEXT 5M MAXSIZE 50M; 重新指定表空间路径 1alter tablespace SIMPLE RENAME DATAFILE &apos;E:\table2.dbf&apos; to &apos;D:\table.dbf&apos;; 设置默认表空间 1. 查询(当前用户)默认表空间 select default_tablespace from user_users; 2. 修改默认表空间 alter database default tablespace SIMPLE; 如果是oracle 9i本语句不支持，但能让用户指向某表空间，具体做法如下： 例： alter user scott default tablespace users; (scott为用户名, users为表空间) 有时会出现表空间有存在的情况，这时一般都是以下几个原因造成的： 1、写错表空间名，我想的话这种机率较小。 2、回想一下，你在创建表空间时是否给表空间表加了双引号如： CREATE TABLESPACE &quot;Sample&quot; ……………… 如果是这样的话，你在修改默认表空间，写表空间名字的时候就要区分大小了，这个是非常重要的，并且还要加上双引号， 如：alter user scott default tablespace &quot;Sample&quot;;(scott为用户名)。]]></content>
       <categories>
-        <category>编程语言</category>
-        <category>Struts2</category>
+        <category>存储</category>
+        <category>Oracle</category>
       </categories>
       <tags>
-        <tag>java</tag>
+        <tag>oracle</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Struts2 action result]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FStruts2%20action%20result%2F</url>
-    <content type="text"><![CDATA[对 action 执行后返回的 result （1） 常用几种 result type Dispatcher 拦截器，不配置type时 默认，相当于 transfer 服务器跳转。&lt;result type=&quot;dispatcher&quot;&gt;/index.jsp&lt;/result&gt; Redirect 客户端跳转，相当于再次请求另外一个页面，在url中显示的是 xxx.jsp&lt;result type=&quot;redirect&quot; name=&quot;xxx&quot;&gt;index.jsp&lt;/result&gt; Chain 跳转至 action，配置对应的 package 名字 和 action 名字 。 1234&lt;result type="chain" name="ccc"&gt; &lt;param name="actionName"&gt;action&lt;/param&gt; &lt;param name="namespace"&gt;/&lt;/param&gt;&lt;/result&gt; RedirectAction ，客户端跳转至action。跳转后 url 显示的action 名字。 1234&lt;result type="redirectAction" name="r2"&gt; &lt;param name="actionName"&gt;action&lt;/param&gt; &lt;param name="namespace"&gt;/&lt;/param&gt; &lt;/result&gt; Stream 文字流，可用于Ajax返回纯文本，或者二进制流（下载文件）。 1234&lt;result type="stream" name="sss"&gt; &lt;param name="contentType"&gt;text/html&lt;/param&gt; &lt;param name="inputName"&gt;inputStream&lt;/param&gt; &lt;/result&gt; 在action中定义 inputStream , InputStream inputStream = new StringBufferInputStream(&quot;json&quot;); 向页面直接输出 string。 （2）全局 result ：global-results 定义全局 result ，在此 package 中的 action 对此 result 均可访问。常用于错误、异常处理 123&lt;global-results&gt; &lt;result name="error"&gt;/Error.jsp&lt;/result&gt; &lt;/global-results&gt; 另外 package 要使用此全局 result ，需要继承自此 package &lt;package name=&quot;module1&quot; namespace=&quot;/&quot; extends=&quot;action&quot;&gt; （3） 动态 result result 取自 valuestack 值栈中&lt;result name=&quot;xxx&quot;&gt;${result}&lt;/result&gt; 动态设置跳转页面参数，仅在 redirect 中使用，因为在 dispatcher、chain 为同个 request ，共享同一个valueStack。&lt;result name=&quot;rrr&quot; type=&quot;redirect&quot;&gt;/index.jsp?result=${result}&lt;/result&gt;改参数被塞入 stack context 中的 parameters &lt;s:property value=&quot;#parameters.result&quot;/&gt;]]></content>
+    <title><![CDATA[Oracle 导入导出]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FOracle%2FOracle%20%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%2F</url>
+    <content type="text"><![CDATA[可将整个数据库，用户，表导出备份，在一些包含大字段的表无法用sql插入时，很好用哦。 导出exp 123exp zysys/zy2009phoenix@phoenix_my file=e:\phoenix.dmp full=y --完全导出 exp zysys/zy2009phoenix@phoenix_my file=e:\zymbs.dmp owner=(zysys,zymbs) --按用户导出 exp zysys/zy2009phoenix@phoenix_my file=e:\table.dmp tables=(ZYMBS.RHRSP_KPI_DICT,table2) --导出表 导入imp 123imp zysys/zy2009phoenix@phoenix file=c:\orabackup\hkbfull.dmp log=c:\orabackup\hkbimp.log full=y --完全导入 imp zysys/zy2009phoenix@phoenix_my fromuser=zymbs touser=zymbs FILE=E:\zymbs.dmp ignore=y; --按用户 imp zysys/zy2009phoenix@phoenix file=e:\table.dmp tables=(RHRSP_KPI_DICT) --导入表（不需要表空间名） 11g R2 导出空表oracle 11g r2 新增了一个参数：deferred_segment_creation, 如果这个参数设置为 true，你新建了一个表 T1，并且没有向其中插入数据，那么这个表不会立即分配 extent，也就是不占数据空间，只有当你 insert 数据后才分配空间。这样可以节省少量的空间。所以在导出时，空的表将不导出需要单独处理 1) 设置 deferred_segment_creation 参数为FALSESQL&gt; alter system set deferred_segment_creation=false; 2) 注意并且要重启数据库，让参数生效, 但是这样操作后只会生效于新表 3) 使用 allocate extent 可以为数据库对象分配ExtentSQL&gt; ALLOCATE EXTENT { SIZE integer [K | M] | DATAFILE &#39;filename&#39; | INSTANCE integer 对现有表的处理脚本 createsql.sql：1234567set heading off; set echo off; set feedback off; set termout on; spool C:\allocate.sql; select 'alter table '||table_name||' allocate extent;' from user_tables where num_rows=0; spool off;]]></content>
       <categories>
-        <category>编程语言</category>
-        <category>Struts2</category>
+        <category>存储</category>
+        <category>Oracle</category>
       </categories>
       <tags>
-        <tag>java</tag>
-        <tag>struts</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Struts2 quickstart]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FStruts2%20quickstart%2F</url>
-    <content type="text"><![CDATA[新建 web project .当修改project名时，要同时修改 properties -&gt; myeclipse -&gt; web -&gt; ontext-root.不然发布后的文件名不会修改。 找到 struct2 -all ,打开 app 目录中（此为示例） ，解压任意一个，将 structs.xml 拷入项目。 将 \WEB-INF\lib 下引用的包拷入项目中 修改 web.xml ，将示例中的 web.xml 下的 filter 配置拷入。 12345678 &lt;filter&gt; &lt;filter-name&gt;struts2&lt;/filter-name&gt; &lt;filter-class&gt;org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter&lt;/filter- class&gt; &lt;/filter&gt; &lt;filter-mapping&gt; &lt;filter-name&gt;struts2&lt;/filter-name&gt; &lt;url-pattern&gt;/*&lt;/url-pattern&gt; &lt;/filter-mapping&gt; 修改 structs.xml 配置，以下为最简单的配置，修改完后部署到 tomcat 上，访问 http://localhost:8080/myproject/helloworld 即可。 12345678 &lt;package name="default"namespace="/"extends="struts-default"&gt; &lt;default-action-ref name="index"/&gt; &lt;action name="helloworld"&gt; &lt;result&gt; /index.jsp &lt;/result&gt; &lt;/action&gt; &lt;/package&gt; namespace 表示访问路径解析，如设置/index ,则访问的时候也需要加入/index，如果namespace为空，表示所有包含action的均会被解析，用于处理其他namespace处理不到的请求. 为 structs 包添加源码查看和api右键 structs2-core.jar -&gt; properties -&gt; 1. java source attachment 源码 struts-2.2.3.1-all/struts-2.2.3.1/src/core/src/main/java javadoc location api文档 struts-2.2.3.1-all/struts-2.2.3.1/docs/structs2-core/apidocs 开启 structs 开发模式，这样在修改配置后不需要 redeploy &lt;constant name=”struts.devMode”value=”true”/&gt; 为 structs.xml 添加提示windows -&gt; preferences -&gt; xml catalog -&gt; add -&gt; type 选择 uri , key 填写 “http://struts.apache.org/dtds/struts-2.0.dtd&quot;location 为 struct-core.jar 解压后中的 struct2.dtd]]></content>
-      <categories>
-        <category>编程语言</category>
-        <category>Struts2</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>struts</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Struts2 action 配置]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FStruts2%20action%20%E9%85%8D%E7%BD%AE%2F</url>
-    <content type="text"><![CDATA[一、action中未定义对应的method时，默认调用execute方法。 action 中定义 action1.execute() 方法，structs默认执行此方法（不建议） 1234567&lt;package name="cq.action"namespace="/"extends="struts-default"&gt; &lt;action name="index"class="cq.action.action1"&gt; &lt;result name="success"&gt; /index.jsp &lt;/result&gt; &lt;/action&gt; &lt;/package&gt; action 实现 action 接口，实现 exectue() ， structs 也会执行此方法（不建议) action 继承 actionSupport ，此父类中已经定义了许多方法 （推荐） 二、配置对应的方法 可配置 action 对应的 method 12345&lt;action name="show"class="cq.action.action2"method="show"&gt; &lt;result&gt; /show.jsp &lt;/result&gt; &lt;/action&gt; 三、使用动态调用action （DMI）12345&lt;action name="show"class="cq.action.action2"&gt; &lt;result&gt; /show.jsp &lt;/result&gt; &lt;/action&gt; 调用时使用 basePath/show!method , ‘！’后面对于方法（弊端是无法对应多个result）。使用时需要打开动态调用配置：&lt;constant name=&quot;struts.enable.DynamicMethodInvocation&quot;value=&quot;true&quot;/&gt; 四、通配符12345&lt;action name="*_*"class="cq.action.&#123;1&#125;Action"method="&#123;2&#125;"&gt; &lt;result&gt; /&#123;1&#125;_&#123;2&#125;.jsp &lt;/result&gt; &lt;/action&gt; 使用 通配符，{1} 对应第一个 ，通配符好处是可以减少配置量，但要求命名规范，如上述配置，action的命名为NameAction，方法为Get,则调用的url为 /Name/Get，对应的view 为 Name_Get.jsp。 如何配置出.net MVC 模式的通配符呢？ 五、包含xml，将其它文件包含进 struts.xml 配置中，更加容易分模块管理&lt;include file=&quot;login.xml&quot;/&gt; 六、默认 Action ，当 struts 找不到对应 action 时调用此 action。&lt;defaut-action-ref name=&quot;index&quot;&gt;&lt;/defaut-action-ref&gt;]]></content>
-      <categories>
-        <category>编程语言</category>
-        <category>Struts2</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>struts</tag>
+        <tag>oracle</tag>
       </tags>
   </entry>
   <entry>
@@ -715,15 +727,15 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Nodejs Express]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FNodejs%20Express%2F</url>
-    <content type="text"><![CDATA[1. Express 是什么？Express 是一个Node 最常用的开发包，用于快速构建 Web 项目。 2. 安装 Expressnpm install -g express@3 //全局包 注：无法使用 express 时，将 node_modules 目录加入环境变量 path 中设置永久环境变量即使重启机器也能够使用node命令了。 进入/etc vi profile在最后面追加两行：1234&gt;&gt; export NODE_HOME=/home/node-v0.10.0-linux-x64 &gt;&gt; export PATH=$PATH:$NODE_HOME/bin &gt;&gt; export NODE_PATH=$NODE_HOME/lib/node_modules &gt;&gt; express4.x 以上版本，命令行工具已经分离出来 npm install -g express-generator //安装命令行工具 express project1 &amp;&amp; cd project1 //创建项目 npm install //安装express及依赖 npm start //启动 3. 创建测试项目12CD E:\Nodejs\test Express -e myproject //创建项目 目录结构： Node_modules：存放所有项目依赖项 Package.json：项目依赖项配置及开发者信息 App.js：程序启动文件 Public：静态文件(css、js、img) Routes：路由文件 Views：页面文件(ejs模板) 4. 启动 express testNode app.js 提示 express 未安装==&gt; 将 $home\AppData\npm\node_modules\express 文件拷至项目目录下提示 ejs 未安装==&gt;npm install ejs 5. 修改ejs模板Ejs view 模板默认以 .ejs 结尾，修改默认模板，修改为 html 模板。1234App.js ==&gt; var ejs = require('ejs'); ==&gt; app.engine('.html',ejs__express); ==&gt; app.set('view engine','html'); 6. 安装 supervisor debug环境Supervisor 组件包，可以动态加载修改后的开发程序，无需重新启动 Node。Npm install -g supervisor 7. 简单登录Demo例==&gt; E:\Nodejs\test\myproject]]></content>
+    <title><![CDATA[VS&FTS 常见问题]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FDonet%2FVS%26FTS%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[TFS工作区缓存问题 在本地 C:\Users\Kass\AppData\Local\Microsoft\Team Foundation\4.0\Cache\VersionControl.config 中缓存了本地文件夹到旧服务的一些映射关系,删除 ServerInfo 节点下内容，即可清除TFS工作区缓存。 TFS添加成员 在系统用户、用户组添加成员后，更新组策略 gpupdate /force VS重置配置 devenv.exe /setup /resetuserdata /resetsettings]]></content>
       <categories>
         <category>编程语言</category>
-        <category>Javascript</category>
+        <category>Donet</category>
       </categories>
       <tags>
-        <tag>javascript</tag>
+        <tag>c#</tag>
       </tags>
   </entry>
   <entry>
@@ -743,18 +755,6 @@
     <title><![CDATA[DataTable 常用操作]]></title>
     <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FDonet%2FDataTable%20%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%2F</url>
     <content type="text"><![CDATA[创建DataTable dt = new DataTable() 读取dt.Rows[i][&quot;columnName&quot;].ToString() 创建新行DataRow row = dt.newRow() 创建新列dt.Columns.Add(&quot;columnName&quot;,typeof(string)) 添加新行dt.Rows.Add(row) 复制结构dt.clone() 过滤DataRow [] rows = dt.Select(&quot; xxx=&quot;+xxx) 排序 123DataView dv = dt.DefaultView; dv.Sort = &quot; xxx desc&quot;;DataTable dtSort=dv.ToTable(); 删除 123for(int i=dt.Rows.Count;i&gt;=0;i--) &#123; dt.Rows[i].Delete();&#125; 消除重复 12345Array columnName = dt.AsEnumerable() .Select(row =&gt;row[columnName]) .Distinct() .ToArray(); ArrayList temp = ArrayList.Adapter(columnName);]]></content>
-      <categories>
-        <category>编程语言</category>
-        <category>Donet</category>
-      </categories>
-      <tags>
-        <tag>c#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[VS&FTS 常见问题]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FDonet%2FVS%26FTS%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%2F</url>
-    <content type="text"><![CDATA[TFS工作区缓存问题 在本地 C:\Users\Kass\AppData\Local\Microsoft\Team Foundation\4.0\Cache\VersionControl.config 中缓存了本地文件夹到旧服务的一些映射关系,删除 ServerInfo 节点下内容，即可清除TFS工作区缓存。 TFS添加成员 在系统用户、用户组添加成员后，更新组策略 gpupdate /force VS重置配置 devenv.exe /setup /resetuserdata /resetsettings]]></content>
       <categories>
         <category>编程语言</category>
         <category>Donet</category>
