@@ -341,7 +341,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/存储/Oracle/Oracle 表空间/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/存储/Oracle/Oracle 切换数据模式/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -361,7 +361,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/存储/Oracle/Oracle 表空间/" class="post-title-link" itemprop="url">Oracle 表空间</a>
+                <a href="/wiki-site/wiki/存储/Oracle/Oracle 切换数据模式/" class="post-title-link" itemprop="url">Oracle 切换数据模式</a>
               
             
           </h1>
@@ -403,7 +403,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-02-08 14:44:47" itemprop="dateModified" datetime="2019-02-08T14:44:47+08:00">2019-02-08</time>
+                <time title="修改时间：2019-02-08 14:44:42" itemprop="dateModified" datetime="2019-02-08T14:44:42+08:00">2019-02-08</time>
               
             
           </span>
@@ -465,24 +465,13 @@
         
           
             <p>
+              alter datatbase datafile=F:\phoenix\zycure.ora offline drop ;
               
-查看数据文件位置 
-
-SELECT TABLESPACE_NAME,FILE_ID,BYTES,FILE_NAME FROM DBA_DATA_FILES;
-
-表空间状态 
-
-SELECT TABLESPACE_NAME,STATUS FROM DBA_TABLESPACES;
-
-创建表空间 
-
-
-              ...
             </p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/wiki-site/wiki/存储/Oracle/Oracle 表空间/#more" rel="contents">
+              <a class="btn" href="/wiki-site/wiki/存储/Oracle/Oracle 切换数据模式/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -542,7 +531,7 @@ SELECT TABLESPACE_NAME,STATUS FROM DBA_TABLESPACES;
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/编程语言/Java/ide/Java tomcat/">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/编程语言/Struts2/OGNL 表达式/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joshua Chen">
@@ -562,605 +551,7 @@ SELECT TABLESPACE_NAME,STATUS FROM DBA_TABLESPACES;
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/wiki-site/wiki/编程语言/Java/ide/Java tomcat/" class="post-title-link" itemprop="url">在Idea中配置Tomcat</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2013-12-26 00:00:00" itemprop="dateCreated datePublished" datetime="2013-12-26T00:00:00+08:00">2013-12-26</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-02-21 23:34:44" itemprop="dateModified" datetime="2019-02-21T23:34:44+08:00">2019-02-21</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/Java/ide/" itemprop="url" rel="index"><span itemprop="name">ide</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>
-              1. 安装 Tomcat
-进入官网 http://tomcat.apache.org 下载文件
-解压文件
-运行 bin/startup 即可启动，端口默认为 8080
-
-2. 设置环境变量CATALINA_BASE=D:\Java\apache-tomcat-9.0.2CATALINA_HOME=D
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/wiki-site/wiki/编程语言/Java/ide/Java tomcat/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/编程语言/Java/struts2/Struts2 quickstart/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joshua Chen">
-      <meta itemprop="description" content="大道至简">
-      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Joe's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/wiki-site/wiki/编程语言/Java/struts2/Struts2 quickstart/" class="post-title-link" itemprop="url">Struts2 quickstart</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2013-12-26 00:00:00" itemprop="dateCreated datePublished" datetime="2013-12-26T00:00:00+08:00">2013-12-26</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-02-08 16:01:58" itemprop="dateModified" datetime="2019-02-08T16:01:58+08:00">2019-02-08</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/Java/struts2/" itemprop="url" rel="index"><span itemprop="name">struts2</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>
-              
-新建 web project .当修改project名时，要同时修改 properties -&gt; myeclipse -&gt; web -&gt; ontext-root.不然发布后的文件名不会修改。 
-找到 struct2 -all ,打开 app 目录中（此为示例） ，解压任意一个，将
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/wiki-site/wiki/编程语言/Java/struts2/Struts2 quickstart/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/存储/Oracle/Oracle 冷备启库/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joshua Chen">
-      <meta itemprop="description" content="大道至简">
-      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Joe's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/wiki-site/wiki/存储/Oracle/Oracle 冷备启库/" class="post-title-link" itemprop="url">Oracle 冷备启库</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2013-12-26 00:00:00" itemprop="dateCreated datePublished" datetime="2013-12-26T00:00:00+08:00">2013-12-26</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-02-08 14:44:36" itemprop="dateModified" datetime="2019-02-08T14:44:36+08:00">2019-02-08</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/存储/" itemprop="url" rel="index"><span itemprop="name">存储</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/存储/Oracle/" itemprop="url" rel="index"><span itemprop="name">Oracle</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>
-              1、准备工作
-查看数据版本是否跟库文件相同
-查看数据文件是否都齐全
-查看 init.ora 是否在（参数文件，也可以自己配置）
-
-2、创建文件夹
-在 oracle/admin 目录下创建 实例名文件夹。如：phoenix
-在此文件夹中创建 adump、dpdump、pfile ,将 init.ora
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/wiki-site/wiki/存储/Oracle/Oracle 冷备启库/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/编程语言/Java/struts2/OGNL 表达式/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joshua Chen">
-      <meta itemprop="description" content="大道至简">
-      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Joe's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/wiki-site/wiki/编程语言/Java/struts2/OGNL 表达式/" class="post-title-link" itemprop="url">OGNL 表达式</a>
+                <a href="/wiki-site/wiki/编程语言/Struts2/OGNL 表达式/" class="post-title-link" itemprop="url">OGNL 表达式</a>
               
             
           </h1>
@@ -1226,14 +617,7 @@ SELECT TABLESPACE_NAME,STATUS FROM DBA_TABLESPACES;
                   ，
                 
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/Java/struts2/" itemprop="url" rel="index"><span itemprop="name">struts2</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/Struts2/" itemprop="url" rel="index"><span itemprop="name">Struts2</span></a></span>
 
                 
                 
@@ -1281,7 +665,585 @@ SELECT TABLESPACE_NAME,STATUS FROM DBA_TABLESPACES;
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/wiki-site/wiki/编程语言/Java/struts2/OGNL 表达式/#more" rel="contents">
+              <a class="btn" href="/wiki-site/wiki/编程语言/Struts2/OGNL 表达式/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/编程语言/Struts2/Struts2 action result/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joshua Chen">
+      <meta itemprop="description" content="大道至简">
+      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joe's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/wiki-site/wiki/编程语言/Struts2/Struts2 action result/" class="post-title-link" itemprop="url">Struts2 action result</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2013-12-26 00:00:00" itemprop="dateCreated datePublished" datetime="2013-12-26T00:00:00+08:00">2013-12-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-08 16:01:58" itemprop="dateModified" datetime="2019-02-08T16:01:58+08:00">2019-02-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/Struts2/" itemprop="url" rel="index"><span itemprop="name">Struts2</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              对 action 执行后返回的 result 
+  
+（1） 常用几种 result type
+Dispatcher 拦截器，不配置type时 默认，相当于 transfer 服务器跳转。&lt;result type=&quot;dispatcher&quot;&gt;/index.jsp&lt;
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/编程语言/Struts2/Struts2 action result/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/编程语言/Struts2/Struts2 quickstart/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joshua Chen">
+      <meta itemprop="description" content="大道至简">
+      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joe's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/wiki-site/wiki/编程语言/Struts2/Struts2 quickstart/" class="post-title-link" itemprop="url">Struts2 quickstart</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2013-12-26 00:00:00" itemprop="dateCreated datePublished" datetime="2013-12-26T00:00:00+08:00">2013-12-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-08 16:01:58" itemprop="dateModified" datetime="2019-02-08T16:01:58+08:00">2019-02-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/Struts2/" itemprop="url" rel="index"><span itemprop="name">Struts2</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              
+新建 web project .当修改project名时，要同时修改 properties -&gt; myeclipse -&gt; web -&gt; ontext-root.不然发布后的文件名不会修改。 
+找到 struct2 -all ,打开 app 目录中（此为示例） ，解压任意一个，将
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/编程语言/Struts2/Struts2 quickstart/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://joecnn.github.io/wiki-site/wiki-site/wiki/编程语言/Struts2/Struts2 action 配置/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joshua Chen">
+      <meta itemprop="description" content="大道至简">
+      <meta itemprop="image" content="/wiki-site/images/6308578.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joe's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/wiki-site/wiki/编程语言/Struts2/Struts2 action 配置/" class="post-title-link" itemprop="url">Struts2 action 配置</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2013-12-26 00:00:00" itemprop="dateCreated datePublished" datetime="2013-12-26T00:00:00+08:00">2013-12-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-08 16:01:58" itemprop="dateModified" datetime="2019-02-08T16:01:58+08:00">2019-02-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/wiki-site/categories/编程语言/Struts2/" itemprop="url" rel="index"><span itemprop="name">Struts2</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              一、action中未定义对应的method时，默认调用execute方法。
+action 中定义 action1.execute() 方法，structs默认执行此方法（不建议） 
+
+&lt;package name="cq.action"namespace="/"extends="struts-d
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/wiki-site/wiki/编程语言/Struts2/Struts2 action 配置/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1425,45 +1387,7 @@ SELECT TABLESPACE_NAME,STATUS FROM DBA_TABLESPACES;
                     
                       
                     
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
