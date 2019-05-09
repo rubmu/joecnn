@@ -72,9 +72,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Kafka quickstart]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FKafka%20quickstart%2F</url>
-    <content type="text"><![CDATA[1. Kafka是什么? Apache Kafka® is a distributed streaming platform. Kafka是一个高性能、高吞吐量的分布式消息通信系统。常用于系统的日志收集分析、消息通信、用户行为分析、服务器指标监控、流式处理等。 2. Kafka集群安装 下载kafka二进制安装包, 并解压到 /usr/local目录下。 进入到config目录下修改server.properties配置文件： broker.id 在集群中的唯一编号 listeners 本机ip num.partitions 默认的topic分区数 zookeeper.connect 连接到zookeeper集群，可以设置根路径 ip:port/kafka 进入到bin目录下，以守护进程方式启动。1$ sh kafka-server-start.sh -daemon ../config/server.properties 3. Kafka基本操作 创建一个topic 1$ sh kafka-topics.sh --create --zookeeper 192.168.56.110:2181/kafka --replication-factor 1 --partitions 2 --topic first-topic 列出所有topic 1$ sh kafka-topics.sh --list --zookeeper 192.168.56.110:2181/kafka 生成者发送消息 1$ sh kafka-console-producer.sh --broker-list 192.168.56.110:9092 --topic first-topic 消费者接收消息 1$ sh kafka-console-consumer.sh --bootstrap-server 192.168.56.110:9092 --topic first-topic --from-beginning 查看消息日志 1$ sh kafka-run-class.sh kafka.tools.DumpLogSegments --files /tmp/kafka-logs/first-topic-0/00000000000000000000.log --print-data-log 4. Kafka中的概念Message消息是 Kafka 中最基本的数据单元，由 Key/Value 组成(byte[])，根据Key的哈希值路由到不同区间进行存储。Kafka 会对消息进行压缩和批量发送。 Topictopic 是用于存储消息的逻辑单元，可以看作一个消息集合，每个 topic 可以有多个生产者向其推送消息，也可以有任意多个消费者。 Partition每个 topic 可以划分多个分区，即 Kafka 存储消息的物理单元。Partition 是以文件的形式存储在 kafka-logs 目录下，命名规则是 &lt;topic_name&gt;-&lt;partition_id&gt;。 GroupKafka 中的逻辑分组，同一个组内的一条消息只被一个组员消费，并且共同维护 consumer offset。不同组内的消费者可以同时消费同一条消息，实现 pub/sub 模式。]]></content>
+    <title><![CDATA[Kafka 实现原理]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FKafka%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%2F</url>
+    <content type="text"><![CDATA[1. 消息可靠性机制消息发送可靠性消息发送到 broker 有三种确认方式 request.required.acks ： acks=0 producer 不会等待 broker 发送ack，既可能丢失也可能重发。 acks=1 当 leader 接收到消息后发送ack，可能重发。 acks=-1 当所有 follower 同步成功后发送ack，丢失消息可能性低。 消息存储可靠性每一条消息发送到broker中，会跟据partition规则存储到对应分区，如果规则设置合理可以实现消息均匀分布到不同分区，实现存储的水平扩展。高可靠性的保障来自另一个叫副本(replication)策略，通过设置(–replication-factor)参数设置。 2. 副本存储机制Kafka 在创建 topic 支持设置对应的副本个数 --replication-factor，会生成对应的分区副本数交叉存储在每个节点上。 副本存活条件 副本所有节点必须和zookeeper保持连接状态 副本的最后一条消息的offset和leader的最后一条消息的offset之间差值不能超过设定值replica.lag.max.messages 如何同步消息第一个启动的节点成功在zookeeper中注册信息成为leader对外提供服务，其它replica做为follower要定时同步数据。 HW(high watermark) ：表示所有follower已同步完成的offset位置 LEO(Log End Offset) ：表示leader节点当前消息的offset位置 consumer只能消费所有follower已同步完成的数据，即HW标注的位置。 如何均匀分布Kafka 为了更好的做到负载均衡，会尽量把所有的 partition 均匀分配到整个集群上，分配的算法： 把所有 broker(n) 和 partition(n) 排序 把第i个partition分配到 (i%n) 个broker上 把第 i 个 partition 的第 j 个 replica 分配到 ((i+j) % n) 个broker上 如何处理所有副本不工作情况在ISR中至少有一个follower工作时，Kafka可以确保消息不丢失，但如果某个分区所有备份都宕机了，采取以下措施： 等待ISR中任意一个follower活过来，并且选择它为leader 选择任意一个replica(不一定是ISR中的)活过来作为leader 这两种需要在可用性和一致性当中做一个选择。 3. Kafka 文件存储机制partition每个partition为一个目录，命名规则为 &lt;topic_name&gt;-&lt;partition_no&gt;，存储在 kafka_logs 目录下。 segmentKafka 为防止分区文件过大，又将分区拆分为 segment 存储，一个segment文件.index和.log两部分组成，即索引文件和数据文件。segment 文件由64位long数值命名，文件名即记录的最大 offset 值，查找时先通过定位 offset 落的范围，再进入文件查找。 日志保留Kafka 中无论是否消费了消息(只是移动了 offset)，都会一直保留这些消息，为了避免磁盘爆满，使用相应的保留策略(retention policy)，以实现周期性的删除陈旧消息： 根据消息保留时间，超过指定时间则删除 根据 topic 大小，超过阈值开始删除最旧消息 日志压缩Kafka 会定期将相同 Key 的消息进行合并，只保留最新的 Value 值。 4. Kafka 消息的消费原理旧版本的 Kafka 将 Consumer group 的消费进度记录在 zookeeper 中，导致对 zookeeper 频繁的写入而性能低下。新版本1.0+已修改为记录在对应 topic 目录下，默认创建了50个 __consumer_offset_topic 文件夹，将消费的进度 offset 保存在对应的文件中。 计算 consumer group 的哈希值 1Math.abs("group1".hashCode() % 50) 根据哈希值找到对应的__consumer文件，查看消费进度 1sh kafka-simple-consumer-shell.sh --topic __consumer_offsets --partition 15 -broker-list 192.168.56.110:9092,192.168.56.120:9092,192.168.56.130:9092 --formatter kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter 5. Kafka 的消费者分区分配策略Kafka中存在 consumer group 的概念，也就是group.id一样的consumer属于一个consumer group，组内的所有消费者协调在一起来消费消费订阅主题的所有分区。当然每一个分区只能由同一个消费组内的consumer来消费，那么同一个consumer group里面的consumer是怎么去分配该消费哪个分区里的数据，这个就设计到了kafka内部分区分配策略（Partition Assignment Strategy）。在 Kafka 内部存在两种默认的分区分配策略：Range（默认） 和 RoundRobin。通过：partition.assignment.strategy指定 两种分区策略Range （默认策略）0 ，1 ，2 ，3 ，4，5，6，7，8，9c0 [0,3]c1 [4,6]c2 [7,9]10(partition num)/3(consumer num) =3 RoundRobin （轮询）0 ，1 ，2 ，3 ，4，5，6，7，8，9c0,c1,c2c0 [0,3,6,9]c1 [1,4,7]c2 [2,5,8]kafka 的key 为null， 是随机｛一个Metadata的同步周期内，默认是10分钟｝ 6. 高吞吐量原因 消息顺序存储，通过 offset 偏移量进行顺序读取，减少机械硬盘磁柱移动。 消息批量发送，在异步模式中允许进行批量发送消息，先将消息缓存到内存，再一次请求中批量发送出去，减少磁盘读写和网络传输。 batch.size 每批量发送的数据大小 linger.ms 批量发送的间隔时间 消息的零拷贝，使用 FileChannel.transferTo 直接将消息发送到 socket buffer 中，省略了将消息读取到内存的过程。]]></content>
       <categories>
         <category>分布式</category>
       </categories>
@@ -96,9 +96,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Kafka 实现原理]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FKafka%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%2F</url>
-    <content type="text"><![CDATA[1. 消息可靠性机制消息发送可靠性消息发送到 broker 有三种确认方式 request.required.acks ： acks=0 producer 不会等待 broker 发送ack，既可能丢失也可能重发。 acks=1 当 leader 接收到消息后发送ack，可能重发。 acks=-1 当所有 follower 同步成功后发送ack，丢失消息可能性低。 消息存储可靠性每一条消息发送到broker中，会跟据partition规则存储到对应分区，如果规则设置合理可以实现消息均匀分布到不同分区，实现存储的水平扩展。高可靠性的保障来自另一个叫副本(replication)策略，通过设置(–replication-factor)参数设置。 2. 副本存储机制Kafka 在创建 topic 支持设置对应的副本个数 --replication-factor，会生成对应的分区副本数交叉存储在每个节点上。 副本存活条件 副本所有节点必须和zookeeper保持连接状态 副本的最后一条消息的offset和leader的最后一条消息的offset之间差值不能超过设定值replica.lag.max.messages 如何同步消息第一个启动的节点成功在zookeeper中注册信息成为leader对外提供服务，其它replica做为follower要定时同步数据。 HW(high watermark) ：表示所有follower已同步完成的offset位置 LEO(Log End Offset) ：表示leader节点当前消息的offset位置 consumer只能消费所有follower已同步完成的数据，即HW标注的位置。 如何均匀分布Kafka 为了更好的做到负载均衡，会尽量把所有的 partition 均匀分配到整个集群上，分配的算法： 把所有 broker(n) 和 partition(n) 排序 把第i个partition分配到 (i%n) 个broker上 把第 i 个 partition 的第 j 个 replica 分配到 ((i+j) % n) 个broker上 如何处理所有副本不工作情况在ISR中至少有一个follower工作时，Kafka可以确保消息不丢失，但如果某个分区所有备份都宕机了，采取以下措施： 等待ISR中任意一个follower活过来，并且选择它为leader 选择任意一个replica(不一定是ISR中的)活过来作为leader 这两种需要在可用性和一致性当中做一个选择。 3. Kafka 文件存储机制partition每个partition为一个目录，命名规则为 &lt;topic_name&gt;-&lt;partition_no&gt;，存储在 kafka_logs 目录下。 segmentKafka 为防止分区文件过大，又将分区拆分为 segment 存储，一个segment文件.index和.log两部分组成，即索引文件和数据文件。segment 文件由64位long数值命名，文件名即记录的最大 offset 值，查找时先通过定位 offset 落的范围，再进入文件查找。 日志保留Kafka 中无论是否消费了消息(只是移动了 offset)，都会一直保留这些消息，为了避免磁盘爆满，使用相应的保留策略(retention policy)，以实现周期性的删除陈旧消息： 根据消息保留时间，超过指定时间则删除 根据 topic 大小，超过阈值开始删除最旧消息 日志压缩Kafka 会定期将相同 Key 的消息进行合并，只保留最新的 Value 值。 4. Kafka 消息的消费原理旧版本的 Kafka 将 Consumer group 的消费进度记录在 zookeeper 中，导致对 zookeeper 频繁的写入而性能低下。新版本1.0+已修改为记录在对应 topic 目录下，默认创建了50个 __consumer_offset_topic 文件夹，将消费的进度 offset 保存在对应的文件中。 计算 consumer group 的哈希值 1Math.abs("group1".hashCode() % 50) 根据哈希值找到对应的__consumer文件，查看消费进度 1sh kafka-simple-consumer-shell.sh --topic __consumer_offsets --partition 15 -broker-list 192.168.56.110:9092,192.168.56.120:9092,192.168.56.130:9092 --formatter kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter 5. Kafka 的消费者分区分配策略Kafka中存在 consumer group 的概念，也就是group.id一样的consumer属于一个consumer group，组内的所有消费者协调在一起来消费消费订阅主题的所有分区。当然每一个分区只能由同一个消费组内的consumer来消费，那么同一个consumer group里面的consumer是怎么去分配该消费哪个分区里的数据，这个就设计到了kafka内部分区分配策略（Partition Assignment Strategy）。在 Kafka 内部存在两种默认的分区分配策略：Range（默认） 和 RoundRobin。通过：partition.assignment.strategy指定 两种分区策略Range （默认策略）0 ，1 ，2 ，3 ，4，5，6，7，8，9c0 [0,3]c1 [4,6]c2 [7,9]10(partition num)/3(consumer num) =3 RoundRobin （轮询）0 ，1 ，2 ，3 ，4，5，6，7，8，9c0,c1,c2c0 [0,3,6,9]c1 [1,4,7]c2 [2,5,8]kafka 的key 为null， 是随机｛一个Metadata的同步周期内，默认是10分钟｝ 6. 高吞吐量原因 消息顺序存储，通过 offset 偏移量进行顺序读取，减少机械硬盘磁柱移动。 消息批量发送，在异步模式中允许进行批量发送消息，先将消息缓存到内存，再一次请求中批量发送出去，减少磁盘读写和网络传输。 batch.size 每批量发送的数据大小 linger.ms 批量发送的间隔时间 消息的零拷贝，使用 FileChannel.transferTo 直接将消息发送到 socket buffer 中，省略了将消息读取到内存的过程。]]></content>
+    <title><![CDATA[Kafka quickstart]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%88%86%E5%B8%83%E5%BC%8F%2FKafka%20quickstart%2F</url>
+    <content type="text"><![CDATA[1. Kafka是什么? Apache Kafka® is a distributed streaming platform. Kafka是一个高性能、高吞吐量的分布式消息通信系统。常用于系统的日志收集分析、消息通信、用户行为分析、服务器指标监控、流式处理等。 2. Kafka集群安装 下载kafka二进制安装包, 并解压到 /usr/local目录下。 进入到config目录下修改server.properties配置文件： broker.id 在集群中的唯一编号 listeners 本机ip num.partitions 默认的topic分区数 zookeeper.connect 连接到zookeeper集群，可以设置根路径 ip:port/kafka 进入到bin目录下，以守护进程方式启动。1$ sh kafka-server-start.sh -daemon ../config/server.properties 3. Kafka基本操作 创建一个topic 1$ sh kafka-topics.sh --create --zookeeper 192.168.56.110:2181/kafka --replication-factor 1 --partitions 2 --topic first-topic 列出所有topic 1$ sh kafka-topics.sh --list --zookeeper 192.168.56.110:2181/kafka 生成者发送消息 1$ sh kafka-console-producer.sh --broker-list 192.168.56.110:9092 --topic first-topic 消费者接收消息 1$ sh kafka-console-consumer.sh --bootstrap-server 192.168.56.110:9092 --topic first-topic --from-beginning 查看消息日志 1$ sh kafka-run-class.sh kafka.tools.DumpLogSegments --files /tmp/kafka-logs/first-topic-0/00000000000000000000.log --print-data-log 4. Kafka中的概念Message消息是 Kafka 中最基本的数据单元，由 Key/Value 组成(byte[])，根据Key的哈希值路由到不同区间进行存储。Kafka 会对消息进行压缩和批量发送。 Topictopic 是用于存储消息的逻辑单元，可以看作一个消息集合，每个 topic 可以有多个生产者向其推送消息，也可以有任意多个消费者。 Partition每个 topic 可以划分多个分区，即 Kafka 存储消息的物理单元。Partition 是以文件的形式存储在 kafka-logs 目录下，命名规则是 &lt;topic_name&gt;-&lt;partition_id&gt;。 GroupKafka 中的逻辑分组，同一个组内的一条消息只被一个组员消费，并且共同维护 consumer offset。不同组内的消费者可以同时消费同一条消息，实现 pub/sub 模式。]]></content>
       <categories>
         <category>分布式</category>
       </categories>
@@ -271,9 +271,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Git 介绍]]></title>
-    <url>%2Fwiki-site%2Fwiki%2FDevops%2FGit%2FGit%20%E4%BB%8B%E7%BB%8D%2F</url>
-    <content type="text"><![CDATA[Git是一个分布式的版本控制系统，最初由Linus Torvalds编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在Ruby社区中。 一、Git 特点直接记录快照，而非差异，只关心文件数据的整体是否发生变化，并不保存这些前后变化的差异数据。实际上，Git 更像是把变化的文件作快照后，记录在一个微型的文件系统中。每次提交更新时，它会纵览一遍所有文件的指纹信息并对文件作一快照，然后保存一个指向这次快照 的索引。为提高性能，若文件没有变化，Git 不会再次保存，而只对上次保存的快照作一链接。 近乎所有操作都是本地执行Git 绝大多数操作都只访问本地文件和资源，因为 Git 在本地磁盘上就保存着所有当前项目的历史更新，所以处理起来速度飞快。而到需要上传到远程仓库或获取远程仓库上内容时才需联网。 时刻保持数据完整性：Git 在保存前，所有数据都要进行校验计算，并将结果做为数据的唯一标识。 多数操作仅添加数据：Git 操作大多数仅仅是把数据添加到数据库，一旦提交快照就完全不用担心数据丢失。 二、Git 文件的三种状态 已提交(commited)：表示已被安全的保存到Git仓库中。 已修改(modified)：表示已修改了某个文件，但还未提交保存。 已暂存(staged)：表示已经把已修改的文件放到下次提交时要保存的清单中。 三、Git 工作流程 在工作目录中修改某些文件。 对修改后的文件进行快照，然后保存到暂存区域。 提交更新，将保存在暂存区域的文件快照永久转储到 Git 目录中]]></content>
+    <title><![CDATA[Git 安装]]></title>
+    <url>%2Fwiki-site%2Fwiki%2FDevops%2FGit%2FGit%20%E5%AE%89%E8%A3%85%2F</url>
+    <content type="text"><![CDATA[1. 从源码安装Git的工作需要调用 curl, zlib, openssl, expat, libconv 等库，所以需要先安装这些依赖工具。1$ yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel 之后从Git官方站点下载源码：http://git-scm.com/download 进行编译安装：1234$ tar -zxf git-1.7.2.2.tar.gz $ cd git-1.7.2.2 $ make prefix=/usr/local all $ sudo make prefix=/usr/local install 2. 在 Linux 上安装如果要在 Linux 上安装预编译好的 Git 安装包，使用系统提供的包管理工具即可：12$ yum install git-core $ apt-get install git-core 3. 在 Mac 上安装在 Mac 上安装有两种方式，一种是下载 Git 安装工具，下载地址： http://git-scm.com/download/mac 另一种是通过 MacPorts 安装，用下面的命令安装：1$ sudo port install git-core +svn +doc +bash_completion +gitweb 4. 在 Windows 上安装在 Windows 上安装非常简单，只要下载 Git 安装工具，下载地址： http://git-scm.com/download/win 5. 初始配置一般在新的系统上，首先要配置 Git 的工作环境，Git 提供了 git config 的工具，用于配置和读取工作环境变量，这些变量可以存放在以下三个不同地方： /etc/gitconfig 文件：对系统中所有用户都适用，若使用 git config 时用 –system 选项，读写的就是这个文件。 ~/.gitconfig 文件：用户目录下仅用于用户，若使用 git config 时用 –global 选项，读写的就是这个文件。 当前项目的 git 目录中的配置文件：这里的配置仅仅对当前项目有效。每一个级别的配置都会覆盖上层的相同配置。 第一个要配置的是账户名称和邮箱地址：12$ git config --global user.name "joecnn" $ git config --global user.email "starworking@126.com " 配置文本编辑器：1$ git config --global core.editor vim 配置差异分析工具：1$ git config --global merge.tool vimdiff 6. 查看配置信息1$ git config --list 7. 获取帮助12$ git help $ man git-]]></content>
       <categories>
         <category>Devops</category>
         <category>Git</category>
@@ -295,9 +295,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Git 安装]]></title>
-    <url>%2Fwiki-site%2Fwiki%2FDevops%2FGit%2FGit%20%E5%AE%89%E8%A3%85%2F</url>
-    <content type="text"><![CDATA[1. 从源码安装Git的工作需要调用 curl, zlib, openssl, expat, libconv 等库，所以需要先安装这些依赖工具。1$ yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel 之后从Git官方站点下载源码：http://git-scm.com/download 进行编译安装：1234$ tar -zxf git-1.7.2.2.tar.gz $ cd git-1.7.2.2 $ make prefix=/usr/local all $ sudo make prefix=/usr/local install 2. 在 Linux 上安装如果要在 Linux 上安装预编译好的 Git 安装包，使用系统提供的包管理工具即可：12$ yum install git-core $ apt-get install git-core 3. 在 Mac 上安装在 Mac 上安装有两种方式，一种是下载 Git 安装工具，下载地址： http://git-scm.com/download/mac 另一种是通过 MacPorts 安装，用下面的命令安装：1$ sudo port install git-core +svn +doc +bash_completion +gitweb 4. 在 Windows 上安装在 Windows 上安装非常简单，只要下载 Git 安装工具，下载地址： http://git-scm.com/download/win 5. 初始配置一般在新的系统上，首先要配置 Git 的工作环境，Git 提供了 git config 的工具，用于配置和读取工作环境变量，这些变量可以存放在以下三个不同地方： /etc/gitconfig 文件：对系统中所有用户都适用，若使用 git config 时用 –system 选项，读写的就是这个文件。 ~/.gitconfig 文件：用户目录下仅用于用户，若使用 git config 时用 –global 选项，读写的就是这个文件。 当前项目的 git 目录中的配置文件：这里的配置仅仅对当前项目有效。每一个级别的配置都会覆盖上层的相同配置。 第一个要配置的是账户名称和邮箱地址：12$ git config --global user.name "joecnn" $ git config --global user.email "starworking@126.com " 配置文本编辑器：1$ git config --global core.editor vim 配置差异分析工具：1$ git config --global merge.tool vimdiff 6. 查看配置信息1$ git config --list 7. 获取帮助12$ git help $ man git-]]></content>
+    <title><![CDATA[Git 介绍]]></title>
+    <url>%2Fwiki-site%2Fwiki%2FDevops%2FGit%2FGit%20%E4%BB%8B%E7%BB%8D%2F</url>
+    <content type="text"><![CDATA[Git是一个分布式的版本控制系统，最初由Linus Torvalds编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在Ruby社区中。 一、Git 特点直接记录快照，而非差异，只关心文件数据的整体是否发生变化，并不保存这些前后变化的差异数据。实际上，Git 更像是把变化的文件作快照后，记录在一个微型的文件系统中。每次提交更新时，它会纵览一遍所有文件的指纹信息并对文件作一快照，然后保存一个指向这次快照 的索引。为提高性能，若文件没有变化，Git 不会再次保存，而只对上次保存的快照作一链接。 近乎所有操作都是本地执行Git 绝大多数操作都只访问本地文件和资源，因为 Git 在本地磁盘上就保存着所有当前项目的历史更新，所以处理起来速度飞快。而到需要上传到远程仓库或获取远程仓库上内容时才需联网。 时刻保持数据完整性：Git 在保存前，所有数据都要进行校验计算，并将结果做为数据的唯一标识。 多数操作仅添加数据：Git 操作大多数仅仅是把数据添加到数据库，一旦提交快照就完全不用担心数据丢失。 二、Git 文件的三种状态 已提交(commited)：表示已被安全的保存到Git仓库中。 已修改(modified)：表示已修改了某个文件，但还未提交保存。 已暂存(staged)：表示已经把已修改的文件放到下次提交时要保存的清单中。 三、Git 工作流程 在工作目录中修改某些文件。 对修改后的文件进行快照，然后保存到暂存区域。 提交更新，将保存在暂存区域的文件快照永久转储到 Git 目录中]]></content>
       <categories>
         <category>Devops</category>
         <category>Git</category>
@@ -365,9 +365,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[MySQL 表结构查询]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FMysql%2FMySQL%20%E8%A1%A8%E7%BB%93%E6%9E%84%E6%9F%A5%E8%AF%A2%2F</url>
-    <content type="text"><![CDATA[获取所有表1234SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='&#123;0&#125;' AND (TABLE_TYPE='BASE TABLE' OR TABLE_TYPE='VIEW') 获取表字段名1select * from table_name where 1&lt;&gt;1 获取表主键列12345678910111213SELECT k.TABLE_NAME, k.COLUMN_NAME, k.ORDINAL_POSITION, c.DATA_TYPE, c.COLUMN_TYPE FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS t JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE kUSING (constraint_name,table_schema,table_name) JOIN INFORMATION_SCHEMA.COLUMNS cUSING (column_name,table_schema,table_name) WHERE t.constraint_type='PRIMARY KEY' AND t.table_schema='data_base' AND t.table_name='table_name']]></content>
+    <title><![CDATA[MySQL 树形结构查询]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FMysql%2FMySQL%20%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84%E6%9F%A5%E8%AF%A2%2F</url>
+    <content type="text"><![CDATA[在 中可以使用 ```Hierarchical Queries``` 通过 ```CONNECT BY``` 查询当前节点下所有节点，但在 ```mysql``` 中没有此功能，需要使用函数或者存储过程进行查询。12345678910#### 0. 数据准备&gt; 树形结构，单侧树可以看做链表结构。```sql-- 树形结构create table treeNodes ( id int primary key, nodename varchar(20), pid int ); 1. 函数获得子节点12345678910111213141516171819202122-- 查询树状节点函数CREATE FUNCTION `getChildLst`(rootId INT) RETURNS varchar(1000) BEGIN DECLARE sTemp VARCHAR(1000); DECLARE sTempChd VARCHAR(1000); SET sTemp = '$'; SET sTempChd =cast(rootId as CHAR); WHILE sTempChd is not null DO SET sTemp = concat(sTemp,',',sTempChd); SELECT group_concat(id) INTO sTempChd FROM treeNodes WHERE FIND_IN_SET(pid,sTempChd)&gt;0; END WHILE; RETURN sTemp;END-- 通过节点 rootid 查询该节点下的子节点树： select getChildLst(1);-- 使用 FIND_IN_SET 配合查询节点信息： select * from treeNodes where FIND_IN_SET(id, getChildLst(1)); 优点： 简单、没有递归层数的限制(123456789101112131415161718192021222324252627282930313233343536373839404142- **缺点：** 查询结果 ```returns varchar(1000)``` 受字符长度限制，无法支持无限层树。#### 2. 临时表与递归存储过程```sql-- 用于查询、初始化临时表的存储过程 CREATE PROCEDURE showChildList (IN rootId INT) BEGIN CREATE TEMPORARY TABLE IF NOT EXISTS tmpLst ( `sno` int primary key auto_increment COMMENT &apos;排序&apos;, `id` int COMMENT &apos;节点id&apos;, `depth` int COMMENT &apos;节点深度&apos;); DELETE FROM tmpLst; CALL createChildLst(rootId,0); SELECT tmpLst.*, treeNodes.* FROM tmpLst,treeNodes WHERE tmpLst.id=treeNodes.id ORDER BY tmpLst.sno; END; -- 构建树结构存储过程 CREATE PROCEDURE createChildLst (IN rootId INT,IN nDepth INT) BEGIN DECLARE done INT DEFAULT 0; DECLARE b INT; DECLARE cur1 CURSOR FOR SELECT id FROM treeNodes where pid=rootId; DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1; insert into tmpLst values (null, rootId, nDepth); OPEN cur1; FETCH cur1 INTO b; WHILE done=0 DO CALL createChildLst(b,nDepth+1); FETCH cur1 INTO b; END WHILE; CLOSE cur1; END; -- 调用查询节点 call showChildLst(1); 优点： 可以更灵活处理、显示层数，并可以按照树的遍历顺序显示结构。 缺点： 递归层数限制255 3. 中间表和存储过程 由于 不允许在同一语句中对临时表多次引用，只能用普通表来实现，需要负责清理这个表。 123456789101112131415161718192021222324252627282930313233``` sql-- 构建树结构存储过程DROP PROCEDURE IF EXISTS showTreeNodes;CREATE PROCEDURE showTreeNodes (IN rootid INT)BEGIN DECLARE tLevel int ; DROP TABLE IF EXISTS tmpList; CREATE TABLE tmpList ( `id` int, `level` int, `sort` varchar(8000) ); Set tLevel = 0 ; INSERT into tmpList SELECT id, `tLevel`, ID FROM treeNodes WHERE PID = rootid; WHILE ROW_COUNT()&gt;0 DO SET tLevel = tLevel + 1 ; INSERT into tmpList SELECT A.ID, tLevel ,concat(B.sort, A.ID) FROM treeNodes A, tmpList WHERE A.PID=B.ID AND B.`level` = tLevel - 1 ; END WHILE; END;-- 调用存储过程，生成树结构CALL showTreeNodes(0);-- 查询结果SELECT concat(SPACE(B.`level`*2),&apos;+--&apos;,A.nodename) FROM treeNodes A,tmpList B WHERE A.ID=B.ID ORDER BY B.sort; 优点： 可以显示层数、可以按照树的遍历顺序得到结果、没有递归最大层数限制。 缺点： 由于 msql 中对临时表的限制，只能使用普通表，需要做后续数据清理工作。]]></content>
       <categories>
         <category>存储</category>
         <category>Mysql</category>
@@ -377,9 +377,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[MySQL 树形结构查询]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FMysql%2FMySQL%20%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84%E6%9F%A5%E8%AF%A2%2F</url>
-    <content type="text"><![CDATA[在 中可以使用 ```Hierarchical Queries``` 通过 ```CONNECT BY``` 查询当前节点下所有节点，但在 ```mysql``` 中没有此功能，需要使用函数或者存储过程进行查询。12345678910#### 0. 数据准备&gt; 树形结构，单侧树可以看做链表结构。```sql-- 树形结构create table treeNodes ( id int primary key, nodename varchar(20), pid int ); 1. 函数获得子节点12345678910111213141516171819202122-- 查询树状节点函数CREATE FUNCTION `getChildLst`(rootId INT) RETURNS varchar(1000) BEGIN DECLARE sTemp VARCHAR(1000); DECLARE sTempChd VARCHAR(1000); SET sTemp = '$'; SET sTempChd =cast(rootId as CHAR); WHILE sTempChd is not null DO SET sTemp = concat(sTemp,',',sTempChd); SELECT group_concat(id) INTO sTempChd FROM treeNodes WHERE FIND_IN_SET(pid,sTempChd)&gt;0; END WHILE; RETURN sTemp;END-- 通过节点 rootid 查询该节点下的子节点树： select getChildLst(1);-- 使用 FIND_IN_SET 配合查询节点信息： select * from treeNodes where FIND_IN_SET(id, getChildLst(1)); 优点： 简单、没有递归层数的限制(123456789101112131415161718192021222324252627282930313233343536373839404142- **缺点：** 查询结果 ```returns varchar(1000)``` 受字符长度限制，无法支持无限层树。#### 2. 临时表与递归存储过程```sql-- 用于查询、初始化临时表的存储过程 CREATE PROCEDURE showChildList (IN rootId INT) BEGIN CREATE TEMPORARY TABLE IF NOT EXISTS tmpLst ( `sno` int primary key auto_increment COMMENT &apos;排序&apos;, `id` int COMMENT &apos;节点id&apos;, `depth` int COMMENT &apos;节点深度&apos;); DELETE FROM tmpLst; CALL createChildLst(rootId,0); SELECT tmpLst.*, treeNodes.* FROM tmpLst,treeNodes WHERE tmpLst.id=treeNodes.id ORDER BY tmpLst.sno; END; -- 构建树结构存储过程 CREATE PROCEDURE createChildLst (IN rootId INT,IN nDepth INT) BEGIN DECLARE done INT DEFAULT 0; DECLARE b INT; DECLARE cur1 CURSOR FOR SELECT id FROM treeNodes where pid=rootId; DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1; insert into tmpLst values (null, rootId, nDepth); OPEN cur1; FETCH cur1 INTO b; WHILE done=0 DO CALL createChildLst(b,nDepth+1); FETCH cur1 INTO b; END WHILE; CLOSE cur1; END; -- 调用查询节点 call showChildLst(1); 优点： 可以更灵活处理、显示层数，并可以按照树的遍历顺序显示结构。 缺点： 递归层数限制255 3. 中间表和存储过程 由于 不允许在同一语句中对临时表多次引用，只能用普通表来实现，需要负责清理这个表。 123456789101112131415161718192021222324252627282930313233``` sql-- 构建树结构存储过程DROP PROCEDURE IF EXISTS showTreeNodes;CREATE PROCEDURE showTreeNodes (IN rootid INT)BEGIN DECLARE tLevel int ; DROP TABLE IF EXISTS tmpList; CREATE TABLE tmpList ( `id` int, `level` int, `sort` varchar(8000) ); Set tLevel = 0 ; INSERT into tmpList SELECT id, `tLevel`, ID FROM treeNodes WHERE PID = rootid; WHILE ROW_COUNT()&gt;0 DO SET tLevel = tLevel + 1 ; INSERT into tmpList SELECT A.ID, tLevel ,concat(B.sort, A.ID) FROM treeNodes A, tmpList WHERE A.PID=B.ID AND B.`level` = tLevel - 1 ; END WHILE; END;-- 调用存储过程，生成树结构CALL showTreeNodes(0);-- 查询结果SELECT concat(SPACE(B.`level`*2),&apos;+--&apos;,A.nodename) FROM treeNodes A,tmpList B WHERE A.ID=B.ID ORDER BY B.sort; 优点： 可以显示层数、可以按照树的遍历顺序得到结果、没有递归最大层数限制。 缺点： 由于 msql 中对临时表的限制，只能使用普通表，需要做后续数据清理工作。]]></content>
+    <title><![CDATA[MySQL 表结构查询]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FMysql%2FMySQL%20%E8%A1%A8%E7%BB%93%E6%9E%84%E6%9F%A5%E8%AF%A2%2F</url>
+    <content type="text"><![CDATA[获取所有表1234SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='&#123;0&#125;' AND (TABLE_TYPE='BASE TABLE' OR TABLE_TYPE='VIEW') 获取表字段名1select * from table_name where 1&lt;&gt;1 获取表主键列12345678910111213SELECT k.TABLE_NAME, k.COLUMN_NAME, k.ORDINAL_POSITION, c.DATA_TYPE, c.COLUMN_TYPE FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS t JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE kUSING (constraint_name,table_schema,table_name) JOIN INFORMATION_SCHEMA.COLUMNS cUSING (column_name,table_schema,table_name) WHERE t.constraint_type='PRIMARY KEY' AND t.table_schema='data_base' AND t.table_name='table_name']]></content>
       <categories>
         <category>存储</category>
         <category>Mysql</category>
@@ -503,9 +503,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Gruntjs uglify 代码压缩]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FGruntjs%20uglify%20%E4%BB%A3%E7%A0%81%E5%8E%8B%E7%BC%A9%2F</url>
-    <content type="text"><![CDATA[uglify是一个文件压缩插件，项目地址：https://github.com/gruntjs/grunt-contrib-uglify本文将以一个DEMO来展示如何使用uglify插件。 现在直接通过Gruntfile.js来看看这四个任务的配置： 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950module.exports = function(grunt)&#123; // 项目配置 grunt.initConfig(&#123; pkg: grunt.file.readJSON('package.json'), uglify: &#123; options: &#123; banner: '/*! &lt;%= pkg.name %&gt; &lt;%= grunt.template.today("yyyy-mm-dd") %&gt; */\n'//添加banner &#125;, builda: &#123;//任务一：压缩a.js，不混淆变量名，保留注释，添加banner和footer options: &#123; mangle: false, //不混淆变量名 preserveComments: 'all', //不删除注释，还可以为 false（删除全部注释），some（保留@preserve @license @cc_on等注释） footer:'\n/*! &lt;%= pkg.name %&gt; 最后修改于： &lt;%= grunt.template.today("yyyy-mm-dd") %&gt; */'//添加footer &#125;, files: &#123; 'output/js/a.min.js': ['js/a.js'] &#125; &#125;, buildb:&#123;//任务二：压缩b.js，输出压缩信息 options: &#123; report: "min"//输出压缩率，可选的值有 false(不输出信息)，gzip &#125;, files: &#123; 'output/js/b.min.js': ['js/main/b.js'] &#125; &#125;, buildall: &#123;//任务三：按原文件结构压缩js文件夹内所有JS文件 files: [&#123; expand:true, cwd:'js',//js目录下 src:'**/*.js',//所有js文件 dest: 'output/js'//输出到此目录下 &#125;] &#125;, release: &#123;//任务四：合并压缩a.js和b.js files: &#123; 'output/js/index.min.js': ['js/a.js', 'js/main/b.js'] &#125; &#125; &#125; &#125;); // 加载提供"uglify"任务的插件 grunt.loadNpmTasks('grunt-contrib-uglify'); // 默认任务 grunt.registerTask('default', ['uglify:release']); grunt.registerTask('mina', ['uglify:builda']); grunt.registerTask('minb', ['uglify:buildb']); grunt.registerTask('minall', ['uglify:buildall']); &#125;]]></content>
+    <title><![CDATA[Gruntjs JSHint 代码校验]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FGruntjs%20JSHint%20%E4%BB%A3%E7%A0%81%E6%A0%A1%E9%AA%8C%2F</url>
+    <content type="text"><![CDATA[JSHint跟JSLint非常像，都是Javascript代码验证工具，这种工具可以检查你的代码并提供相关的代码改进意见。对于你的代码，你可以选择多种方式来进行检验： 第一种方法进入JSHint首页，粘贴你的代码，选择相关的选项，然后点击右下角的Lint按钮就可以了。 第二种方法使用Grunt整合的JSHint, 在项目根目录中建立一个grunt.js文件： 12345678910111213141516171819202122232425262728293031323334module.exports = function (grunt) &#123; 'use strict'; // Project configuration. grunt.initConfig(&#123; pkg: '&lt;json:package.json&gt;', test: &#123; files: ['test/**/*.js'] &#125;, lint: &#123; files: ['grunt.js', 'lib/**/*.js', 'test/**/*.js'] &#125;, watch: &#123; files: '&lt;config:lint.files&gt;', tasks: 'default' &#125;, jshint: &#123; options: &#123; curly: true, eqeqeq: true, newcap: true, noarg: true, sub: true, undef: true, boss: true, node: true &#125;, globals: &#123; exports: true &#125; &#125; &#125;); // Default task. grunt.registerTask('default', 'lint test');&#125;; 这里的lint.files就是要验证的所有文件。而下面的jshint.option是jshint的具体配置信息。简单介绍一下： curly: 大括号包裹，即不能使用这种代码： 12while (notEnd()) doSomething(); eqeqeq: 对于简单类型，使用===和!==，而不是==和!= newcap: 对于首字母大写的函数（声明的类），强制使用new noarg: 禁用arguments.caller和arguments.callee sub: 对于属性使用aaa.bbb而不是aaa[‘bbb’] undef: 查找所有未定义变量 boss: 查找类似与if(a = 0)这样的代码 node: 指定运行环境为node.js 第三种方法直接使用API： var result = JSHINT(source, options, globals);。其中source为待检查的脚本字符串（或者字符串数组）。options同第二种方法。globals是指定全局变量。如果验证通过，返回true，否则返回false。如果返回false，那么可以使用JSHINT.errors来查看错误。 参考资料：[1] 官方白皮书：http://www.jshint.com/docs/]]></content>
       <categories>
         <category>编程语言</category>
         <category>Javascript</category>
@@ -515,9 +515,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Gruntjs JSHint 代码校验]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FGruntjs%20JSHint%20%E4%BB%A3%E7%A0%81%E6%A0%A1%E9%AA%8C%2F</url>
-    <content type="text"><![CDATA[JSHint跟JSLint非常像，都是Javascript代码验证工具，这种工具可以检查你的代码并提供相关的代码改进意见。对于你的代码，你可以选择多种方式来进行检验： 第一种方法进入JSHint首页，粘贴你的代码，选择相关的选项，然后点击右下角的Lint按钮就可以了。 第二种方法使用Grunt整合的JSHint, 在项目根目录中建立一个grunt.js文件： 12345678910111213141516171819202122232425262728293031323334module.exports = function (grunt) &#123; 'use strict'; // Project configuration. grunt.initConfig(&#123; pkg: '&lt;json:package.json&gt;', test: &#123; files: ['test/**/*.js'] &#125;, lint: &#123; files: ['grunt.js', 'lib/**/*.js', 'test/**/*.js'] &#125;, watch: &#123; files: '&lt;config:lint.files&gt;', tasks: 'default' &#125;, jshint: &#123; options: &#123; curly: true, eqeqeq: true, newcap: true, noarg: true, sub: true, undef: true, boss: true, node: true &#125;, globals: &#123; exports: true &#125; &#125; &#125;); // Default task. grunt.registerTask('default', 'lint test');&#125;; 这里的lint.files就是要验证的所有文件。而下面的jshint.option是jshint的具体配置信息。简单介绍一下： curly: 大括号包裹，即不能使用这种代码： 12while (notEnd()) doSomething(); eqeqeq: 对于简单类型，使用===和!==，而不是==和!= newcap: 对于首字母大写的函数（声明的类），强制使用new noarg: 禁用arguments.caller和arguments.callee sub: 对于属性使用aaa.bbb而不是aaa[‘bbb’] undef: 查找所有未定义变量 boss: 查找类似与if(a = 0)这样的代码 node: 指定运行环境为node.js 第三种方法直接使用API： var result = JSHINT(source, options, globals);。其中source为待检查的脚本字符串（或者字符串数组）。options同第二种方法。globals是指定全局变量。如果验证通过，返回true，否则返回false。如果返回false，那么可以使用JSHINT.errors来查看错误。 参考资料：[1] 官方白皮书：http://www.jshint.com/docs/]]></content>
+    <title><![CDATA[Gruntjs uglify 代码压缩]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FGruntjs%20uglify%20%E4%BB%A3%E7%A0%81%E5%8E%8B%E7%BC%A9%2F</url>
+    <content type="text"><![CDATA[uglify是一个文件压缩插件，项目地址：https://github.com/gruntjs/grunt-contrib-uglify本文将以一个DEMO来展示如何使用uglify插件。 现在直接通过Gruntfile.js来看看这四个任务的配置： 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950module.exports = function(grunt)&#123; // 项目配置 grunt.initConfig(&#123; pkg: grunt.file.readJSON('package.json'), uglify: &#123; options: &#123; banner: '/*! &lt;%= pkg.name %&gt; &lt;%= grunt.template.today("yyyy-mm-dd") %&gt; */\n'//添加banner &#125;, builda: &#123;//任务一：压缩a.js，不混淆变量名，保留注释，添加banner和footer options: &#123; mangle: false, //不混淆变量名 preserveComments: 'all', //不删除注释，还可以为 false（删除全部注释），some（保留@preserve @license @cc_on等注释） footer:'\n/*! &lt;%= pkg.name %&gt; 最后修改于： &lt;%= grunt.template.today("yyyy-mm-dd") %&gt; */'//添加footer &#125;, files: &#123; 'output/js/a.min.js': ['js/a.js'] &#125; &#125;, buildb:&#123;//任务二：压缩b.js，输出压缩信息 options: &#123; report: "min"//输出压缩率，可选的值有 false(不输出信息)，gzip &#125;, files: &#123; 'output/js/b.min.js': ['js/main/b.js'] &#125; &#125;, buildall: &#123;//任务三：按原文件结构压缩js文件夹内所有JS文件 files: [&#123; expand:true, cwd:'js',//js目录下 src:'**/*.js',//所有js文件 dest: 'output/js'//输出到此目录下 &#125;] &#125;, release: &#123;//任务四：合并压缩a.js和b.js files: &#123; 'output/js/index.min.js': ['js/a.js', 'js/main/b.js'] &#125; &#125; &#125; &#125;); // 加载提供"uglify"任务的插件 grunt.loadNpmTasks('grunt-contrib-uglify'); // 默认任务 grunt.registerTask('default', ['uglify:release']); grunt.registerTask('mina', ['uglify:builda']); grunt.registerTask('minb', ['uglify:buildb']); grunt.registerTask('minall', ['uglify:buildall']); &#125;]]></content>
       <categories>
         <category>编程语言</category>
         <category>Javascript</category>
@@ -540,108 +540,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Oracle 冷备启库]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FOracle%2FOracle%20%E5%86%B7%E5%A4%87%E5%90%AF%E5%BA%93%2F</url>
-    <content type="text"><![CDATA[1、准备工作 查看数据版本是否跟库文件相同 查看数据文件是否都齐全 查看 init.ora 是否在（参数文件，也可以自己配置） 2、创建文件夹 在 oracle/admin 目录下创建 实例名文件夹。如：phoenix 在此文件夹中创建 adump、dpdump、pfile ,将 init.ora 放置在 pfile 文件夹中 在 fast_recovery_area 文件夹中创建实例名文件夹4. 在 oradata 文件夹中创建实例名文件夹 3、创建空实例1$ oradim -new -sid phoenix -startmode auto -pfile init.ora 4、创建密码文件1$ orapwd file=D:\oracle\product\11.2.0\dbhome_1\database\pwdphoenix.ora password=oracle; 5、进入创建好的实例12$ sqlplus /nolog $ conn zysys/zy2009phoenix as sysdba 6、生成spfile文件1$ create spfile from pfile='D:\Oracle\admin\phoenix\pfile\init.ora'; 7、重建控制文件123456789101112131415161718$ CREATE CONTROLFILE REUSE SET DATABASE "phoenix" RESETLOGS NOARCHIVELOG MAXLOGFILES 16 MAXLOGMEMBERS 3 MAXDATAFILES 100 MAXINSTANCES 8 MAXLOGHISTORY 292 LOGFILE GROUP 1 'E:\Work\Data\Orcl\REDO01.LOG' SIZE 50M BLOCKSIZE 512, GROUP 2 'E:\Work\Data\Orcl\REDO02.LOG' SIZE 50M BLOCKSIZE 512, GROUP 3 'E:\Work\Data\Orcl\REDO03.LOG' SIZE 50M BLOCKSIZE 512 -- STANDBY LOGFILE DATAFILE 'E:\Work\Data\Orcl\SYSTEM01.DBF', 'E:\Work\Data\Orcl\SYSAUX01.DBF', 'E:\Work\Data\Orcl\UNDOTBS01.DBF', 'E:\Work\Data\Orcl\USERS01.DBF', ………………数据文件位置……………… CHARACTER SET ZHS16GBK; 8、启动数据库 alter database open; // alter database open resetlogs upgrade 小版本不同需要升级 若是选用noresetlogs选项, 若无法打开数据库, 则尝试执行recover database; 若是在线热备数据库文件,则还要把热备时刻的归档日志拷过来,恢复时用下列语法recover database using backup controlfile until cancel;写入日志文件 d：/xxx.log 创建临时表空间alter tablespace temp add tempfile &#39;C:\Oracle\database\phoenix\temp01.ora&#39; size 50M reuse autoextend on next 50M maxsize 500M; 小版本不同需要执行升级脚本oracle_home/rdbms/admin/catupgrd.sql； 重启数据库]]></content>
-      <categories>
-        <category>存储</category>
-        <category>Oracle</category>
-      </categories>
-      <tags>
-        <tag>oracle</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Nodejs Express]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FNodejs%20Express%2F</url>
-    <content type="text"><![CDATA[1. Express 是什么？Express 是一个Node 最常用的开发包，用于快速构建 Web 项目。 2. 安装 Expressnpm install -g express@3 //全局包 注：无法使用 express 时，将 node_modules 目录加入环境变量 path 中设置永久环境变量即使重启机器也能够使用node命令了。 进入/etc vi profile在最后面追加两行：1234&gt;&gt; export NODE_HOME=/home/node-v0.10.0-linux-x64 &gt;&gt; export PATH=$PATH:$NODE_HOME/bin &gt;&gt; export NODE_PATH=$NODE_HOME/lib/node_modules &gt;&gt; express4.x 以上版本，命令行工具已经分离出来 npm install -g express-generator //安装命令行工具 express project1 &amp;&amp; cd project1 //创建项目 npm install //安装express及依赖 npm start //启动 3. 创建测试项目12CD E:\Nodejs\test Express -e myproject //创建项目 目录结构： Node_modules：存放所有项目依赖项 Package.json：项目依赖项配置及开发者信息 App.js：程序启动文件 Public：静态文件(css、js、img) Routes：路由文件 Views：页面文件(ejs模板) 4. 启动 express testNode app.js 提示 express 未安装==&gt; 将 $home\AppData\npm\node_modules\express 文件拷至项目目录下提示 ejs 未安装==&gt;npm install ejs 5. 修改ejs模板Ejs view 模板默认以 .ejs 结尾，修改默认模板，修改为 html 模板。1234App.js ==&gt; var ejs = require('ejs'); ==&gt; app.engine('.html',ejs__express); ==&gt; app.set('view engine','html'); 6. 安装 supervisor debug环境Supervisor 组件包，可以动态加载修改后的开发程序，无需重新启动 Node。Npm install -g supervisor 7. 简单登录Demo例==&gt; E:\Nodejs\test\myproject]]></content>
-      <categories>
-        <category>编程语言</category>
-        <category>Javascript</category>
-      </categories>
-      <tags>
-        <tag>javascript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Nodejs MongoDB]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FNodejs%20MongoDB%2F</url>
-    <content type="text"><![CDATA[1. MongoDB 是什么？MongoDB 是一个基于分布式文件存储的中小型数据库，与 Oracle 完全不一样，采用的是文档存储形式(NoSQL). 2. 搭建 MongoDB 环境 将下载的 mongodb.rar 解压。 在环境变量中配置 $mongodb_home/bin 在同一盘符下创建 E: data/db Cmd ==&gt; mongod //启动 mongodb 服务 12# 进程启动成功提示信息Tue Feb 11 23:30:11.512 [initandlisten] MongoDB starting : pid=2564 port=27017 dbpath=\data\db\ 64-bit host=PC 3. 使用 MongoDB 保持 mongod 服务，在另一 cmd 中使用 mongo 进入 创建数据库：use k9 创建文档 users：因为要使用 mongoose 组件包，所以文档后到要加一个 ‘s’ 12db.users.insert(&#123;uname:'admin',pwd:'asdf'&#125;); //插入后即创建文档 db.users.find(); //查询全部 4. 使用 MongooseMongoose 是在 Nodejs 异步环境下对 mongodb 进行便捷操作的对象模型工具。 4.1 安装 Mongoose 组件12npm install -g express-mongoosenpm install -g mongoose 4.2 定义 VO 类12345678/* MongoDB models */var mongoose = require('mongoose');var schema = mongoose.Schema; //模式var UserSchema = new schema(&#123; uname:String, pwd:String&#125;);exports.User = mongoose.model('User',UserSchema); //与 Users 表关联 4.3 在程序中使用 引用组件：var mongoose = require(&#39;mongoose&#39;); 加入VO组件：var models = require(&#39;./models&#39;); 使用User模型：var User = models.User; 连接数据库：mongoose.connect(&#39;mongodb://localhost/k9&#39;); 修改登录验证： 1234567891011exports.doLogin = function(req, res)&#123; var u_u = &#123;uname:req.body.uname, pwd:req.body.pwd&#125;; User.count(u_u,function(err,doc)&#123; //根据u_u查询结果 if(doc==0)&#123; res.redirect('/login'); &#125;else&#123; res.redirect('/welcome?uname='+u_u.uname); &#125; &#125;);&#125;; 注意：提示 mongoose 未安装，则需要将 mongoose，express-mongoose 拷至当前项目下例子：E:\Nodejs\test\myproject]]></content>
-      <categories>
-        <category>编程语言</category>
-        <category>Javascript</category>
-      </categories>
-      <tags>
-        <tag>javascript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Nodejs quickstart]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FNodejs%20quickstart%2F</url>
-    <content type="text"><![CDATA[1. Nodejs 是什么？ Node.js® is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。 2. 安装 Nodejs Nodejs.org 上下载 source code 进入目录, 解压来 source Tar -zxvf nodejs-v0.10.tar.gz 进入目录, 检查安装环境 ./configure 可以使用 ./configrue --prefix /nodejs 指定安装目录 , 提示 gcc 未安装, 使用 yum -y install gcc+ gcc-c++ 安装gcc 编译安装 make &amp;&amp; make install 创建软连接 sudo ln -s /nodejs/bin/node /usr/local/bin/node 在任意目录使用 3. 卸载 Nodejs 卸载npm Npm uninstall npm 移除文件 rm -rf bin/node bin/node-waf include/node lib/node lib/pkgconfig/nodejs.pc share/man/man1/node.1]]></content>
-      <categories>
-        <category>编程语言</category>
-        <category>Javascript</category>
-      </categories>
-      <tags>
-        <tag>javascript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Struts2 action result]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FStruts2%20action%20result%2F</url>
-    <content type="text"><![CDATA[对 action 执行后返回的 result （1） 常用几种 result type Dispatcher 拦截器，不配置type时 默认，相当于 transfer 服务器跳转。&lt;result type=&quot;dispatcher&quot;&gt;/index.jsp&lt;/result&gt; Redirect 客户端跳转，相当于再次请求另外一个页面，在url中显示的是 xxx.jsp&lt;result type=&quot;redirect&quot; name=&quot;xxx&quot;&gt;index.jsp&lt;/result&gt; Chain 跳转至 action，配置对应的 package 名字 和 action 名字 。 1234&lt;result type="chain" name="ccc"&gt; &lt;param name="actionName"&gt;action&lt;/param&gt; &lt;param name="namespace"&gt;/&lt;/param&gt;&lt;/result&gt; RedirectAction ，客户端跳转至action。跳转后 url 显示的action 名字。 1234&lt;result type="redirectAction" name="r2"&gt; &lt;param name="actionName"&gt;action&lt;/param&gt; &lt;param name="namespace"&gt;/&lt;/param&gt; &lt;/result&gt; Stream 文字流，可用于Ajax返回纯文本，或者二进制流（下载文件）。 1234&lt;result type="stream" name="sss"&gt; &lt;param name="contentType"&gt;text/html&lt;/param&gt; &lt;param name="inputName"&gt;inputStream&lt;/param&gt; &lt;/result&gt; 在action中定义 inputStream , InputStream inputStream = new StringBufferInputStream(&quot;json&quot;); 向页面直接输出 string。 （2）全局 result ：global-results 定义全局 result ，在此 package 中的 action 对此 result 均可访问。常用于错误、异常处理 123&lt;global-results&gt; &lt;result name="error"&gt;/Error.jsp&lt;/result&gt; &lt;/global-results&gt; 另外 package 要使用此全局 result ，需要继承自此 package &lt;package name=&quot;module1&quot; namespace=&quot;/&quot; extends=&quot;action&quot;&gt; （3） 动态 result result 取自 valuestack 值栈中&lt;result name=&quot;xxx&quot;&gt;${result}&lt;/result&gt; 动态设置跳转页面参数，仅在 redirect 中使用，因为在 dispatcher、chain 为同个 request ，共享同一个valueStack。&lt;result name=&quot;rrr&quot; type=&quot;redirect&quot;&gt;/index.jsp?result=${result}&lt;/result&gt;改参数被塞入 stack context 中的 parameters &lt;s:property value=&quot;#parameters.result&quot;/&gt;]]></content>
-      <categories>
-        <category>编程语言</category>
-        <category>Struts2</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>struts</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[OGNL 表达式]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FOGNL%20%E8%A1%A8%E8%BE%BE%E5%BC%8F%2F</url>
-    <content type="text"><![CDATA[ONGL 是用于将 ValueStack（值栈，即整个 action） 和 StackContext（上下文 context） 内容取出的语法。 访问值栈中属性 &lt;s:property value=&quot;userName&quot;/&gt; 访问值栈中的类，类属性，聚合类 123&lt;s:property value="user"/&gt;&lt;s:property value="user.userName"/&gt;&lt;s:property value="cat.frien"/&gt; 访问方法 123&lt;s:property value="userName.length()"/&gt; //普通方法&lt;s:property value="cat.frien.getName()"/&gt; //类的方法&lt;s:property value="show()"/&gt; //Action 中的方法 访问静态 123&lt;s:property value="@service.staticSerivce@show()"/&gt; //静态方法&lt;s:property value="@service.staticSerivce@STR"/&gt; //静态属性&lt;s:property value="@@max(3,10)"/&gt; //静态Math方法 访问集合 123456789101112&lt;s:property value="users"/&gt; //访问 list=new ArrayList&lt;T&gt;()&lt;s:property value="users[0]"/&gt; //访问 list 单个元素&lt;s:property value="users.&#123;userName&#125;"/&gt; //List 属性集合&lt;s:property value="users.&#123;userName&#125;[0]"/&gt; || &lt;s:property value="users[0].userName"/&gt; // List属性-------------------------------------------------------------------------------------------------&lt;s:property value="cats"/&gt; // set=new HashSet() ，Set是无序的，所以无法访问单个元素-------------------------------------------------------------------------------------------------&lt;s:property value="dogs"/&gt; // map=new HashMap&lt;string, Object&gt;()&lt;s:property value="dogs.dog1"/&gt; || &lt;s:property value="dogs['dog1']"/&gt; //访问 Map 单个元素&lt;s:property value="dogs.keys"/&gt; // Map的所有 Key&lt;s:property value="dogs.values"/&gt; // Map 所有 value&lt;s:property value="dogs.size()"/&gt; // 容器大小 投影，条件过滤集合 &lt;s:property value=&quot;users.{?#this.userName!=null}.{name}&quot;/&gt; // ?# 表达式，选择符合条件的内容，^# 第一个满足的，$#最后一个满足的 stack context 中的内容使用 #xx &lt;s:property value=&quot;#session.asdf&quot;/&gt;]]></content>
-      <categories>
-        <category>编程语言</category>
-        <category>Struts2</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[在Idea中配置Tomcat]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJava%2FJava%20tomcat%2F</url>
-    <content type="text"><![CDATA[1. 安装 Tomcat 进入官网 http://tomcat.apache.org 下载文件 解压文件 运行 bin/startup 即可启动，端口默认为 8080 2. 设置环境变量1234CATALINA_BASE=D:\Java\apache-tomcat-9.0.2CATALINA_HOME=D:\Java\apache-tomcat-9.0.2ClassPath=;%CATALINA_HOME%\lib\servlet-api.jar;Path=;%CATALINA_HOME%\bin;%CATALINA_HOME%\lib; 验证：在命令行中运行 startup 3. 在 Idea 中配置 Tomcat 进入 Run - Edit Configurations, 添加一个 Local Tomcat Server 在 Configure 中定位到本地的 Tomcat 添加 Deployment 项目，定位到打包好的 war 包 启动配置好的 Tomcat Server]]></content>
-      <categories>
-        <category>编程语言</category>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>ide</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Struts2 action 配置]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FStruts2%20action%20%E9%85%8D%E7%BD%AE%2F</url>
-    <content type="text"><![CDATA[一、action中未定义对应的method时，默认调用execute方法。 action 中定义 action1.execute() 方法，structs默认执行此方法（不建议） 1234567&lt;package name="cq.action"namespace="/"extends="struts-default"&gt; &lt;action name="index"class="cq.action.action1"&gt; &lt;result name="success"&gt; /index.jsp &lt;/result&gt; &lt;/action&gt; &lt;/package&gt; action 实现 action 接口，实现 exectue() ， structs 也会执行此方法（不建议) action 继承 actionSupport ，此父类中已经定义了许多方法 （推荐） 二、配置对应的方法 可配置 action 对应的 method 12345&lt;action name="show"class="cq.action.action2"method="show"&gt; &lt;result&gt; /show.jsp &lt;/result&gt; &lt;/action&gt; 三、使用动态调用action （DMI）12345&lt;action name="show"class="cq.action.action2"&gt; &lt;result&gt; /show.jsp &lt;/result&gt; &lt;/action&gt; 调用时使用 basePath/show!method , ‘！’后面对于方法（弊端是无法对应多个result）。使用时需要打开动态调用配置：&lt;constant name=&quot;struts.enable.DynamicMethodInvocation&quot;value=&quot;true&quot;/&gt; 四、通配符12345&lt;action name="*_*"class="cq.action.&#123;1&#125;Action"method="&#123;2&#125;"&gt; &lt;result&gt; /&#123;1&#125;_&#123;2&#125;.jsp &lt;/result&gt; &lt;/action&gt; 使用 通配符，{1} 对应第一个 ，通配符好处是可以减少配置量，但要求命名规范，如上述配置，action的命名为NameAction，方法为Get,则调用的url为 /Name/Get，对应的view 为 Name_Get.jsp。 如何配置出.net MVC 模式的通配符呢？ 五、包含xml，将其它文件包含进 struts.xml 配置中，更加容易分模块管理&lt;include file=&quot;login.xml&quot;/&gt; 六、默认 Action ，当 struts 找不到对应 action 时调用此 action。&lt;defaut-action-ref name=&quot;index&quot;&gt;&lt;/defaut-action-ref&gt;]]></content>
-      <categories>
-        <category>编程语言</category>
-        <category>Struts2</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>struts</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Struts2 quickstart]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FStruts2%20quickstart%2F</url>
-    <content type="text"><![CDATA[新建 web project .当修改project名时，要同时修改 properties -&gt; myeclipse -&gt; web -&gt; ontext-root.不然发布后的文件名不会修改。 找到 struct2 -all ,打开 app 目录中（此为示例） ，解压任意一个，将 structs.xml 拷入项目。 将 \WEB-INF\lib 下引用的包拷入项目中 修改 web.xml ，将示例中的 web.xml 下的 filter 配置拷入。 12345678 &lt;filter&gt; &lt;filter-name&gt;struts2&lt;/filter-name&gt; &lt;filter-class&gt;org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter&lt;/filter- class&gt; &lt;/filter&gt; &lt;filter-mapping&gt; &lt;filter-name&gt;struts2&lt;/filter-name&gt; &lt;url-pattern&gt;/*&lt;/url-pattern&gt; &lt;/filter-mapping&gt; 修改 structs.xml 配置，以下为最简单的配置，修改完后部署到 tomcat 上，访问 http://localhost:8080/myproject/helloworld 即可。 12345678 &lt;package name="default"namespace="/"extends="struts-default"&gt; &lt;default-action-ref name="index"/&gt; &lt;action name="helloworld"&gt; &lt;result&gt; /index.jsp &lt;/result&gt; &lt;/action&gt; &lt;/package&gt; namespace 表示访问路径解析，如设置/index ,则访问的时候也需要加入/index，如果namespace为空，表示所有包含action的均会被解析，用于处理其他namespace处理不到的请求. 为 structs 包添加源码查看和api右键 structs2-core.jar -&gt; properties -&gt; 1. java source attachment 源码 struts-2.2.3.1-all/struts-2.2.3.1/src/core/src/main/java javadoc location api文档 struts-2.2.3.1-all/struts-2.2.3.1/docs/structs2-core/apidocs 开启 structs 开发模式，这样在修改配置后不需要 redeploy &lt;constant name=”struts.devMode”value=”true”/&gt; 为 structs.xml 添加提示windows -&gt; preferences -&gt; xml catalog -&gt; add -&gt; type 选择 uri , key 填写 “http://struts.apache.org/dtds/struts-2.0.dtd&quot;location 为 struct-core.jar 解压后中的 struct2.dtd]]></content>
+    <title><![CDATA[Struts2 action 传参]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FStruts2%20action%20%E4%BC%A0%E5%8F%82%2F</url>
+    <content type="text"><![CDATA[表单传参数给action的几种方法和简单的验证，抛出异常。 一、参数通过类属性1234567private String name;private String age;public String parm() &#123; System.out.println("name : "+getName()); System.out.println("age : "+getAge()); return SUCCESS;&#125; 对应 URl “basePath/parm/parm?name=xxx&amp;&amp;age=12” ，structs会将对应的参数填入属性中。 二、通过实体类123456private user user;public String parm() &#123; System.out.println("name : "+user.getName()); System.out.println("age : "+user.getAge()); return SUCCESS;&#125; 定义实体类Model或DTO，在url中传入值 “basePath/parmModel/parm?user.name=xxx&amp;&amp;user.age=12”,structs会实例化Model，将参数传入。 三、通过modelDriven 实现modeldriven接口 public class action5 extends ActionSupport implements ModelDriven&lt;user&gt; 重写 getModel 方法 1234567@Override public user getModel() &#123; if (user == null) &#123; user = new user(); &#125; return user;&#125; 其余与实体类传参相同（不常用） 四、简单数据验证12345678public String add() &#123; if (name == null || name.length() &lt;= 0 || name != "admin") &#123; this.addFieldError("name", "holi shit !! what you enter for!!"); this.addFieldError("name", "我去年买了个表"); return ERROR; &#125; return SUCCESS; &#125; 在方法中使用 addFieldError ，将错误信息加入 valueStack 中，前台页面使用 OGNL 标签获取 error！ 123 &lt;s:fielderror fieldName="name" /&gt; &lt;s:property value="errors.name[0]"/&gt; &lt;s:debug&gt;&lt;/s:debug&gt; 注意：在使用 ONGL 时，需要在顶部引用标签库。 &lt;%@ taglib uri=&quot;/struts-tags&quot; prefix=&quot;s&quot; %&gt;, 便签库文件在 struts-core 包的 META-INF 下的 struts-tags.tld]]></content>
       <categories>
         <category>编程语言</category>
         <category>Struts2</category>
@@ -690,15 +591,16 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Oracle 表空间]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FOracle%2FOracle%20%E8%A1%A8%E7%A9%BA%E9%97%B4%2F</url>
-    <content type="text"><![CDATA[查看数据文件位置 1SELECT TABLESPACE_NAME,FILE_ID,BYTES,FILE_NAME FROM DBA_DATA_FILES; 表空间状态 1SELECT TABLESPACE_NAME,STATUS FROM DBA_TABLESPACES; 创建表空间 123456CREATE TABLESPACE "ZYMBS" NOLOGGING --不创建重做日志文件 DATAFILE 'E:\WORK\DATA\PHOENIX\ZYMBS01.ORA' SIZE 5M AUTOEXTEND ON --自动增长 NEXT 50M MAXSIZE 2048M --自动增长最大到2G EXTENT MANAGEMENT LOCAL; 创建用户 123CREATE USER zymbs IDENTIFIED BY zy2009phoenix DEFAULT TABLESPACE ZYMBS TEMPORARY TABLESPACE TEMP; 分发权限 1234567GRANT --系统权限 CREATE SESSION, CREATE ANY TABLE, CREATE ANY VIEW ,CREATE ANY INDEX, CREATE ANY PROCEDURE, ALTER ANY TABLE, ALTER ANY PROCEDURE, DROP ANY TABLE, DROP ANY VIEW, DROP ANY INDEX, DROP ANY PROCEDURE, SELECT ANY TABLE, INSERT ANY TABLE, UPDATE ANY TABLE, DELETE ANY TABLE TO ZYMBS; GRANT RESOURCE, CONNECT TO ZYMBS; --角色权限 删除表空间 1DROP TABLESPACE ZYMBS INCLUDING CONTENTS AND DATAFILES; 修改状态(ONLINE,OFFLINE,READONLY,READWRITE) 1ALTER TABLESPACE ZYMBS OFFLINE; 修改文件大小,添加文件 12ALTER TABLESPACE DATAFILE &apos;E:\ZYMBS01.ORA&apos; RESIZE 10M; ALTER TABLESPACE ZYMBS ADD DATAFILE &apos;E:\ZYMBS02.ORA&apos; SIZE 5M; 修改表空间数据文件的自动扩展性 1ALTER DATABASE DATAFIELE &apos;E:\ZYMBS01.ORA&apos; AUTOEXTEND ON NEXT 5M MAXSIZE 50M; 重新指定表空间路径 1alter tablespace SIMPLE RENAME DATAFILE &apos;E:\table2.dbf&apos; to &apos;D:\table.dbf&apos;; 设置默认表空间 1. 查询(当前用户)默认表空间 select default_tablespace from user_users; 2. 修改默认表空间 alter database default tablespace SIMPLE; 如果是oracle 9i本语句不支持，但能让用户指向某表空间，具体做法如下： 例： alter user scott default tablespace users; (scott为用户名, users为表空间) 有时会出现表空间有存在的情况，这时一般都是以下几个原因造成的： 1、写错表空间名，我想的话这种机率较小。 2、回想一下，你在创建表空间时是否给表空间表加了双引号如： CREATE TABLESPACE &quot;Sample&quot; ……………… 如果是这样的话，你在修改默认表空间，写表空间名字的时候就要区分大小了，这个是非常重要的，并且还要加上双引号， 如：alter user scott default tablespace &quot;Sample&quot;;(scott为用户名)。]]></content>
+    <title><![CDATA[在Idea中配置Tomcat]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJava%2FJava%20tomcat%2F</url>
+    <content type="text"><![CDATA[1. 安装 Tomcat 进入官网 http://tomcat.apache.org 下载文件 解压文件 运行 bin/startup 即可启动，端口默认为 8080 2. 设置环境变量1234CATALINA_BASE=D:\Java\apache-tomcat-9.0.2CATALINA_HOME=D:\Java\apache-tomcat-9.0.2ClassPath=;%CATALINA_HOME%\lib\servlet-api.jar;Path=;%CATALINA_HOME%\bin;%CATALINA_HOME%\lib; 验证：在命令行中运行 startup 3. 在 Idea 中配置 Tomcat 进入 Run - Edit Configurations, 添加一个 Local Tomcat Server 在 Configure 中定位到本地的 Tomcat 添加 Deployment 项目，定位到打包好的 war 包 启动配置好的 Tomcat Server]]></content>
       <categories>
-        <category>存储</category>
-        <category>Oracle</category>
+        <category>编程语言</category>
+        <category>Java</category>
       </categories>
       <tags>
-        <tag>oracle</tag>
+        <tag>java</tag>
+        <tag>ide</tag>
       </tags>
   </entry>
   <entry>
@@ -714,9 +616,21 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Struts2 action 传参]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FStruts2%20action%20%E4%BC%A0%E5%8F%82%2F</url>
-    <content type="text"><![CDATA[表单传参数给action的几种方法和简单的验证，抛出异常。 一、参数通过类属性1234567private String name;private String age;public String parm() &#123; System.out.println("name : "+getName()); System.out.println("age : "+getAge()); return SUCCESS;&#125; 对应 URl “basePath/parm/parm?name=xxx&amp;&amp;age=12” ，structs会将对应的参数填入属性中。 二、通过实体类123456private user user;public String parm() &#123; System.out.println("name : "+user.getName()); System.out.println("age : "+user.getAge()); return SUCCESS;&#125; 定义实体类Model或DTO，在url中传入值 “basePath/parmModel/parm?user.name=xxx&amp;&amp;user.age=12”,structs会实例化Model，将参数传入。 三、通过modelDriven 实现modeldriven接口 public class action5 extends ActionSupport implements ModelDriven&lt;user&gt; 重写 getModel 方法 1234567@Override public user getModel() &#123; if (user == null) &#123; user = new user(); &#125; return user;&#125; 其余与实体类传参相同（不常用） 四、简单数据验证12345678public String add() &#123; if (name == null || name.length() &lt;= 0 || name != "admin") &#123; this.addFieldError("name", "holi shit !! what you enter for!!"); this.addFieldError("name", "我去年买了个表"); return ERROR; &#125; return SUCCESS; &#125; 在方法中使用 addFieldError ，将错误信息加入 valueStack 中，前台页面使用 OGNL 标签获取 error！ 123 &lt;s:fielderror fieldName="name" /&gt; &lt;s:property value="errors.name[0]"/&gt; &lt;s:debug&gt;&lt;/s:debug&gt; 注意：在使用 ONGL 时，需要在顶部引用标签库。 &lt;%@ taglib uri=&quot;/struts-tags&quot; prefix=&quot;s&quot; %&gt;, 便签库文件在 struts-core 包的 META-INF 下的 struts-tags.tld]]></content>
+    <title><![CDATA[Oracle 表空间]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FOracle%2FOracle%20%E8%A1%A8%E7%A9%BA%E9%97%B4%2F</url>
+    <content type="text"><![CDATA[查看数据文件位置 1SELECT TABLESPACE_NAME,FILE_ID,BYTES,FILE_NAME FROM DBA_DATA_FILES; 表空间状态 1SELECT TABLESPACE_NAME,STATUS FROM DBA_TABLESPACES; 创建表空间 123456CREATE TABLESPACE "ZYMBS" NOLOGGING --不创建重做日志文件 DATAFILE 'E:\WORK\DATA\PHOENIX\ZYMBS01.ORA' SIZE 5M AUTOEXTEND ON --自动增长 NEXT 50M MAXSIZE 2048M --自动增长最大到2G EXTENT MANAGEMENT LOCAL; 创建用户 123CREATE USER zymbs IDENTIFIED BY zy2009phoenix DEFAULT TABLESPACE ZYMBS TEMPORARY TABLESPACE TEMP; 分发权限 1234567GRANT --系统权限 CREATE SESSION, CREATE ANY TABLE, CREATE ANY VIEW ,CREATE ANY INDEX, CREATE ANY PROCEDURE, ALTER ANY TABLE, ALTER ANY PROCEDURE, DROP ANY TABLE, DROP ANY VIEW, DROP ANY INDEX, DROP ANY PROCEDURE, SELECT ANY TABLE, INSERT ANY TABLE, UPDATE ANY TABLE, DELETE ANY TABLE TO ZYMBS; GRANT RESOURCE, CONNECT TO ZYMBS; --角色权限 删除表空间 1DROP TABLESPACE ZYMBS INCLUDING CONTENTS AND DATAFILES; 修改状态(ONLINE,OFFLINE,READONLY,READWRITE) 1ALTER TABLESPACE ZYMBS OFFLINE; 修改文件大小,添加文件 12ALTER TABLESPACE DATAFILE &apos;E:\ZYMBS01.ORA&apos; RESIZE 10M; ALTER TABLESPACE ZYMBS ADD DATAFILE &apos;E:\ZYMBS02.ORA&apos; SIZE 5M; 修改表空间数据文件的自动扩展性 1ALTER DATABASE DATAFIELE &apos;E:\ZYMBS01.ORA&apos; AUTOEXTEND ON NEXT 5M MAXSIZE 50M; 重新指定表空间路径 1alter tablespace SIMPLE RENAME DATAFILE &apos;E:\table2.dbf&apos; to &apos;D:\table.dbf&apos;; 设置默认表空间 1. 查询(当前用户)默认表空间 select default_tablespace from user_users; 2. 修改默认表空间 alter database default tablespace SIMPLE; 如果是oracle 9i本语句不支持，但能让用户指向某表空间，具体做法如下： 例： alter user scott default tablespace users; (scott为用户名, users为表空间) 有时会出现表空间有存在的情况，这时一般都是以下几个原因造成的： 1、写错表空间名，我想的话这种机率较小。 2、回想一下，你在创建表空间时是否给表空间表加了双引号如： CREATE TABLESPACE &quot;Sample&quot; ……………… 如果是这样的话，你在修改默认表空间，写表空间名字的时候就要区分大小了，这个是非常重要的，并且还要加上双引号， 如：alter user scott default tablespace &quot;Sample&quot;;(scott为用户名)。]]></content>
+      <categories>
+        <category>存储</category>
+        <category>Oracle</category>
+      </categories>
+      <tags>
+        <tag>oracle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Struts2 quickstart]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FStruts2%20quickstart%2F</url>
+    <content type="text"><![CDATA[新建 web project .当修改project名时，要同时修改 properties -&gt; myeclipse -&gt; web -&gt; ontext-root.不然发布后的文件名不会修改。 找到 struct2 -all ,打开 app 目录中（此为示例） ，解压任意一个，将 structs.xml 拷入项目。 将 \WEB-INF\lib 下引用的包拷入项目中 修改 web.xml ，将示例中的 web.xml 下的 filter 配置拷入。 12345678 &lt;filter&gt; &lt;filter-name&gt;struts2&lt;/filter-name&gt; &lt;filter-class&gt;org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter&lt;/filter- class&gt; &lt;/filter&gt; &lt;filter-mapping&gt; &lt;filter-name&gt;struts2&lt;/filter-name&gt; &lt;url-pattern&gt;/*&lt;/url-pattern&gt; &lt;/filter-mapping&gt; 修改 structs.xml 配置，以下为最简单的配置，修改完后部署到 tomcat 上，访问 http://localhost:8080/myproject/helloworld 即可。 12345678 &lt;package name="default"namespace="/"extends="struts-default"&gt; &lt;default-action-ref name="index"/&gt; &lt;action name="helloworld"&gt; &lt;result&gt; /index.jsp &lt;/result&gt; &lt;/action&gt; &lt;/package&gt; namespace 表示访问路径解析，如设置/index ,则访问的时候也需要加入/index，如果namespace为空，表示所有包含action的均会被解析，用于处理其他namespace处理不到的请求. 为 structs 包添加源码查看和api右键 structs2-core.jar -&gt; properties -&gt; 1. java source attachment 源码 struts-2.2.3.1-all/struts-2.2.3.1/src/core/src/main/java javadoc location api文档 struts-2.2.3.1-all/struts-2.2.3.1/docs/structs2-core/apidocs 开启 structs 开发模式，这样在修改配置后不需要 redeploy &lt;constant name=”struts.devMode”value=”true”/&gt; 为 structs.xml 添加提示windows -&gt; preferences -&gt; xml catalog -&gt; add -&gt; type 选择 uri , key 填写 “http://struts.apache.org/dtds/struts-2.0.dtd&quot;location 为 struct-core.jar 解压后中的 struct2.dtd]]></content>
       <categories>
         <category>编程语言</category>
         <category>Struts2</category>
@@ -727,15 +641,89 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[VS&FTS 常见问题]]></title>
-    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FDonet%2FVS%26FTS%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%2F</url>
-    <content type="text"><![CDATA[TFS工作区缓存问题 在本地 C:\Users\Kass\AppData\Local\Microsoft\Team Foundation\4.0\Cache\VersionControl.config 中缓存了本地文件夹到旧服务的一些映射关系,删除 ServerInfo 节点下内容，即可清除TFS工作区缓存。 TFS添加成员 在系统用户、用户组添加成员后，更新组策略 gpupdate /force VS重置配置 devenv.exe /setup /resetuserdata /resetsettings]]></content>
+    <title><![CDATA[Struts2 action 配置]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FStruts2%20action%20%E9%85%8D%E7%BD%AE%2F</url>
+    <content type="text"><![CDATA[一、action中未定义对应的method时，默认调用execute方法。 action 中定义 action1.execute() 方法，structs默认执行此方法（不建议） 1234567&lt;package name="cq.action"namespace="/"extends="struts-default"&gt; &lt;action name="index"class="cq.action.action1"&gt; &lt;result name="success"&gt; /index.jsp &lt;/result&gt; &lt;/action&gt; &lt;/package&gt; action 实现 action 接口，实现 exectue() ， structs 也会执行此方法（不建议) action 继承 actionSupport ，此父类中已经定义了许多方法 （推荐） 二、配置对应的方法 可配置 action 对应的 method 12345&lt;action name="show"class="cq.action.action2"method="show"&gt; &lt;result&gt; /show.jsp &lt;/result&gt; &lt;/action&gt; 三、使用动态调用action （DMI）12345&lt;action name="show"class="cq.action.action2"&gt; &lt;result&gt; /show.jsp &lt;/result&gt; &lt;/action&gt; 调用时使用 basePath/show!method , ‘！’后面对于方法（弊端是无法对应多个result）。使用时需要打开动态调用配置：&lt;constant name=&quot;struts.enable.DynamicMethodInvocation&quot;value=&quot;true&quot;/&gt; 四、通配符12345&lt;action name="*_*"class="cq.action.&#123;1&#125;Action"method="&#123;2&#125;"&gt; &lt;result&gt; /&#123;1&#125;_&#123;2&#125;.jsp &lt;/result&gt; &lt;/action&gt; 使用 通配符，{1} 对应第一个 ，通配符好处是可以减少配置量，但要求命名规范，如上述配置，action的命名为NameAction，方法为Get,则调用的url为 /Name/Get，对应的view 为 Name_Get.jsp。 如何配置出.net MVC 模式的通配符呢？ 五、包含xml，将其它文件包含进 struts.xml 配置中，更加容易分模块管理&lt;include file=&quot;login.xml&quot;/&gt; 六、默认 Action ，当 struts 找不到对应 action 时调用此 action。&lt;defaut-action-ref name=&quot;index&quot;&gt;&lt;/defaut-action-ref&gt;]]></content>
       <categories>
         <category>编程语言</category>
-        <category>Donet</category>
+        <category>Struts2</category>
       </categories>
       <tags>
-        <tag>c#</tag>
+        <tag>java</tag>
+        <tag>struts</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Nodejs MongoDB]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FNodejs%20MongoDB%2F</url>
+    <content type="text"><![CDATA[1. MongoDB 是什么？MongoDB 是一个基于分布式文件存储的中小型数据库，与 Oracle 完全不一样，采用的是文档存储形式(NoSQL). 2. 搭建 MongoDB 环境 将下载的 mongodb.rar 解压。 在环境变量中配置 $mongodb_home/bin 在同一盘符下创建 E: data/db Cmd ==&gt; mongod //启动 mongodb 服务 12# 进程启动成功提示信息Tue Feb 11 23:30:11.512 [initandlisten] MongoDB starting : pid=2564 port=27017 dbpath=\data\db\ 64-bit host=PC 3. 使用 MongoDB 保持 mongod 服务，在另一 cmd 中使用 mongo 进入 创建数据库：use k9 创建文档 users：因为要使用 mongoose 组件包，所以文档后到要加一个 ‘s’ 12db.users.insert(&#123;uname:'admin',pwd:'asdf'&#125;); //插入后即创建文档 db.users.find(); //查询全部 4. 使用 MongooseMongoose 是在 Nodejs 异步环境下对 mongodb 进行便捷操作的对象模型工具。 4.1 安装 Mongoose 组件12npm install -g express-mongoosenpm install -g mongoose 4.2 定义 VO 类12345678/* MongoDB models */var mongoose = require('mongoose');var schema = mongoose.Schema; //模式var UserSchema = new schema(&#123; uname:String, pwd:String&#125;);exports.User = mongoose.model('User',UserSchema); //与 Users 表关联 4.3 在程序中使用 引用组件：var mongoose = require(&#39;mongoose&#39;); 加入VO组件：var models = require(&#39;./models&#39;); 使用User模型：var User = models.User; 连接数据库：mongoose.connect(&#39;mongodb://localhost/k9&#39;); 修改登录验证： 1234567891011exports.doLogin = function(req, res)&#123; var u_u = &#123;uname:req.body.uname, pwd:req.body.pwd&#125;; User.count(u_u,function(err,doc)&#123; //根据u_u查询结果 if(doc==0)&#123; res.redirect('/login'); &#125;else&#123; res.redirect('/welcome?uname='+u_u.uname); &#125; &#125;);&#125;; 注意：提示 mongoose 未安装，则需要将 mongoose，express-mongoose 拷至当前项目下例子：E:\Nodejs\test\myproject]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Nodejs quickstart]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FNodejs%20quickstart%2F</url>
+    <content type="text"><![CDATA[1. Nodejs 是什么？ Node.js® is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。 2. 安装 Nodejs Nodejs.org 上下载 source code 进入目录, 解压来 source Tar -zxvf nodejs-v0.10.tar.gz 进入目录, 检查安装环境 ./configure 可以使用 ./configrue --prefix /nodejs 指定安装目录 , 提示 gcc 未安装, 使用 yum -y install gcc+ gcc-c++ 安装gcc 编译安装 make &amp;&amp; make install 创建软连接 sudo ln -s /nodejs/bin/node /usr/local/bin/node 在任意目录使用 3. 卸载 Nodejs 卸载npm Npm uninstall npm 移除文件 rm -rf bin/node bin/node-waf include/node lib/node lib/pkgconfig/nodejs.pc share/man/man1/node.1]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[OGNL 表达式]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FOGNL%20%E8%A1%A8%E8%BE%BE%E5%BC%8F%2F</url>
+    <content type="text"><![CDATA[ONGL 是用于将 ValueStack（值栈，即整个 action） 和 StackContext（上下文 context） 内容取出的语法。 访问值栈中属性 &lt;s:property value=&quot;userName&quot;/&gt; 访问值栈中的类，类属性，聚合类 123&lt;s:property value="user"/&gt;&lt;s:property value="user.userName"/&gt;&lt;s:property value="cat.frien"/&gt; 访问方法 123&lt;s:property value="userName.length()"/&gt; //普通方法&lt;s:property value="cat.frien.getName()"/&gt; //类的方法&lt;s:property value="show()"/&gt; //Action 中的方法 访问静态 123&lt;s:property value="@service.staticSerivce@show()"/&gt; //静态方法&lt;s:property value="@service.staticSerivce@STR"/&gt; //静态属性&lt;s:property value="@@max(3,10)"/&gt; //静态Math方法 访问集合 123456789101112&lt;s:property value="users"/&gt; //访问 list=new ArrayList&lt;T&gt;()&lt;s:property value="users[0]"/&gt; //访问 list 单个元素&lt;s:property value="users.&#123;userName&#125;"/&gt; //List 属性集合&lt;s:property value="users.&#123;userName&#125;[0]"/&gt; || &lt;s:property value="users[0].userName"/&gt; // List属性-------------------------------------------------------------------------------------------------&lt;s:property value="cats"/&gt; // set=new HashSet() ，Set是无序的，所以无法访问单个元素-------------------------------------------------------------------------------------------------&lt;s:property value="dogs"/&gt; // map=new HashMap&lt;string, Object&gt;()&lt;s:property value="dogs.dog1"/&gt; || &lt;s:property value="dogs['dog1']"/&gt; //访问 Map 单个元素&lt;s:property value="dogs.keys"/&gt; // Map的所有 Key&lt;s:property value="dogs.values"/&gt; // Map 所有 value&lt;s:property value="dogs.size()"/&gt; // 容器大小 投影，条件过滤集合 &lt;s:property value=&quot;users.{?#this.userName!=null}.{name}&quot;/&gt; // ?# 表达式，选择符合条件的内容，^# 第一个满足的，$#最后一个满足的 stack context 中的内容使用 #xx &lt;s:property value=&quot;#session.asdf&quot;/&gt;]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Struts2</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Struts2 action result]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FStruts2%2FStruts2%20action%20result%2F</url>
+    <content type="text"><![CDATA[对 action 执行后返回的 result （1） 常用几种 result type Dispatcher 拦截器，不配置type时 默认，相当于 transfer 服务器跳转。&lt;result type=&quot;dispatcher&quot;&gt;/index.jsp&lt;/result&gt; Redirect 客户端跳转，相当于再次请求另外一个页面，在url中显示的是 xxx.jsp&lt;result type=&quot;redirect&quot; name=&quot;xxx&quot;&gt;index.jsp&lt;/result&gt; Chain 跳转至 action，配置对应的 package 名字 和 action 名字 。 1234&lt;result type="chain" name="ccc"&gt; &lt;param name="actionName"&gt;action&lt;/param&gt; &lt;param name="namespace"&gt;/&lt;/param&gt;&lt;/result&gt; RedirectAction ，客户端跳转至action。跳转后 url 显示的action 名字。 1234&lt;result type="redirectAction" name="r2"&gt; &lt;param name="actionName"&gt;action&lt;/param&gt; &lt;param name="namespace"&gt;/&lt;/param&gt; &lt;/result&gt; Stream 文字流，可用于Ajax返回纯文本，或者二进制流（下载文件）。 1234&lt;result type="stream" name="sss"&gt; &lt;param name="contentType"&gt;text/html&lt;/param&gt; &lt;param name="inputName"&gt;inputStream&lt;/param&gt; &lt;/result&gt; 在action中定义 inputStream , InputStream inputStream = new StringBufferInputStream(&quot;json&quot;); 向页面直接输出 string。 （2）全局 result ：global-results 定义全局 result ，在此 package 中的 action 对此 result 均可访问。常用于错误、异常处理 123&lt;global-results&gt; &lt;result name="error"&gt;/Error.jsp&lt;/result&gt; &lt;/global-results&gt; 另外 package 要使用此全局 result ，需要继承自此 package &lt;package name=&quot;module1&quot; namespace=&quot;/&quot; extends=&quot;action&quot;&gt; （3） 动态 result result 取自 valuestack 值栈中&lt;result name=&quot;xxx&quot;&gt;${result}&lt;/result&gt; 动态设置跳转页面参数，仅在 redirect 中使用，因为在 dispatcher、chain 为同个 request ，共享同一个valueStack。&lt;result name=&quot;rrr&quot; type=&quot;redirect&quot;&gt;/index.jsp?result=${result}&lt;/result&gt;改参数被塞入 stack context 中的 parameters &lt;s:property value=&quot;#parameters.result&quot;/&gt;]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Struts2</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>struts</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Nodejs Express]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FJavascript%2FNodejs%20Express%2F</url>
+    <content type="text"><![CDATA[1. Express 是什么？Express 是一个Node 最常用的开发包，用于快速构建 Web 项目。 2. 安装 Expressnpm install -g express@3 //全局包 注：无法使用 express 时，将 node_modules 目录加入环境变量 path 中设置永久环境变量即使重启机器也能够使用node命令了。 进入/etc vi profile在最后面追加两行：1234&gt;&gt; export NODE_HOME=/home/node-v0.10.0-linux-x64 &gt;&gt; export PATH=$PATH:$NODE_HOME/bin &gt;&gt; export NODE_PATH=$NODE_HOME/lib/node_modules &gt;&gt; express4.x 以上版本，命令行工具已经分离出来 npm install -g express-generator //安装命令行工具 express project1 &amp;&amp; cd project1 //创建项目 npm install //安装express及依赖 npm start //启动 3. 创建测试项目12CD E:\Nodejs\test Express -e myproject //创建项目 目录结构： Node_modules：存放所有项目依赖项 Package.json：项目依赖项配置及开发者信息 App.js：程序启动文件 Public：静态文件(css、js、img) Routes：路由文件 Views：页面文件(ejs模板) 4. 启动 express testNode app.js 提示 express 未安装==&gt; 将 $home\AppData\npm\node_modules\express 文件拷至项目目录下提示 ejs 未安装==&gt;npm install ejs 5. 修改ejs模板Ejs view 模板默认以 .ejs 结尾，修改默认模板，修改为 html 模板。1234App.js ==&gt; var ejs = require('ejs'); ==&gt; app.engine('.html',ejs__express); ==&gt; app.set('view engine','html'); 6. 安装 supervisor debug环境Supervisor 组件包，可以动态加载修改后的开发程序，无需重新启动 Node。Npm install -g supervisor 7. 简单登录Demo例==&gt; E:\Nodejs\test\myproject]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Oracle 冷备启库]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E5%AD%98%E5%82%A8%2FOracle%2FOracle%20%E5%86%B7%E5%A4%87%E5%90%AF%E5%BA%93%2F</url>
+    <content type="text"><![CDATA[1、准备工作 查看数据版本是否跟库文件相同 查看数据文件是否都齐全 查看 init.ora 是否在（参数文件，也可以自己配置） 2、创建文件夹 在 oracle/admin 目录下创建 实例名文件夹。如：phoenix 在此文件夹中创建 adump、dpdump、pfile ,将 init.ora 放置在 pfile 文件夹中 在 fast_recovery_area 文件夹中创建实例名文件夹4. 在 oradata 文件夹中创建实例名文件夹 3、创建空实例1$ oradim -new -sid phoenix -startmode auto -pfile init.ora 4、创建密码文件1$ orapwd file=D:\oracle\product\11.2.0\dbhome_1\database\pwdphoenix.ora password=oracle; 5、进入创建好的实例12$ sqlplus /nolog $ conn zysys/zy2009phoenix as sysdba 6、生成spfile文件1$ create spfile from pfile='D:\Oracle\admin\phoenix\pfile\init.ora'; 7、重建控制文件123456789101112131415161718$ CREATE CONTROLFILE REUSE SET DATABASE "phoenix" RESETLOGS NOARCHIVELOG MAXLOGFILES 16 MAXLOGMEMBERS 3 MAXDATAFILES 100 MAXINSTANCES 8 MAXLOGHISTORY 292 LOGFILE GROUP 1 'E:\Work\Data\Orcl\REDO01.LOG' SIZE 50M BLOCKSIZE 512, GROUP 2 'E:\Work\Data\Orcl\REDO02.LOG' SIZE 50M BLOCKSIZE 512, GROUP 3 'E:\Work\Data\Orcl\REDO03.LOG' SIZE 50M BLOCKSIZE 512 -- STANDBY LOGFILE DATAFILE 'E:\Work\Data\Orcl\SYSTEM01.DBF', 'E:\Work\Data\Orcl\SYSAUX01.DBF', 'E:\Work\Data\Orcl\UNDOTBS01.DBF', 'E:\Work\Data\Orcl\USERS01.DBF', ………………数据文件位置……………… CHARACTER SET ZHS16GBK; 8、启动数据库 alter database open; // alter database open resetlogs upgrade 小版本不同需要升级 若是选用noresetlogs选项, 若无法打开数据库, 则尝试执行recover database; 若是在线热备数据库文件,则还要把热备时刻的归档日志拷过来,恢复时用下列语法recover database using backup controlfile until cancel;写入日志文件 d：/xxx.log 创建临时表空间alter tablespace temp add tempfile &#39;C:\Oracle\database\phoenix\temp01.ora&#39; size 50M reuse autoextend on next 50M maxsize 500M; 小版本不同需要执行升级脚本oracle_home/rdbms/admin/catupgrd.sql； 重启数据库]]></content>
+      <categories>
+        <category>存储</category>
+        <category>Oracle</category>
+      </categories>
+      <tags>
+        <tag>oracle</tag>
       </tags>
   </entry>
   <entry>
@@ -749,6 +737,18 @@
       <tags>
         <tag>c#</tag>
         <tag>wpf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[VS&FTS 常见问题]]></title>
+    <url>%2Fwiki-site%2Fwiki%2F%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%2FDonet%2FVS%26FTS%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[TFS工作区缓存问题 在本地 C:\Users\Kass\AppData\Local\Microsoft\Team Foundation\4.0\Cache\VersionControl.config 中缓存了本地文件夹到旧服务的一些映射关系,删除 ServerInfo 节点下内容，即可清除TFS工作区缓存。 TFS添加成员 在系统用户、用户组添加成员后，更新组策略 gpupdate /force VS重置配置 devenv.exe /setup /resetuserdata /resetsettings]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Donet</category>
+      </categories>
+      <tags>
+        <tag>c#</tag>
       </tags>
   </entry>
   <entry>

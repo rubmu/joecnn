@@ -104,18 +104,18 @@
 <meta property="og:site_name" content="Joe&#39;s Notes">
 <meta property="og:description" content="Jenkins 是一个开源自动化服务器，可用于自动化各种任务，如构建、测试和部署软件，本文档是结合Jenkins，Java，Maven，Github实现持续自动化编译。 1. 思路&amp;amp;流程 安装 Java、Maven、Git、Jenkins 环境 配置 Jenkins 拉取 Github 项目 编译、单元测试 Maven 项目形成 war 包  2. 环境准备 由于 Maven 需要 jdk">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://joecnn.github.io/images/jenkins_jdk.png">
-<meta property="og:image" content="https://joecnn.github.io/images/jenkins_maven.png">
-<meta property="og:image" content="https://joecnn.github.io/images/jenkins_new_project.png">
-<meta property="og:image" content="https://joecnn.github.io/images/jenkins_git.png">
-<meta property="og:image" content="https://joecnn.github.io/images/jenkins_scm.png">
-<meta property="og:image" content="https://joecnn.github.io/images/jenkins_build.png">
-<meta property="og:image" content="https://joecnn.github.io/images/jenkins_output.png">
-<meta property="og:updated_time" content="2019-02-08T06:45:30.925Z">
+<meta property="og:image" content="https://joecnn.github.io/wiki-site/images/jenkins_jdk.png">
+<meta property="og:image" content="https://joecnn.github.io/wiki-site/images/jenkins_maven.png">
+<meta property="og:image" content="https://joecnn.github.io/wiki-site/images/jenkins_new_project.png">
+<meta property="og:image" content="https://joecnn.github.io/wiki-site/images/jenkins_git.png">
+<meta property="og:image" content="https://joecnn.github.io/wiki-site/images/jenkins_scm.png">
+<meta property="og:image" content="https://joecnn.github.io/wiki-site/images/jenkins_build.png">
+<meta property="og:image" content="https://joecnn.github.io/wiki-site/images/jenkins_output.png">
+<meta property="og:updated_time" content="2019-05-09T13:12:17.906Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jenkins 持续编译">
 <meta name="twitter:description" content="Jenkins 是一个开源自动化服务器，可用于自动化各种任务，如构建、测试和部署软件，本文档是结合Jenkins，Java，Maven，Github实现持续自动化编译。 1. 思路&amp;amp;流程 安装 Java、Maven、Git、Jenkins 环境 配置 Jenkins 拉取 Github 项目 编译、单元测试 Maven 项目形成 war 包  2. 环境准备 由于 Maven 需要 jdk">
-<meta name="twitter:image" content="https://joecnn.github.io/images/jenkins_jdk.png">
+<meta name="twitter:image" content="https://joecnn.github.io/wiki-site/images/jenkins_jdk.png">
 
 
 
@@ -410,7 +410,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-02-08 14:45:30" itemprop="dateModified" datetime="2019-02-08T14:45:30+08:00">2019-02-08</time>
+                <time title="修改时间：2019-05-09 21:12:17" itemprop="dateModified" datetime="2019-05-09T21:12:17+08:00">2019-05-09</time>
               
             
           </span>
@@ -486,18 +486,18 @@
 <h2 id="4-配置-Jenkins"><a href="#4-配置-Jenkins" class="headerlink" title="4. 配置 Jenkins"></a>4. 配置 Jenkins</h2><p>首次进入 Jenkins 时，出于安全考虑， Jenkins 会自动生成一个随机口令，粘帖口令进入安装界面。<br>进入 Jenkins 后选择 “<strong>Install suggested plugins</strong>“ 安装推荐插件，Jenkins 就自动配置好了 Maven、git 等常用插件。</p>
 <hr>
 
-<p>在开始使用 Jenkins 创建项目前，需要在”<strong>系统管理</strong>“-&gt;”<strong>全局工具配置</strong>“中添加 JDK、Maven 设置：<br><img src="../../../../images/jenkins_jdk.png" alt="jenkins_jdk"><br><img src="../../../../images/jenkins_maven.png" alt="jenkins_maven"><br>到此 Maven 项目的 Jenkins 已配置完成，下面开始创建构建任务。</p>
-<h2 id="5-构建Maven项目"><a href="#5-构建Maven项目" class="headerlink" title="5. 构建Maven项目"></a>5. 构建Maven项目</h2><p>在 Jenkins 首页选择”<strong>New 任务</strong>“，输入名字，选择”<strong>构建一个自由风格的软件项目</strong>“：<br><img src="../../../../images/jenkins_new_project.png" alt="jenkins_new_project"></p>
-<p>在配置页面中，”<strong>Source Code Management</strong>“ 选择 <strong>Git</strong>，填入地址，默认使用 mater 分支，如果为私人项目需要口令，在 Credentials 中添加用户名/口令：<br><img src="../../../../images/jenkins_git.png" alt="jenkins_git"></p>
-<p>在 “<strong>Build Triggers</strong>“ 中选择 “<strong>轮询 SCM</strong>“ 表示定时检查版本库，发现有新的提交就触发构建：<br><img src="../../../../images/jenkins_scm.png" alt="jenkins_scm"></p>
+<p>在开始使用 Jenkins 创建项目前，需要在”<strong>系统管理</strong>“-&gt;”<strong>全局工具配置</strong>“中添加 JDK、Maven 设置：<br><img src="../../../images/jenkins_jdk.png" alt="jenkins_jdk"><br><img src="../../../images/jenkins_maven.png" alt="jenkins_maven"><br>到此 Maven 项目的 Jenkins 已配置完成，下面开始创建构建任务。</p>
+<h2 id="5-构建Maven项目"><a href="#5-构建Maven项目" class="headerlink" title="5. 构建Maven项目"></a>5. 构建Maven项目</h2><p>在 Jenkins 首页选择”<strong>New 任务</strong>“，输入名字，选择”<strong>构建一个自由风格的软件项目</strong>“：<br><img src="../../../images/jenkins_new_project.png" alt="jenkins_new_project"></p>
+<p>在配置页面中，”<strong>Source Code Management</strong>“ 选择 <strong>Git</strong>，填入地址，默认使用 mater 分支，如果为私人项目需要口令，在 Credentials 中添加用户名/口令：<br><img src="../../../images/jenkins_git.png" alt="jenkins_git"></p>
+<p>在 “<strong>Build Triggers</strong>“ 中选择 “<strong>轮询 SCM</strong>“ 表示定时检查版本库，发现有新的提交就触发构建：<br><img src="../../../images/jenkins_scm.png" alt="jenkins_scm"></p>
 <blockquote>
 <p>说明1：Triggerbuilds remotely(webhooks)<br>这个选项就是配合 git 仓库的钩子功能实现代码 PUSH 后 Jenkins 收到通知自动触发构建项目的动作<br>说明2：轮询 SCM<br>定时检查源码变更，如果有更新就克隆下最新 code 下来，然后执行构建动作</p>
 </blockquote>
-<p>在”<strong>Build</strong>“中可以添加编译命令，Maven默认的Root POM是<code>pom.xml</code>，如果<code>pom.xml</code>不在根目录下，则需要填入子目录：<br><img src="../../../../images/jenkins_build.png" alt="jenkins_build"></p>
+<p>在”<strong>Build</strong>“中可以添加编译命令，Maven默认的Root POM是<code>pom.xml</code>，如果<code>pom.xml</code>不在根目录下，则需要填入子目录：<br><img src="../../../images/jenkins_build.png" alt="jenkins_build"></p>
 <blockquote>
 <p>说明1：选择之前添加的 maven 环境<br>说明2：填入需要执行的 mvn 命令<br>说明3：pom 不在根目录下，填入子目录 wxsell/pom.xml</p>
 </blockquote>
-<p>保存后就可以”<strong>立即构建</strong>“，可以在”<strong>Console Output</strong>“中看到控制台详细输出：<br><img src="../../../../images/jenkins_output.png" alt="jenkins_output"></p>
+<p>保存后就可以”<strong>立即构建</strong>“，可以在”<strong>Console Output</strong>“中看到控制台详细输出：<br><img src="../../../images/jenkins_output.png" alt="jenkins_output"></p>
 <h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6. 总结"></a>6. 总结</h2><p>到此已配置了 Jenkins 自动编译任务，当 Github 上项目有变更时，会自动拉取项目进行编译，排除了可能不同机器上编译环境不同导致的影响。<br>在完成持续编译后，可以结合 Jenkins 的编译后动作进行自动部署，实现持续部署功能。在下篇笔记中将会记录如何实现持续部署。</p>
 
       
