@@ -6,7 +6,7 @@
   <link href="/wiki-site/atom.xml" rel="self"/>
   
   <link href="https://joecnn.github.io/wiki-site/"/>
-  <updated>2019-02-23T14:52:26.437Z</updated>
+  <updated>2019-02-06T12:02:27.351Z</updated>
   <id>https://joecnn.github.io/wiki-site/</id>
   
   <author>
@@ -15,116 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Linux PostgreSQL 数据库安装</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E5%AD%98%E5%82%A8/Linux-PostgreSQL-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/存储/Linux-PostgreSQL-数据库安装/</id>
-    <published>2019-02-23T11:51:00.000Z</published>
-    <updated>2019-02-23T14:52:26.437Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>PostgreSQL</strong> 是加州大学伯克利分校计算机系开发的 <strong>对象-关系型数据库(ORDBMS)</strong> 管理系统，在 BSD许可证 下开源发行。PostgreSQL 的稳定性极强，支持丰富的几何类型数据。它可以存储 array 和 json, 可以在 array 和 json 上建索引, 甚至还能用表达式索引。</p><p>PostgreSQL 提供了很多种安装方式，本编文章主要是在 Linux 环境下以源码的方式进行安装，这样虽然在安装上步骤多了许多，但让你可以控制安装细节。</p><h2 id="下载-PostgreSQL"><a href="#下载-PostgreSQL" class="headerlink" title="下载 PostgreSQL"></a>下载 PostgreSQL</h2><p>首先你需要到 <a href="https://www.postgresql.org/">postgresql.org</a> 上下载你需要的版本源码，也可以通过以下命令直接下载。</p><p><code>$ sudo wget https://ftp.postgresql.org/pub/source/v11.2/postgresql-11.2.tar.gz</code></p><p>解压 <code>tar.gz</code> 文件到 <code>/usr/local/etc</code> 目录。</p><h2 id="安装-PostgreSQL"><a href="#安装-PostgreSQL" class="headerlink" title="安装 PostgreSQL"></a>安装 PostgreSQL</h2><p>接下来你需要从源码进行安装，这个过程分为三个步骤。首先你需要准备你的 Linux 编译环境，其次对源码进行编译生成安装文件，最后进行 PostgreSQL 安装。</p><h4 id="准备编译环境"><a href="#准备编译环境" class="headerlink" title="准备编译环境"></a>准备编译环境</h4><p>进入已解压的 PostgreSQL 文件目录，执行 <code>$ ./configure</code> 命令。</p><h4 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h4><p>执行命令 <code>$ make &amp;&amp; sudo make install</code></p><h4 id="安装完成"><a href="#安装完成" class="headerlink" title="安装完成"></a>安装完成</h4><p>PostgreSQL 会安装在 <code>/usr/local/pgsql</code> 目录下，在 <code>bin</code> 目录下提供了一些 PostgreSQL 的命令行工具，提供给用户使用。</p><h2 id="创建-Linux-用户"><a href="#创建-Linux-用户" class="headerlink" title="创建 Linux 用户"></a>创建 Linux 用户</h2><p>出于对数据库安全性和完整性的控制，为 PostgreSQL 应用创建一个用户进行管理。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ groupadd postgres</span><br><span class="line">$ useradd -g postgres postgres</span><br><span class="line">$ passwd postgres</span><br></pre></td></tr></table></figure><h2 id="创建数据存储目录"><a href="#创建数据存储目录" class="headerlink" title="创建数据存储目录"></a>创建数据存储目录</h2><p>在这一步骤，你将创建一个用于存储 PostgreSQL 数据的目录，并将该目录授权给上一步创建的<code>postgres</code> 用户。</p><p>进入 <code>/usr/local/pgsql</code> 目录，这个是安装 PostgreSQL 的目录，在此目录下创建 <code>data</code> 目录。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/pgsql</span><br><span class="line">$ sudo mkdir data</span><br><span class="line">$ sudo chown postgres:postgres /usr/<span class="built_in">local</span>/pgsql/data</span><br></pre></td></tr></table></figure><h2 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h2><p>在这一步骤中，在 <code>/etc/profile</code> 下添加配置，方便用户在 <code>bash</code> 中直接使用 PostgreSQL 提供的工具，并且设置默认的数据文件存储位置 <code>PGDATA</code>。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PGDATA=/usr/<span class="built_in">local</span>/pgsql/data</span><br><span class="line">PATH=<span class="variable">$PATH</span>:/usr/<span class="built_in">local</span>/pgsql/bin</span><br><span class="line"><span class="built_in">export</span> PGDATA PATH</span><br></pre></td></tr></table></figure><p>最后执行 <code>source /etc/profile</code> 让环境配置生效。</p><h2 id="初始化数据库"><a href="#初始化数据库" class="headerlink" title="初始化数据库"></a>初始化数据库</h2><p>切换到 <code>postgres</code> 用户，对新安装的 PostgreSQL 进行初始化，并通过 <code>-D</code> 指定数据存储目录，如果不指定则默认使用环境变量中 <code>PGDATA</code> 指向的目录。</p><p><code>$ pg_ctl initdb -D /usr/local/pgsql/data</code> </p><p>接下来可以启动数据服务，可以指定日志输出文件。</p><p><code>$ pg_ctl -l ~/logfile start</code></p><p>到此可以看到 PostgreSQL 服务已经启动，可以通过 <code>psql</code> 命令连接到服务，先给默认的用户 <code>postgres</code> 设置登录密码。</p><p><code>postgres=# ALTER USER postgres PASSWORD &#39;postgres&#39;;</code></p><h2 id="开启支持远程连接"><a href="#开启支持远程连接" class="headerlink" title="开启支持远程连接"></a>开启支持远程连接</h2><p>默认安装的 PostgreSQL 只支持本地连接，但我们在使用时一般都是通过客户端进行远程连接，所以这一步骤主要是修改配置文件，让PostgreSQL 数据服务可以接受远程连接。</p><p>进入 <code>/usr/local/pgsql/data</code> 目录下，修改配置文件 <strong>postgresql.conf</strong> 。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 开放监听的地址</span><br><span class="line">listen_addresses = &apos;*&apos;</span><br></pre></td></tr></table></figure><p>修改配置文件 <strong>pg_hba.conf</strong>  添加允许连接的 IP 段。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># IPv4 local connections:</span><br><span class="line">host    all             all              0.0.0.0/0                       md5</span><br><span class="line"># IPv6 local connections:</span><br><span class="line">host    all             all              ::/0                            md5</span><br></pre></td></tr></table></figure><p>修改完这两个配置文件后，重启 pgsql 服务即可支持远程连接。</p><h2 id="设置开机启动"><a href="#设置开机启动" class="headerlink" title="设置开机启动"></a>设置开机启动</h2><p>PostgreSQL 数据服务一般要设置到服务器开机自动启动，接下来的步骤就是通过开机运行脚本进行设置。</p><p>首先切换到 <code>root</code> 用户。</p><p><code>$ su root</code></p><p>接下来拷贝一份开机脚本到 <code>/etc/init.d</code> 目录。</p><p><code>$ sudo cp /usr/local/etc/postgresql-11.2/contrib/start-scripts/linux /etc/init.d/postgresql</code></p><p>给脚本添加执行权限。</p><p><code>$ sudo chmod +x /etc/init.d/postgresql</code></p><p>添加到开机启动运行服务列表中。</p><p><code>$ sudo chkconfig --add postgresql</code></p><p>你可以通过 <code>reboot</code> 重启 Linux 进行验证是否已设置成功。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本编文章记录了 PostgreSQL 数据的源码编译安装方式，同样也可以通过 <code>yum</code> 或 <code>rpm</code> 等在线安装的方式，也可以直接下载已编译好的包，解压配置环境变量即可。如果进行手动安装的方式，记得要配置环境变量和数据存储目录，以便 PostgreSQL 的使用。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;PostgreSQL&lt;/strong&gt; 是加州大学伯克利分校计算机系开发的 &lt;strong&gt;对象-关系型数据库(ORDBMS)&lt;/strong&gt; 管理系统，在 BSD许可证 下开源发行。PostgreSQL 的稳定性极强，支持丰富的几何类型数据。它可以存储 
-      
-    
-    </summary>
-    
-      <category term="存储" scheme="https://joecnn.github.io/wiki-site/categories/%E5%AD%98%E5%82%A8/"/>
-    
-    
-      <category term="postgres" scheme="https://joecnn.github.io/wiki-site/tags/postgres/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JDK 多版本环境共存</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Java/JDK%20%E5%A4%9A%E7%89%88%E6%9C%AC%E7%8E%AF%E5%A2%83%E5%85%B1%E5%AD%98/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/编程语言/Java/JDK 多版本环境共存/</id>
-    <published>2019-02-16T14:00:00.000Z</published>
-    <updated>2019-02-16T15:05:19.077Z</updated>
-    
-    <content type="html"><![CDATA[<p>在 JDK8 之前的版本需要手动设置环境变量 <code>JAVA_HOME</code>. JDK8 多了自动配置环境变量, 所以想要多版本 JDK 共存并可以进行自由切换，需要先删掉默认环境。</p><h3 id="1-删除自动配置的环境"><a href="#1-删除自动配置的环境" class="headerlink" title="1. 删除自动配置的环境"></a>1. 删除自动配置的环境</h3><p>自动配置的环境变量指向的是一个隐藏目录 <code>C:\ProgramData\Oracle\Java\javapath</code>, 删除这个目录下的3个 <code>.exe</code> 文件，系统就无法匹配到了。</p><h3 id="2-安装多版本-JDK"><a href="#2-安装多版本-JDK" class="headerlink" title="2. 安装多版本 JDK"></a>2. 安装多版本 JDK</h3><p>进行多个版本的 JDK 安装。</p><h3 id="3-设置系统环境变量"><a href="#3-设置系统环境变量" class="headerlink" title="3. 设置系统环境变量"></a>3. 设置系统环境变量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指向 jdk6 目录</span></span><br><span class="line">JAVA6_HOME = D:\Java\jdk_6</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指向 jdk8 目录</span></span><br><span class="line">JAVA8_HOME = D:\Java\jdk_8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置默认的 jdk, 进行切换版本</span></span><br><span class="line">JAVA_HOME = %JAVA8_HOME%</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;在 JDK8 之前的版本需要手动设置环境变量 &lt;code&gt;JAVA_HOME&lt;/code&gt;. JDK8 多了自动配置环境变量, 所以想要多版本 JDK 共存并可以进行自由切换，需要先删掉默认环境。&lt;/p&gt;
-&lt;h3 id=&quot;1-删除自动配置的环境&quot;&gt;&lt;a href=&quot;#1-删
-      
-    
-    </summary>
-    
-      <category term="编程语言" scheme="https://joecnn.github.io/wiki-site/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"/>
-    
-      <category term="Java" scheme="https://joecnn.github.io/wiki-site/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Java/"/>
-    
-    
-      <category term="java" scheme="https://joecnn.github.io/wiki-site/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MySQL 主从模式</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E5%AD%98%E5%82%A8/Mysql/MySQL%20%E4%B8%BB%E4%BB%8E%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/存储/Mysql/MySQL 主从模式/</id>
-    <published>2019-01-07T13:00:00.000Z</published>
-    <updated>2019-02-06T13:09:55.349Z</updated>
-    
-    <content type="html"><![CDATA[<p>MySQL 支持配置 master-slave 模式，slave 从 master 定期同步数据，但不支持自动选举。常见的架构方式有：一主一从、一主多从(提升读性能)、多主一从(收集数据统计)等。</p><blockquote><p>环境准备: 安装两台 MySQL-5.7 服务.</p></blockquote><h3 id="1-Master-节点配置"><a href="#1-Master-节点配置" class="headerlink" title="1. Master 节点配置"></a>1. Master 节点配置</h3><ol><li>创建用于数据同步的 mysql 用户<br><code>create user repl identified by &#39;repl&#39;;</code></li><li>为创建的用户授予同步权限<br><code>grant replication slave on *.* to &#39;repl&#39;@&#39;%&#39; identified by &#39;repl&#39;;</code></li><li><p>修改配置文件 <code>/etc/my.cnf</code>, 开启binlog日志文件同步</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"># 表示服务为一ID</span><br><span class="line">server-id=104</span><br><span class="line"></span><br><span class="line"># 开启日志同步, 设置日志文件名称</span><br><span class="line">log_bin=mysql-bin</span><br><span class="line"></span><br><span class="line"># 日志文件记录方式, 默认是 ROW 记录变更内容, STATEMENT 记录语句, MIXED 为二者混合方式</span><br><span class="line">binlog_format=MIXED</span><br><span class="line"></span><br><span class="line"># 日志文件同步周期, 0表示交给内核处理同步, N表示事务数</span><br><span class="line">sync_binlog=1</span><br><span class="line"></span><br><span class="line"># 日志文件自动删除天数, 默认为0表示不自动删除</span><br><span class="line">expire_logs_days=7</span><br><span class="line"></span><br><span class="line"># 不进行同步的数据库</span><br><span class="line">binlog_ignore_db=mysql</span><br><span class="line">binlog_ignore_db=information_schema</span><br><span class="line">binlog_ignore_db=performation_schema</span><br><span class="line">binlog_ignore_db=sys</span><br></pre></td></tr></table></figure></li><li><p>重启数据库, 查询 master 信息</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show master status;</span></span><br><span class="line">+------------------+----------+--------------+--------------------------------------------------+-------------------+</span><br><span class="line">| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB                                 | Executed_Gtid_Set |</span><br><span class="line">+------------------+----------+--------------+--------------------------------------------------+-------------------+</span><br><span class="line">| mysql-bin.000001 |      154 |              | mysql,information_schema,performation_schema,sys |                   |</span><br><span class="line">+------------------+----------+--------------+--------------------------------------------------+-------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></li></ol><h3 id="2-Slave-节点配置"><a href="#2-Slave-节点配置" class="headerlink" title="2. Slave 节点配置"></a>2. Slave 节点配置</h3><ol><li><p>修改配置文件 <code>/etc/my.cnf</code>, 开启binlog同步</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"># 服务节点唯一ID</span><br><span class="line">server-id=110</span><br><span class="line"></span><br><span class="line"># 同步日志文件名称</span><br><span class="line">relay-log=slave-relay-bin</span><br><span class="line"></span><br><span class="line"># 同步日志索引</span><br><span class="line">relay-log-index=slave-relay-bin.index</span><br><span class="line"></span><br><span class="line"># 是否只读</span><br><span class="line">read_only=1</span><br></pre></td></tr></table></figure></li><li><p>重启并连接到数据库<br><code>systemctl restart mysqld &amp;&amp; mysql -uroot -proot</code></p></li><li><p>建立 master-slave 连接, 多主一从的情况可以执行多个 change master 指向不同主节点</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># master_host 主节点</span><br><span class="line"># master_port 主节点端口</span><br><span class="line"># master_user 创建的用于同步数据的用户</span><br><span class="line"># master_password 密码</span><br><span class="line"># master_log_file binlog文件由主节点获得</span><br><span class="line"># master_log_pos binlog开始同步位置</span><br><span class="line">change master to master_host=&apos;192.168.56.104&apos;,master_port=3306,master_password=&apos;repl&apos;,master_user=&apos;repl&apos;,master_log_file=&apos;mysql-bin.000001&apos;,master_log_pos=154;</span><br></pre></td></tr></table></figure></li><li><p>开启同步 <code>start slave;</code></p></li><li>查看 slave 运行状态<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show slave status\G;</span></span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">               Slave_IO_State: Connecting to master</span><br><span class="line">                  Master_Host: 192.168.56.104</span><br><span class="line">                  Master_User: repl</span><br><span class="line">                  Master_Port: 3306</span><br><span class="line">                Connect_Retry: 60</span><br><span class="line">              Master_Log_File: mysql-bin.000001</span><br><span class="line">          Read_Master_Log_Pos: 154</span><br><span class="line">               Relay_Log_File: slave-relay-bin.000001</span><br><span class="line">                Relay_Log_Pos: 4</span><br><span class="line">        Relay_Master_Log_File: mysql-bin.000001</span><br><span class="line">             Slave_IO_Running: Yes</span><br><span class="line">            Slave_SQL_Running: Yes</span><br><span class="line">            ...</span><br></pre></td></tr></table></figure></li></ol><blockquote><p>运行状态中 Slave_IO_Running: Yes, Slave_SQL_Running: Yes 两个线程运行成功, 则表示主从同步成功了.</p></blockquote><h3 id="3-主从同步的原理"><a href="#3-主从同步的原理" class="headerlink" title="3. 主从同步的原理"></a>3. 主从同步的原理</h3><ol><li>master记录二进制日志。在每个事务更新数据完成之前，master在二日志记录这些改变。MySQL将事务串行的写入二进制日志，即使事务中的语句都是交叉执行的。在事件写入二进制日志完成后，master通知存储引擎提交事务</li><li>slave将master的binary log拷贝到它自己的中继日志。首先，slave开始一个工作线程——I/O线程。I/O线程在master上打开一个普通的连接，然后开始binlog dump process。Binlog dump process从master的二进制日志中读取事件，如果已经跟上master，它会睡眠并等待master产生新的事件。I/O线程将这些事件写入中继日志</li><li>SQL线程从中继日志读取事件，并重放其中的事件而更新slave的数据，使其与master中的数据一致<img src="../../../../../images/mysql_sync.png" alt="image"></li></ol><h3 id="4-binlog-的格式"><a href="#4-binlog-的格式" class="headerlink" title="4. binlog 的格式"></a>4. binlog 的格式</h3><blockquote><p>mysql 使用二进制文件binlog记录数据更新或者潜在的更新, 存储在 /var/lib/mysql 目录下.</p></blockquote><h4 id="查询binlog格式"><a href="#查询binlog格式" class="headerlink" title="查询binlog格式"></a>查询binlog格式</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show variables like <span class="string">'%binlog%'</span>;</span></span><br><span class="line">+-----------------------------------------+----------------------+</span><br><span class="line">| Variable_name                           | Value                |</span><br><span class="line">+-----------------------------------------+----------------------+</span><br><span class="line">| binlog_format                           | MIXED                |</span><br><span class="line">+-----------------------------------------+----------------------+</span><br></pre></td></tr></table></figure><ul><li><strong>statement</strong> : 基于sql语句的存储方式. 无法记录包含函数(uuid, now, other fun).</li><li><strong>row</strong> : 基于行内容, 记录修改后每条记录变化的值.</li><li><strong>mixed</strong> : 混合模式, 由mysql判断处理.</li></ul><h4 id="设置binlog格式"><a href="#设置binlog格式" class="headerlink" title="设置binlog格式"></a>设置binlog格式</h4><ul><li>修改配置文件中的 <code>binlog_format=&#39;row&#39;</code>选项</li><li>连接到mysql, 修改全局配置 <code>set global binlog_format=’rowt’;</code></li></ul><h4 id="查看binlog内容"><a href="#查看binlog内容" class="headerlink" title="查看binlog内容"></a>查看binlog内容</h4><p>mysql 提供了查看二进制binlog文件的工具<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog --base64-output=decode-rows -v mysql-bin.000001</span><br></pre></td></tr></table></figure></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;MySQL 支持配置 master-slave 模式，slave 从 master 定期同步数据，但不支持自动选举。常见的架构方式有：一主一从、一主多从(提升读性能)、多主一从(收集数据统计)等。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;环境准备: 安装两台 MySQL-5
-      
-    
-    </summary>
-    
-      <category term="存储" scheme="https://joecnn.github.io/wiki-site/categories/%E5%AD%98%E5%82%A8/"/>
-    
-      <category term="Mysql" scheme="https://joecnn.github.io/wiki-site/categories/%E5%AD%98%E5%82%A8/Mysql/"/>
-    
-    
-      <category term="mysql" scheme="https://joecnn.github.io/wiki-site/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MySQL quickstart</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E5%AD%98%E5%82%A8/Mysql/MySQL%20quickstart/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/存储/Mysql/MySQL quickstart/</id>
-    <published>2019-01-07T09:00:00.000Z</published>
-    <updated>2019-02-06T12:54:11.852Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="一、安装-MySQL-5-7"><a href="#一、安装-MySQL-5-7" class="headerlink" title="一、安装 MySQL-5.7"></a>一、安装 MySQL-5.7</h3><ol><li>下载 MySQL-5.7 的 repo 源：<br><code>wget http://repo.mysql.com/mysql57-community-release-el7.rpm</code></li><li>安装源：<br><code>rpm -ivh mysql57-community-release-el7.rp</code></li><li>安装数据库：<br><code>yum -install mysql-server</code></li><li>启动数据库：<br><code>systemctl start mysqld</code></li></ol><h4 id="安装后文件对应的目录"><a href="#安装后文件对应的目录" class="headerlink" title="安装后文件对应的目录"></a>安装后文件对应的目录</h4><ul><li>mysql 的数据和二进制文件：/var/lib/mysql</li><li>mysql 的配置文件：/etc/my.cnf</li><li>mysql 的日志文件：/var/log/mysql.log</li></ul><h3 id="二、登录到-MySQL"><a href="#二、登录到-MySQL" class="headerlink" title="二、登录到 MySQL"></a>二、登录到 MySQL</h3><p>MySQL-5.7 版本对新安装的 root 账号有一个随机密码，可以通过 <code>grep &quot;password&quot; /var/log/mysqld.log</code> 获得，root@localhost 此处为随机密码</p><ol><li>运行 <code>mysql -uroot -p</code></li><li>输入初始的随机密码进入</li></ol><h4 id="设置密码"><a href="#设置密码" class="headerlink" title="设置密码"></a>设置密码</h4><ol><li>默认的随机密码无法对数据库进行操作，需要进行设置，而5.7版本用了<code>validate_password</code>密码加强插件，简单的密码无法通过验证</li><li><p>执行以下两条命令，让密码可以随意设置</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set global validate_password_length=1;</span><br><span class="line">set global validate_password_policy=0;</span><br></pre></td></tr></table></figure></li><li><p>这样可以设置简单的密码，但是长度要求大于4位<br><code>set password=password(&quot;root&quot;)</code></p></li></ol><h4 id="连接授权"><a href="#连接授权" class="headerlink" title="连接授权"></a>连接授权</h4><p>默认情况下其它服务器的客户端不能直接访问mysql服务器，需要对IP授权。<br><code>GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;root&#39; WITH GRANT OPTION;</code></p><h4 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h4><p>查询所有的数据库 <code>show databases;</code></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;一、安装-MySQL-5-7&quot;&gt;&lt;a href=&quot;#一、安装-MySQL-5-7&quot; class=&quot;headerlink&quot; title=&quot;一、安装 MySQL-5.7&quot;&gt;&lt;/a&gt;一、安装 MySQL-5.7&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;下载 MySQL-5.7 的 r
-      
-    
-    </summary>
-    
-      <category term="存储" scheme="https://joecnn.github.io/wiki-site/categories/%E5%AD%98%E5%82%A8/"/>
-    
-      <category term="Mysql" scheme="https://joecnn.github.io/wiki-site/categories/%E5%AD%98%E5%82%A8/Mysql/"/>
-    
-    
-      <category term="mysql" scheme="https://joecnn.github.io/wiki-site/tags/mysql/"/>
-    
-  </entry>
   
   <entry>
     <title>Redis 持久化机制</title>
@@ -178,6 +68,34 @@
       <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
       <category term="redis" scheme="https://joecnn.github.io/wiki-site/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kafka quickstart</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E5%88%86%E5%B8%83%E5%BC%8F/Kafka%20quickstart/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/分布式/Kafka quickstart/</id>
+    <published>2018-12-28T16:00:00.000Z</published>
+    <updated>2019-02-06T12:10:02.189Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-Kafka是什么"><a href="#1-Kafka是什么" class="headerlink" title="1. Kafka是什么?"></a>1. Kafka是什么?</h3><blockquote><p><a href="https://kafka.apache.org/documentation/#introduction">Apache Kafka®</a> is a distributed streaming platform. </p></blockquote><p>Kafka是一个高性能、高吞吐量的分布式消息通信系统。常用于系统的日志收集分析、消息通信、用户行为分析、服务器指标监控、流式处理等。</p><h3 id="2-Kafka集群安装"><a href="#2-Kafka集群安装" class="headerlink" title="2. Kafka集群安装"></a>2. Kafka集群安装</h3><ol><li>下载kafka二进制安装包, 并解压到 /usr/local目录下。</li><li>进入到config目录下修改server.properties配置文件：<ul><li>broker.id 在集群中的唯一编号</li><li>listeners 本机ip</li><li>num.partitions 默认的topic分区数</li><li>zookeeper.connect 连接到zookeeper集群，可以设置根路径 <code>ip:port/kafka</code></li></ul></li><li>进入到bin目录下，以守护进程方式启动。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-server-start.sh -daemon ../config/server.properties</span><br></pre></td></tr></table></figure></li></ol><h3 id="3-Kafka基本操作"><a href="#3-Kafka基本操作" class="headerlink" title="3. Kafka基本操作"></a>3. Kafka基本操作</h3><ol><li><p>创建一个topic</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-topics.sh --create --zookeeper 192.168.56.110:2181/kafka --replication-factor 1 --partitions 2 --topic first-topic</span><br></pre></td></tr></table></figure></li><li><p>列出所有topic</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-topics.sh --list --zookeeper 192.168.56.110:2181/kafka</span><br></pre></td></tr></table></figure></li><li><p>生成者发送消息</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-console-producer.sh --broker-list 192.168.56.110:9092 --topic first-topic</span><br></pre></td></tr></table></figure></li><li><p>消费者接收消息</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-console-consumer.sh --bootstrap-server 192.168.56.110:9092 --topic first-topic --from-beginning</span><br></pre></td></tr></table></figure></li><li><p>查看消息日志</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-run-class.sh kafka.tools.DumpLogSegments --files /tmp/kafka-logs/first-topic-0/00000000000000000000.log --<span class="built_in">print</span>-data-log</span><br></pre></td></tr></table></figure></li></ol><h3 id="4-Kafka中的概念"><a href="#4-Kafka中的概念" class="headerlink" title="4. Kafka中的概念"></a>4. Kafka中的概念</h3><h4 id="Message"><a href="#Message" class="headerlink" title="Message"></a>Message</h4><p>消息是 Kafka 中最基本的数据单元，由 Key/Value 组成(byte[])，根据Key的哈希值路由到不同区间进行存储。Kafka 会对消息进行压缩和批量发送。</p><h4 id="Topic"><a href="#Topic" class="headerlink" title="Topic"></a>Topic</h4><p>topic 是用于存储消息的逻辑单元，可以看作一个消息集合，每个 topic 可以有多个生产者向其推送消息，也可以有任意多个消费者。</p><h4 id="Partition"><a href="#Partition" class="headerlink" title="Partition"></a>Partition</h4><p>每个 topic 可以划分多个分区，即 Kafka 存储消息的物理单元。Partition 是以文件的形式存储在 kafka-logs 目录下，命名规则是 <code>&lt;topic_name&gt;-&lt;partition_id&gt;</code>。</p><h4 id="Group"><a href="#Group" class="headerlink" title="Group"></a>Group</h4><p>Kafka 中的逻辑分组，同一个组内的一条消息只被一个组员消费，并且共同维护 consumer offset。不同组内的消费者可以同时消费同一条消息，实现 pub/sub 模式。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;1-Kafka是什么&quot;&gt;&lt;a href=&quot;#1-Kafka是什么&quot; class=&quot;headerlink&quot; title=&quot;1. Kafka是什么?&quot;&gt;&lt;/a&gt;1. Kafka是什么?&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://kafk
+      
+    
+    </summary>
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    
+      <category term="MQ" scheme="https://joecnn.github.io/wiki-site/tags/MQ/"/>
+    
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
   </entry>
   
@@ -237,34 +155,6 @@
   </entry>
   
   <entry>
-    <title>Kafka quickstart</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E5%88%86%E5%B8%83%E5%BC%8F/Kafka%20quickstart/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/分布式/Kafka quickstart/</id>
-    <published>2018-12-28T16:00:00.000Z</published>
-    <updated>2019-02-06T12:10:02.189Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-Kafka是什么"><a href="#1-Kafka是什么" class="headerlink" title="1. Kafka是什么?"></a>1. Kafka是什么?</h3><blockquote><p><a href="https://kafka.apache.org/documentation/#introduction">Apache Kafka®</a> is a distributed streaming platform. </p></blockquote><p>Kafka是一个高性能、高吞吐量的分布式消息通信系统。常用于系统的日志收集分析、消息通信、用户行为分析、服务器指标监控、流式处理等。</p><h3 id="2-Kafka集群安装"><a href="#2-Kafka集群安装" class="headerlink" title="2. Kafka集群安装"></a>2. Kafka集群安装</h3><ol><li>下载kafka二进制安装包, 并解压到 /usr/local目录下。</li><li>进入到config目录下修改server.properties配置文件：<ul><li>broker.id 在集群中的唯一编号</li><li>listeners 本机ip</li><li>num.partitions 默认的topic分区数</li><li>zookeeper.connect 连接到zookeeper集群，可以设置根路径 <code>ip:port/kafka</code></li></ul></li><li>进入到bin目录下，以守护进程方式启动。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-server-start.sh -daemon ../config/server.properties</span><br></pre></td></tr></table></figure></li></ol><h3 id="3-Kafka基本操作"><a href="#3-Kafka基本操作" class="headerlink" title="3. Kafka基本操作"></a>3. Kafka基本操作</h3><ol><li><p>创建一个topic</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-topics.sh --create --zookeeper 192.168.56.110:2181/kafka --replication-factor 1 --partitions 2 --topic first-topic</span><br></pre></td></tr></table></figure></li><li><p>列出所有topic</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-topics.sh --list --zookeeper 192.168.56.110:2181/kafka</span><br></pre></td></tr></table></figure></li><li><p>生成者发送消息</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-console-producer.sh --broker-list 192.168.56.110:9092 --topic first-topic</span><br></pre></td></tr></table></figure></li><li><p>消费者接收消息</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-console-consumer.sh --bootstrap-server 192.168.56.110:9092 --topic first-topic --from-beginning</span><br></pre></td></tr></table></figure></li><li><p>查看消息日志</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh kafka-run-class.sh kafka.tools.DumpLogSegments --files /tmp/kafka-logs/first-topic-0/00000000000000000000.log --<span class="built_in">print</span>-data-log</span><br></pre></td></tr></table></figure></li></ol><h3 id="4-Kafka中的概念"><a href="#4-Kafka中的概念" class="headerlink" title="4. Kafka中的概念"></a>4. Kafka中的概念</h3><h4 id="Message"><a href="#Message" class="headerlink" title="Message"></a>Message</h4><p>消息是 Kafka 中最基本的数据单元，由 Key/Value 组成(byte[])，根据Key的哈希值路由到不同区间进行存储。Kafka 会对消息进行压缩和批量发送。</p><h4 id="Topic"><a href="#Topic" class="headerlink" title="Topic"></a>Topic</h4><p>topic 是用于存储消息的逻辑单元，可以看作一个消息集合，每个 topic 可以有多个生产者向其推送消息，也可以有任意多个消费者。</p><h4 id="Partition"><a href="#Partition" class="headerlink" title="Partition"></a>Partition</h4><p>每个 topic 可以划分多个分区，即 Kafka 存储消息的物理单元。Partition 是以文件的形式存储在 kafka-logs 目录下，命名规则是 <code>&lt;topic_name&gt;-&lt;partition_id&gt;</code>。</p><h4 id="Group"><a href="#Group" class="headerlink" title="Group"></a>Group</h4><p>Kafka 中的逻辑分组，同一个组内的一条消息只被一个组员消费，并且共同维护 consumer offset。不同组内的消费者可以同时消费同一条消息，实现 pub/sub 模式。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;1-Kafka是什么&quot;&gt;&lt;a href=&quot;#1-Kafka是什么&quot; class=&quot;headerlink&quot; title=&quot;1. Kafka是什么?&quot;&gt;&lt;/a&gt;1. Kafka是什么?&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;https://kafk
-      
-    
-    </summary>
-    
-      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
-    
-    
-      <category term="MQ" scheme="https://joecnn.github.io/wiki-site/tags/MQ/"/>
-    
-      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
     <title>ActiveMQ configuration</title>
     <link href="https://joecnn.github.io/wiki-site/wiki/%E5%88%86%E5%B8%83%E5%BC%8F/ActiveMQ%20configuration/"/>
     <id>https://joecnn.github.io/wiki-site/wiki/分布式/ActiveMQ configuration/</id>
@@ -293,29 +183,6 @@
   </entry>
   
   <entry>
-    <title>事务的4种隔离级别</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E5%AD%98%E5%82%A8/%E4%BA%8B%E5%8A%A1%E7%9A%844%E7%A7%8D%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/存储/事务的4种隔离级别/</id>
-    <published>2018-12-23T11:20:00.000Z</published>
-    <updated>2019-02-06T13:14:27.577Z</updated>
-    
-    <content type="html"><![CDATA[<p>数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable 。而且，在事务的==并发操作==中可能会出现脏读，不可重复读，幻读。下面通过事例一一阐述它们的概念与联系。</p><hr><h3 id="Read-uncommitted"><a href="#Read-uncommitted" class="headerlink" title="Read uncommitted"></a>Read uncommitted</h3><p>读未提交，顾名思义，就是一个事务可以读取另一个未提交事务的数据。</p><p>事例：老板要给程序员发工资，程序员的工资是3.6万/月。但是发工资时老板不小心按错了数字，按成3.9万/月，该钱已经打到程序员的户口，但是事务还没有提交，就在这时，程序员去查看自己这个月的工资，发现比往常多了3千元，以为涨工资了非常高兴。但是老板及时发现了不对，马上回滚差点就提交了的事务，将数字改成3.6万再提交。</p><p>分析：实际程序员这个月的工资还是3.6万，但是程序员看到的是3.9万。他看到的是老板还没提交事务时的数据。这就是==脏读==。</p><blockquote><p>那怎么解决脏读呢？Read committed！读提交，能解决脏读问题。</p></blockquote><h3 id="Read-committed"><a href="#Read-committed" class="headerlink" title="Read committed"></a>Read committed</h3><p>读提交，顾名思义，就是一个事务要等另一个事务提交后才能读取数据。</p><p>事例：程序员拿着信用卡去享受生活（卡里当然是只有3.6万），当他埋单时（程序员事务开启），收费系统事先检测到他的卡里有3.6万，就在这个时候！！程序员的妻子要把钱全部转出充当家用，并提交。当收费系统准备扣款时，再检测卡里的金额，发现已经没钱了（==第二次检测金额当然要等待妻子转出金额事务提交完==）。程序员就会很郁闷，明明卡里是有钱的…</p><p>分析：这就是读提交，若有事务对数据进行更新（UPDATE）操作时，读操作事务要等待这个更新操作事务提交后才能读取数据，可以解决脏读问题。但在这个事例中，出现了==一个事务范围内两个相同的查询却返回了不同数据==，这就是==不可重复读==。</p><blockquote><p>那怎么解决可能的不可重复读问题？Repeatable read ！</p></blockquote><h3 id="Repeatable-read"><a href="#Repeatable-read" class="headerlink" title="Repeatable read"></a>Repeatable read</h3><p>重复读，就是在开始读取数据（事务开启）时，不再允许修改操作</p><p>事例：程序员拿着信用卡去享受生活（卡里当然是只有3.6万），当他埋单时（==事务开启，不允许其他事务的UPDATE修改操作==），收费系统事先检测到他的卡里有3.6万。这个时候他的妻子不能转出金额了。接下来收费系统就可以扣款了。</p><p>分析：重复读可以解决不可重复读问题。写到这里，应该明白的一点就是，==不可重复读对应的是修改，即UPDATE操作==。但是可能还会有幻读问题。因为==幻读==问题对应的是插入INSERT操作，而不是UPDATE操作。</p><h5 id="什么时候会出现幻读？"><a href="#什么时候会出现幻读？" class="headerlink" title="什么时候会出现幻读？"></a>什么时候会出现幻读？</h5><p>事例：程序员某一天去消费，花了2千元，然后他的妻子去查看他今天的消费记录（全表扫描FTS，妻子事务开启），看到确实是花了2千元，就在这个时候，程序员花了1万买了一部电脑，即新增==INSERT==了一条消费记录，并提交。当妻子打印程序员的消费记录清单时（妻子事务提交），发现花了1.2万元，似乎出现了幻觉，这就是幻读。</p><blockquote><p>那怎么解决幻读问题？Serializable！</p></blockquote><h3 id="Serializable-序列化"><a href="#Serializable-序列化" class="headerlink" title="Serializable 序列化"></a>Serializable 序列化</h3><p>Serializable 是最高的事务隔离级别，在该级别下，事务==串行化顺序执行==，可以避免脏读、不可重复读与幻读。但是这种事务隔离级别效率低下，比较耗数据库性能，一般不使用。</p><hr><p>值得一提的是：大多数数据库默认的事务隔离级别是Read committed，比如Sql Server , Oracle。Mysql的默认隔离级别是Repeatable read。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable 。而且，在事务的==并发操作==中可能会出现脏读，不可重复读，幻读。下面通过事例一一阐述它们的概念与联系
-      
-    
-    </summary>
-    
-      <category term="存储" scheme="https://joecnn.github.io/wiki-site/categories/%E5%AD%98%E5%82%A8/"/>
-    
-    
-  </entry>
-  
-  <entry>
     <title>zookeeper 应用篇</title>
     <link href="https://joecnn.github.io/wiki-site/wiki/%E5%88%86%E5%B8%83%E5%BC%8F/zookeeper%20%E5%BA%94%E7%94%A8%E7%AF%87/"/>
     <id>https://joecnn.github.io/wiki-site/wiki/分布式/zookeeper 应用篇/</id>
@@ -337,32 +204,6 @@
     
     
       <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>How To Open A Port In CentOS 7 With Firewalld</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/Linux/How%20To%20Open%20A%20Port%20In%20CentOS%207%20With%20Firewalld/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/Linux/How To Open A Port In CentOS 7 With Firewalld/</id>
-    <published>2018-12-16T16:00:00.000Z</published>
-    <updated>2019-02-06T09:34:33.635Z</updated>
-    
-    <content type="html"><![CDATA[<p>This tutorial will walk you through opening a port in the default firewall in CentOS 7, firewalld.</p><p>You will see that while we can manually open a specific port, it is often easier and beneficial to allow based on predefined services instead.</p><h3 id="Open-Specific-Port"><a href="#Open-Specific-Port" class="headerlink" title="Open Specific Port"></a>Open Specific Port</h3><p>Opening a port in firewalld is fairly straightforward, in the below example we allow traffic in from any source IP address to TCP port 100. First we modify the persistent configuration, then we reload firewall-cmd to load this change into the running configuration.<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@centos7 ~]# firewall-cmd --permanent --add-port=100/tcp</span><br><span class="line">success</span><br><span class="line">[root@centos7 ~]# firewall-cmd --reload</span><br><span class="line">success</span><br></pre></td></tr></table></figure></p><p>If the –permanent flag is not specified, this will only change the running configuration but will not be saved.</p><p>We can check the ports that are opened in the current default zone with ‘–list-ports’.<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@centos7 ~]# firewall-cmd --list-ports</span><br><span class="line">100/tcp</span><br></pre></td></tr></table></figure></p><p>As expected we see that TCP port 100 is open.</p><p>Should we wish to remove a port, we can use ‘–remove-port=’ instead.</p><p>We can also open a range of ports in the same way.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@centos7 ~]# firewall-cmd --permanent --add-port=200-300/tcp</span><br><span class="line">success</span><br></pre></td></tr></table></figure></p><h3 id="Open-Predefined-Service"><a href="#Open-Predefined-Service" class="headerlink" title="Open Predefined Service"></a>Open Predefined Service</h3><p>Rather than manually specifying a port number to allow through the firewall, we can make use of a bunch of predefined services which may be easier. For example instead of opening TCP port 80, we can use the ‘http’ service.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@centos7 ~]# firewall-cmd --permanent --add-service=http</span><br><span class="line">success</span><br><span class="line">[root@centos7 ~]# firewall-cmd --reload</span><br><span class="line">success</span><br></pre></td></tr></table></figure><p>Now if we list the services that are accepted through the firewall, we will see http listed along with ssh and dhcpv6-client, which are allowed through by default.<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@centos7 ~]# firewall-cmd --list-services</span><br><span class="line">dhcpv6-client http ssh</span><br></pre></td></tr></table></figure></p><p>This is a predefined service and can be found as an XML file in the /usr/lib/firewalld/services/ directory. Here’s what the http service we just used looks like.</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@centos7 ~]# cat /usr/lib/firewalld/services/http.xml</span><br><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">service</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">short</span>&gt;</span>WWW (HTTP)<span class="tag">&lt;/<span class="name">short</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">description</span>&gt;</span>HTTP is the protocol used to serve Web pages. If you plan to make your Web server publicly available, enable this option. This option is not required for viewing pages locally or developing Web pages.<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">port</span> <span class="attr">protocol</span>=<span class="string">"tcp"</span> <span class="attr">port</span>=<span class="string">"80"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">service</span>&gt;</span></span><br></pre></td></tr></table></figure><p>We can create custom services by copying one of these into the /etc/firewalld/services/ directory and then customizing it. The services in the /usr/lib/firewalld/services/ directory should NOT be modified, changes should be copied into /etc/firewalld/services/ followed by a reload of firewall-cmd to pick up the changes.</p><h3 id="Services-Or-Manual-Ports"><a href="#Services-Or-Manual-Ports" class="headerlink" title="Services Or Manual Ports?"></a>Services Or Manual Ports?</h3><p>Why would we want to use services if we can just specify the port? Modules can be specified in a service, for example samba.xml loads the module “nf_conntrack_netbios_ns” for us when it’s enabled, along with four different ports which is a lot easier than doing all of this ourselves as we don’t need to memorize all of the ports required for a service.</p><p>Still not a fan of firewalld? Don’t worry, you can always install ifconfig in CentOS 7 instead, however note that this is considered deprecated.</p><h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>We have seen that the firewall in CentOS 7 can be modified to open a specific port, or more preferably we can open it to a service.</p><p>While these basic examples demonstrate opening a port to any source, this is usually not desirable. We can further filter based on source traffic with firewalld rich rules.</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;This tutorial will walk you through opening a port in the default firewall in CentOS 7, firewalld.&lt;/p&gt;
-&lt;p&gt;You will see that while we can 
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="https://joecnn.github.io/wiki-site/categories/Linux/"/>
-    
-    
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/tags/linux/"/>
     
   </entry>
   
@@ -393,158 +234,55 @@
   </entry>
   
   <entry>
-    <title>Jenkins 开机启动</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/Devops/Jenkins%20%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/Devops/Jenkins 开机启动/</id>
-    <published>2018-10-18T12:30:00.000Z</published>
-    <updated>2019-02-08T06:45:34.632Z</updated>
+    <title>系统并发用户估算</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E5%88%86%E5%B8%83%E5%BC%8F/%E7%B3%BB%E7%BB%9F%E5%B9%B6%E5%8F%91%E7%94%A8%E6%88%B7%E4%BC%B0%E7%AE%97/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/分布式/系统并发用户估算/</id>
+    <published>2018-01-31T16:00:00.000Z</published>
+    <updated>2019-02-06T12:04:13.175Z</updated>
     
-    <content type="html"><![CDATA[<p>使用 jenkins 最简单的方式即使用 war 包进行启动，war 包中带了 jetty 服务，可以直接 <code>java -jar jenkins.war</code> 启动使用。<br>但每次都使用命令相当繁琐，本编即介绍如何将此步骤设置于开机启动。</p><h2 id="1-环境准备"><a href="#1-环境准备" class="headerlink" title="1. 环境准备"></a>1. 环境准备</h2><ul><li>Linux CentOs 7.3      <a href="https://www.centos.org/download/">下载</a></li><li>Jre 1.8.0<a href="https://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html">下载</a></li><li>Jenkins 2.138.2<a href="https://jenkins.io/download/">下载</a></li></ul><h2 id="2-编写-linux-开机自运行脚本-jenkins-sh"><a href="#2-编写-linux-开机自运行脚本-jenkins-sh" class="headerlink" title="2. 编写 linux 开机自运行脚本 jenkins.sh"></a>2. 编写 linux 开机自运行脚本 jenkins.sh</h2><blockquote><p>将该脚本加入chkconfig启动项目中，开机时运行。<br>  JENKINS_ROOT: jenkins软件目录<br>  JENKINS_HOME: jenkins主目录</p></blockquote><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="comment">#chkconfig: 2345 80 90</span></span><br><span class="line"><span class="comment">#description:开机启动jenkins服务</span></span><br><span class="line"></span><br><span class="line">JENKINS_ROOT=/usr/<span class="built_in">local</span>/jenkins</span><br><span class="line">JENKINSFILENAME=jenkins.war</span><br><span class="line"></span><br><span class="line"><span class="comment">#停止方法</span></span><br><span class="line"><span class="function"><span class="title">stop</span></span>()&#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Stoping <span class="variable">$JENKINSFILENAME</span> "</span></span><br><span class="line">        ps -ef|grep <span class="variable">$JENKINSFILENAME</span> |awk <span class="string">'&#123;print $2&#125;'</span>|<span class="keyword">while</span> <span class="built_in">read</span> pid</span><br><span class="line">        <span class="keyword">do</span></span><br><span class="line">           <span class="built_in">kill</span> -9 <span class="variable">$pid</span></span><br><span class="line">           <span class="built_in">echo</span> <span class="string">" <span class="variable">$pid</span> kill"</span></span><br><span class="line">        <span class="keyword">done</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></span><br><span class="line">start)</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Starting <span class="variable">$JENKINSFILENAME</span> "</span></span><br><span class="line">        nohup <span class="variable">$JENKINS_ROOT</span>/start_jenkins.sh &gt;&gt; <span class="variable">$JENKINS_ROOT</span>/jenkins.log 2&gt;&amp;1 &amp;</span><br><span class="line">  ;;</span><br><span class="line">stop)</span><br><span class="line">  stop</span><br><span class="line">  ;;</span><br><span class="line">restart)</span><br><span class="line">  stop</span><br><span class="line">  start</span><br><span class="line">  ;;</span><br><span class="line">status)</span><br><span class="line">  ps -ef|grep <span class="variable">$JENKINSFILENAME</span></span><br><span class="line">  ;;</span><br><span class="line">*)</span><br><span class="line">  <span class="built_in">printf</span> <span class="string">'Usage: %s &#123;start|stop|restart|status&#125;\n'</span> <span class="string">"<span class="variable">$prog</span>"</span></span><br><span class="line">  <span class="built_in">exit</span> 1</span><br><span class="line">  ;;</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure><h2 id="3-编写启动-war-包命令-start-jenkins-sh"><a href="#3-编写启动-war-包命令-start-jenkins-sh" class="headerlink" title="3. 编写启动 war 包命令 start_jenkins.sh"></a>3. 编写启动 war 包命令 start_jenkins.sh</h2><blockquote><p>启动war包的命令，由于在启动时需要使用java命令，所以在脚本中加入了java的bin路径。</p></blockquote><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">JENKINS_ROOT=/usr/<span class="built_in">local</span>/jenkins</span><br><span class="line"><span class="built_in">export</span> JENKINS_HOME=<span class="variable">$JENKINS_ROOT</span>/home</span><br><span class="line">JAVA_HOME=/usr/<span class="built_in">local</span>/java/jre1.8.0_151 PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin</span><br><span class="line">java -jar <span class="variable">$JENKINS_ROOT</span>/jenkins.war --httpPort=8080</span><br></pre></td></tr></table></figure><h2 id="4-加入-chkconifg-启动项目"><a href="#4-加入-chkconifg-启动项目" class="headerlink" title="4. 加入 chkconifg 启动项目"></a>4. 加入 chkconifg 启动项目</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 赋予执行权限</span></span><br><span class="line">chmod +x /usr/<span class="built_in">local</span>/jenkins/jenkins.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建软链接到 init.d 目录</span></span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/jenkins/jenkins.sh /etc/rc.d/init.d/jenkins</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加到 chkconfig</span></span><br><span class="line">chkconfig --add jenkins</span><br><span class="line">chkconfig --level 345 jenkins on</span><br></pre></td></tr></table></figure><h2 id="5-启动jenkins服务"><a href="#5-启动jenkins服务" class="headerlink" title="5. 启动jenkins服务"></a>5. 启动jenkins服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/rc.d/init.d/jenkins start</span><br></pre></td></tr></table></figure><p>到此已经可以在启动服务器时自动运行jenkins了，端口占用8080.</p>]]></content>
+    <content type="html"><![CDATA[<p><code>泊松分布</code>并发用户与最大并发用户计算：</p><h5 id="1-平均并发用户数"><a href="#1-平均并发用户数" class="headerlink" title="1.平均并发用户数"></a>1.平均并发用户数</h5><p>C = n*L/T  </p><ul><li>n 为login session数  </li><li>L 为login session平均时长  </li><li>T 为考察时长</li></ul><h5 id="2-并发峰值用户数"><a href="#2-并发峰值用户数" class="headerlink" title="2.并发峰值用户数"></a>2.并发峰值用户数</h5><p>C’≈ C + 3*√200</p><h5 id="3-吞吐量"><a href="#3-吞吐量" class="headerlink" title="3.吞吐量"></a>3.吞吐量</h5><p>F=VU * R / T  </p><ul><li>F为吞吐量</li><li>VU表示虚拟用户个数</li><li>R表示每个虚拟用户发出的请求数</li><li>T表示性能测试所用的时间</li><li>R = T / TS</li></ul><p>例：假设有一个OA系统，该系统有3000个用户，平均每天大约有400个用户要访问该系统，对一个典型用户来说，一天之内用户从登录到退出该系统的平均时间为4小时，在一天的时间内，用户只在8小时内使用该系统。  </p><p>根据公式计算得：<br>C = 400 <em> 4/8 = 200<br>C’≈200+3 </em> √200 = 242</p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;使用 jenkins 最简单的方式即使用 war 包进行启动，war 包中带了 jetty 服务，可以直接 &lt;code&gt;java -jar jenkins.war&lt;/code&gt; 启动使用。&lt;br&gt;但每次都使用命令相当繁琐，本编即介绍如何将此步骤设置于开机启动。&lt;/p&gt;
-&lt;h
+        &lt;p&gt;&lt;code&gt;泊松分布&lt;/code&gt;并发用户与最大并发用户计算：&lt;/p&gt;
+&lt;h5 id=&quot;1-平均并发用户数&quot;&gt;&lt;a href=&quot;#1-平均并发用户数&quot; class=&quot;headerlink&quot; title=&quot;1.平均并发用户数&quot;&gt;&lt;/a&gt;1.平均并发用户数&lt;/h5&gt;&lt;p&gt;C =
       
     
     </summary>
     
-      <category term="Devops" scheme="https://joecnn.github.io/wiki-site/categories/Devops/"/>
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
     
-      <category term="jenkins" scheme="https://joecnn.github.io/wiki-site/tags/jenkins/"/>
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
-    <title>添加开机运行脚本</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/Linux/%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/Linux/添加开机运行脚本/</id>
-    <published>2018-10-17T16:00:00.000Z</published>
-    <updated>2019-02-21T15:20:26.801Z</updated>
+    <title>Hadoop quickstart</title>
+    <link href="https://joecnn.github.io/wiki-site/wiki/%E5%88%86%E5%B8%83%E5%BC%8F/Hadoop%20quickstart/"/>
+    <id>https://joecnn.github.io/wiki-site/wiki/分布式/Hadoop quickstart/</id>
+    <published>2016-12-15T16:00:00.000Z</published>
+    <updated>2019-02-06T12:48:54.701Z</updated>
     
-    <content type="html"><![CDATA[<p>Linux 设置开机自动启动的方式有好多种，这里介绍一种通过 <code>chkconfig</code> 命令添加脚本为开机启动的方法。</p><h3 id="1-编写脚本-autostart-sh"><a href="#1-编写脚本-autostart-sh" class="headerlink" title="1. 编写脚本 autostart.sh"></a>1. 编写脚本 autostart.sh</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="comment">#chkconfig: 2345 80 90</span></span><br><span class="line"><span class="comment">#description: 开机自动运行脚本</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启redis服务 端口为6379</span></span><br><span class="line">/usr/<span class="built_in">local</span>/service/redis-2.8.3/src/redis-server --port 6379 &amp;</span><br></pre></td></tr></table></figure><blockquote><p>脚本第二行表示在 2/3/4/5运行级别启动，启动序号80，关闭序号90<br>  在添加其他用户的脚本时，使用 <code>su [USER] -c &quot;bash script&quot;</code> 发送到指定用户</p></blockquote><h3 id="2-赋予脚本执行权限"><a href="#2-赋予脚本执行权限" class="headerlink" title="2. 赋予脚本执行权限"></a>2. 赋予脚本执行权限</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /usr/local/service/redis-2.8.3/autostart.sh</span><br></pre></td></tr></table></figure><h3 id="3-创建软链接到-init-d-目录下"><a href="#3-创建软链接到-init-d-目录下" class="headerlink" title="3. 创建软链接到 init.d 目录下"></a>3. 创建软链接到 init.d 目录下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 必须是全路径，否则会报查找不到文件的错误</span><br><span class="line">ln -s /usr/local/service/redis-2.8.3/autostart.sh /etc/rc.d/init.d/redis</span><br></pre></td></tr></table></figure><h3 id="4-添加到开机启动项中"><a href="#4-添加到开机启动项中" class="headerlink" title="4. 添加到开机启动项中"></a>4. 添加到开机启动项中</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chkconfig -add redis</span><br><span class="line">chkconfig redis on</span><br></pre></td></tr></table></figure><p>到这里已经将脚本添加到开机启动项中，重启服务器即可看到redis服务已经启动了。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Linux 设置开机自动启动的方式有好多种，这里介绍一种通过 &lt;code&gt;chkconfig&lt;/code&gt; 命令添加脚本为开机启动的方法。&lt;/p&gt;
-&lt;h3 id=&quot;1-编写脚本-autostart-sh&quot;&gt;&lt;a href=&quot;#1-编写脚本-autostart-sh&quot; cla
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="https://joecnn.github.io/wiki-site/categories/Linux/"/>
-    
-    
-      <category term="linux" scheme="https://joecnn.github.io/wiki-site/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Jenkins 持续编译</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/Devops/Jenkins%20%E6%8C%81%E7%BB%AD%E7%BC%96%E8%AF%91/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/Devops/Jenkins 持续编译/</id>
-    <published>2018-10-17T13:00:00.000Z</published>
-    <updated>2019-05-09T13:12:17.906Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://www.w3cschool.cn/jenkins/jenkins-5h3228n2.html">Jenkins</a> 是一个开源自动化服务器，可用于自动化各种任务，如构建、测试和部署软件，本文档是结合Jenkins，Java，Maven，Github实现持续自动化编译。</p><h2 id="1-思路-amp-流程"><a href="#1-思路-amp-流程" class="headerlink" title="1. 思路&amp;流程"></a>1. 思路&amp;流程</h2><ul><li>安装 Java、Maven、Git、Jenkins 环境</li><li>配置 Jenkins 拉取 Github 项目</li><li>编译、单元测试 Maven 项目形成 war 包</li></ul><h2 id="2-环境准备"><a href="#2-环境准备" class="headerlink" title="2. 环境准备"></a>2. 环境准备</h2><blockquote><p>由于 Maven 需要 jdk 支持，所以需要先配置 jdk 环境，再配置 maven 环境。</p><ul><li>准备可联网的 <a href="https://www.centos.org/download/">Linux Centos 7.3</a> 服务器</li><li>下载 <a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Jdk1.8.0</a> 并设置环境变量</li><li>下载 <a href="http://maven.apache.org/download.cgi">Maven3.3</a> 并设置环境变量</li><li>安装 <a href="https://git-scm.com/download/linux">Git</a></li></ul></blockquote><h2 id="3-安装-Jenkins"><a href="#3-安装-Jenkins" class="headerlink" title="3. 安装 Jenkins"></a>3. 安装 Jenkins</h2><blockquote><p>可以设置 JENKINS_HOME 环境变量，改变 jenkins 启动生成文件存放位置.<br>其它安装方式参考：<a href="https://www.w3cschool.cn/jenkins/jenkins-79ex28jh.html">Jenkins安装</a></p></blockquote><p>首先从 <a href="https://jenkins.io/">Jenkins官方网站</a> 下载最新的 war 包，只需运行命令：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar jenkins.war --httpPort=8080</span><br></pre></td></tr></table></figure><p>Jenkins 服务就启动成功了，它的 war 包自带了 jetty 服务器，剩下的工作可以在浏览器内完成。  </p><h2 id="4-配置-Jenkins"><a href="#4-配置-Jenkins" class="headerlink" title="4. 配置 Jenkins"></a>4. 配置 Jenkins</h2><p>首次进入 Jenkins 时，出于安全考虑， Jenkins 会自动生成一个随机口令，粘帖口令进入安装界面。<br>进入 Jenkins 后选择 “<strong>Install suggested plugins</strong>“ 安装推荐插件，Jenkins 就自动配置好了 Maven、git 等常用插件。</p><hr><p>在开始使用 Jenkins 创建项目前，需要在”<strong>系统管理</strong>“-&gt;”<strong>全局工具配置</strong>“中添加 JDK、Maven 设置：<br><img src="../../../images/jenkins_jdk.png" alt="jenkins_jdk"><br><img src="../../../images/jenkins_maven.png" alt="jenkins_maven"><br>到此 Maven 项目的 Jenkins 已配置完成，下面开始创建构建任务。</p><h2 id="5-构建Maven项目"><a href="#5-构建Maven项目" class="headerlink" title="5. 构建Maven项目"></a>5. 构建Maven项目</h2><p>在 Jenkins 首页选择”<strong>New 任务</strong>“，输入名字，选择”<strong>构建一个自由风格的软件项目</strong>“：<br><img src="../../../images/jenkins_new_project.png" alt="jenkins_new_project"></p><p>在配置页面中，”<strong>Source Code Management</strong>“ 选择 <strong>Git</strong>，填入地址，默认使用 mater 分支，如果为私人项目需要口令，在 Credentials 中添加用户名/口令：<br><img src="../../../images/jenkins_git.png" alt="jenkins_git"></p><p>在 “<strong>Build Triggers</strong>“ 中选择 “<strong>轮询 SCM</strong>“ 表示定时检查版本库，发现有新的提交就触发构建：<br><img src="../../../images/jenkins_scm.png" alt="jenkins_scm"></p><blockquote><p>说明1：Triggerbuilds remotely(webhooks)<br>这个选项就是配合 git 仓库的钩子功能实现代码 PUSH 后 Jenkins 收到通知自动触发构建项目的动作<br>说明2：轮询 SCM<br>定时检查源码变更，如果有更新就克隆下最新 code 下来，然后执行构建动作</p></blockquote><p>在”<strong>Build</strong>“中可以添加编译命令，Maven默认的Root POM是<code>pom.xml</code>，如果<code>pom.xml</code>不在根目录下，则需要填入子目录：<br><img src="../../../images/jenkins_build.png" alt="jenkins_build"></p><blockquote><p>说明1：选择之前添加的 maven 环境<br>说明2：填入需要执行的 mvn 命令<br>说明3：pom 不在根目录下，填入子目录 wxsell/pom.xml</p></blockquote><p>保存后就可以”<strong>立即构建</strong>“，可以在”<strong>Console Output</strong>“中看到控制台详细输出：<br><img src="../../../images/jenkins_output.png" alt="jenkins_output"></p><h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6. 总结"></a>6. 总结</h2><p>到此已配置了 Jenkins 自动编译任务，当 Github 上项目有变更时，会自动拉取项目进行编译，排除了可能不同机器上编译环境不同导致的影响。<br>在完成持续编译后，可以结合 Jenkins 的编译后动作进行自动部署，实现持续部署功能。在下篇笔记中将会记录如何实现持续部署。</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="1-Hadoop-是什么？"><a href="#1-Hadoop-是什么？" class="headerlink" title="1. Hadoop 是什么？"></a>1. Hadoop 是什么？</h3><p>Hadoop是一个分布式系统架构，由Apache基金会基于Java开发。用户可以在不了解分布式底层细节的情况下，开发分布式程序，充分利用集群的威力高速运算和存储。 </p><h3 id="2-Hadoop-能做什么？"><a href="#2-Hadoop-能做什么？" class="headerlink" title="2. Hadoop 能做什么？"></a>2. Hadoop 能做什么？</h3><p>Hadoop 可以解决海量数据的存储、海量的数据分析。例如：Yahoo! 的垃圾邮件识别和过滤、用户特征建模；Amazon.com（亚马逊）的协同过滤推荐系统；Facebook的Web日志分析；Twitter、LinkedIn的人脉寻找系统；淘宝商品推荐系统、淘宝搜索中的自定义筛选功能……这些应用都使用到Hadoop及其相关技术。</p><h3 id="3-Hadoop-的构成"><a href="#3-Hadoop-的构成" class="headerlink" title="3. Hadoop 的构成"></a>3. Hadoop 的构成</h3><h4 id="3-1-HDFS-分布式文件系统"><a href="#3-1-HDFS-分布式文件系统" class="headerlink" title="3.1 HDFS 分布式文件系统"></a>3.1 HDFS 分布式文件系统</h4><p>HDFS有着高容错性的特点，并且设计用来部署在低廉的硬件上。而且它提供高传输率来访问应用程序的数据，适合那些有着超大数据集的应用程序。<br>HDFS是一个 <code>master/slave</code> 的结构，在 <code>master</code> 上只运行一个 <code>NameNode</code>，而在每一个 <code>slave</code> 上运行一个 <code>DataNode</code>。 </p><h5 id="NameNode负责"><a href="#NameNode负责" class="headerlink" title="NameNode负责:"></a>NameNode负责:</h5><ul><li>接受用户请求. </li><li>维护文件系统目录结构. </li><li>管理文件与Block间关系，Block与DataNode之间关系.(默认Block块大小为64M ) </li></ul><h5 id="DataNode负责"><a href="#DataNode负责" class="headerlink" title="DataNode负责:"></a>DataNode负责:</h5><ul><li>存储文件. </li><li>文件被分成Block存储在磁盘上. </li><li>为保证数据安全，文件会有多个副本. </li></ul><h4 id="3-2-MapReduce-并行计算框架"><a href="#3-2-MapReduce-并行计算框架" class="headerlink" title="3.2 MapReduce 并行计算框架"></a>3.2 MapReduce 并行计算框架</h4><p>MapReduce 是 Google 的一项重要技术, 它是一个编程模型，用于进行大数据计算，通常采用的处理手法是并行计算。<br>MapReduce 是一个 <code>master/slave</code> 的结构，在 <code>master</code>上只运行一个 <code>JobTracker</code> ，而在每一个<code>slave</code>上运行一个 <code>TaskTracker</code>。</p><h5 id="JobTracker-负责"><a href="#JobTracker-负责" class="headerlink" title="JobTracker 负责:"></a>JobTracker 负责:</h5><ul><li>接收客户提交的计算. </li><li>把计算分配给 TaskTracker 执行. </li><li>监控 TaskTracker 的执行情况. </li></ul><h5 id="TaskTracker-负责"><a href="#TaskTracker-负责" class="headerlink" title="TaskTracker 负责:"></a>TaskTracker 负责:</h5><ul><li>执行 JobTracker 分配的任务. </li></ul><h3 id="4-Hadoop-的特点"><a href="#4-Hadoop-的特点" class="headerlink" title="4. Hadoop 的特点"></a>4. Hadoop 的特点</h3><ol><li>扩容能力：通过增加节点，扩容方便可靠. </li><li>成本低：可以通过普通机器组成服务器集群来处理数据. </li><li>高效率：通过分发数据，可以在数据所在节点上并行处理数据. </li><li>可靠性：可以自动维护数据的多个副本，并在任务失败后自动重新部署计算任务 </li></ol><h3 id="5-安装-Hadoop"><a href="#5-安装-Hadoop" class="headerlink" title="5. 安装 Hadoop"></a>5. 安装 Hadoop</h3><h4 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h4><ul><li>安装 Jdk</li><li>下载 <a href="https://hadoop.apache.org/releases.html">Apache Hadoop</a> </li></ul><h4 id="解压并设置环境变量"><a href="#解压并设置环境变量" class="headerlink" title="解压并设置环境变量"></a>解压并设置环境变量</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf hadoop-1.1.2.tar.gz</span><br><span class="line">$ <span class="built_in">export</span> HADOOP_HOME=/usr/<span class="built_in">local</span>/hadoop/hadoop-1.1.2 </span><br><span class="line">$ <span class="built_in">export</span> PATH=.:<span class="variable">$HADOOP_HOME</span>/bin/:<span class="variable">$JAVA_HOME</span>/bin/:<span class="variable">$PATH</span> </span><br><span class="line">$ <span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure><h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><ol><li>修改 <code>$hadoop_home/conf/hadoop-env.sh</code> JAVA_HOME 配置 </li><li>修改 <code>$hadoop_home/conf/core-size.xml</code> </li></ol><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.default.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://joecnn:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">description</span>&gt;</span>your hostname<span class="tag">&lt;/<span class="name">description</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/local/hadoop/hadoop-1.1.2/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">description</span>&gt;</span>your hadoop home<span class="tag">&lt;/<span class="name">description</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure><ol start="3"><li>修改 <code>$hadoop_home/conf/hdfs-site.xml</code></li></ol><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span>1<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.permissions<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span> </span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">4. 修改 `修改 $hadoop_home/conf/mapred-site.xml`</span><br><span class="line"></span><br><span class="line">```xml</span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapred.job.tracker<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span>chenquan:9001<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">description</span>&gt;</span>change your hostname<span class="tag">&lt;/<span class="name">description</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure><h4 id="启动-Hadoop"><a href="#启动-Hadoop" class="headerlink" title="启动 Hadoop"></a>启动 Hadoop</h4><ol><li>格式化 HDFS 文件系统  <code>hadoop namenode -format</code> </li><li>启动 <code>start-all.sh</code><ul><li><strong>start-all.sh</strong> 启动所有的Hadoop守护。包括namenode, datanode, jobtracker, tasktrack </li><li><strong>stop-all.sh</strong> 停止所有的Hadoop </li><li><strong>start-mapred.sh</strong> 启动Map/Reduce守护。包括Jobtracker和Tasktrack </li><li><strong>stop-mapred.sh</strong> 停止Map/Reduce守护 </li><li><strong>start-dfs.sh</strong> 启动Hadoop DFS守护.Namenode和Datanode </li><li><strong>stop-dfs.sh</strong> 停止DFS守护 </li></ul></li><li>验证: jps 5个进程，namenode，datanode，jobtracker，tasktracker，secondarynamenode<br><strong>hadoop:50070/</strong>  访问 hdfs webserver 页面<br><strong>hadoop:50030/</strong>  访问 mapreduce webserver 页面  </li></ol><h4 id="去除启动警告"><a href="#去除启动警告" class="headerlink" title="去除启动警告"></a>去除启动警告</h4><ol><li>查看 start-all.sh -&gt; hadoop-config.sh </li><li>修改 <code>/etc/profile</code> 增加 <code>export HADOOP_HOME_WARN_SUPPRESS=1</code> </li><li><code>source /etc/profile</code> 刷新环境变量 </li><li>验证： start-all.sh  /  stop-all.sh </li></ol>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;&lt;a href=&quot;https://www.w3cschool.cn/jenkins/jenkins-5h3228n2.html&quot;&gt;Jenkins&lt;/a&gt; 是一个开源自动化服务器，可用于自动化各种任务，如构建、测试和部署软件，本文档是结合Jenkins，Java，Maven，
+        &lt;h3 id=&quot;1-Hadoop-是什么？&quot;&gt;&lt;a href=&quot;#1-Hadoop-是什么？&quot; class=&quot;headerlink&quot; title=&quot;1. Hadoop 是什么？&quot;&gt;&lt;/a&gt;1. Hadoop 是什么？&lt;/h3&gt;&lt;p&gt;Hadoop是一个分布式系统架构，由Apache
       
     
     </summary>
     
-      <category term="Devops" scheme="https://joecnn.github.io/wiki-site/categories/Devops/"/>
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
     
-      <category term="jenkins" scheme="https://joecnn.github.io/wiki-site/tags/jenkins/"/>
+      <category term="分布式" scheme="https://joecnn.github.io/wiki-site/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
-  </entry>
-  
-  <entry>
-    <title>VirtualBox共享文件</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/%E5%B7%A5%E5%85%B7/VirtualBox%20%E5%85%B1%E4%BA%AB%E6%96%87%E4%BB%B6/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/工具/VirtualBox 共享文件/</id>
-    <published>2018-10-15T16:00:00.000Z</published>
-    <updated>2019-02-06T11:56:08.573Z</updated>
-    
-    <content type="html"><![CDATA[<p><code>VirtualBox</code> 与 <code>Linux</code> 虚拟机 可以通过 <code>VBoxGuestAdditions</code> 插件进行文件共享。</p><h5 id="1-设置共享文件夹"><a href="#1-设置共享文件夹" class="headerlink" title="1. 设置共享文件夹"></a>1. 设置共享文件夹</h5><p>在 <code>VirtualBox</code> 的<strong>共享文件夹</strong>设置中添加设置。</p><h5 id="2-安装-VBoxGuestAdditions-插件"><a href="#2-安装-VBoxGuestAdditions-插件" class="headerlink" title="2. 安装 VBoxGuestAdditions 插件"></a>2. 安装 VBoxGuestAdditions 插件</h5><blockquote><p>需要在 <code>linux</code> 虚拟机中安装</p></blockquote><ul><li><p>将 <code>$VirtualBox\VBoxGuestAdditions.iso</code> 装载到光驱</p></li><li><p>挂载 cdrom：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir /media/cdrom &amp;&amp; mount /dev/sr0 /media/cdrom</span><br></pre></td></tr></table></figure></li><li><p>安装插件：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /media/cdrom &amp;&amp;  ./VBoxLinuxAdditions.run</span><br></pre></td></tr></table></figure></li></ul><h5 id="3-验证挂载"><a href="#3-验证挂载" class="headerlink" title="3. 验证挂载"></a>3. 验证挂载</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mount -t vboxsf share ~/share</span><br><span class="line">$ df | grep &apos;share&apos;</span><br></pre></td></tr></table></figure><h5 id="4-问题与解决"><a href="#4-问题与解决" class="headerlink" title="4. 问题与解决"></a>4. 问题与解决</h5><ul><li><p>mount: unknown filesystem type ‘vboxsf’.</p><blockquote><p>未成功安装 VBoxGuestAdditions 插件</p></blockquote></li><li><p>VBoxGuestAdditions 安装失败.</p><blockquote><p>查看 /var/log/vbxadd-install.log 错误信息，一般为依赖的包未安装<br><code>$ yum install gcc kernel-devel kernel-headers dkms make bzip2</code></p></blockquote></li><li><p>ERROR: Kernel configuration is invalid.</p><blockquote><p>此错误是编译的 VBoxGuestAdditions 版本太老，新的 kernel 不必指定include/linux/autoconf.h，更新virtualbox即可</p></blockquote></li><li><p>Please install the Linux kernel “header” files matching the current kernel for adding new hardware support to the system.</p><blockquote><p>此问题为默认安装的 kernel-devel 包与当前内核版本不同，重新安装对应包即可<br><code>$ sudo yum install -y &quot;kernel-devel-$(uname -r)&quot;</code></p></blockquote></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;code&gt;VirtualBox&lt;/code&gt; 与 &lt;code&gt;Linux&lt;/code&gt; 虚拟机 可以通过 &lt;code&gt;VBoxGuestAdditions&lt;/code&gt; 插件进行文件共享。&lt;/p&gt;
-&lt;h5 id=&quot;1-设置共享文件夹&quot;&gt;&lt;a href=&quot;#1-设置共享文件
-      
-    
-    </summary>
-    
-      <category term="工具" scheme="https://joecnn.github.io/wiki-site/categories/%E5%B7%A5%E5%85%B7/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Docker 镜像仓库加速</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/Devops/Docker/docker%20%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/Devops/Docker/docker 镜像加速/</id>
-    <published>2018-08-05T06:00:00.000Z</published>
-    <updated>2019-05-09T13:12:59.640Z</updated>
-    
-    <content type="html"><![CDATA[<p>docker 在默认安装后，当需要下载镜像时，通过命令<code>docker pull user/image</code> 拉取镜像都是访问默认的 docker hub 上的镜像，在国内网络环境下，下载一个镜像需要很长的时间，可以考虑使用 Registry Mirror 配置国内的镜像仓库。</p><blockquote><p>使用由阿里云提供的 Docker 镜像仓库进行加速。</p></blockquote><h3 id="1-登录阿里云"><a href="#1-登录阿里云" class="headerlink" title="1. 登录阿里云"></a>1. 登录阿里云</h3><blockquote><p><a href="https://cr.console.aliyun.com/?spm=5176.100239.blogcont29941.13.haQkR4#/accelerator">阿里云 Docker 镜像仓库</a></p></blockquote><p>开启 Docker Hub 镜像站点<br><img src="../../../../images/docker_ali.png" alt="docker_ali"></p><h3 id="2-Windows-使用-Docker-加速"><a href="#2-Windows-使用-Docker-加速" class="headerlink" title="2. Windows 使用 Docker 加速"></a>2. Windows 使用 Docker 加速</h3><ol><li>创建一台 docker machine 同时配置 docker 加速器</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create --engine-registry-mirror=https://6bybmq21.mirror.aliyuncs.com -d virtualbox default</span><br></pre></td></tr></table></figure><ol start="2"><li><p>对于已经创建的 docker machine 实例，更换镜像源方法如下<br>i. 在 window 命令执行 <code>docker-machine ssh [machine-name]</code> 进入 VM bash<br>ii. <code>sudo vi /var/lib/boot2docker/profile</code><br>iii. 在<code>--label provider=virtualbox</code>的添加一行 <code>--registry-mirror https://xxx.mirror.aliyuncs.com</code><br>iiii. 重启 docker 服务：<code>sudo /etc/init.d/docker restart</code> 或重启 VM ： <code>docker-machine restart</code></p></li><li><p>docker for windows</p><blockquote><p>设置 Daemon Registry mirrors<br><img src="../../../../images/docker_setting.png" alt="docker_setting"></p></blockquote></li><li><p>查看 mirror 配置</p></li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker-machine env default</span><br><span class="line">eval &quot;$(docker-machine env default)&quot;</span><br><span class="line">docker info</span><br></pre></td></tr></table></figure><h3 id="3-CentOs-使用镜像加速"><a href="#3-CentOs-使用镜像加速" class="headerlink" title="3. CentOs 使用镜像加速"></a>3. CentOs 使用镜像加速</h3><ol><li>安装/升级 Docker 客户端</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -</span><br></pre></td></tr></table></figure><ol start="2"><li>修改 daemon 配置文件 <code>/etc/docker/daemon.json</code> 来使用加速</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&apos;EOF&apos;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://6bybmq21.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;docker 在默认安装后，当需要下载镜像时，通过命令&lt;code&gt;docker pull user/image&lt;/code&gt; 拉取镜像都是访问默认的 docker hub 上的镜像，在国内网络环境下，下载一个镜像需要很长的时间，可以考虑使用 Registry Mirror 
-      
-    
-    </summary>
-    
-      <category term="Devops" scheme="https://joecnn.github.io/wiki-site/categories/Devops/"/>
-    
-      <category term="Docker" scheme="https://joecnn.github.io/wiki-site/categories/Devops/Docker/"/>
-    
-    
-      <category term="docker" scheme="https://joecnn.github.io/wiki-site/tags/docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Docker Start</title>
-    <link href="https://joecnn.github.io/wiki-site/wiki/Devops/Docker/docker%20start/"/>
-    <id>https://joecnn.github.io/wiki-site/wiki/Devops/Docker/docker start/</id>
-    <published>2018-08-05T04:30:00.000Z</published>
-    <updated>2019-05-09T13:12:41.029Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-Window10-下安装"><a href="#1-Window10-下安装" class="headerlink" title="1. Window10 下安装"></a>1. Window10 下安装</h3><blockquote><p>Window10 下载最新的 <a href="https://store.docker.com/editions/community/docker-ce-desktop-windows">Docker for windows</a> 安装包进行安装</p></blockquote><p>Windows10 下可以切换 Docker Platform 为 Linux 或者 Window，下载的镜像需要对应的平台支持。</p><p>Window10 下自带了虚拟器，需要开启 Hyper-V，在 控制面板-程序-打开Windows功能 中开启<br><img src="../../../../images/docker_hyperv.png" alt="docker_hyperv"></p><blockquote><p>Windows10 下的 Docker 使用虚拟机 IP 即为本机 127.0.0.1 ，可以在 CMD、PowerShell 中直接进行操作。</p></blockquote><h3 id="2-Windows7-下安装"><a href="#2-Windows7-下安装" class="headerlink" title="2. Windows7 下安装"></a>2. Windows7 下安装</h3><blockquote><p>Windows7 下在最新的 <a href="https://docs.docker.com/toolbox/toolbox_install_windows/">DockerToolBox</a> 安装包进行安装<br>DockerToolBox 会自动安装 Oracle Virtual Box 虚拟机，需要依托虚拟机进行启动。  </p></blockquote><h4 id="2-1-创建-docker-machine"><a href="#2-1-创建-docker-machine" class="headerlink" title="2.1 创建 docker machine"></a>2.1 创建 docker machine</h4><blockquote><p>安装完成后会附带 docker-machine.exe 使用此工具可以安装 docker 环境</p></blockquote><ol><li>查询 docker machine</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine ls</span><br></pre></td></tr></table></figure><ol start="2"><li>创建 default machine</li></ol><blockquote><p>使用 virtualbox 驱动模式，会自动下载 docker2boot.iso 镜像进行创建 virtualbox 虚拟机</p></blockquote><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create -d virtalbox default</span><br></pre></td></tr></table></figure><ol start="3"><li>查看 docker 信息</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine env default</span><br></pre></td></tr></table></figure><ol start="4"><li>管理 docker machine</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine -h</span><br></pre></td></tr></table></figure><h4 id="2-2-使用-putty"><a href="#2-2-使用-putty" class="headerlink" title="2.2 使用 putty"></a>2.2 使用 putty</h4><blockquote><p>在 Windows 命令进入 Docker 后，shell 不能复制，操作不方便，因此使用支持 SSH 的工具来连接 docker 虚拟机。</p></blockquote><ol><li>查询 docker mechine ip：<blockquote><p>在 docker machine env 中的 DOCKER_HOST </p></blockquote></li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine env default</span><br></pre></td></tr></table></figure><ol start="2"><li>使用 Putty 连接到 docker 终端：</li></ol><blockquote><p>默认用户名：docker 密码： tcuser</p></blockquote><p><img src="../../../../images/docker_cli.png" alt="docker_cli"></p><blockquote><p>PS：在 DockerToolBox 下自动安装的是 VirtualBox5.1，但是在启动 docker default mechine 时一直出错（VERR_SUPDRV_HARDENIGN_EVIL_HANDLE），经过查询是由于该版本的 vboxdrv 核心驱动请求过大的访问权限。。<br>最后安装旧版的 VirtualBox4.3.12 后成功解决。</p></blockquote><h4 id="2-3-docker-virtualbox-管理"><a href="#2-3-docker-virtualbox-管理" class="headerlink" title="2.3 docker virtualbox 管理"></a>2.3 docker virtualbox 管理</h4><p>由于使用 docker-machine 创建的虚拟机默认路径为 <strong>/user/.docker/machine/</strong> 下，可能在以后容器创建过多时占用系统盘资源。将 virtualbox 虚拟硬盘移动到其它盘。</p><ol><li>复制 default vmdk 到指定路径<blockquote><p>在指定盘进行复制一份 vmdk </p></blockquote></li></ol><p><img src="../../../../images/vbox_copy.png" alt="vbox_copy"></p><ol start="2"><li>为 default 虚拟机添加新的虚拟硬盘<blockquote><p>添加新的虚拟硬盘后，删除原来的 disk.vmdk 文件即可</p></blockquote></li></ol><p><img src="../../../../images/vbox_delete.png" alt="vbox_delete"></p><p>修改完成后，重启 docker machine 即可</p><p>参考资料：<br>[1] 白皮书：<a href="https://www.gitbook.com/book/yeasy/docker_practice/details">https://www.gitbook.com/book/yeasy/docker_practice/details</a><br>[2] 官方：<a href="https://www.docker.com/">https://www.docker.com/</a><br>[3] 镜像库：<a href="https://hub.docker.com/">https://hub.docker.com/</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;1-Window10-下安装&quot;&gt;&lt;a href=&quot;#1-Window10-下安装&quot; class=&quot;headerlink&quot; title=&quot;1. Window10 下安装&quot;&gt;&lt;/a&gt;1. Window10 下安装&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;Window1
-      
-    
-    </summary>
-    
-      <category term="Devops" scheme="https://joecnn.github.io/wiki-site/categories/Devops/"/>
-    
-      <category term="Docker" scheme="https://joecnn.github.io/wiki-site/categories/Devops/Docker/"/>
-    
-    
-      <category term="docker" scheme="https://joecnn.github.io/wiki-site/tags/docker/"/>
+      <category term="hadoop" scheme="https://joecnn.github.io/wiki-site/tags/hadoop/"/>
     
   </entry>
   
